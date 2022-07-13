@@ -1,0 +1,48 @@
+server:
+  port: 9000
+  servlet:
+    context-path: /
+    encoding:
+      charset: utf-8
+      enabled: true
+
+spring:
+  application:
+    name : swith
+
+
+  datasource:
+    platform: mysql
+    url: jdbc:mysql://swithelin.cfoadhgjb3mf.ap-northeast-2.rds.amazonaws.com:3306/swithelin
+    username: elin
+    password: elin1234
+    driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
+    hikari:
+      connectionInitSql: "SET NAMES 'utf8mb4'"
+      leak-detection-threshold: 2000
+
+
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create # create, update, none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+
+
+  security:
+    user:
+      name: test
+      password: 1234
+
+
+
+secret:
+  # private-diary-key: ${PRIVATE_DIARY_KEY}
+  jwt-secret-key: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
+
+
+file:
+  path: /home/ubuntu/app/cau_secretary/user_certify/

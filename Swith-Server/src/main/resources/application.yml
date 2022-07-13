@@ -12,9 +12,9 @@ spring:
 
   datasource:
     platform: mysql
-    url: jdbc:mysql://swithelin.cfoadhgjb3mf.ap-northeast-2.rds.amazonaws.com:3306/swithelin
-    username: elin
-    password: elin1234
+    url:
+    username:
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
     hikari:
       connectionInitSql: "SET NAMES 'utf8mb4'"
@@ -36,6 +36,16 @@ spring:
     user:
       name: test
       password: 1234
+
+  oauth2:
+    client:
+      registration:
+        facebook:
+          client-id: 315293796826930
+          client-secret: 487af9479023b8c0e58f913b411327cf
+          scope:
+            - public_profile
+            - email
 
 
 

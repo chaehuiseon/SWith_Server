@@ -24,3 +24,5 @@ com/example/demo/src/test/TestController.java
  com.example.demo.src.test.TestController
 com/example/demo/config/PagingRes.java
  com.example.demo.config.PagingRes
+com/example/demo/src/entity/Event.java
+ com.example.demo.src.entity.Event

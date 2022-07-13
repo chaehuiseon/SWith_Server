@@ -10,7 +10,6 @@ spring:
   application:
     name : swith
 
-
   datasource:
     platform: mysql
     url: jdbc:mysql://swithelin.cfoadhgjb3mf.ap-northeast-2.rds.amazonaws.com:3306/swithelin
@@ -30,6 +29,7 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
+    database:
 
 
   security:
@@ -45,4 +45,4 @@ secret:
 
 
 file:
-  path: /home/ubuntu/app/cau_secretary/user_certify/
+  path:

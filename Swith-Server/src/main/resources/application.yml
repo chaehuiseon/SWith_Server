@@ -10,12 +10,11 @@ spring:
   application:
     name : swith
 
-
   datasource:
     platform: mysql
-    url:
-    username:
-    password:
+    url: jdbc:mysql://swithelin.cfoadhgjb3mf.ap-northeast-2.rds.amazonaws.com:3306/swithelin
+    username: elin
+    password: elin1234
     driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
     hikari:
       connectionInitSql: "SET NAMES 'utf8mb4'"
@@ -30,6 +29,7 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
+    database:
 
 
   security:

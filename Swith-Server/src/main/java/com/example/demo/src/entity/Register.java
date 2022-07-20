@@ -14,25 +14,24 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "ANNOUNCEMENT")
+@Table(name = "USERSTUDY")
 @Entity // 디비에 테이블을 생성
-public class Announcement extends BaseTimeEntity{ //공지사항
-
+public class Register extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer announcementIdx;
+    private int userGroupIdx;
 
-    @ManyToOne // N:1 단방향
+    @ManyToOne // N : 1 단방향
+    @JoinColumn(name = "userIdx")
+    private User user;
+
+    @ManyToOne// N : 1 단방향
     @JoinColumn(name = "groupIdx")
     private GroupInfo groupInfo;
 
-    @Column(length = 200)
-    private String announcementContent;
-
     @Column(columnDefinition = "TINYINT")
     @Builder.Default
-    private Integer status = 0; //0:활성화 1:비활성화
-
+    private Integer status = 0; //0:가입 1:탈퇴
 
 //    //-> Timestamp 형과 비교해봐야됨.
 //    @CreationTimestamp // INSERT 시 자동으로 값을 채워줌
@@ -40,8 +39,6 @@ public class Announcement extends BaseTimeEntity{ //공지사항
 //
 //    @UpdateTimestamp // UPDATE 시 자동으로 값을 채워줌
 //    private LocalDateTime updatedAt = LocalDateTime.now();
-
-
 
 
 }

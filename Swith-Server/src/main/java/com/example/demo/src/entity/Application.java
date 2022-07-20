@@ -9,20 +9,19 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@DynamicInsert //insert시에, null인 filed 제외시켜줌. -> createapi에서 설정할건지 봐야함 이거 지울거면 아래 초기화 값도 지워야됨.
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Table(name = "APPLICATION")
 @Entity // 디비에 테이블을 생성
-public class Application {
+public class Application extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int applicationIdx;
+    private Integer applicationIdx;
 
     @ManyToOne
     @JoinColumn(name = "userIdx")
@@ -30,20 +29,22 @@ public class Application {
 
     @ManyToOne
     @JoinColumn(name = "groupIdx")
-    private Study study;
+    private GroupInfo groupInfo;
 
-    @Column
-    private Byte status = 0; //0: 승인 대기 1: 승인 2: 반려
+    @Column(columnDefinition = "TINYINT")
+    @Builder.Default
+    private Integer status = 0; //0: 승인 대기 1: 승인 2: 반려
 
-    @Column(nullable = false, length = 200)
+    @Column(length = 200)
     private String applicationContent;
 
-    //-> Timestamp 형과 비교해봐야됨.
-    @CreationTimestamp // INSERT 시 자동으로 값을 채워줌
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @UpdateTimestamp // UPDATE 시 자동으로 값을 채워줌
-    private LocalDateTime updatedAt = LocalDateTime.now();
+//
+//    //-> Timestamp 형과 비교해봐야됨.
+//    @CreationTimestamp // INSERT 시 자동으로 값을 채워줌
+//    private LocalDateTime createdAt = LocalDateTime.now();
+//
+//    @UpdateTimestamp // UPDATE 시 자동으로 값을 채워줌
+//    private LocalDateTime updatedAt = LocalDateTime.now();
 
 
 }

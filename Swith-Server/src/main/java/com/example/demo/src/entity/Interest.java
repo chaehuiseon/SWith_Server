@@ -7,18 +7,18 @@ import javax.persistence.*;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Entity // 디비에 테이블을 생성
 @Table(name = "INTEREST")
 public class Interest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int interestIdx;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "TINYINT")
+    private Integer interestIdx;
 
-    @Column(nullable = false, length = 45)
+    @Column( length = 45)
     private String interestContent; //분류의 이름(카테고리)
 
 

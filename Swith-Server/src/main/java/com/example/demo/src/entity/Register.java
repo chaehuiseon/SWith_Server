@@ -9,36 +9,29 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+
+@Getter @Setter
 @Builder
-@Getter
-@Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
 @Table(name = "REGISTER")
-@Entity // 디비에 테이블을 생성
 public class Register extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userGroupIdx;
+    private Long registerIdx;
 
-    @ManyToOne // N : 1 단방향
+    @ManyToOne // N : 1 양방향
     @JoinColumn(name = "userIdx")
-    private User user;
+    private User user; //스터디에 가입된 유저 Idx
 
     @ManyToOne// N : 1 단방향
     @JoinColumn(name = "groupIdx")
-    private GroupInfo groupInfo;
+    private GroupInfo groupInfo; //유저가 가입한 스터디 Idx
 
     @Column(columnDefinition = "TINYINT")
     @Builder.Default
     private Integer status = 0; //0:가입 1:탈퇴
-
-//    //-> Timestamp 형과 비교해봐야됨.
-//    @CreationTimestamp // INSERT 시 자동으로 값을 채워줌
-//    private LocalDateTime createdAt = LocalDateTime.now();
-//
-//    @UpdateTimestamp // UPDATE 시 자동으로 값을 채워줌
-//    private LocalDateTime updatedAt = LocalDateTime.now();
 
 
 }

@@ -5,12 +5,12 @@ import lombok.*;
 
 import javax.persistence.*;
 
+
+@Getter @Setter
 @Builder
-@Getter
-@Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity // 디비에 테이블을 생성
+@AllArgsConstructor
+@Entity
 @Table(name = "NOTIFICATION")
 public class Notification extends BaseTimeEntity{
 
@@ -18,12 +18,12 @@ public class Notification extends BaseTimeEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long notificationIdx; // 알림 Idx
 
-    @ManyToOne
+    @ManyToOne // N:1 단방향
     @JoinColumn(name = "userIdx")
     private User user; //알림 받는 사람 Idx
 
     @Column(length = 45)
-    private String notificationContent; //내용
+    private String notificationContent; //알림 내용
 
 
 

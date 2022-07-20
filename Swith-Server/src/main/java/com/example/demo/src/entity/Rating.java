@@ -7,28 +7,28 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+
+
+@Getter @Setter
 @Builder
-@Getter
-@Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity // 디비에 테이블을 생성
+@AllArgsConstructor
+@Entity
 @Table(name = "RATING")
 public class Rating extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ratingIdx;
+    private Long ratingIdx; //평가 Idx
 
-    @ManyToOne // N:1 단방향
-    @JoinColumn(name = "raterIdx")
-    private User user1;
+    //평가자를 기준으로 조회할일은 없기에 매핑할 이유가 없음
+    private Long raterIdx; //평가자
 
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "rateeIdx")
-    private User user2;
+    private User user; //피평가자
+
+    @Column(columnDefinition = "TINYINT")
+    private Integer star; //평점(1~5)
 
 
-//    //-> Timestamp 형과 비교해봐야됨.
-//    @CreationTimestamp // INSERT 시 자동으로 값을 채워줌
-//    private LocalDateTime createdAt = LocalDateTime.now(); //스터디 종료후 평가 완료 시 생성
 }

@@ -6,12 +6,13 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+
+
+@Getter @Setter
 @Builder
-@Getter
-@Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity // 디비에 테이블을 생성
+@AllArgsConstructor
+@Entity  // 디비에 테이블을 생성
 @Table(name = "BADGE")
 public class Badge extends BaseTimeEntity{
 
@@ -21,23 +22,13 @@ public class Badge extends BaseTimeEntity{
 
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "userIdx")
-    private User user;
+    private User user; //뱃지가 표시될 프로필의 소유자 인덱스
 
-    @Column(nullable = false)
-    private double attendanceRate; //종료된 스터디에서의 출석율
+    private Double attendanceRate; //종료된 스터디에서의 출석율
 
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "interest")
     private Interest interest; //종료된 스터디 그룹의 분류
-
-
-//    //-> Timestamp 형과 비교해봐야됨.
-//    @CreationTimestamp // INSERT 시 자동으로 값을 채워줌
-//    private LocalDateTime createdAt = LocalDateTime.now(); //스터디 종료후 평가 완료 시 생성
-
-
-
-
 
 
 

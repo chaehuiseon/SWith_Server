@@ -10,41 +10,33 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
-@Getter
-@Setter
+@Getter @Setter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "APPLICATION")
-@Entity // 디비에 테이블을 생성
+@AllArgsConstructor
+@Entity
+@Table(name = "APPLICATION") //지원 테이블
 public class Application extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long applicationIdx;
 
-    @ManyToOne
+    @ManyToOne // N:1 단방향
     @JoinColumn(name = "userIdx")
-    private User user;
+    private User user; //지원한 유저 Idx
 
-    @ManyToOne
+    @ManyToOne // N:1 단방향
     @JoinColumn(name = "groupIdx")
-    private GroupInfo groupInfo;
+    private GroupInfo groupInfo; //지원자가 지원한 스터디 Idx
 
     @Column(columnDefinition = "TINYINT")
     @Builder.Default
     private Integer status = 0; //0: 승인 대기 1: 승인 2: 반려
 
     @Column(length = 200)
-    private String applicationContent;
+    private String applicationContent; //지원서에 작성한 내용
 
-//
-//    //-> Timestamp 형과 비교해봐야됨.
-//    @CreationTimestamp // INSERT 시 자동으로 값을 채워줌
-//    private LocalDateTime createdAt = LocalDateTime.now();
-//
-//    @UpdateTimestamp // UPDATE 시 자동으로 값을 채워줌
-//    private LocalDateTime updatedAt = LocalDateTime.now();
 
 
 }

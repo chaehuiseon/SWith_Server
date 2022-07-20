@@ -7,31 +7,32 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 @Table(name = "USER")
-@Entity // 디비에 테이블을 생성
-public class User extends BaseTimeEntity {
+public class User extends BaseTimeEntity { //유저 테이블
 
+    //@Id는 PK를 의미, @GeneratedValue 어노테이션은 기본키를 설정하는 전략으로
+    //아래와 같이 설정하면 DB에 위임하는 방식(AUTO_INCREMENT)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userIdx;
 
     @Column(length = 45)
-    private String email;
+    private String email; //가입 email
 
     @Column(length = 100)
-    private String password;
+    private String password; //가입 password
 
     @ManyToOne // N:1 단방향
-    @JoinColumn(name = "interest1")
+    @JoinColumn(name = "interestIdx1")
     private Interest interest1; //관심 분류
 
     @ManyToOne // N:1 단방향
-    @JoinColumn(name = "interest2")
+    @JoinColumn(name = "interestIdx2")
     private Interest interest2; //관심 분류
 
 
@@ -48,15 +49,10 @@ public class User extends BaseTimeEntity {
     @Builder.Default
     private Integer status = 0; //0:활성화, 1:탈퇴
 
-//    //-> Timestamp 형과 비교해봐야됨.
-//    @CreationTimestamp // INSERT 시 자동으로 값을 채워줌
-//    private LocalDateTime createdAt = LocalDateTime.now();
-//
-//    @UpdateTimestamp // UPDATE 시 자동으로 값을 채워줌
-//    private LocalDateTime updatedAt = LocalDateTime.now();
 
+    //가입한 그룹을 불러올 때 쓰일 것
     @Builder.Default
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user") // N:1 양방향
     private List<Register> registerList = new ArrayList<>();
 
 

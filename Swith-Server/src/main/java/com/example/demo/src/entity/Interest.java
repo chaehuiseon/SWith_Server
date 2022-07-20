@@ -5,12 +5,12 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+
+@Getter @Setter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity // 디비에 테이블을 생성
+@AllArgsConstructor
+@Entity
 @Table(name = "INTEREST")
 public class Interest {
 

@@ -54,6 +54,7 @@ public class Session extends BaseTimeEntity {//회차 테이블
     private String sessionContent; //해당 회차의 학습 상세 내용
 
     //N:1 양방향
+    @Builder.Default
     @OneToMany(mappedBy = "session")
     private List<Attendance> attendances = new ArrayList<>();
 

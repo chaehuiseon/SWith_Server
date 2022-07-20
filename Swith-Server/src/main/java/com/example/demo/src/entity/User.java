@@ -55,7 +55,7 @@ public class User extends BaseTimeEntity {
 //    @UpdateTimestamp // UPDATE 시 자동으로 값을 채워줌
 //    private LocalDateTime updatedAt = LocalDateTime.now();
 
-
+    @Builder.Default
     @OneToMany(mappedBy = "user")
     private List<Register> registerList = new ArrayList<>();
 

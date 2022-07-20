@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "USERSTUDY")
+@Table(name = "REGISTER")
 @Entity // 디비에 테이블을 생성
 public class Register extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userGroupIdx;
+    private Long userGroupIdx;
 
     @ManyToOne // N : 1 단방향
     @JoinColumn(name = "userIdx")

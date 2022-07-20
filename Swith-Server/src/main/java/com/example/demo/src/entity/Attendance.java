@@ -20,7 +20,7 @@ public class Attendance extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer attendanceIdx;
+    private Long attendanceIdx;
 
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "userIdx")

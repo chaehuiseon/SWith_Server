@@ -15,13 +15,13 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "STUDY")
+@Table(name = "GROUPINFO")
 @Entity // 디비에 테이블을 생성
 public class GroupInfo extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int groupIdx;
+    private Long groupIdx;
 
     @ManyToOne //  N:1 단방향
     @JoinColumn(name = "adminIdx")

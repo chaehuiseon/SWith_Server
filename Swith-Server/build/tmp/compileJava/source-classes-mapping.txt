@@ -14,29 +14,25 @@ com/example/demo/src/entity/BaseTimeEntity.java
  com.example.demo.src.entity.BaseTimeEntity
 com/example/demo/utils/ValidationRegex.java
  com.example.demo.utils.ValidationRegex
-com/example/demo/src/entity/Session.java
- com.example.demo.src.entity.Session
- com.example.demo.src.entity.Session$SessionBuilder
-com/example/demo/src/entity/GroupInfo.java
- com.example.demo.src.entity.GroupInfo
- com.example.demo.src.entity.GroupInfo$GroupInfoBuilder
+com/example/demo/DemoApplication.java
+ com.example.demo.DemoApplication
+com/example/demo/src/entity/Badge.java
+ com.example.demo.src.entity.Badge
+ com.example.demo.src.entity.Badge$BadgeBuilder
 com/example/demo/src/testlogic/InterestRepository.java
  com.example.demo.src.testlogic.InterestRepository
-com/example/demo/src/entity/Application.java
- com.example.demo.src.entity.Application
- com.example.demo.src.entity.Application$ApplicationBuilder
+com/example/demo/src/testlogic/TController.java
+ com.example.demo.src.testlogic.TController
 com/example/demo/src/config/BaseResponse.java
  com.example.demo.src.config.BaseResponse
-com/example/demo/src/entity/Attendance.java
- com.example.demo.src.entity.Attendance
- com.example.demo.src.entity.Attendance$AttendanceBuilder
+com/example/demo/src/testlogic/PostGroupReq.java
+ com.example.demo.src.testlogic.PostGroupReq
 com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
 com/example/demo/src/config/BaseResponseStatus.java
  com.example.demo.src.config.BaseResponseStatus
-com/example/demo/src/entity/Register.java
- com.example.demo.src.entity.Register
- com.example.demo.src.entity.Register$RegisterBuilder
+com/example/demo/src/testlogic/NotificationRepository.java
+ com.example.demo.src.testlogic.NotificationRepository
 com/example/demo/src/WebSecurityConfig.java
  com.example.demo.src.WebSecurityConfig
 com/example/demo/src/testlogic/PostUserReq.java
@@ -47,6 +43,10 @@ com/example/demo/config/PagingRes.java
  com.example.demo.config.PagingRes
 com/example/demo/utils/JwtService.java
  com.example.demo.utils.JwtService
+com/example/demo/src/testlogic/GetNotiReq.java
+ com.example.demo.src.testlogic.GetNotiReq
+com/example/demo/src/testlogic/PostNotiReq.java
+ com.example.demo.src.testlogic.PostNotiReq
 com/example/demo/config/secret/Secret.java
  com.example.demo.config.secret.Secret
 com/example/demo/src/entity/Interest.java
@@ -59,15 +59,23 @@ com/example/demo/config/BaseResponse.java
  com.example.demo.config.BaseResponse
 com/example/demo/config/BaseResponsePaging.java
  com.example.demo.config.BaseResponsePaging
+com/example/demo/config/BaseException.java
+ com.example.demo.config.BaseException
+com/example/demo/src/entity/Application.java
+ com.example.demo.src.entity.Application
+ com.example.demo.src.entity.Application$ApplicationBuilder
+com/example/demo/src/entity/Attendance.java
+ com.example.demo.src.entity.Attendance
+ com.example.demo.src.entity.Attendance$AttendanceBuilder
+com/example/demo/src/entity/Register.java
+ com.example.demo.src.entity.Register
+ com.example.demo.src.entity.Register$RegisterBuilder
+com/example/demo/src/entity/Session.java
+ com.example.demo.src.entity.Session
+ com.example.demo.src.entity.Session$SessionBuilder
 com/example/demo/src/entity/Announcement.java
  com.example.demo.src.entity.Announcement
  com.example.demo.src.entity.Announcement$AnnouncementBuilder
-com/example/demo/src/entity/Badge.java
- com.example.demo.src.entity.Badge
- com.example.demo.src.entity.Badge$BadgeBuilder
-com/example/demo/config/BaseException.java
- com.example.demo.config.BaseException
-com/example/demo/DemoApplication.java
- com.example.demo.DemoApplication
-com/example/demo/src/testlogic/TController.java
- com.example.demo.src.testlogic.TController
+com/example/demo/src/entity/GroupInfo.java
+ com.example.demo.src.entity.GroupInfo
+ com.example.demo.src.entity.GroupInfo$GroupInfoBuilder

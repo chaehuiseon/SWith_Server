@@ -20,7 +20,7 @@ public class Announcement extends BaseTimeEntity{ //공지사항
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer announcementIdx;
+    private Long announcementIdx;
 
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "groupIdx")

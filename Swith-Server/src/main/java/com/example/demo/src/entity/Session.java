@@ -25,7 +25,7 @@ public class Session extends BaseTimeEntity {//회차 테이블
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer sessionIdx;
+    private Long sessionIdx;
 
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "groupIdx")

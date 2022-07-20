@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Rating extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer ratingIdx;
+    private Long ratingIdx;
 
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "raterIdx")

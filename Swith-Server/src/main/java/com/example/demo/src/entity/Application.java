@@ -21,7 +21,7 @@ public class Application extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer applicationIdx;
+    private Long applicationIdx;
 
     @ManyToOne
     @JoinColumn(name = "userIdx")

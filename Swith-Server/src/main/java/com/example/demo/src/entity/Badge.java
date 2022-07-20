@@ -17,7 +17,7 @@ public class Badge extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer badgeIdx;
+    private Long badgeIdx;
 
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "userIdx")

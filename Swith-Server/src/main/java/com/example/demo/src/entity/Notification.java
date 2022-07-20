@@ -16,7 +16,7 @@ public class Notification extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer notificationIdx; // 알림 Idx
+    private Long notificationIdx; // 알림 Idx
 
     @ManyToOne
     @JoinColumn(name = "userIdx")

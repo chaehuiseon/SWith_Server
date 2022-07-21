@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: ${SERVER_PORT}
   servlet:
     context-path: /
     encoding:
@@ -12,9 +12,9 @@ spring:
 
   datasource:
     platform: mysql
-    url: jdbc:mysql://localhost:3306/test?serverTimezone=Asia/Seoul
-    username: root
-    password: smilechs5542
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
     hikari:
       connectionInitSql: "SET NAMES 'utf8mb4'"

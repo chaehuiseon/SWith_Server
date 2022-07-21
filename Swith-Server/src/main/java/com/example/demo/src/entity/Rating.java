@@ -2,11 +2,8 @@ package com.example.demo.src.entity;
 
 
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-
 
 
 @Getter @Setter
@@ -25,7 +22,7 @@ public class Rating extends BaseTimeEntity{
 
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "rateeIdx")
-    private User user; //피평가자
+    private UserEntity user; //피평가자
 
     @Column(columnDefinition = "TINYINT")
     private Integer star; //평점(1~5)

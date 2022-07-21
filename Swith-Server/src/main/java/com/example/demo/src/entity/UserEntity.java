@@ -10,10 +10,9 @@ import java.util.List;
 @Getter @Setter
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "USER")
-public class User extends BaseTimeEntity { //유저 테이블
+public class UserEntity extends BaseTimeEntity { //유저 테이블
 
     //@Id는 PK를 의미, @GeneratedValue 어노테이션은 기본키를 설정하는 전략으로
     //아래와 같이 설정하면 DB에 위임하는 방식(AUTO_INCREMENT)
@@ -55,8 +54,16 @@ public class User extends BaseTimeEntity { //유저 테이블
     @OneToMany(mappedBy = "user") // N:1 양방향
     private List<Register> registerList = new ArrayList<>();
 
-
-
-
-
+    public UserEntity(Long userIdx, String email, String password, Interest interest1, Interest interest2, String introduction, String profileImgUrl, Double averageStar, Integer status, List<Register> registerList) {
+        this.userIdx = userIdx;
+        this.email = email;
+        this.password = password;
+        this.interest1 = interest1;
+        this.interest2 = interest2;
+        this.introduction = introduction;
+        this.profileImgUrl = profileImgUrl;
+        this.averageStar = averageStar;
+        this.status = status;
+        this.registerList = registerList;
+    }
 }

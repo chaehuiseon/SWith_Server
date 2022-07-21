@@ -2,12 +2,8 @@ package com.example.demo.src.entity;
 
 
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 
 @Getter @Setter
@@ -24,7 +20,7 @@ public class Application extends BaseTimeEntity {
 
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "userIdx")
-    private User user; //지원한 유저 Idx
+    private UserEntity user; //지원한 유저 Idx
 
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "groupIdx")

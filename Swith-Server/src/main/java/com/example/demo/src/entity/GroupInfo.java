@@ -1,14 +1,11 @@
 package com.example.demo.src.entity;
 
 import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 
 @Getter @Setter
@@ -25,7 +22,7 @@ public class GroupInfo extends BaseTimeEntity {
 
     @ManyToOne //  N:1 단방향
     @JoinColumn(name = "adminIdx")
-    private User user; //그룹장의 userIdx - 관리자 PK
+    private UserEntity user; //그룹장의 userIdx - 관리자 PK
 
     @Column(length = 100)
     private String groupImgUrl; //스터디 그룹을 대표하는 이미지 -S3

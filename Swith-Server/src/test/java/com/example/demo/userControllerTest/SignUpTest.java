@@ -2,6 +2,7 @@ package com.example.demo.userControllerTest;
 
 import com.example.demo.common.BaseTest;
 import com.example.demo.src.dto.request.SignUpRequestDto;
+import com.example.demo.src.entity.Interest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.http.MediaType;
@@ -15,7 +16,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class SignUpTest extends BaseTest {
     @Test
     @DisplayName("회원 가입 테스트(성공)")
-    public void signUpTestSuccess() throws Exception{
+    public void signUpTestSuccess() throws Exception {
+
         SignUpRequestDto signUpRequestDto = new SignUpRequestDto(email, password, interest1, interest2, introduction);
 
         mockMvc.perform(post("/v1/signUp")

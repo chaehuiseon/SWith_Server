@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.demo.userControllerTest.SignUpTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2022-07-21T22:23:04" hostname="usc-guestwireless-upc-newsc19108.usc.edu" time="0.019">
+<testsuite name="com.example.demo.userControllerTest.SignUpTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2022-07-21T22:45:46" hostname="usc-guestwireless-upc-newsc19108.usc.edu" time="0.021">
   <properties/>
-  <testcase name="회원 가입 테스트(성공)" classname="com.example.demo.userControllerTest.SignUpTest" time="0.019">
+  <testcase name="회원 가입 테스트(성공)" classname="com.example.demo.userControllerTest.SignUpTest" time="0.021">
     <failure message="java.lang.NullPointerException" type="java.lang.NullPointerException">java.lang.NullPointerException
-	at com.example.demo.userControllerTest.SignUpTest.signUpTestSuccess(SignUpTest.java:33)
+	at com.example.demo.userControllerTest.SignUpTest.signUpTestSuccess(SignUpTest.java:28)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)

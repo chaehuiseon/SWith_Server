@@ -15,7 +15,7 @@ public class BaseTest {
 
     public String email = "test1@naver.com";
     public String password = "password";
-    public Interest interest1 = new Interest(3, "test1");
-    public Interest interest2 = new Interest(1, "test2");
+    public Interest interest1 = new Interest(1, "test");
+    public Interest interest2 = new Interest(2, "test2");
     public String introduction = "안녕하세요, 신입 회원입니다!";
 }

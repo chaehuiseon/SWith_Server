@@ -15,7 +15,6 @@
       <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/test/com/example/demo/common/BaseTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/test/com/example/demo/common/BaseTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/test/com/example/demo/userControllerTest/SignUpTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/test/com/example/demo/userControllerTest/SignUpTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/Interest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/Interest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/common/BaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/common/BaseTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/userControllerTest/SignUpTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/userControllerTest/SignUpTest.java" afterDir="false" />
     </list>
@@ -56,6 +55,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="JpbToolWindowState">
     <option name="myId2FirstActivated">
@@ -189,7 +196,8 @@
       <workItem from="1658427783066" duration="201000" />
       <workItem from="1658436411165" duration="1537000" />
       <workItem from="1658437978408" duration="3003000" />
-      <workItem from="1658441006869" duration="2888000" />
+      <workItem from="1658441006869" duration="2909000" />
+      <workItem from="1658445005689" duration="3450000" />
     </task>
     <servers />
   </component>
@@ -214,6 +222,16 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/userControllerTest/SignUpTest.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/userControllerTest/SignUpTest.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

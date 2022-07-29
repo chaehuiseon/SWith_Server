@@ -1,61 +1,75 @@
-com/example/demo/src/WebSecurityConfig.java
- com.example.demo.src.WebSecurityConfig
 com/example/demo/utils/SHA256.java
  com.example.demo.utils.SHA256
 com/example/demo/config/Constant.java
  com.example.demo.config.Constant
-com/example/demo/config/BaseResponseStatus.java
- com.example.demo.config.BaseResponseStatus
-com/example/demo/src/test/TestController.java
- com.example.demo.src.test.TestController
-com/example/demo/config/BaseResponsePaging.java
- com.example.demo.config.BaseResponsePaging
-com/example/demo/utils/ValidationRegex.java
- com.example.demo.utils.ValidationRegex
-com/example/demo/DemoApplication.java
- com.example.demo.DemoApplication
-com/example/demo/config/PagingRes.java
- com.example.demo.config.PagingRes
-com/example/demo/utils/JwtService.java
- com.example.demo.utils.JwtService
-com/example/demo/config/BaseResponse.java
- com.example.demo.config.BaseResponse
-com/example/demo/config/BaseException.java
- com.example.demo.config.BaseException
-com/example/demo/config/secret/Secret.java
- com.example.demo.config.secret.Secret
-com/example/demo/src/entity/BaseTimeEntity.java
- com.example.demo.src.entity.BaseTimeEntity
-com/example/demo/src/entity/Interest.java
- com.example.demo.src.entity.Interest
- com.example.demo.src.entity.Interest$InterestBuilder
-com/example/demo/src/entity/Badge.java
- com.example.demo.src.entity.Badge
- com.example.demo.src.entity.Badge$BadgeBuilder
-com/example/demo/src/entity/Application.java
- com.example.demo.src.entity.Application
- com.example.demo.src.entity.Application$ApplicationBuilder
-com/example/demo/src/entity/Attendance.java
- com.example.demo.src.entity.Attendance
- com.example.demo.src.entity.Attendance$AttendanceBuilder
 com/example/demo/src/entity/User.java
  com.example.demo.src.entity.User
  com.example.demo.src.entity.User$UserBuilder
-com/example/demo/src/entity/Register.java
- com.example.demo.src.entity.Register
- com.example.demo.src.entity.Register$RegisterBuilder
 com/example/demo/src/entity/Notification.java
  com.example.demo.src.entity.Notification
  com.example.demo.src.entity.Notification$NotificationBuilder
+com/example/demo/src/entity/BaseTimeEntity.java
+ com.example.demo.src.entity.BaseTimeEntity
+com/example/demo/utils/ValidationRegex.java
+ com.example.demo.utils.ValidationRegex
+com/example/demo/src/dto/PostGroupInfoRes.java
+ com.example.demo.src.dto.PostGroupInfoRes
+com/example/demo/src/dao/UserRepository.java
+ com.example.demo.src.dao.UserRepository
+com/example/demo/utils/JwtService.java
+ com.example.demo.utils.JwtService
+com/example/demo/DemoApplication.java
+ com.example.demo.DemoApplication
+com/example/demo/config/BaseException.java
+ com.example.demo.config.BaseException
+com/example/demo/config/BaseResponseStatus.java
+ com.example.demo.config.BaseResponseStatus
+com/example/demo/src/entity/Badge.java
+ com.example.demo.src.entity.Badge
+ com.example.demo.src.entity.Badge$BadgeBuilder
+com/example/demo/src/WebSecurityConfig.java
+ com.example.demo.src.WebSecurityConfig
+com/example/demo/src/test/TestController.java
+ com.example.demo.src.test.TestController
+com/example/demo/config/PagingRes.java
+ com.example.demo.config.PagingRes
+com/example/demo/src/dao/InterestRepository.java
+ com.example.demo.src.dao.InterestRepository
+com/example/demo/src/dao/GroupInfoRepository.java
+ com.example.demo.src.dao.GroupInfoRepository
+com/example/demo/config/secret/Secret.java
+ com.example.demo.config.secret.Secret
+com/example/demo/src/entity/Interest.java
+ com.example.demo.src.entity.Interest
+ com.example.demo.src.entity.Interest$InterestBuilder
 com/example/demo/src/entity/Rating.java
  com.example.demo.src.entity.Rating
  com.example.demo.src.entity.Rating$RatingBuilder
-com/example/demo/src/entity/Session.java
- com.example.demo.src.entity.Session
- com.example.demo.src.entity.Session$SessionBuilder
+com/example/demo/config/BaseResponse.java
+ com.example.demo.config.BaseResponse
+com/example/demo/config/BaseResponsePaging.java
+ com.example.demo.config.BaseResponsePaging
+com/example/demo/src/entity/Application.java
+ com.example.demo.src.entity.Application
+ com.example.demo.src.entity.Application$ApplicationBuilder
 com/example/demo/src/entity/GroupInfo.java
  com.example.demo.src.entity.GroupInfo
  com.example.demo.src.entity.GroupInfo$GroupInfoBuilder
+com/example/demo/src/entity/Attendance.java
+ com.example.demo.src.entity.Attendance
+ com.example.demo.src.entity.Attendance$AttendanceBuilder
+com/example/demo/src/entity/Register.java
+ com.example.demo.src.entity.Register
+ com.example.demo.src.entity.Register$RegisterBuilder
+com/example/demo/src/dto/PostGroupInfoReq.java
+ com.example.demo.src.dto.PostGroupInfoReq
+com/example/demo/src/entity/Session.java
+ com.example.demo.src.entity.Session
+ com.example.demo.src.entity.Session$SessionBuilder
 com/example/demo/src/entity/Announcement.java
  com.example.demo.src.entity.Announcement
  com.example.demo.src.entity.Announcement$AnnouncementBuilder
+com/example/demo/src/service/GroupInfoService.java
+ com.example.demo.src.service.GroupInfoService
+com/example/demo/src/controller/GroupInfoController.java
+ com.example.demo.src.controller.GroupInfoController

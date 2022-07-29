@@ -2,10 +2,12 @@ package com.example.demo.src.entity;
 
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +25,7 @@ public class GroupInfo extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long groupIdx; //스터디 그룹의 Idx
 
-    @ManyToOne //  N:1 단방향
+    @ManyToOne(fetch = FetchType.LAZY) //  N:1 단방향
     @JoinColumn(name = "adminIdx")
     private User user; //그룹장의 userIdx - 관리자 PK
 
@@ -60,7 +62,7 @@ public class GroupInfo extends BaseTimeEntity {
     //-----------------------
 
 
-    @ManyToOne // N:1 단방향
+    @ManyToOne(fetch = FetchType.LAZY) // N:1 단방향
     @JoinColumn(name = "interest")
     private Interest interest; //스터디 그룹의 분류
 
@@ -79,16 +81,13 @@ public class GroupInfo extends BaseTimeEntity {
     //--------------------
 
     // 모집 기간 종료일
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date recruitmentEndDate;
+    private LocalDate recruitmentEndDate;
 
     // 스터디 활동 시작예정일
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date groupStart;
+    private LocalDate groupStart;
 
     // 스터디 활동 종료예정일
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date groupEnd;
+    private LocalDate groupEnd;
 
     //--------------------
 

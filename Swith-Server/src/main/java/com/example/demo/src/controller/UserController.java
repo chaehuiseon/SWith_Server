@@ -33,4 +33,6 @@ public class UserController {
                 signUpRequestDto.getInterest1(), signUpRequestDto.getInterest2(),
                 signUpRequestDto.getIntroduction());
     }
+
+
 }

@@ -60,6 +60,8 @@ com/example/demo/src/entity/Badge.java
 com/example/demo/src/entity/Application.java
  com.example.demo.src.entity.Application
  com.example.demo.src.entity.Application$ApplicationBuilder
+com/example/demo/src/dto/response/SignInResponseDto.java
+ com.example.demo.src.dto.response.SignInResponseDto
 com/example/demo/src/entity/Attendance.java
  com.example.demo.src.entity.Attendance
  com.example.demo.src.entity.Attendance$AttendanceBuilder
@@ -68,6 +70,8 @@ com/example/demo/src/entity/Register.java
  com.example.demo.src.entity.Register$RegisterBuilder
 com/example/demo/src/controller/UserController.java
  com.example.demo.src.controller.UserController
+com/example/demo/src/dto/request/SignInRequestDto.java
+ com.example.demo.src.dto.request.SignInRequestDto
 com/example/demo/src/dto/request/SignUpRequestDto.java
  com.example.demo.src.dto.request.SignUpRequestDto
 com/example/demo/src/entity/UserEntity.java

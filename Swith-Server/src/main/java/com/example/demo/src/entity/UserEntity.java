@@ -50,11 +50,16 @@ public class UserEntity extends BaseTimeEntity { //유저 테이블
     @Builder.Default
     private Integer status = 0; //0:활성화, 1:탈퇴
 
+    private String refreshToken;
 
     //가입한 그룹을 불러올 때 쓰일 것
     @Builder.Default
     @OneToMany(mappedBy = "user") // N:1 양방향
     private List<Register> registerList = new ArrayList<>();
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 
     public UserEntity(Long userIdx, String email, String password, String nickname, Interest interest1, Interest interest2, String introduction, String profileImgUrl, Double averageStar, Integer status, List<Register> registerList) {
         this.userIdx = userIdx;

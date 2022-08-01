@@ -26,6 +26,8 @@ public class UserEntity extends BaseTimeEntity { //유저 테이블
     @Column(length = 100)
     private String password; //가입 password
 
+    private String nickname; // 닉네임
+
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "interestIdx1")
     private Interest interest1; //관심 분류
@@ -54,10 +56,11 @@ public class UserEntity extends BaseTimeEntity { //유저 테이블
     @OneToMany(mappedBy = "user") // N:1 양방향
     private List<Register> registerList = new ArrayList<>();
 
-    public UserEntity(Long userIdx, String email, String password, Interest interest1, Interest interest2, String introduction, String profileImgUrl, Double averageStar, Integer status, List<Register> registerList) {
+    public UserEntity(Long userIdx, String email, String password, String nickname, Interest interest1, Interest interest2, String introduction, String profileImgUrl, Double averageStar, Integer status, List<Register> registerList) {
         this.userIdx = userIdx;
         this.email = email;
         this.password = password;
+        this.nickname = nickname;
         this.interest1 = interest1;
         this.interest2 = interest2;
         this.introduction = introduction;

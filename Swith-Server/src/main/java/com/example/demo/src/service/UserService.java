@@ -19,14 +19,14 @@ public class UserService {
     private final UserInfoRepository userInfoRepository;
 
     @Transactional
-    public SignUpResponseDto signUp(String email, String password, Interest interest1, Interest interest2, String introduction){
+    public SignUpResponseDto signUp(String email, String password, String nickname, Interest interest1, Interest interest2, String introduction){
         if(userInfoRepository.existsByEmail(email)){
             throw new ExistsEmailException("이미 가입된 이메일 입니다.");
         }
         userInfoRepository.save(
-                new UserEntity(null, email, password, interest1, interest2, introduction, null, null, 0, null)
+                new UserEntity(null, email, password, nickname, interest1, interest2, introduction, null, null, 0, null)
         );
 
-        return new SignUpResponseDto(email, interest1, interest2, introduction);
+        return new SignUpResponseDto(email, nickname, interest1, interest2, introduction);
     }
 }

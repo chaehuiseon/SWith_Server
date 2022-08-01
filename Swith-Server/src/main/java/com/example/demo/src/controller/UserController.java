@@ -29,7 +29,7 @@ public class UserController {
     @ApiOperation("회원 가입")
     @PostMapping("/v1/signUp")
     public SignUpResponseDto signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto){
-        return userService.signUp(signUpRequestDto.getEmail(), signUpRequestDto.getPassword(),
+        return userService.signUp(signUpRequestDto.getEmail(), signUpRequestDto.getPassword(), signUpRequestDto.getNickname(),
                 signUpRequestDto.getInterest1(), signUpRequestDto.getInterest2(),
                 signUpRequestDto.getIntroduction());
     }

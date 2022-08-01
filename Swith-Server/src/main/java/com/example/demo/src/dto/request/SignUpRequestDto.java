@@ -18,6 +18,9 @@ public class SignUpRequestDto {
     @NotBlank
     private String password;
 
+    @NotBlank
+    private String nickname; // 닉네임
+
     private Interest interest1; //관심 분류
 
     private Interest interest2; //관심 분류

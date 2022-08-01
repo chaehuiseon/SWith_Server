@@ -15,7 +15,7 @@
       <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/test/com/example/demo/common/BaseTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/test/com/example/demo/common/BaseTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/test/com/example/demo/userControllerTest/SignUpTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/test/com/example/demo/userControllerTest/SignUpTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/common/BaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/common/BaseTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/userControllerTest/SignUpTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/userControllerTest/SignUpTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -103,7 +103,7 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
   </component>
-  <component name="RunManager" selected="Gradle.SignUpTest">
+  <component name="RunManager" selected="Spring Boot.DemoApplication">
     <configuration name="SignUpTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -148,6 +148,22 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="SignUpTest.signUpTestSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="swith.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.demo.userControllerTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.demo.userControllerTest" />
+      <option name="MAIN_CLASS_NAME" value="com.example.demo.userControllerTest.SignUpTest" />
+      <option name="METHOD_NAME" value="signUpTestSuccess" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="swith.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.demo.DemoApplication" />
@@ -156,7 +172,7 @@
         <param>
           <option name="enabled" value="true" />
           <option name="name" value="DATASOURCE_URL" />
-          <option name="value" value="jdbc:mysql://database-1.ci99ujibojwf.ap-northeast-2.rds.amazonaws.com/youngminDB?serverTimezone=Asia/Seoul&amp;characterEncoding=UTF-8" />
+          <option name="value" value="jdbc:mysql://database-1.ci99ujibojwf.ap-northeast-2.rds.amazonaws.com/swithDB?serverTimezone=Asia/Seoul&amp;characterEncoding=UTF-8" />
         </param>
         <param>
           <option name="enabled" value="true" />
@@ -178,8 +194,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Gradle.SignUpTest" />
+      <item itemvalue="Gradle.Swith-Server [test]" />
+      <item itemvalue="JUnit.SignUpTest.signUpTestSuccess" />
+      <item itemvalue="Spring Boot.DemoApplication" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SignUpTest.signUpTestSuccess" />
         <item itemvalue="Gradle.SignUpTest" />
         <item itemvalue="Gradle.Swith-Server [test]" />
       </list>
@@ -197,7 +220,8 @@
       <workItem from="1658436411165" duration="1537000" />
       <workItem from="1658437978408" duration="3003000" />
       <workItem from="1658441006869" duration="2909000" />
-      <workItem from="1658445005689" duration="3450000" />
+      <workItem from="1658445005689" duration="3495000" />
+      <workItem from="1659333299555" duration="3683000" />
     </task>
     <servers />
   </component>
@@ -222,16 +246,6 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/userControllerTest/SignUpTest.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/userControllerTest/SignUpTest.java</url>
-          <line>36</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

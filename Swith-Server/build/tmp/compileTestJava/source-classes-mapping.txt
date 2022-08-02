@@ -1,4 +1,6 @@
-com/example/demo/common/BaseTest.java
- com.example.demo.common.BaseTest
 com/example/demo/userControllerTest/SignUpTest.java
  com.example.demo.userControllerTest.SignUpTest
+com/example/demo/common/BaseTest.java
+ com.example.demo.common.BaseTest
+com/example/demo/userControllerTest/SignInTest.java
+ com.example.demo.userControllerTest.SignInTest

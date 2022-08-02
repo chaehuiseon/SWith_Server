@@ -4,17 +4,102 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c5f29130-9125-4cd0-bb8b-1c7944d422ea" name="변경" comment="nickname 추가, 로그인 기능 개발중">
+    <list default="true" id="c5f29130-9125-4cd0-bb8b-1c7944d422ea" name="변경" comment="로그인 기능 service, dto, jwt, token 개발 완료">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/request/SignUpRequestDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/request/SignUpRequestDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/response/SignUpResponseDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/response/SignUpResponseDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/jarAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/controller/UserController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/UserEntity$UserEntityBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/UserEntity$UserEntityBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/UserEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/UserEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/test/com/example/demo/common/BaseTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/test/com/example/demo/common/BaseTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/test/com/example/demo/userControllerTest/SignUpTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/test/com/example/demo/userControllerTest/SignUpTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/libs/logs/app.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/libs/logs/error.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/libs/swith-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/libs/swith-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/reports/tests/test/classes/com.example.demo.userControllerTest.SignUpTest.html" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/reports/tests/test/classes/com.example.demo.userControllerTest.SignUpTest.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/reports/tests/test/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/reports/tests/test/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/reports/tests/test/packages/com.example.demo.userControllerTest.html" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/reports/tests/test/packages/com.example.demo.userControllerTest.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/test-results/test/TEST-com.example.demo.userControllerTest.SignUpTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/test-results/test/TEST-com.example.demo.userControllerTest.SignUpTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/test-results/test/binary/output.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/test-results/test/binary/output.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/test-results/test/binary/output.bin.idx" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/test-results/test/binary/output.bin.idx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/test-results/test/binary/results.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/test-results/test/binary/results.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/tmp/bootJar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/tmp/bootJar/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/tmp/compileJava/source-classes-mapping.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/tmp/compileJava/source-classes-mapping.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/tmp/compileTestJava/source-classes-mapping.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/tmp/compileTestJava/source-classes-mapping.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/DemoApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/config/BaseException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/config/BaseResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/config/BaseResponsePaging.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/config/BaseResponseStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/config/Constant.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/config/PagingRes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/config/secret/Secret.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/Event/EventController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/Event/EventRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/Event/InstagramCrawler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/Event/PhotoRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/Event/model/Event.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/Event/model/EventDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/Event/model/GetImgRes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/Event/model/PatchEventReq$PatchEventReqBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/Event/model/PatchEventReq.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/Event/model/Photo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/Event/model/PostEventReq.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/Event/model/PostEventRes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/Event/model/PostEventinfoRes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/WebSecurityConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/auth/AuthController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/auth/AuthDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/auth/AuthProvider.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/auth/AuthService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/auth/model/PostAuthloginRes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/auth/model/PostLoginReq$PostLoginReqBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/auth/model/PostLoginReq.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/auth/model/PostLoginRes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/auth/model/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/test/TestController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/UserController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/UserDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/UserProvider.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/UserRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/model/DeleteUserReq.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/model/DeleteUserRes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/model/GetUserRes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/model/PatchUserReq.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/model/PostLoginReq.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/model/PostLoginRes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/model/PostUserReq$PostUserReqBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/model/PostUserReq.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/model/PostUserRes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/model/User$UserBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/model/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/model/createUser$createUserBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/model/createUser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/src/user/model/testreq.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/utils/JwtService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/utils/SHA256.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/classes/com/example/demo/utils/ValidationRegex.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/out/production/resources/logback-spring.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/UserEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/common/BaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/common/BaseTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/userControllerTest/SignUpTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/userControllerTest/SignUpTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/app.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/app.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,12 +114,26 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$/Swith-Server">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="swith" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="swith" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="swith" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -90,6 +189,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
@@ -97,15 +197,20 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/exception" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/exception" />
       <recent name="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo" />
+      <recent name="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/exception" />
       <recent name="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/jwt" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.demo.userControllerTest" />
+      <recent name="com.example.demo.src.exception" />
+      <recent name="com.example.demo.config" />
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.DemoApplication">
@@ -132,7 +237,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="Swith-Server [test]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="Swith-Server [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/Swith-Server" />
@@ -143,7 +248,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="test" />
+            <option value="build" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -152,6 +257,42 @@
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
+    </configuration>
+    <configuration name="Swith-Server [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Swith-Server" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="SignInTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="swith.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.demo.userControllerTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.demo.userControllerTest" />
+      <option name="MAIN_CLASS_NAME" value="com.example.demo.userControllerTest.SignInTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="SignUpTest.signUpTestSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="swith.test" />
@@ -201,15 +342,19 @@
     </configuration>
     <list>
       <item itemvalue="Gradle.SignUpTest" />
-      <item itemvalue="Gradle.Swith-Server [test]" />
+      <item itemvalue="Gradle.Swith-Server [clean]" />
+      <item itemvalue="Gradle.Swith-Server [build]" />
       <item itemvalue="JUnit.SignUpTest.signUpTestSuccess" />
+      <item itemvalue="JUnit.SignInTest" />
       <item itemvalue="Spring Boot.DemoApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SignInTest" />
+        <item itemvalue="Gradle.Swith-Server [build]" />
+        <item itemvalue="Gradle.Swith-Server [clean]" />
         <item itemvalue="Gradle.SignUpTest" />
         <item itemvalue="JUnit.SignUpTest.signUpTestSuccess" />
-        <item itemvalue="Gradle.Swith-Server [test]" />
       </list>
     </recent_temporary>
   </component>
@@ -226,7 +371,11 @@
       <workItem from="1658437978408" duration="3003000" />
       <workItem from="1658441006869" duration="2909000" />
       <workItem from="1658445005689" duration="3495000" />
-      <workItem from="1659333299555" duration="6387000" />
+      <workItem from="1659333299555" duration="8055000" />
+      <workItem from="1659355340418" duration="2644000" />
+      <workItem from="1659361312520" duration="1469000" />
+      <workItem from="1659417652475" duration="3984000" />
+      <workItem from="1659434821353" duration="265000" />
     </task>
     <task id="LOCAL-00001" summary="회원가입 테스트 완료">
       <created>1659337029095</created>
@@ -242,7 +391,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659338475651</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="로그인 기능 service, dto, jwt, token 개발 완료">
+      <created>1659339734156</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1659339734157</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -262,7 +418,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="회원가입 테스트 완료" />
     <MESSAGE value="nickname 추가, 로그인 기능 개발중" />
-    <option name="LAST_COMMIT_MESSAGE" value="nickname 추가, 로그인 기능 개발중" />
+    <MESSAGE value="로그인 기능 service, dto, jwt, token 개발 완료" />
+    <option name="LAST_COMMIT_MESSAGE" value="로그인 기능 service, dto, jwt, token 개발 완료" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -271,11 +428,10 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/userControllerTest/SignUpTest.java</url>
-          <line>35</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="org.springframework.beans.factory.BeanDefinitionStoreException" package="org.springframework.beans.factory" />
+          <option name="timeStamp" value="18" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

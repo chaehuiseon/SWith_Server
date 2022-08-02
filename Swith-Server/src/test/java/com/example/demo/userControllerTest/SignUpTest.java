@@ -33,7 +33,7 @@ public class SignUpTest extends BaseTest {
     @DisplayName("회원 가입 테스트(성공)")
     public void signUpTestSuccess() throws Exception {
 
-        SignUpRequestDto signUpRequestDto = new SignUpRequestDto(email, password, interest1, interest2, introduction);
+        SignUpRequestDto signUpRequestDto = new SignUpRequestDto(email, password, nickname, interest1, interest2, introduction);
 
 //        mockMvc.perform(post("/v1/signUp")
 //                //json 형식으로 데이터를 보낸다고 명시

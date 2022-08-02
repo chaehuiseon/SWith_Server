@@ -16,6 +16,7 @@ public class BaseTest {
 
     public String email = "test1@naver.com";
     public String password = "password";
+    public String nickname = "nick";
     public Interest interest1 = Interest.builder().interestIdx(0).interestContent("test1").build();
     public Interest interest2 = Interest.builder().interestIdx(2).interestContent("test2").build();
 //    public Interest interest1 = new Interest(1, "test");

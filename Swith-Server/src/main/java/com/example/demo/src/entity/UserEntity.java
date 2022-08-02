@@ -61,7 +61,7 @@ public class UserEntity extends BaseTimeEntity { //유저 테이블
         this.refreshToken = refreshToken;
     }
 
-    public UserEntity(Long userIdx, String email, String password, String nickname, Interest interest1, Interest interest2, String introduction, String profileImgUrl, Double averageStar, Integer status, List<Register> registerList) {
+    public UserEntity(Long userIdx, String email, String password, String nickname, Interest interest1, Interest interest2, String introduction, String profileImgUrl, Double averageStar, Integer status, String refreshToken, List<Register> registerList) {
         this.userIdx = userIdx;
         this.email = email;
         this.password = password;
@@ -72,6 +72,7 @@ public class UserEntity extends BaseTimeEntity { //유저 테이블
         this.profileImgUrl = profileImgUrl;
         this.averageStar = averageStar;
         this.status = status;
+        this.refreshToken = refreshToken;
         this.registerList = registerList;
     }
 }

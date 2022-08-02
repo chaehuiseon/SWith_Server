@@ -13,6 +13,8 @@ import com.example.demo.src.exception.userServiceException.PasswordIncorrectExce
 import com.example.demo.src.exception.userServiceException.UserNotFoundException;
 import com.example.demo.src.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,9 +25,15 @@ import javax.validation.Valid;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
+//    @Bean
+//    public BCryptPasswordEncoder getPasswordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+
     private final UserInfoRepository userInfoRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final PasswordEncoder bCryptPasswordEncoder;
+//    private final PasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
     public SignUpResponseDto signUp(String email, String password, String nickname, Interest interest1, Interest interest2, String introduction){
@@ -33,7 +41,8 @@ public class UserService {
             throw new ExistsEmailException("이미 가입된 이메일 입니다.");
         }
         userInfoRepository.save(
-                new UserEntity(null, email, bCryptPasswordEncoder.encode(password), nickname, interest1, interest2, introduction, null, null, 0, null)
+//                new UserEntity(null, email, bCryptPasswordEncoder.encode(password), nickname, interest1, interest2, introduction, null, null, 0, null, null)
+                  new UserEntity(null, email, password, nickname, interest1, interest2, introduction, null, null, 0, null, null)
         );
 
         return new SignUpResponseDto(email, nickname, interest1, interest2, introduction);
@@ -45,9 +54,9 @@ public class UserService {
         if(user == null){
             throw new UserNotFoundException("사용자를 찾을 수 없습니다.");
         }
-        if(!bCryptPasswordEncoder.matches(password, user.getPassword())){
-            throw new PasswordIncorrectException("비밀번호가 일치하지 않습니다.");
-        }
+//        if(!bCryptPasswordEncoder.matches(password, user.getPassword())){
+//            throw new PasswordIncorrectException("비밀번호가 일치하지 않습니다.");
+//        }
 
         TokenInfo accessTokenDto = jwtTokenProvider.createJwtAccessToken(email);
         TokenInfo refreshTokenDto = jwtTokenProvider.createJwtRefreshToken(email);

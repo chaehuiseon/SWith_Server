@@ -1,6 +1,8 @@
 package com.example.demo.src.controller;
 
+import com.example.demo.src.dto.request.SignInRequestDto;
 import com.example.demo.src.dto.request.SignUpRequestDto;
+import com.example.demo.src.dto.response.SignInResponseDto;
 import com.example.demo.src.dto.response.SignUpResponseDto;
 import com.example.demo.src.service.UserService;
 import io.swagger.annotations.Api;
@@ -34,5 +36,10 @@ public class UserController {
                 signUpRequestDto.getIntroduction());
     }
 
+    @ApiOperation("로그인")
+    @PostMapping("/v1/signIn")
+    public SignInResponseDto signIn(@Valid @RequestBody SignInRequestDto signInRequestDto){
+        return userService.signIn(signInRequestDto.getEmail(), signInRequestDto.getPassword());
+    }
 
 }

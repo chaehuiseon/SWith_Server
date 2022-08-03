@@ -26,13 +26,6 @@ public class GroupInfoController {
         this.userService = userService1;
     }
 
-    @GetMapping("/test")
-    public BaseResponse<String> test(){
-
-        String string = "테스트 컨트롤러입니다.";
-        return new BaseResponse<>(string);
-    }
-
     @ResponseBody
     @GetMapping("/home")
     public BaseResponse<List<GetHomeGroupInfoRes>> loadHomeData (@RequestParam(value = "userIdx") Long userIdx){

@@ -17,7 +17,6 @@ import java.util.List;
 public class RegisterService {
     private final RegisterRepository registerRepository;
 
-
     @Autowired
     public RegisterService(RegisterRepository registerRepository) {
         this.registerRepository = registerRepository;

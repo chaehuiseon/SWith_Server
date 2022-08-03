@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c5f29130-9125-4cd0-bb8b-1c7944d422ea" name="변경" comment="commit for merge">
+      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/controller/GroupInfoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dao/GroupInfoRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dao/InterestRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dao/UserRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/PostGroupInfoReq.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/PostGroupInfoRes.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/service/GroupInfoService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/dao/GroupInfoRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/dao/InterestRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/dao/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/dto/PostGroupInfoReq.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/dto/PostGroupInfoRes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/tmp/compileJava/source-classes-mapping.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/tmp/compileJava/source-classes-mapping.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/controller/GroupInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/controller/GroupInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/GroupInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/GroupInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/GroupInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/GroupInfoService.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="myId2FirstActivated">
+      <map>
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+      </map>
+    </option>
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

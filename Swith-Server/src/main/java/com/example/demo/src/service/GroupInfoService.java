@@ -3,6 +3,8 @@ package com.example.demo.src.service;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.dto.GetHomeGroupInfoRes;
+import com.example.demo.src.dto.PostGroupInfoReq;
+import com.example.demo.src.dto.PostGroupInfoRes;
 import com.example.demo.src.entity.*;
 import com.example.demo.src.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +24,17 @@ public class GroupInfoService {
     private final AnnouncementRepository announcementRepository;
     private final SessionRepository sessionRepository;
     private final AttendanceRepository attendanceRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public GroupInfoService(GroupInfoRepository groupInfoRepository, RegisterRepository registerRepository, RegisterService registerService, InterestRepository interestRepository, AnnouncementRepository announcementRepository, SessionRepository sessionRepository, AttendanceRepository attendanceRepository) {
+    public GroupInfoService(GroupInfoRepository groupInfoRepository, RegisterRepository registerRepository, RegisterService registerService, InterestRepository interestRepository, AnnouncementRepository announcementRepository, SessionRepository sessionRepository, AttendanceRepository attendanceRepository, UserRepository userRepository) {
         this.groupInfoRepository = groupInfoRepository;
         this.registerRepository = registerRepository;
         this.interestRepository = interestRepository;
         this.announcementRepository = announcementRepository;
         this.sessionRepository = sessionRepository;
         this.attendanceRepository = attendanceRepository;
+        this.userRepository = userRepository;
     }
 
     public List<GetHomeGroupInfoRes> loadHomeData(Long userIdx) {
@@ -81,5 +85,49 @@ public class GroupInfoService {
             getHomeGroupInfoResList.add(getHomeGroupInfoRes);
         }
         return getHomeGroupInfoResList;
+
     }
+
+    public PostGroupInfoRes create(PostGroupInfoReq request){
+        System.out.println(request.toString());
+        System.out.println("으악");
+        PostGroupInfoReq body = request;
+        long regionimsi1 = 123;
+        long regionimsi2 = 456;
+        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초");
+        // 문자열 -> Date
+        //LocalDateTime date = LocalDateTime.parse(dateStr, formatter);
+
+        GroupInfo groupInfo = GroupInfo.builder()
+                .user(userRepository.getOne(body.getAdminIdx()))
+                .groupImgUrl(body.getGroupImgUrl())
+                .title(body.getTitle())
+                .meet(body.getMeet())
+                .frequency(body.getFrequency())
+                .periods(body.getPeriods())
+                .online(body.getOnline())
+                .regionIdx1(body.getRegionIdx1())
+                .regionIdx2(body.getRegionIdx2())
+                .interest(interestRepository.getOne(body.getInterest()))
+                .topic(body.getTopic())
+                .memberLimit(body.getMemberLimit())
+                .applicationMethod(body.getApplicationMethod())
+                .recruitmentEndDate(body.getRecruitmentEndDate())
+                .groupStart(body.getGroupStart())
+                .groupEnd(body.getGroupEnd())
+                .attendanceValidTime(body.getAttendanceValidTime())
+                .groupContent(body.getGroupContent())
+                .build();
+
+        GroupInfo savedgroupInfo = groupInfoRepository.save(groupInfo);
+        long groupIdx = savedgroupInfo.getGroupIdx();
+        return new PostGroupInfoRes(groupIdx);
+
+
+
+    }
+
+
+
+
 }

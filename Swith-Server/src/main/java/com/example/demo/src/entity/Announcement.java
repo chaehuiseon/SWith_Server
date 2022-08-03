@@ -9,6 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static javax.persistence.FetchType.*;
+
 
 @Getter @Setter
 @Builder
@@ -22,7 +24,7 @@ public class Announcement extends BaseTimeEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long announcementIdx; //공지사항 Idx
 
-    @ManyToOne // N:1 단방향
+    @ManyToOne(fetch = LAZY) // N:1 단방향
     @JoinColumn(name = "groupIdx")
     private GroupInfo groupInfo; //그룹 Idx
 
@@ -32,7 +34,4 @@ public class Announcement extends BaseTimeEntity{
     @Column(columnDefinition = "TINYINT")
     @Builder.Default
     private Integer status = 0; //0:활성화 1:비활성화
-
-
-
 }

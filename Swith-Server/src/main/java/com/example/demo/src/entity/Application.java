@@ -9,6 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static javax.persistence.FetchType.*;
+
 
 @Getter @Setter
 @Builder
@@ -22,11 +24,11 @@ public class Application extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long applicationIdx;
 
-    @ManyToOne // N:1 단방향
+    @ManyToOne(fetch = LAZY) // N:1 단방향
     @JoinColumn(name = "userIdx")
     private User user; //지원한 유저 Idx
 
-    @ManyToOne // N:1 단방향
+    @ManyToOne(fetch = LAZY) // N:1 단방향
     @JoinColumn(name = "groupIdx")
     private GroupInfo groupInfo; //지원자가 지원한 스터디 Idx
 

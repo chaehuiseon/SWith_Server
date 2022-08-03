@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT}
+  port: 8080
   servlet:
     context-path: /
     encoding:
@@ -12,9 +12,10 @@ spring:
 
   datasource:
     platform: mysql
-    url: ${DATASOURCE_URL}
-    username: ${DATASOURCE_USERNAME}
-    password: ${DATASOURCE_PASSWORD}
+    url: jdbc:mysql://wnsvy607db.cwrwa6a6cgtb.ap-northeast-2.rds.amazonaws.com/jpDB
+#    jdbc:mysql://localhost:3306/test_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: wnsvy607
+    password: ljp153153
     driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
     hikari:
       connectionInitSql: "SET NAMES 'utf8mb4'"

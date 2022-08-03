@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.*;
+
 
 @Getter @Setter
 @Builder
@@ -18,7 +20,7 @@ public class Notification extends BaseTimeEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long notificationIdx; // 알림 Idx
 
-    @ManyToOne // N:1 단방향
+    @ManyToOne(fetch = LAZY) // N:1 단방향
     @JoinColumn(name = "userIdx")
     private User user; //알림 받는 사람 Idx
 

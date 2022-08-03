@@ -7,6 +7,8 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.FetchType.*;
+
 @Getter @Setter
 @Builder
 @NoArgsConstructor
@@ -21,17 +23,16 @@ public class User extends BaseTimeEntity { //유저 테이블
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userIdx;
 
-    @Column(length = 45)
     private String email; //가입 email
 
     @Column(length = 100)
     private String password; //가입 password
 
-    @ManyToOne // N:1 단방향
+    @ManyToOne(fetch = LAZY) // N:1 단방향
     @JoinColumn(name = "interestIdx1")
     private Interest interest1; //관심 분류
 
-    @ManyToOne // N:1 단방향
+    @ManyToOne(fetch = LAZY) // N:1 단방향
     @JoinColumn(name = "interestIdx2")
     private Interest interest2; //관심 분류
 

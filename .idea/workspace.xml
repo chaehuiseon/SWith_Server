@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c5f29130-9125-4cd0-bb8b-1c7944d422ea" name="변경" comment="로그인 기능 security 해결 중">
+    <list default="true" id="c5f29130-9125-4cd0-bb8b-1c7944d422ea" name="변경" comment="로그인기능 구현, 시큐리티 구현 필요">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/resources/main/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/resources/main/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/app.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/app.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -288,7 +289,8 @@
       <workItem from="1659417652475" duration="3984000" />
       <workItem from="1659434821353" duration="337000" />
       <workItem from="1659441699876" duration="1937000" />
-      <workItem from="1659503539820" duration="830000" />
+      <workItem from="1659503539820" duration="1180000" />
+      <workItem from="1659504734107" duration="313000" />
     </task>
     <task id="LOCAL-00001" summary="회원가입 테스트 완료">
       <created>1659337029095</created>
@@ -318,7 +320,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659435129385</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="로그인기능 구현, 시큐리티 구현 필요">
+      <created>1659504665117</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1659504665117</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -340,7 +349,8 @@
     <MESSAGE value="nickname 추가, 로그인 기능 개발중" />
     <MESSAGE value="로그인 기능 service, dto, jwt, token 개발 완료" />
     <MESSAGE value="로그인 기능 security 해결 중" />
-    <option name="LAST_COMMIT_MESSAGE" value="로그인 기능 security 해결 중" />
+    <MESSAGE value="로그인기능 구현, 시큐리티 구현 필요" />
+    <option name="LAST_COMMIT_MESSAGE" value="로그인기능 구현, 시큐리티 구현 필요" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

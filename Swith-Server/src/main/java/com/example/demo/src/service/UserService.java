@@ -54,6 +54,10 @@ public class UserService {
         if(user == null){
             throw new UserNotFoundException("사용자를 찾을 수 없습니다.");
         }
+        if(!password.equals(user.getPassword())){
+            throw new PasswordIncorrectException("비밀번호가 일치하지 않습니다.");
+        }
+
 //        if(!bCryptPasswordEncoder.matches(password, user.getPassword())){
 //            throw new PasswordIncorrectException("비밀번호가 일치하지 않습니다.");
 //        }

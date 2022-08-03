@@ -2,6 +2,7 @@ package com.example.demo.src.entity;
 
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -9,6 +10,8 @@ import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static javax.persistence.FetchType.*;
 
 
 @Getter @Setter
@@ -23,7 +26,7 @@ public class GroupInfo extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long groupIdx; //스터디 그룹의 Idx
 
-    @ManyToOne //  N:1 단방향
+    @ManyToOne(fetch = LAZY) //  N:1 단방향
     @JoinColumn(name = "adminIdx")
     private User user; //그룹장의 userIdx - 관리자 PK
 
@@ -60,7 +63,7 @@ public class GroupInfo extends BaseTimeEntity {
     //-----------------------
 
 
-    @ManyToOne // N:1 단방향
+    @ManyToOne(fetch = LAZY) // N:1 단방향
     @JoinColumn(name = "interest")
     private Interest interest; //스터디 그룹의 분류
 
@@ -106,9 +109,6 @@ public class GroupInfo extends BaseTimeEntity {
     @Column(columnDefinition = "TINYINT")
     @Builder.Default
     private Integer status = 0;
-
-
-
 
 }
 

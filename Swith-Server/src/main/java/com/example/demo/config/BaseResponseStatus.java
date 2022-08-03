@@ -36,8 +36,12 @@ public enum BaseResponseStatus {
     POST_USERS_EVENT_CREATION_FAIL(false,2018,"event생성 실패"),
 
 
+
     POST_USERS_EMPTY_PASSWORD(false, 2030, "비밀번호를 입력해주세요. "),
     POST_USERS_INVALID_PASSWORD(false, 2031, "비밀번호 형식을 확인해주세요."),
+
+    //session
+    POST_SESSION_NOT_ADMIN(false, 2040, "해당 유저가 그룹의 관리자가 아닙니다."),
 
     //event
 
@@ -106,36 +110,13 @@ public enum BaseResponseStatus {
     TEMP2(false, 9000, "conflict 방지용 2"),
     INVALID_USERIDX(false, 6000, "존재하지 않는 회원입니다."),
     INVALID_NICKNAME(false, 6001, "존재하지 않는 회원 닉네임입니다."),
-    INVALID_DIARYIDX(false, 6002, "존재하지 않는 일기입니다."),
+    INVALID_GROUPIDX(false,6002,"존재하지 않는 그룹입니다." ),
     INVALID_USER_ABOUT_DIARY(false, 6003, "해당 일기에 접근 권한이 없는 회원입니다."),
     INVALID_TYPE(false, 6004, "잘못된 type 입니다. (diary, letter, reply 중 1)"),
     INVALID_TYPEIDX_ABOUT_TYPE(false, 6005, "해당 type에 존재하지 않는 typeIdx 입니다."),
+    NO_REGISTRATION_INFO(false, 6006, "유저의 스터디 그룹 가입 정보가 없습니다."),
 
-    DIARY_NONPREMIUM_USER(false, 6006, "프리미엄 가입이 필요합니다."),
-    DIARY_ENCRYPTION_ERROR(false, 6007, "일기 암호화에 실패하였습니다."),
-    DIARY_DECRYPTION_ERROR(false, 6008, "일기 복호화에 실패하였습니다."),
 
-    DIARY_EXISTS(false, 6009, "일기는 하루에 하나만 작성 가능합니다."),
-    UNPRIVATE_DATE(false, 6010, "당일에 작성한 일기만 발송 가능합니다."),
-    NO_DIARY_SENT_TODAY(false, 6011, "오늘 발송되는 일기는 없습니다."),
-
-    MODIFY_FAIL_DIARY(false, 6012, "일기 수정에 실패하였습니다."),
-    MODIFY_FAIL_DONE(false, 6013, "done list 수정에 실패하였습니다."),
-    DELETE_FAIL_DIARY(false, 6014, "일기 삭제에 실패하였습니다."),
-    DELETE_FAIL_DONE(false, 6015, "done list 삭제에 실패하였습니다."),
-
-    PAGENUM_ERROR_0(false, 6016, "페이지 번호는 1부터 시작합니다."),
-    PAGENUM_ERROR(false, 6017, "잘못된 페이지 요청입니다."),
-    EMPTY_RESULT(false, 6018, "검색 결과 없음"),
-
-    INVALID_USER_ABOUT_ALARM(false, 6019, " 해당 알림에 접근 권한이 없는 회원입니다."),
-    INACTVIE_ALARM(false, 6020, "이미 확인된 알림입니다."),
-    NO_ALARM(false, 6021, "해당 회원에게 띄워줄 알림이 없습니다."),
-    ALARM_MODIFY_FAIL_STATUS(false, 6022, "Alarm.status = 'checked' 변환에 실패하였습니다."),
-
-    POST_FAIL_ALARM(false, 6023, "알림 저장에 실패하였습니다."),
-
-    INVALID_USER_ABOUT_MAIL(false, 6024, "해당 우편에 접근 권한이 없는 회원입니다."),
 
 
     // 7000 : 자몽

@@ -64,8 +64,9 @@ dependencies {
     //compile group: 'org.apache.commons', name: 'commons-exec', version: '1.1'
 
     //implementation group : 'org.python', name = 'jython-standalone',version:'2.7.2'
-
-
+    //swagger
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 
     // Web
     implementation ('org.springframework.boot:spring-boot-starter-web')

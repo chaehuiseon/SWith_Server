@@ -9,6 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static javax.persistence.FetchType.*;
+
 
 @Getter @Setter
 @Builder
@@ -21,11 +23,11 @@ public class Register extends BaseTimeEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long registerIdx;
 
-    @ManyToOne // N : 1 양방향
+    @ManyToOne(fetch = LAZY) // N : 1 양방향
     @JoinColumn(name = "userIdx")
     private User user; //스터디에 가입된 유저 Idx
 
-    @ManyToOne// N : 1 단방향
+    @ManyToOne(fetch = LAZY)// N : 1 단방향
     @JoinColumn(name = "groupIdx")
     private GroupInfo groupInfo; //유저가 가입한 스터디 Idx
 

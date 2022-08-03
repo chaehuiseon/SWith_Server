@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static javax.persistence.FetchType.*;
 
 
 @Getter @Setter
@@ -23,7 +24,7 @@ public class Rating extends BaseTimeEntity{
     //평가자를 기준으로 조회할일은 없기에 매핑할 이유가 없음
     private Long raterIdx; //평가자
 
-    @ManyToOne // N:1 단방향
+    @ManyToOne(fetch = LAZY) // N:1 단방향
     @JoinColumn(name = "rateeIdx")
     private User user; //피평가자
 

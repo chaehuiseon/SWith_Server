@@ -2,25 +2,18 @@ package com.example.demo.src.service;
 
 import com.example.demo.jwt.JwtTokenProvider;
 import com.example.demo.jwt.TokenInfo;
-import com.example.demo.src.dto.request.SignInRequestDto;
-import com.example.demo.src.dto.request.SignUpRequestDto;
 import com.example.demo.src.dto.response.SignInResponseDto;
 import com.example.demo.src.dto.response.SignUpResponseDto;
 import com.example.demo.src.entity.Interest;
-import com.example.demo.src.entity.UserEntity;
+import com.example.demo.src.entity.User;
 import com.example.demo.src.exception.userServiceException.ExistsEmailException;
 import com.example.demo.src.exception.userServiceException.PasswordIncorrectException;
 import com.example.demo.src.exception.userServiceException.UserNotFoundException;
 import com.example.demo.src.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +35,7 @@ public class UserService {
         }
         userInfoRepository.save(
 //                new UserEntity(null, email, bCryptPasswordEncoder.encode(password), nickname, interest1, interest2, introduction, null, null, 0, null, null)
-                  new UserEntity(null, email, password, nickname, interest1, interest2, introduction, null, null, 0, null, null)
+                  new User(null, email, password, nickname, interest1, interest2, introduction, null, null, 0, null, null)
         );
 
         return new SignUpResponseDto(email, nickname, interest1, interest2, introduction);
@@ -50,7 +43,7 @@ public class UserService {
 
     @Transactional
     public SignInResponseDto signIn(String email, String password){
-        UserEntity user = userInfoRepository.findByEmail(email);
+        User user = userInfoRepository.findByEmail(email);
         if(user == null){
             throw new UserNotFoundException("사용자를 찾을 수 없습니다.");
         }

@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "USER")
-public class UserEntity extends BaseTimeEntity { //유저 테이블
+public class User extends BaseTimeEntity { //유저 테이블
 
     //@Id는 PK를 의미, @GeneratedValue 어노테이션은 기본키를 설정하는 전략으로
     //아래와 같이 설정하면 DB에 위임하는 방식(AUTO_INCREMENT)
@@ -61,7 +61,7 @@ public class UserEntity extends BaseTimeEntity { //유저 테이블
         this.refreshToken = refreshToken;
     }
 
-    public UserEntity(Long userIdx, String email, String password, String nickname, Interest interest1, Interest interest2, String introduction, String profileImgUrl, Double averageStar, Integer status, String refreshToken, List<Register> registerList) {
+    public User(Long userIdx, String email, String password, String nickname, Interest interest1, Interest interest2, String introduction, String profileImgUrl, Double averageStar, Integer status, String refreshToken, List<Register> registerList) {
         this.userIdx = userIdx;
         this.email = email;
         this.password = password;

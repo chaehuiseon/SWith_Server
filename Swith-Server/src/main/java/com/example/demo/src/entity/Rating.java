@@ -22,7 +22,7 @@ public class Rating extends BaseTimeEntity{
 
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "rateeIdx")
-    private UserEntity user; //피평가자
+    private User user; //피평가자
 
     @Column(columnDefinition = "TINYINT")
     private Integer star; //평점(1~5)

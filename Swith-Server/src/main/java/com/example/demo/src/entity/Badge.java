@@ -20,7 +20,7 @@ public class Badge extends BaseTimeEntity{
 
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "userIdx")
-    private UserEntity user; //뱃지가 표시될 프로필의 소유자 인덱스
+    private User user; //뱃지가 표시될 프로필의 소유자 인덱스
 
     private Double attendanceRate; //종료된 스터디에서의 출석율
 

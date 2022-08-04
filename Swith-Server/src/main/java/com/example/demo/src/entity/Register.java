@@ -19,7 +19,7 @@ public class Register extends BaseTimeEntity{
 
     @ManyToOne // N : 1 양방향
     @JoinColumn(name = "userIdx")
-    private UserEntity user; //스터디에 가입된 유저 Idx
+    private User user; //스터디에 가입된 유저 Idx
 
     @ManyToOne// N : 1 단방향
     @JoinColumn(name = "groupIdx")

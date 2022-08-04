@@ -20,7 +20,7 @@ public class Application extends BaseTimeEntity {
 
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "userIdx")
-    private UserEntity user; //지원한 유저 Idx
+    private User user; //지원한 유저 Idx
 
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "groupIdx")

@@ -20,7 +20,7 @@ public class Notification extends BaseTimeEntity{
 
     @ManyToOne // N:1 단방향
     @JoinColumn(name = "userIdx")
-    private UserEntity user; //알림 받는 사람 Idx
+    private User user; //알림 받는 사람 Idx
 
     @Column(length = 45)
     private String notificationContent; //알림 내용

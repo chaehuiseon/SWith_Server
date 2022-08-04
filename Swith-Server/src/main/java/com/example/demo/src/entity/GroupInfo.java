@@ -3,10 +3,12 @@ package com.example.demo.src.entity;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.Fetch;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -82,16 +84,13 @@ public class GroupInfo extends BaseTimeEntity {
     //--------------------
 
     // 모집 기간 종료일
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date recruitmentEndDate;
+    private LocalDate recruitmentEndDate;
 
     // 스터디 활동 시작예정일
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date groupStart;
+    private LocalDate groupStart;
 
     // 스터디 활동 종료예정일
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date groupEnd;
+    private LocalDate groupEnd;
 
     //--------------------
 

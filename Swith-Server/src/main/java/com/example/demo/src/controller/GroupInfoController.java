@@ -1,5 +1,6 @@
 package com.example.demo.src.controller;
 
+import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.dto.GetGroupInfoRes;
 import com.example.demo.src.dto.GetHomeGroupInfoRes;
@@ -28,7 +29,7 @@ public class GroupInfoController {
 
     @ResponseBody
     @GetMapping("/home")
-    public BaseResponse<List<GetHomeGroupInfoRes>> loadHomeData (@RequestParam(value = "userIdx") Long userIdx){
+    public BaseResponse<List<GetHomeGroupInfoRes>> loadHomeData (@RequestParam(value = "userIdx") Long userIdx) throws BaseException {
         List<GetHomeGroupInfoRes> getGroupHomeData = groupInfoService.loadHomeData(userIdx);    //출석율 부분 수정 필요
         return new BaseResponse<>(getGroupHomeData);
     }

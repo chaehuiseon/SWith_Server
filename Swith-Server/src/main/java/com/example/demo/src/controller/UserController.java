@@ -1,5 +1,7 @@
 package com.example.demo.src.controller;
 
+import com.example.demo.config.BaseException;
+import com.example.demo.config.BaseResponse;
 import com.example.demo.src.dto.request.SignInRequestDto;
 import com.example.demo.src.dto.request.SignUpRequestDto;
 import com.example.demo.src.dto.response.SignInResponseDto;
@@ -15,10 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.logging.LoggingPermission;
 
 @RestController
 @RequiredArgsConstructor
-@Api(tags = {"Swith API Test"})
+@Api(tags = {"Swith User API"})
 public class UserController {
     private final UserService userService;
 
@@ -30,10 +33,13 @@ public class UserController {
 
     @ApiOperation("회원 가입")
     @PostMapping("/v1/signUp")
-    public SignUpResponseDto signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto){
-        return userService.signUp(signUpRequestDto.getEmail(), signUpRequestDto.getPassword(), signUpRequestDto.getNickname(),
-                signUpRequestDto.getInterest1(), signUpRequestDto.getInterest2(),
-                signUpRequestDto.getIntroduction());
+    public BaseResponse<SignUpResponseDto> signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
+        try{
+            SignUpResponseDto signUpResponseDto = userService.signUp(signUpRequestDto);
+            return new BaseResponse<>(signUpResponseDto);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
     }
 
     @ApiOperation("로그인")

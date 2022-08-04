@@ -2,9 +2,11 @@ package com.example.demo.src.dto.response;
 
 import com.example.demo.src.entity.Interest;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

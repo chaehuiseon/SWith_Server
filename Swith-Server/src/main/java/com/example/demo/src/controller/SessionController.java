@@ -1,5 +1,6 @@
 package com.example.demo.src.controller;
 
+import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.dto.GetGroupInfoRes;
@@ -22,7 +23,7 @@ public class SessionController {
     }
 
     @PostMapping            //@Valid 추가 <-회차 만들 때 디폴트로 출석정보를 추가하도록 할지 고민 필요
-    public BaseResponse<Long> createSession(@RequestBody PostSessionReq postSessionReq){
+    public BaseResponse<Long> createSession(@RequestBody PostSessionReq postSessionReq) throws BaseException {
         if(!userService.isAdminOfGroup(postSessionReq.getUserIdx(), postSessionReq.getGroupIdx())){
             return new BaseResponse<>(BaseResponseStatus.POST_SESSION_NOT_ADMIN);
         }
@@ -39,8 +40,8 @@ public class SessionController {
 
     @ResponseBody
     @GetMapping
-    public BaseResponse<GetGroupInfoRes> loadGroupData (@RequestParam(value = "userIdx") Long userIdx
-            , @RequestParam(value = "groupIdx") Long groupIdx ){
+    public BaseResponse<GetGroupInfoRes> loadGroupData (@RequestParam(value = "userIdx")  Long userIdx
+            , @RequestParam(value = "groupIdx") Long groupIdx ) throws BaseException {
         boolean isAdmin = userService.isAdminOfGroup(userIdx, groupIdx);
         GetGroupInfoRes getGroupInfoRes = sessionService.loadGroupInfoAndSession(groupIdx, isAdmin);
 

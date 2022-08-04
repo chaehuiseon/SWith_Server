@@ -40,7 +40,7 @@ public class SessionService {
     }
 
 
-    public Long createSession(PostSessionReq postSessionReq, Integer sessionNum) {
+    public Long createSession(PostSessionReq postSessionReq, Integer sessionNum) throws BaseException {
         GroupInfo groupInfo = groupInfoRepository.findById(postSessionReq.getGroupIdx())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUPIDX));
         Session session = Session.builder()
@@ -67,7 +67,7 @@ public class SessionService {
         return sessionRepository.UpdateSessionNumPlusOne(sessionNum, groupIdx);
     }
 
-    public GetGroupInfoRes loadGroupInfoAndSession(Long groupIdx, boolean isAdmin) {
+    public GetGroupInfoRes loadGroupInfoAndSession(Long groupIdx, boolean isAdmin) throws BaseException {
         //그룹정보 찾기
         GroupInfo groupInfo = groupInfoRepository.findById(groupIdx)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUPIDX));
@@ -87,7 +87,7 @@ public class SessionService {
             int attendanceRate, attendances = 0;
 
             //해당 세션이 '예정'상태가 아닌 경우 출석율을, 맞다면 -1을 attendanceRate 변수에 할당한다.
-            if(LocalDateTime.now().isAfter(session.getSessionEnd())) {
+            if(LocalDateTime.now().isAfter(session.getSessionEnd()) && !attendanceList.isEmpty()) {
                 for (Attendance attendance : attendanceList) {
                     if (attendance.getStatus() == 1)
                         attendances++;

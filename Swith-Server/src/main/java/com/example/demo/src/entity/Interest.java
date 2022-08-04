@@ -20,5 +20,4 @@ public class Interest {
 
     @Column( length = 45)
     private String interestContent; //분류의 이름(카테고리)
-
 }

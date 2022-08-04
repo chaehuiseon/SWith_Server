@@ -12,7 +12,7 @@ import static javax.persistence.FetchType.*;
 @Getter @Setter
 @Builder
 @NoArgsConstructor
-//@AllArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "USER")
 public class User extends BaseTimeEntity { //유저 테이블
@@ -62,20 +62,5 @@ public class User extends BaseTimeEntity { //유저 테이블
 
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
-    }
-
-    public User(Long userIdx, String email, String password, String nickname, Interest interest1, Interest interest2, String introduction, String profileImgUrl, Double averageStar, Integer status, String refreshToken, List<Register> registerList) {
-        this.userIdx = userIdx;
-        this.email = email;
-        this.password = password;
-        this.nickname = nickname;
-        this.interest1 = interest1;
-        this.interest2 = interest2;
-        this.introduction = introduction;
-        this.profileImgUrl = profileImgUrl;
-        this.averageStar = averageStar;
-        this.status = status;
-        this.refreshToken = refreshToken;
-        this.registerList = registerList;
     }
 }

@@ -22,7 +22,7 @@ public class RegisterService {
         this.registerRepository = registerRepository;
     }
 
-    public List<Register> findRegistrationInfo (Long userIdx) {
+    public List<Register> findRegistrationInfo (Long userIdx) throws BaseException {
         Integer status = 0; //0은 가입 상태
         List<Register> registerList = registerRepository
                 .findByUser_UserIdxAndStatusEquals(userIdx, status);

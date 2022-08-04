@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.demo.config.BaseResponseStatus.*;
+
 @Transactional
 @Service
 public class GroupInfoService {
@@ -37,10 +39,10 @@ public class GroupInfoService {
         this.userRepository = userRepository;
     }
 
-    public List<GetHomeGroupInfoRes> loadHomeData(Long userIdx) {
+    public List<GetHomeGroupInfoRes> loadHomeData(Long userIdx) throws BaseException {
         List<GroupInfo> groupInfos = registerRepository.findGroupInfoByUserIdx(userIdx);
         if(groupInfos.isEmpty())
-            throw  new BaseException(BaseResponseStatus.NO_REGISTRATION_INFO);
+            throw  new BaseException(NO_REGISTRATION_INFO);
 
         List<GetHomeGroupInfoRes> getHomeGroupInfoResList = new ArrayList<>();
         for(GroupInfo groupInfo : groupInfos){

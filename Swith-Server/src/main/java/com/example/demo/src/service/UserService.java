@@ -21,8 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -32,17 +30,17 @@ public class UserService {
 //        return new BCryptPasswordEncoder();
 //    }
 
-    private final UserInfoRepository userInfoRepository;
+    private final UserInfoRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final GroupInfoRepository groupInfoRepository;
 //    private final PasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
     public SignUpResponseDto signUp(String email, String password, String nickname, Interest interest1, Interest interest2, String introduction){
-        if(userInfoRepository.existsByEmail(email)){
+        if(userRepository.existsByEmail(email)){
             throw new ExistsEmailException("이미 가입된 이메일 입니다.");
         }
-        userInfoRepository.save(
+        userRepository.save(
 //                new UserEntity(null, email, bCryptPasswordEncoder.encode(password), nickname, interest1, interest2, introduction, null, null, 0, null, null)
                   new User(null, email, password, nickname, interest1, interest2, introduction, null, null, 0, null, null)
         );
@@ -52,7 +50,7 @@ public class UserService {
 
     @Transactional
     public SignInResponseDto signIn(String email, String password){
-        User user = userInfoRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
         if(user == null){
             throw new UserNotFoundException("사용자를 찾을 수 없습니다.");
         }

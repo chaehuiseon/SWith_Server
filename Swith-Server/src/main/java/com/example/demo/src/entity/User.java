@@ -12,7 +12,7 @@ import static javax.persistence.FetchType.*;
 @Getter @Setter
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @Entity
 @Table(name = "USER")
 public class User extends BaseTimeEntity { //유저 테이블
@@ -28,10 +28,10 @@ public class User extends BaseTimeEntity { //유저 테이블
     @Column(length = 100)
     private String password; //가입 password
 
-    @ManyToOne(fetch = LAZY) // N:1 단방향
+
     private String nickname; // 닉네임
 
-    @ManyToOne // N:1 단방향
+    @ManyToOne(fetch = LAZY) // N:1 단방향
     @JoinColumn(name = "interestIdx1")
     private Interest interest1; //관심 분류
 

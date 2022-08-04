@@ -5,78 +5,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9772725e-a081-41d7-8e44-8279460a8199" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/controller/AnnouncementController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/GetAnnouncementRes$GetAnnouncementResBuilder.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/GetAnnouncementRes.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/GetGroupInfoRes$GetGroupInfoResBuilder.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/GetGroupInfoRes.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/GetHomeGroupInfoRes$GetHomeGroupInfoResBuilder.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/GetHomeGroupInfoRes.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/GetSessionRes$GetSessionResBuilder.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/GetSessionRes.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/PostSessionReq$PostSessionReqBuilder.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/PostSessionReq.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/repository/AnnouncementRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/repository/AttendanceRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/repository/GroupInfoRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/repository/InterestRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/repository/RegisterRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/repository/SessionRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/repository/UserRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/service/AnnouncementService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/service/RegisterService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/jwt/JwtAuthenticationFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/jwt/JwtTokenProvider.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/jwt/TokenInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/exception/jwtException/HeaderHasNotAuthorization.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/exception/jwtException/InvalidTokenException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/exception/userServiceException/PasswordIncorrectException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/exception/userServiceException/UserNotFoundException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/classAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/jwt/JwtTokenProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/jwt/JwtTokenProvider.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/security/AuthInfo.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/security/Authenticated.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/security/UserInfoArgumentResolver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/bootJarMainClassName" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/config/SwaggerConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/config/SwaggerConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/controller/GroupInfoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/controller/GroupInfoController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Application$ApplicationBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Application$ApplicationBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Application.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Attendance$AttendanceBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Attendance$AttendanceBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Attendance.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Attendance.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Badge$BadgeBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Badge$BadgeBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Badge.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Badge.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/GroupInfo$GroupInfoBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/GroupInfo$GroupInfoBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/GroupInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/GroupInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Notification$NotificationBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Notification$NotificationBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Notification.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Notification.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Rating$RatingBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Rating$RatingBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Rating.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Rating.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Register$RegisterBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Register$RegisterBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Register.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/Register.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/UserEntity$UserEntityBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/User$UserBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/UserEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/exception/ErrorResponse.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/exception/ExceptionHandlerFilter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/repository/UserInfoRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/repository/UserInfoRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/User$UserBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/User$UserBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/entity/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/repository/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/repository/UserRepository.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/service/UserService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/resources/main/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/resources/main/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/tmp/compileJava/source-classes-mapping.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/tmp/compileJava/source-classes-mapping.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/Attendance.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/Attendance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/Badge.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/Badge.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/GroupInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/GroupInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/Notification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/Rating.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/Rating.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/Register.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/repository/UserInfoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/repository/UserInfoRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/entity/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +91,7 @@
     </option>
     <option name="myId2Visible">
       <map>
-        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
         <entry key="com.haulmont.jpb.jpaPalette" value="false" />
         <entry key="com.haulmont.jpb.jpaStructure" value="false" />
       </map>
@@ -191,7 +147,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1659587230062</updated>
-      <workItem from="1659587231217" duration="629000" />
+      <workItem from="1659587231217" duration="3288000" />
     </task>
     <servers />
   </component>

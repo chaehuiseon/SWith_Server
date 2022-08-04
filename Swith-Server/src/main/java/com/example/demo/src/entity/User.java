@@ -29,6 +29,9 @@ public class User extends BaseTimeEntity { //유저 테이블
     private String password; //가입 password
 
     @ManyToOne(fetch = LAZY) // N:1 단방향
+    private String nickname; // 닉네임
+
+    @ManyToOne // N:1 단방향
     @JoinColumn(name = "interestIdx1")
     private Interest interest1; //관심 분류
 
@@ -50,14 +53,29 @@ public class User extends BaseTimeEntity { //유저 테이블
     @Builder.Default
     private Integer status = 0; //0:활성화, 1:탈퇴
 
+    private String refreshToken;
 
     //가입한 그룹을 불러올 때 쓰일 것
     @Builder.Default
     @OneToMany(mappedBy = "user") // N:1 양방향
     private List<Register> registerList = new ArrayList<>();
 
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 
-
-
-
+    public User(Long userIdx, String email, String password, String nickname, Interest interest1, Interest interest2, String introduction, String profileImgUrl, Double averageStar, Integer status, String refreshToken, List<Register> registerList) {
+        this.userIdx = userIdx;
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+        this.interest1 = interest1;
+        this.interest2 = interest2;
+        this.introduction = introduction;
+        this.profileImgUrl = profileImgUrl;
+        this.averageStar = averageStar;
+        this.status = status;
+        this.refreshToken = refreshToken;
+        this.registerList = registerList;
+    }
 }

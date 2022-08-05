@@ -38,7 +38,7 @@ public enum BaseResponseStatus {
 
 
     POST_USERS_EMPTY_PASSWORD(false, 2030, "비밀번호를 입력해주세요. "),
-    POST_USERS_INVALID_PASSWORD(false, 2031, "비밀번호 형식을 확인해주세요."),
+    POST_USERS_INVALID_PASSWORD(false, 2031, "비밀번호가 일치하지 않습니다."),
 
     //session
     POST_SESSION_NOT_ADMIN(false, 2040, "해당 유저가 그룹의 관리자가 아닙니다."),
@@ -55,7 +55,7 @@ public enum BaseResponseStatus {
     PATCH_USER_CERTIFIED_FAIL(false,2080,"certify실패"),
     CHECK_USER_CERTIFIED_FAIL(false,2081,"certified 값 불러오기 실패 또는 유효하지 않은 값"),
     GET_UNCERTIFICATION_USER_FAIL(false,2082,"미인증 유저 리스트 불러오기 실패"),
-    ERROR_FIND_EMAIL(false,2083,"phone 번호가 존재하지 않거나 회원가입 할 때, 가입한 번호가 아님"),
+    ERROR_FIND_EMAIL(false,2083,"가입하지 않은 이메일 입니다."),
     ERROR_FIND_USERIDX(false,2084,"email로 가입된 userIdx가 존재하지 않음."),
     PATCH_USER_PASSWORD(false,2085,"password patch실패"),
 

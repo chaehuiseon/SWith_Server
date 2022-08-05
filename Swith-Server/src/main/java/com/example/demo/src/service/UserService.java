@@ -3,9 +3,9 @@ package com.example.demo.src.service;
 import com.example.demo.config.BaseException;
 import com.example.demo.jwt.JwtTokenProvider;
 import com.example.demo.jwt.TokenInfo;
-import com.example.demo.src.dto.request.SignUpRequestDto;
-import com.example.demo.src.dto.response.SignInResponseDto;
-import com.example.demo.src.dto.response.SignUpResponseDto;
+import com.example.demo.src.dto.request.PostSignUpReq;
+import com.example.demo.src.dto.response.PostSignInRes;
+import com.example.demo.src.dto.response.PostSignUpRes;
 import com.example.demo.src.entity.Interest;
 import com.example.demo.src.entity.User;
 import com.example.demo.src.exception.userServiceException.PasswordIncorrectException;
@@ -40,35 +40,39 @@ public class UserService {
     }
 //    private final PasswordEncoder bCryptPasswordEncoder;
 
-    public SignUpResponseDto signUp(SignUpRequestDto signUpRequestDto) throws BaseException {
-        if(userRepository.existsByEmail(signUpRequestDto.getEmail())){
+    // 회원 가입
+    public PostSignUpRes signUp(PostSignUpReq postSignUpReq) throws BaseException {
+        // 이메일 중복 시
+        if(userRepository.existsByEmail(postSignUpReq.getEmail())){
             throw new BaseException(POST_USERS_EXISTS_EMAIL);
         }
         Interest interest1 = Interest.builder()
-                .interestIdx(signUpRequestDto.getInterest1())
+                .interestIdx(postSignUpReq.getInterest1())
                 .build();
         Interest interest2 = Interest.builder()
-                .interestIdx(signUpRequestDto.getInterest2())
+                .interestIdx(postSignUpReq.getInterest2())
                 .build();
 
-        User user = buildUserForSignUp(signUpRequestDto, interest1, interest2);
-        User savedUser = userRepository.save(user
-//                new UserEntity(null, email, bCryptPasswordEncoder.encode(password), nickname, interest1, interest2, introduction, null, null, 0, null, null)
-        );
-        SignUpResponseDto signUpResponseDto = getSignUpResponseDto(savedUser);
+        User user = buildUserForSignUp(postSignUpReq, interest1, interest2);
+        User savedUser = userRepository.save(user);
+        PostSignUpRes postSignUpRes = getSignUpResponseDto(savedUser);
 
-        return signUpResponseDto;
+        return postSignUpRes;
     }
 
-    public SignInResponseDto signIn(String email, String password){
+    // 로그인
+    public PostSignInRes signIn(String email, String password) throws BaseException {
         User user = userRepository.findByEmail(email);
+        // 이메일 없는 경우
         if(user == null){
-            throw new UserNotFoundException("사용자를 찾을 수 없습니다.");
+            throw new BaseException(ERROR_FIND_EMAIL);
+//            throw new UserNotFoundException("사용자를 찾을 수 없습니다.");
         }
+        // 비밀번호 틀린 경우
         if(!password.equals(user.getPassword())){
-            throw new PasswordIncorrectException("비밀번호가 일치하지 않습니다.");
+            throw new BaseException(POST_USERS_INVALID_PASSWORD);
+//            throw new PasswordIncorrectException("비밀번호가 일치하지 않습니다.");
         }
-
 //        if(!bCryptPasswordEncoder.matches(password, user.getPassword())){
 //            throw new PasswordIncorrectException("비밀번호가 일치하지 않습니다.");
 //        }
@@ -76,8 +80,18 @@ public class UserService {
         TokenInfo accessTokenDto = jwtTokenProvider.createJwtAccessToken(email);
         TokenInfo refreshTokenDto = jwtTokenProvider.createJwtRefreshToken(email);
         user.updateRefreshToken(refreshTokenDto.getToken());
-        return new SignInResponseDto(user.getEmail(), user.getNickname(), user.getInterest1(), user.getInterest2(),
-                accessTokenDto.getToken(), refreshTokenDto.getToken());
+
+        PostSignInRes postSignInRes = PostSignInRes.builder()
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .interest1(user.getInterest1())
+                .interest2(user.getInterest2())
+                .accessToken(accessTokenDto.getToken())
+                .refreshToken(refreshTokenDto.getToken())
+                .status(user.getStatus())
+                .build();
+
+        return postSignInRes;
     }
 
     public boolean isAdminOfGroup (Long userIdx, Long GroupIdx){
@@ -91,27 +105,27 @@ public class UserService {
         return false;
     }
 
-    private User buildUserForSignUp(SignUpRequestDto signUpRequestDto, Interest interest1, Interest interest2) {
+    private User buildUserForSignUp(PostSignUpReq postSignUpReq, Interest interest1, Interest interest2) {
         User user = User.builder()
-                .email(signUpRequestDto.getEmail())
-                .password(signUpRequestDto.getPassword())
-                .nickname(signUpRequestDto.getNickname())
+                .email(postSignUpReq.getEmail())
+                .password(postSignUpReq.getPassword())
+                .nickname(postSignUpReq.getNickname())
                 .interest1(interest1)
                 .interest2(interest2)
-                .introduction(signUpRequestDto.getIntroduction())
+                .introduction(postSignUpReq.getIntroduction())
                 .status(0)
                 .build();
         return user;
     }
 
-    private SignUpResponseDto getSignUpResponseDto(User savedUser) {
-        SignUpResponseDto signUpResponseDto = SignUpResponseDto.builder()
+    private PostSignUpRes getSignUpResponseDto(User savedUser) {
+        PostSignUpRes postSignUpRes = PostSignUpRes.builder()
                 .email(savedUser.getEmail())
                 .interestIdx1(savedUser.getInterest1().getInterestIdx())
                 .interestIdx2(savedUser.getInterest2().getInterestIdx())
                 .nickname(savedUser.getNickname())
                 .introduction(savedUser.getIntroduction())
                 .build();
-        return signUpResponseDto;
+        return postSignUpRes;
     }
 }

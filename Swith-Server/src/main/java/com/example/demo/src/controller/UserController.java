@@ -44,7 +44,6 @@ public class UserController {
     @ApiOperation("로그인")
     @PostMapping("/v1/signIn")
     public BaseResponse<PostSignInRes> signIn(@Valid @RequestBody PostSignInReq postSignInReq){
-//        return userService.signIn(postSignInReq.getEmail(), postSignInReq.getPassword());
         try{
             PostSignInRes postSignInRes = userService.signIn(postSignInReq.getEmail(), postSignInReq.getPassword());
             return new BaseResponse<>(postSignInRes);

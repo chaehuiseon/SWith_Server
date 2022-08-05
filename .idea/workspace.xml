@@ -6,32 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9772725e-a081-41d7-8e44-8279460a8199" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/taskHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/request/SignInRequestDto.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/request/SignUpRequestDto.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/response/SignInResponseDto.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/dto/response/SignUpResponseDto.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/service/UserService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/resources/main/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/resources/main/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/tmp/compileJava/source-classes-mapping.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/tmp/compileJava/source-classes-mapping.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/config/BaseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/config/BaseException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/config/BaseResponseStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/config/BaseResponseStatus.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/dto/request/SignInRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/dto/request/PostSignInReq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/dto/request/SignUpRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/dto/request/PostSignUpReq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/dto/response/SignInResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/dto/response/PostSignInRes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/dto/response/SignUpResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/dto/response/PostSignUpRes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/userControllerTest/SignInTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/userControllerTest/SignInTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/userControllerTest/SignUpTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/test/java/com/example/demo/userControllerTest/SignUpTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,7 +132,7 @@
       <updated>1659587230062</updated>
       <workItem from="1659587231217" duration="629000" />
       <workItem from="1659603942983" duration="32000" />
-      <workItem from="1659667535367" duration="3754000" />
+      <workItem from="1659667535367" duration="3949000" />
     </task>
     <servers />
   </component>

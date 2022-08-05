@@ -22,16 +22,20 @@ public class GroupInfoController {
     private final UserService userService;
 
     @Autowired
-    public GroupInfoController(GroupInfoService groupInfoService, UserService userService, SessionService sessionService, UserService userService1) {
+    public GroupInfoController(GroupInfoService groupInfoService, UserService userService) {
         this.groupInfoService = groupInfoService;
-        this.userService = userService1;
+        this.userService = userService;
     }
 
     @ResponseBody
     @GetMapping("/home")
-    public BaseResponse<List<GetHomeGroupInfoRes>> loadHomeData (@RequestParam(value = "userIdx") Long userIdx) throws BaseException {
-        List<GetHomeGroupInfoRes> getGroupHomeData = groupInfoService.loadHomeData(userIdx);    //출석율 부분 수정 필요
-        return new BaseResponse<>(getGroupHomeData);
+    public BaseResponse<List<GetHomeGroupInfoRes>> loadHomeData (@RequestParam(value = "userIdx") Long userIdx) {
+        try{
+            List<GetHomeGroupInfoRes> getGroupHomeData = groupInfoService.loadHomeData(userIdx);    //출석율 부분 수정 필요
+            return new BaseResponse<>(getGroupHomeData);
+        } catch (BaseException e){
+            return new BaseResponse<>(e.getStatus());
+        }
     }
 
     @PostMapping("")

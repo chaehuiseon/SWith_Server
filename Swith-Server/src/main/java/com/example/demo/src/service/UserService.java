@@ -1,6 +1,7 @@
 package com.example.demo.src.service;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.jwt.JwtTokenProvider;
 import com.example.demo.jwt.TokenInfo;
 import com.example.demo.src.dto.request.PostSignUpReq;
@@ -92,11 +93,11 @@ public class UserService {
         return postSignInRes;
     }
 
-    public boolean isAdminOfGroup (Long userIdx, Long GroupIdx){
-        User user = userRepository.findById(userIdx).get();
-//                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USERIDX));
-        GroupInfo groupInfo = groupInfoRepository.findById(GroupIdx).get();
-//                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUPIDX));
+    public boolean isAdminOfGroup (Long userIdx, Long GroupIdx) throws BaseException{
+        User user = userRepository.findById(userIdx)
+                .orElseThrow(() -> new BaseException(INVALID_USERIDX));
+        GroupInfo groupInfo = groupInfoRepository.findById(GroupIdx)
+                .orElseThrow(() -> new BaseException(INVALID_GROUPIDX));
         if(groupInfo.getUser() == user){
             return true;
         }

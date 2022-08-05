@@ -23,14 +23,20 @@ public class AnnouncementService {
     public List<GetAnnouncementRes> loadAnnouncements(Long groupIdx) {
         List<Announcement> announcementList = announcementRepository.findByGroupIdx(groupIdx);
         List<GetAnnouncementRes> getAnnouncementResList = new ArrayList<>();
+
         for (Announcement announcement : announcementList) {
-            GetAnnouncementRes getAnnouncementRes = GetAnnouncementRes.builder()
-                    .announcementIdx(announcement.getAnnouncementIdx())
-                    .announcementContent(announcement.getAnnouncementContent())
-                    .createdAt(announcement.getCreatedAt())
-                    .build();
-            getAnnouncementResList.add(getAnnouncementRes);
+            GetAnnouncementRes result = getGetAnnouncementRes(announcement);
+            getAnnouncementResList.add(result);
         }
         return getAnnouncementResList;
+    }
+
+    private GetAnnouncementRes getGetAnnouncementRes(Announcement announcement) {
+        GetAnnouncementRes getAnnouncementRes = GetAnnouncementRes.builder()
+                .announcementIdx(announcement.getAnnouncementIdx())
+                .announcementContent(announcement.getAnnouncementContent())
+                .createdAt(announcement.getCreatedAt())
+                .build();
+        return getAnnouncementRes;
     }
 }

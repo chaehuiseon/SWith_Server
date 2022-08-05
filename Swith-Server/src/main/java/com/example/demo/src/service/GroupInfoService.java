@@ -48,7 +48,7 @@ public class GroupInfoService {
         for(GroupInfo groupInfo : groupInfos){
             //가장 최근에 작성된 공지 불러오기
             String announcementContent;
-            try {            Announcement announcement = announcementRepository
+            try {Announcement announcement = announcementRepository
                     .findByGroupInfo_GroupIdxOrderByCreatedAtDesc(groupInfo.getGroupIdx())
                     .get(0);
                 announcementContent = announcement.getAnnouncementContent();

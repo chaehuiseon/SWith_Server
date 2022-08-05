@@ -27,6 +27,6 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
     Integer UpdateSessionNumPlusOne(Integer sessionNum, Long groupIdx);
 
 
-    @Query("select s from Session s join fetch s.attendances where s.groupInfo.groupIdx = :groupIdx")
+    @Query("select s from Session s left join fetch s.attendances where s.groupInfo.groupIdx = :groupIdx")
     List<Session> GetSessionInfoByGroupIdx(Long groupIdx);
 }

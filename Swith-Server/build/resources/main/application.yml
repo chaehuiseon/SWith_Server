@@ -1,0 +1,64 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    encoding:
+      charset: utf-8
+      enabled: true
+
+spring:
+  application:
+    name : swith
+
+  datasource:
+    platform: mysql
+    url: jdbc:mysql://wnsvy607db.cwrwa6a6cgtb.ap-northeast-2.rds.amazonaws.com/jpDB
+#    jdbc:mysql://localhost:3306/test_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: wnsvy607
+    password: ljp153153
+    driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
+    hikari:
+      connectionInitSql: "SET NAMES 'utf8mb4'"
+      leak-detection-threshold: 2000
+
+
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: update # create, update, none
+      naming:
+        #entity만들때, 변수명 그대로 데이터베이스 필드에 넣어주겠다.
+        #만약, org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy 전략을 사용하겠다고 하면,
+        #entity에서 변수명을 myEmail 이라고 하면, DB에 myEmail이 아닌 my_email로 만들어짐.
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      use-new-id-generator-mappings: false #jpa 기본 numvering 전략을 따라가지 않겠다.
+    show-sql: true
+    properties:
+      hibernate.format_sql: true #예쁘게
+
+
+  security:
+    user:
+      name: test
+      password: 1234
+
+  oauth2:
+    client:
+      registration:
+        facebook:
+          client-id: 315293796826930
+          client-secret: 487af9479023b8c0e58f913b411327cf
+          scope:
+            - public_profile
+            - email
+
+
+
+secret:
+  # private-diary-key: ${PRIVATE_DIARY_KEY}
+  jwt-secret-key: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
+
+
+file:
+  path:

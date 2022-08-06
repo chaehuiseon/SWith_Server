@@ -1,5 +1,6 @@
 package com.example.demo.src.controller;
 
+import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.dto.request.PostAnnouncementReq;
 import com.example.demo.src.dto.response.GetAnnouncementRes;
@@ -23,7 +24,8 @@ public class AnnouncementController {
         this.announcementService = announcementService;
     }
 
-    @ApiOperation("그룹의 모든 공지사항 불러오기")
+    //그룹 Id가 유효한지, 공지사항이 있는지에 대한 예외처리 필요한지 고민이 필요
+    @ApiOperation("그룹의 모든 공지사항 불러오기 - P4")
     @GetMapping("/{groupIdx}")
     public BaseResponse<List<GetAnnouncementRes>> loadAnnouncements
             (@PathVariable("groupIdx") Long groupIdx){
@@ -31,10 +33,14 @@ public class AnnouncementController {
         return new BaseResponse<>(getAnnouncementResList);
     }
 
-    @ApiOperation("그룹 공지사항 생성")
+    @ApiOperation("그룹 공지사항 생성 - P5")
     @PostMapping()
     public BaseResponse<Long> createAnnouncement (@RequestBody PostAnnouncementReq postAnnouncementReq){
-
-        return new BaseResponse<>(0L);
+        try{
+            Long announcementIdx = announcementService.createAnnouncement(postAnnouncementReq);
+            return new BaseResponse<>(announcementIdx);
+        } catch (BaseException e){
+            return new BaseResponse<>(e.getStatus());
+        }
     }
 }

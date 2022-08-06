@@ -29,11 +29,15 @@ public class GroupInfoController {
         this.userService = userService1;
     }
 
-    @ApiOperation("홈화면 정보 불러오기")
+    @ApiOperation("홈화면 정보 불러오기 - P2")
     @GetMapping("/home")
-    public BaseResponse<List<GetHomeGroupInfoRes>> loadHomeData (@RequestParam(value = "userIdx") Long userIdx) throws BaseException {
-        List<GetHomeGroupInfoRes> getGroupHomeData = groupInfoService.loadHomeData(userIdx);    //출석율 부분 수정 필요
-        return new BaseResponse<>(getGroupHomeData);
+    public BaseResponse<List<GetHomeGroupInfoRes>> loadHomeData (@RequestParam(value = "userIdx") Long userIdx) {
+        try {
+            List<GetHomeGroupInfoRes> getGroupHomeData = groupInfoService.loadHomeData(userIdx);    //출석율 부분 수정 필요
+            return new BaseResponse<>(getGroupHomeData);
+        } catch (BaseException e){
+            return new BaseResponse<>(e.getStatus());
+        }
     }
 
     @ApiOperation("그룹 생성")

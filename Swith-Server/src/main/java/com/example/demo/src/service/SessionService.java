@@ -64,7 +64,7 @@ public class SessionService {
 
 
     public Integer adjustSessionNum(Integer sessionNum, Long groupIdx) {
-        return sessionRepository.UpdateSessionNumPlusOne(sessionNum, groupIdx);
+        return sessionRepository.updateSessionNumPlusOne(sessionNum, groupIdx);
     }
 
     public GetGroupInfoRes loadGroupInfoAndSession(Long groupIdx, boolean isAdmin) throws BaseException {
@@ -77,7 +77,7 @@ public class SessionService {
                 .findByGroupInfo_GroupIdxOrderByCreatedAtDesc(groupIdx).get(0);
 
         //sessionList 가져오기 <- fetch join으로 연관된 Attendance도 모두 가져오도록
-        List<Session> getSessionList = sessionRepository.GetSessionInfoByGroupIdx(groupIdx);
+        List<Session> getSessionList = sessionRepository.getSessionInfoByGroupIdx(groupIdx);
 
         List<GetSessionRes> getSessionResList = new ArrayList<>();
 

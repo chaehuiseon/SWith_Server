@@ -20,12 +20,13 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
             "and s.sessionEnd < :sessionStart")
     Integer findAppropriateSessionNum(Long groupIdx, LocalDateTime sessionStart);
 
+    //벌크성 수정 쿼리
     @Modifying
     @Query("update Session s set s.sessionNum = s.sessionNum + 1 " +
             "where s.groupInfo.groupIdx = :groupIdx and s.sessionNum >= :sessionNum")
-    Integer UpdateSessionNumPlusOne(Integer sessionNum, Long groupIdx);
+    Integer updateSessionNumPlusOne(Integer sessionNum, Long groupIdx);
 
 
     @Query("select s from Session s join fetch s.attendances where s.groupInfo.groupIdx = :groupIdx")
-    List<Session> GetSessionInfoByGroupIdx(Long groupIdx);
+    List<Session> getSessionInfoByGroupIdx(Long groupIdx);
 }

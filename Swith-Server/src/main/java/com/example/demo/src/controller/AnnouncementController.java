@@ -2,6 +2,7 @@ package com.example.demo.src.controller;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.dto.request.PatchAnnouncementReq;
 import com.example.demo.src.dto.request.PostAnnouncementReq;
 import com.example.demo.src.dto.response.GetAnnouncementRes;
 import com.example.demo.src.service.AnnouncementService;
@@ -29,8 +30,12 @@ public class AnnouncementController {
     @GetMapping("/{groupIdx}")
     public BaseResponse<List<GetAnnouncementRes>> loadAnnouncements
             (@PathVariable("groupIdx") Long groupIdx){
-        List<GetAnnouncementRes> getAnnouncementResList = announcementService.loadAnnouncements(groupIdx);
-        return new BaseResponse<>(getAnnouncementResList);
+        try{
+            List<GetAnnouncementRes> getAnnouncementResList = announcementService.loadAnnouncements(groupIdx);
+            return new BaseResponse<>(getAnnouncementResList);
+        } catch (BaseException e){
+            return new BaseResponse<>(e.getStatus());
+        }
     }
 
     @ApiOperation("그룹 공지사항 생성 - P5")
@@ -38,6 +43,17 @@ public class AnnouncementController {
     public BaseResponse<Long> createAnnouncement (@RequestBody PostAnnouncementReq postAnnouncementReq){
         try{
             Long announcementIdx = announcementService.createAnnouncement(postAnnouncementReq);
+            return new BaseResponse<>(announcementIdx);
+        } catch (BaseException e){
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    @ApiOperation("그룹 공지사항 수정 - P6")
+    @PatchMapping()
+    public BaseResponse<Integer> updateAnnouncement (@RequestBody PatchAnnouncementReq patchAnnouncementReq){
+        try{
+            Integer announcementIdx = announcementService.updateAnnouncement(patchAnnouncementReq);
             return new BaseResponse<>(announcementIdx);
         } catch (BaseException e){
             return new BaseResponse<>(e.getStatus());

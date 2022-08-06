@@ -113,17 +113,15 @@ public enum BaseResponseStatus {
     INVALID_GROUPIDX(false,6002,"존재하지 않는 그룹입니다." ),
     INVALID_USER_ABOUT_DIARY(false, 6003, "해당 일기에 접근 권한이 없는 회원입니다."),
     INVALID_TYPE(false, 6004, "잘못된 type 입니다. (diary, letter, reply 중 1)"),
-    INVALID_TYPEIDX_ABOUT_TYPE(false, 6005, "해당 type에 존재하지 않는 typeIdx 입니다."),
     NO_REGISTRATION_INFO(false, 6006, "유저의 스터디 그룹 가입 정보가 없습니다."),
 
 
 
 
-    // 7000 : 자몽
+    // 7000 : 공지사항
+    FAIL_MODIFYING_ANNOUNCEMENT(false, 7000, "해당 공지사항이 없거나 수정에 실패하였습니다."),
     TEMP3(false, 9000, "conflict 방지용 3"),
 
-    //    MODIFY_FAIL_STATUS(false, 7010, "화분 상태 변경에 실패하였습니다."),
-    INSERT_FAIL_PLANT(false, 7000, "해당 유저의 화분 초기화에 실패하였습니다."),
 
     MODIFY_FAIL_BUY_PLANT(false, 7011, "화분 선택에 실패하였습니다."),
     MODIFY_FAIL_SCORE(false, 7012, "화분 점수 변경에 실패하였습니다."),

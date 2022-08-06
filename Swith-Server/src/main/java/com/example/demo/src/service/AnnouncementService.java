@@ -2,6 +2,7 @@ package com.example.demo.src.service;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponseStatus;
+import com.example.demo.src.dto.request.PatchAnnouncementReq;
 import com.example.demo.src.dto.request.PostAnnouncementReq;
 import com.example.demo.src.dto.response.GetAnnouncementRes;
 import com.example.demo.src.entity.Announcement;
@@ -27,7 +28,10 @@ public class AnnouncementService {
         this.groupInfoRepository = groupInfoRepository;
     }
 
-    public List<GetAnnouncementRes> loadAnnouncements(Long groupIdx) {
+    public List<GetAnnouncementRes> loadAnnouncements(Long groupIdx) throws BaseException{
+        if(!groupInfoRepository.existsById(groupIdx)){
+            throw new BaseException(BaseResponseStatus.INVALID_GROUPIDX);
+        }
         List<Announcement> announcementList = announcementRepository.findByGroupIdx(groupIdx);
         List<GetAnnouncementRes> getAnnouncementResList = new ArrayList<>();
         for (Announcement announcement : announcementList) {
@@ -53,5 +57,13 @@ public class AnnouncementService {
         Announcement savedAnnouncement = announcementRepository.save(announcement);
 
         return savedAnnouncement.getAnnouncementIdx();
+    }
+
+    public Integer updateAnnouncement(PatchAnnouncementReq patchAnnouncementReq)  throws BaseException {
+        Integer count = announcementRepository.updateById(patchAnnouncementReq.getAnnouncementIdx()
+                , patchAnnouncementReq.getAnnouncementContent());
+        if(count != 1)
+            throw new BaseException(BaseResponseStatus.FAIL_MODIFYING_ANNOUNCEMENT);
+        return count;
     }
 }

@@ -2,9 +2,9 @@ package com.example.demo.src.service;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponseStatus;
-import com.example.demo.src.dto.GetGroupInfoRes;
-import com.example.demo.src.dto.GetSessionRes;
-import com.example.demo.src.dto.PostSessionReq;
+import com.example.demo.src.dto.response.GetGroupInfoRes;
+import com.example.demo.src.dto.response.GetSessionRes;
+import com.example.demo.src.dto.request.PostSessionReq;
 import com.example.demo.src.entity.Announcement;
 import com.example.demo.src.entity.Attendance;
 import com.example.demo.src.entity.GroupInfo;

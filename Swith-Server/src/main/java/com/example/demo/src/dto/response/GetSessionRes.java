@@ -1,4 +1,4 @@
-package com.example.demo.src.dto;
+package com.example.demo.src.dto.response;
 
 import com.example.demo.src.entity.GroupInfo;
 import io.swagger.annotations.ApiModelProperty;

@@ -1,8 +1,7 @@
 package com.example.demo.src.service;
 
 import com.example.demo.config.BaseException;
-import com.example.demo.config.BaseResponseStatus;
-import com.example.demo.src.dto.GetHomeGroupInfoRes;
+import com.example.demo.src.dto.response.GetHomeGroupInfoRes;
 import com.example.demo.src.dto.PostGroupInfoReq;
 import com.example.demo.src.dto.PostGroupInfoRes;
 import com.example.demo.src.entity.*;

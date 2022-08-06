@@ -1,6 +1,6 @@
 package com.example.demo.src.service;
 
-import com.example.demo.src.dto.GetAnnouncementRes;
+import com.example.demo.src.dto.response.GetAnnouncementRes;
 import com.example.demo.src.entity.Announcement;
 import com.example.demo.src.repository.AnnouncementRepository;
 import org.springframework.beans.factory.annotation.Autowired;

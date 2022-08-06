@@ -1,6 +1,5 @@
 package com.example.demo.src.repository;
 
-import com.example.demo.src.dto.GetSessionRes;
 import com.example.demo.src.entity.Session;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

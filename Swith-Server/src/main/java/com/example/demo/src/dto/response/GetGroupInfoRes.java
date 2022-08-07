@@ -31,5 +31,4 @@ public class GetGroupInfoRes {
 
     @ApiModelProperty(notes = "표시될 session들의 정보", example = "")
     private List<GetSessionRes> getSessionResList;
-
 }

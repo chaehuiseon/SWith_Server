@@ -63,7 +63,7 @@ public class GroupInfoService {
 
             //해당 그룹에서 ( 쿼리 다시 짜기 )
             List<Attendance> attendanceList = attendanceRepository
-                    .findByGroupInfo_GroupIdxAndUser_UserIdxAndStatusIsNot(groupInfo.getGroupIdx(), userIdx, (Integer) 0);
+                    .findByGroupIdxAndUserIdxAndStatusIsNot(groupInfo.getGroupIdx(), userIdx, (Integer) 0);
             int attendanceNum = 0;
             for (Attendance attendance : attendanceList){
                 if(attendance.getStatus().equals(1)){

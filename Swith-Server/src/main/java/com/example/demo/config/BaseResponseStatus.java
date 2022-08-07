@@ -108,10 +108,10 @@ public enum BaseResponseStatus {
 
     // 6000 : 레마
     TEMP2(false, 9000, "conflict 방지용 2"),
-    INVALID_USERIDX(false, 6000, "존재하지 않는 회원입니다."),
+    INVALID_USER(false, 6000, "존재하지 않는 회원입니다."),
     INVALID_NICKNAME(false, 6001, "존재하지 않는 회원 닉네임입니다."),
-    INVALID_GROUPIDX(false,6002,"존재하지 않는 그룹입니다." ),
-    INVALID_USER_ABOUT_DIARY(false, 6003, "해당 일기에 접근 권한이 없는 회원입니다."),
+    INVALID_GROUP(false,6002,"존재하지 않는 그룹입니다." ),
+    INVALID_ANNOUNCEMENT(false,6003,"존재하지 않는 공지사항입니다."),
     INVALID_TYPE(false, 6004, "잘못된 type 입니다. (diary, letter, reply 중 1)"),
     NO_REGISTRATION_INFO(false, 6006, "유저의 스터디 그룹 가입 정보가 없습니다."),
 
@@ -119,7 +119,9 @@ public enum BaseResponseStatus {
 
 
     // 7000 : 공지사항
-    FAIL_MODIFYING_ANNOUNCEMENT(false, 7000, "해당 공지사항이 없거나 수정에 실패하였습니다."),
+    MODIFY_FAIL_ANNOUNCEMENT(false, 7000, "수정에 실패하였습니다."),
+    DELETE_FAIL_ANNOUNCEMENT(false, 7002, "삭제에 실패하였습니다."),
+    ALREADY_DELETED_ANNOUNCEMENT(false, 7003, "해당 공지사항은 이미 삭제된 상태입니다."),
     TEMP3(false, 9000, "conflict 방지용 3"),
 
 

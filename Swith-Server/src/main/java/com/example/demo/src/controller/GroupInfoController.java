@@ -29,7 +29,7 @@ public class GroupInfoController {
         this.userService = userService1;
     }
 
-    @ApiOperation("홈화면 정보 불러오기 - P2")
+    @ApiOperation("홈화면 정보 불러오기 - P1")
     @GetMapping("/home")
     public BaseResponse<List<GetHomeGroupInfoRes>> loadHomeData (@RequestParam(value = "userIdx") Long userIdx) {
         try {

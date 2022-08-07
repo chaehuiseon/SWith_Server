@@ -51,10 +51,23 @@ public class AnnouncementController {
 
     @ApiOperation("그룹 공지사항 수정 - P6")
     @PatchMapping()
-    public BaseResponse<Integer> updateAnnouncement (@RequestBody PatchAnnouncementReq patchAnnouncementReq){
+    public BaseResponse<String> updateAnnouncement (@RequestBody PatchAnnouncementReq patchAnnouncementReq){
         try{
-            Integer announcementIdx = announcementService.updateAnnouncement(patchAnnouncementReq);
-            return new BaseResponse<>(announcementIdx);
+            Long announcementIdx = announcementService.updateAnnouncement(patchAnnouncementReq);
+            String result = "수정 완료했습니다. ID: " + announcementIdx;
+            return new BaseResponse<>(result);
+        } catch (BaseException e){
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    @ApiOperation("그룹 공지사항 삭제 - P7")
+    @PatchMapping("{announcementIdx}/status")
+    public BaseResponse<String> deleteAnnouncement (@PathVariable("announcementIdx") Long announcementIdx){
+        try{
+            announcementService.deleteAnnouncement(announcementIdx);
+            String result = "삭제 완료했습니다. ID: " + announcementIdx;
+            return new BaseResponse<>(result);
         } catch (BaseException e){
             return new BaseResponse<>(e.getStatus());
         }

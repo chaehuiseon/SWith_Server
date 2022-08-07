@@ -42,7 +42,7 @@ public class SessionService {
 
     public Long createSession(PostSessionReq postSessionReq, Integer sessionNum) throws BaseException {
         GroupInfo groupInfo = groupInfoRepository.findById(postSessionReq.getGroupIdx())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUPIDX));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUP));
         Session session = Session.builder()
                 .sessionContent(postSessionReq.getSessionContent())
                 .sessionNum(sessionNum)
@@ -70,7 +70,7 @@ public class SessionService {
     public GetGroupInfoRes loadGroupInfoAndSession(Long groupIdx, boolean isAdmin) throws BaseException {
         //그룹정보 찾기
         GroupInfo groupInfo = groupInfoRepository.findById(groupIdx)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUPIDX));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUP));
 
         //가장 최근의 공지사항 가져오기
         Announcement announcement = announcementRepository

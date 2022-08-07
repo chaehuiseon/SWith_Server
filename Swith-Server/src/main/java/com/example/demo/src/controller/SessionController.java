@@ -25,7 +25,7 @@ public class SessionController {
         this.userService = userService;
     }
 
-    @ApiOperation("스터디탭-회차 정보 불러오기 - P1")
+    @ApiOperation("스터디탭-회차 정보 불러오기 - P2")
     @GetMapping
     public BaseResponse<GetGroupInfoRes> loadGroupData (@RequestParam(value = "userIdx")  Long userIdx
             , @RequestParam(value = "groupIdx") Long groupIdx ) {

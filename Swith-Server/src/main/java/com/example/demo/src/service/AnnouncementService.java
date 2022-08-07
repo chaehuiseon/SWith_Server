@@ -30,7 +30,7 @@ public class AnnouncementService {
 
     public List<GetAnnouncementRes> loadAnnouncements(Long groupIdx) throws BaseException{
         if(!groupInfoRepository.existsById(groupIdx)){
-            throw new BaseException(BaseResponseStatus.INVALID_GROUPIDX);
+            throw new BaseException(BaseResponseStatus.INVALID_GROUP);
         }
         List<Announcement> announcementList = announcementRepository.findByGroupIdx(groupIdx);
         List<GetAnnouncementRes> getAnnouncementResList = new ArrayList<>();
@@ -47,7 +47,7 @@ public class AnnouncementService {
 
     public Long createAnnouncement(PostAnnouncementReq postAnnouncementReq) throws BaseException {
         GroupInfo groupInfo = groupInfoRepository.findById(postAnnouncementReq.getGroupIdx())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUPIDX));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUP));
 
         Announcement announcement = Announcement.builder()
                 .announcementContent(postAnnouncementReq.getAnnouncementContent())
@@ -59,11 +59,33 @@ public class AnnouncementService {
         return savedAnnouncement.getAnnouncementIdx();
     }
 
-    public Integer updateAnnouncement(PatchAnnouncementReq patchAnnouncementReq)  throws BaseException {
+    public Long updateAnnouncement(PatchAnnouncementReq patchAnnouncementReq)  throws BaseException {
+        Announcement announcement = announcementRepository.findById(patchAnnouncementReq.getAnnouncementIdx())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_ANNOUNCEMENT));
+        //삭제된 상태의 경우
+        if(announcement.getStatus() == 1)
+            throw new BaseException(BaseResponseStatus.ALREADY_DELETED_ANNOUNCEMENT);
+
+        //내용 수정 작업
         Integer count = announcementRepository.updateById(patchAnnouncementReq.getAnnouncementIdx()
                 , patchAnnouncementReq.getAnnouncementContent());
         if(count != 1)
-            throw new BaseException(BaseResponseStatus.FAIL_MODIFYING_ANNOUNCEMENT);
+            throw new BaseException(BaseResponseStatus.MODIFY_FAIL_ANNOUNCEMENT);
+        return announcement.getAnnouncementIdx();
+    }
+
+    public Integer deleteAnnouncement(Long announcementIdx) throws BaseException {
+        Announcement announcement = announcementRepository.findById(announcementIdx)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_ANNOUNCEMENT));
+
+        //삭제된 상태의 경우
+        if(announcement.getStatus() == 1)
+            throw new BaseException(BaseResponseStatus.ALREADY_DELETED_ANNOUNCEMENT);
+
+        //삭제 작업
+        Integer count = announcementRepository.deleteByIdx(announcementIdx);
+        if(count != 1)
+            throw new BaseException(BaseResponseStatus.DELETE_FAIL_ANNOUNCEMENT);
         return count;
     }
 }

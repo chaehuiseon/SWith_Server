@@ -19,4 +19,10 @@ public interface AnnouncementRepository extends JpaRepository<Announcement,Long>
     @Query("update Announcement a set a.announcementContent = :announcementContent " +
             "where a.announcementIdx = :announcementIdx")
     Integer updateById(Long announcementIdx,String announcementContent);
+
+
+    //상태만 비활성화로 바꾸는 로직,
+    @Modifying
+    @Query("update Announcement a set a.status = 1 where a.announcementIdx = :announcementIdx")
+    Integer deleteByIdx(Long announcementIdx);
 }

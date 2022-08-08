@@ -66,7 +66,7 @@ public class SessionController {
 
     @ApiOperation("회차탭 - 개요, 출석, 메모 정보 불러오기 P10")
     @GetMapping("/info")
-    public BaseResponse<GetSessionTabRes> getSessionInfo(@RequestParam(value = "userIdx") Long userIdx,
+    public BaseResponse<GetSessionTabRes> gegittSessionTabInfo(@RequestParam(value = "userIdx") Long userIdx,
                                                          @RequestParam(value = "sessionIdx") Long sessionIdx) {
         try {
             GetSessionTabRes getSessionTabRes = sessionService.getSessionInfo(userIdx, sessionIdx);

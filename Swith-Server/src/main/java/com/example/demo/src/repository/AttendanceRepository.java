@@ -1,6 +1,6 @@
 package com.example.demo.src.repository;
 
-import com.example.demo.src.dto.response.UserAttendanceNum;
+import com.example.demo.src.dto.response.UserAttendanceInfo;
 import com.example.demo.src.entity.Attendance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,6 +22,10 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
             "where a.groupInfo.groupIdx = :groupIdx " +
             "group by a.user.userIdx , a.status " +
             "order by a.user.userIdx")
-    List<UserAttendanceNum> getUserTotalAttendance(Long groupIdx);
+    List<UserAttendanceInfo> getUserTotalAttendance(Long groupIdx);
 
+    @Query("select a from Attendance a " +
+            "join fetch a.user " +
+            "where a.session.sessionIdx = :sessionIdx")
+    List<Attendance> findBySession(Long sessionIdx);
 }

@@ -4,8 +4,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.dto.response.GetGroupAttendanceRes;
 import com.example.demo.src.dto.response.GetUserAttendanceRes;
-import com.example.demo.src.dto.response.UserAttendanceNum;
-import com.example.demo.src.entity.Attendance;
+import com.example.demo.src.dto.response.UserAttendanceInfo;
 import com.example.demo.src.entity.GroupInfo;
 import com.example.demo.src.repository.AttendanceRepository;
 import com.example.demo.src.repository.GroupInfoRepository;
@@ -14,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -32,17 +29,17 @@ public class AttendanceService {
         GroupInfo groupInfo = groupInfoRepository.findById(groupIdx)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUP));
 
-        List<UserAttendanceNum> userTotalAttendance = attendanceRepository.getUserTotalAttendance(groupIdx);
+        List<UserAttendanceInfo> userTotalAttendance = attendanceRepository.getUserTotalAttendance(groupIdx);
         if (userTotalAttendance.isEmpty())
             throw new BaseException(BaseResponseStatus.NO_GROUP_ATTENDANCE);
 
         List<GetUserAttendanceRes> getUserAttendanceResList = new ArrayList<>();
-        UserAttendanceNum first = userTotalAttendance.get(0);
+        UserAttendanceInfo first = userTotalAttendance.get(0);
         Long prevId = first.getUserIdx();
         String nickname = first.getNickname();
         int totalAttendance = 0, validAttendance = 0;
 
-        for (UserAttendanceNum attend : userTotalAttendance) {
+        for (UserAttendanceInfo attend : userTotalAttendance) {
             Integer status = attend.getStatus();
 
             if (!attend.getUserIdx().equals(prevId)) {

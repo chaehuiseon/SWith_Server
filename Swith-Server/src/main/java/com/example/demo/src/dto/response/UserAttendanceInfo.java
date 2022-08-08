@@ -1,9 +1,6 @@
 package com.example.demo.src.dto.response;
 
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.models.auth.In;
-
-public interface UserAttendanceNum {
+public interface UserAttendanceInfo {
     Long getUserIdx();
     String getNickname();
     Integer getStatus();

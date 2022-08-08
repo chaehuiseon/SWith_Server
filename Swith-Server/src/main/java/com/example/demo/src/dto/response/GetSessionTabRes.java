@@ -1,17 +1,19 @@
 package com.example.demo.src.dto.response;
 
-import com.example.demo.src.entity.GroupInfo;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetSessionRes {
+public class GetSessionTabRes {
     @ApiModelProperty(notes = "sessiond의 Id", example = "1")
     private Long sessionIdx;
 
@@ -33,6 +35,12 @@ public class GetSessionRes {
     @ApiModelProperty(notes = "해당 회차의 학습 상세 내용", example = "1.브루트 포스 알고리즘 \n -문제 1203번\n -문제 17203번\n -저번 주 푼 문제 복습")
     private String sessionContent;
 
-    @ApiModelProperty(notes = "해당 회차에서 가입자들의 출석율(미 진행시 -1 반환)", example = "80")
-    private Integer attendanceRate;
+    @ApiModelProperty(notes = "해당 회차의 출석 리스트", example = "")
+    private List<SessionAttendanceInfo> getAttendanceList;
+
+    @ApiModelProperty(notes = "이미지의 주소", example = "www.~~")
+    private String groupImgUrl;
+
+    @ApiModelProperty(notes = "각 유저가 남길 수 있는 메모", example = "오늘 배운 내용: 없다.")
+    private String userMemo;
 }

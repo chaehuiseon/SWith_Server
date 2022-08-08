@@ -112,7 +112,7 @@ public enum BaseResponseStatus {
     INVALID_NICKNAME(false, 6001, "존재하지 않는 회원 닉네임입니다."),
     INVALID_GROUP(false,6002,"존재하지 않는 그룹입니다." ),
     INVALID_ANNOUNCEMENT(false,6003,"존재하지 않는 공지사항입니다."),
-    INVALID_TYPE(false, 6004, "잘못된 type 입니다. (diary, letter, reply 중 1)"),
+    INVALID_SESSION(false, 6004, "세션 정보가 없습니다."),
     NO_REGISTRATION_INFO(false, 6006, "유저의 스터디 그룹 가입 정보가 없습니다."),
     NO_GROUP_ATTENDANCE(false, 6007, "그룹의 출석 정보가 없습니다."),
 

@@ -29,4 +29,9 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
 
     @Query("select s from Session s join fetch s.attendances where s.groupInfo.groupIdx = :groupIdx")
     List<Session> getSessionInfoByGroupIdx(Long groupIdx);
+
+    @Query("select s from Session s " +
+            "join fetch s.groupInfo " +
+            "where s.sessionIdx = :sessionIdx")
+    Optional<Session> findByIdWithGroup(Long sessionIdx);
 }

@@ -5,6 +5,8 @@ import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.dto.response.GetGroupInfoRes;
 import com.example.demo.src.dto.response.GetSessionRes;
 import com.example.demo.src.dto.request.PostSessionReq;
+import com.example.demo.src.dto.response.GetSessionTabRes;
+import com.example.demo.src.dto.response.SessionAttendanceInfo;
 import com.example.demo.src.entity.Announcement;
 import com.example.demo.src.entity.Attendance;
 import com.example.demo.src.entity.GroupInfo;
@@ -119,5 +121,38 @@ public class SessionService {
                 .build();
 
         return getGroupInfoRes;
+    }
+
+    public GetSessionTabRes getSessionInfo(Long userIdx, Long sessionIdx) throws BaseException{
+        Session session = sessionRepository.findByIdWithGroup(sessionIdx)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_SESSION));
+        List<Attendance> attendanceList = attendanceRepository.findBySession(sessionIdx);
+
+        List<SessionAttendanceInfo> getAttendanceList = new ArrayList<>();
+
+        for (Attendance attendance : attendanceList) {
+            SessionAttendanceInfo attendanceInfo = SessionAttendanceInfo.builder()
+                    .userIdx(attendance.getUser().getUserIdx())
+                    .nickname(attendance.getUser().getNickname())
+                    .status(attendance.getStatus())
+                    .build();
+            getAttendanceList.add(attendanceInfo);
+        }
+
+
+        GetSessionTabRes getSessionTabRes = GetSessionTabRes.builder()
+                .sessionIdx(session.getSessionIdx())
+                .sessionNum(session.getSessionNum())
+                .sessionStart(session.getSessionStart())
+                .sessionEnd(session.getSessionEnd())
+                .online(session.getOnline())
+                .place(session.getPlace())
+                .sessionContent(session.getSessionContent())
+                .getAttendanceList(getAttendanceList)
+                .groupImgUrl(session.getGroupInfo().getGroupImgUrl())
+                .userMemo("미완성")
+                .build();
+
+        return getSessionTabRes;
     }
 }

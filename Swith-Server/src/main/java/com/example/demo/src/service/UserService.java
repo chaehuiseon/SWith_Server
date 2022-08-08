@@ -12,25 +12,24 @@ import com.example.demo.src.exception.userServiceException.PasswordIncorrectExce
 import com.example.demo.src.exception.userServiceException.UserNotFoundException;
 import com.example.demo.src.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.demo.src.entity.GroupInfo;
 import com.example.demo.src.repository.GroupInfoRepository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
 @Transactional
 public class UserService {
-
-//    @Bean
-//    public BCryptPasswordEncoder getPasswordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final GroupInfoRepository groupInfoRepository;
+//    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public UserService(UserRepository userRepository, JwtTokenProvider jwtTokenProvider, GroupInfoRepository groupInfoRepository) {
@@ -38,7 +37,6 @@ public class UserService {
         this.jwtTokenProvider = jwtTokenProvider;
         this.groupInfoRepository = groupInfoRepository;
     }
-//    private final PasswordEncoder bCryptPasswordEncoder;
 
     // 회원 가입
     public PostSignUpRes signUp(PostSignUpReq postSignUpReq) throws BaseException {
@@ -92,6 +90,25 @@ public class UserService {
         return postSignInRes;
     }
 
+    // todo : 로그아웃 보완 필요
+    public void logout(String accessToken, String email) throws BaseException{
+        User user = userRepository.findByEmail(email);
+        // 유저 없는 경우
+        if(user == null){
+            throw new BaseException(NOT_EXIST_USER);
+        }
+        // 엑세스 토큰이 아닌 리프레시 토큰으로 로그아웃을 시도한경우
+        if(accessToken.equals(user.getRefreshToken())){
+            throw new BaseException(REFRESH_LOGOUT);
+        }
+        // 이미 로그아웃한경우
+        if(user.getRefreshToken() == null){
+            throw new BaseException(ALREADY_LOGOUT);
+        }
+        user.updateRefreshToken(null);
+        System.out.println("logout success!!!");
+    }
+
     public boolean isAdminOfGroup (Long userIdx, Long GroupIdx){
         User user = userRepository.findById(userIdx).get();
 //                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USERIDX));
@@ -107,6 +124,7 @@ public class UserService {
         User user = User.builder()
                 .email(postSignUpReq.getEmail())
                 .password(postSignUpReq.getPassword())
+//                .password((bCryptPasswordEncoder.encode(postSignUpReq.getPassword())))
                 .nickname(postSignUpReq.getNickname())
                 .interest1(interest1)
                 .interest2(interest2)

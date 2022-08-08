@@ -22,7 +22,7 @@ public enum BaseResponseStatus {
     EMPTY_JWT(false, 2001, "JWT를 입력해주세요."),
     INVALID_JWT(false, 2002, "유효하지 않은 JWT입니다."),
     INVALID_USER_JWT(false, 2003, "권한이 없는 유저의 접근입니다."),
-    NOT_EXIST_USER(false, 2004,"존재하지 않는 유저 또는 아이디 비번 확인"),
+    NOT_EXIST_USER(false, 2004,"사용자를 찾을 수 없습니다."),
 
     // users
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
@@ -105,6 +105,8 @@ public enum BaseResponseStatus {
     CHANGE_FAIL_IS_SAD(false, 5016, "시무룩이 상태 변경에 실패하였습니다."),
     MODIFY_FAIL_FCM_TOKEN(false, 5017, "디바이스 토큰 갱신에 실패하였습니다."),
     POST_FAIL_FCM(false, 5018, "푸시 알림 요청에 실패하였습니다."),
+    REFRESH_LOGOUT(false, 5019, "로그아웃 할때 액세스토큰을 사용해 주세요. 액세스토큰이 없다면 리프레시 토큰으로 재발급해주세요."),
+    ALREADY_LOGOUT(false, 5020, "이미 로그아웃 사용자입니다. 다시 로그인 해주세요."),
 
     // 6000 : 레마
     TEMP2(false, 9000, "conflict 방지용 2"),

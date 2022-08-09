@@ -38,9 +38,9 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
             "where a.user.userIdx = :userIdx and a.session.sessionIdx = :sessionIdx")
     Optional<Attendance> findByUserAndSession(Long userIdx, Long sessionIdx);
 
-    @Query("select (count(a) > 0) from Attendance a " +
-            "where a.user.userIdx = :userIdx " +
-            "and a.session.sessionIdx = :sessionIdx")
-    boolean existsByUserAndSession(Long userIdx, Long sessionIdx);
+//    @Query("select (count(a) > 0) from Attendance a " +
+//            "where a.user.userIdx = :userIdx " +
+//            "and a.session.sessionIdx = :sessionIdx")
+//    boolean existsByUserAndSession(Long userIdx, Long sessionIdx);
 
 }

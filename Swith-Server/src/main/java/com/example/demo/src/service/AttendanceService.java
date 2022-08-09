@@ -116,23 +116,38 @@ public class AttendanceService {
 
     public Long updateAttendance(Long userIdx, Long sessionIdx) throws BaseException {
         //출석정보가 없으면 만든다.
-        userRepository.findById(userIdx).orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USER));
-        sessionRepository.findById(sessionIdx).orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_SESSION));
+        User user = userRepository.findById(sessionIdx)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USER));
+        Session session = sessionRepository.findByIdWithGroup(sessionIdx)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_SESSION));
+
         Attendance attendance = attendanceRepository.findByUserAndSession(userIdx, sessionIdx)
-                .orElseGet(() -> makeAttendanceInfo(userIdx,sessionIdx));
+                .orElseGet(() -> makeAttendanceInfo(user, session));
 
         //이미 출석정보가 있으면 오류(일반 사용자의 접근이기 때문)
         if (attendance.getStatus() != 0)
             throw new BaseException(BaseResponseStatus.ALREADY_ATTENDED);
 
-        Session session = sessionRepository.findByIdWithGroup(sessionIdx)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_SESSION));
+
         //지금 시간과 출석 유효시간을 고려해 상태를 결정
         Integer status = decideStatus(session);
         attendance.setStatus(status);
         Attendance save = attendanceRepository.save(attendance);
 
         return save.getAttendanceIdx();
+    }
+
+    private Attendance makeAttendanceInfo(User user, Session session) {
+
+        Attendance attendance = Attendance.builder()
+                .session(session)
+                .groupInfo(session.getGroupInfo())
+                .user(user)
+                .status(0)
+                .build();
+        Attendance save = attendanceRepository.save(attendance);
+
+        return save;
     }
 
     private Integer decideStatus(Session session) throws BaseException {
@@ -156,18 +171,5 @@ public class AttendanceService {
         return status;
     }
 
-    private Attendance makeAttendanceInfo(Long userIdx, Long sessionIdx) {
-        User user = userRepository.findById(userIdx).get();
-        Session session = sessionRepository.findByIdWithGroup(sessionIdx).get();
 
-        Attendance attendance = Attendance.builder()
-                .session(session)
-                .groupInfo(session.getGroupInfo())
-                .user(user)
-                .status(0)
-                .build();
-        Attendance save = attendanceRepository.save(attendance);
-
-        return save;
-    }
 }

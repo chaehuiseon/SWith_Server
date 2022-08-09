@@ -1,5 +1,6 @@
 package com.example.demo.src.repository;
 
+import com.example.demo.src.entity.GroupInfo;
 import com.example.demo.src.entity.Session;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -34,4 +35,8 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
             "join fetch s.groupInfo " +
             "where s.sessionIdx = :sessionIdx")
     Optional<Session> findByIdWithGroup(Long sessionIdx);
+
+//    @Query("select s.groupInfo from Session s " +
+//            "where s.sessionIdx = :sessionIdx")
+//    Optional<GroupInfo> findGroupInfo(Long sessionIdx);
 }

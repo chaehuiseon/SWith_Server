@@ -8,10 +8,7 @@ import com.example.demo.src.service.AttendanceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,6 +28,18 @@ public class AttendanceController {
         try{
             GetGroupAttendanceRes getGroupAttendanceRes = attendanceService.getGroupAttendance(groupIdx);
             return new BaseResponse<>(getGroupAttendanceRes);
+        } catch (BaseException e){
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    @ApiOperation("스터디탭 - 출석 정보 업데이트 - P11")
+    @PatchMapping()
+    public BaseResponse<Long> updateAttendance(@RequestParam(value = "userIdx") Long userIdx,
+                                               @RequestParam(value = "sessionIdx") Long sessionIdx){
+        try{
+            Long attendanceIdx = attendanceService.updateAttendance(userIdx,sessionIdx);
+            return new BaseResponse<>(attendanceIdx);
         } catch (BaseException e){
             return new BaseResponse<>(e.getStatus());
         }

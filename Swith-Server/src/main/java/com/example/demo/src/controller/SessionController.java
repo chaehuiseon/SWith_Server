@@ -57,6 +57,9 @@ public class SessionController {
 
             //찾은 sessionNum 에 해당하는 회차 레코드를 생성한다.
             Long sessionIdx = sessionService.createSession(postSessionReq, sessionNum);
+
+            //그룹내에 가입 한 모든 유저를 불러오고 해당 회차에 해당하는 출석정보를 전부 생성한다.
+            //multirow insert 써보기
             return new BaseResponse<>(sessionIdx);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());

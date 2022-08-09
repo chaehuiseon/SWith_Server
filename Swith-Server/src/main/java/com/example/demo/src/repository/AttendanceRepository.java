@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 
@@ -28,4 +29,18 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
             "join fetch a.user " +
             "where a.session.sessionIdx = :sessionIdx")
     List<Attendance> findBySession(Long sessionIdx);
+
+//    @Query("update Attendance a set a.status = :status " +
+//            "where a.user.userIdx = :userIdx and a.session.sessionIdx = :sessionIdx")
+//    Long updateAttendanceStatus(Integer status, Long userIdx, Long sessionIdx);
+
+    @Query("select a from Attendance a " +
+            "where a.user.userIdx = :userIdx and a.session.sessionIdx = :sessionIdx")
+    Optional<Attendance> findByUserAndSession(Long userIdx, Long sessionIdx);
+
+    @Query("select (count(a) > 0) from Attendance a " +
+            "where a.user.userIdx = :userIdx " +
+            "and a.session.sessionIdx = :sessionIdx")
+    boolean existsByUserAndSession(Long userIdx, Long sessionIdx);
+
 }

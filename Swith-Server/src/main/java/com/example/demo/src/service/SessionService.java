@@ -150,6 +150,7 @@ public class SessionService {
                 .sessionContent(session.getSessionContent())
                 .getAttendanceList(getAttendanceList)
                 .groupImgUrl(session.getGroupInfo().getGroupImgUrl())
+                .attendanceValidTime(session.getGroupInfo().getAttendanceValidTime())
                 .userMemo("미완성")
                 .build();
 

@@ -147,8 +147,9 @@ public enum BaseResponseStatus {
 
 
     // 8000 : 출석
-    ALREADY_ATTENDED(false, 8000, "이미 출석 정보가 있습니다."),
-    FAIL_ATTEND(false, 8000, "출석 가능한 시간이 아닙니다."),
+    ALREADY_ATTENDED(false, 8000, "출석 상태가 결정되어 있습니다. 관리자만 변경 가능합니다."),
+    FAIL_ATTEND(false, 8001, "출석 가능한 시간이 아닙니다."),
+    EXIST_ATTEND_INFO(false, 8002, "이미 출석 데이터가 있습니다."),
 
     TEMP4(false, 9000, "conflict 방지용 4");
 

@@ -35,8 +35,8 @@ public class AttendanceController {
 
     @ApiOperation("스터디탭 - 출석 정보 업데이트 - P11")
     @PatchMapping()
-    public BaseResponse<Long> updateAttendance(@RequestParam(value = "userIdx") Long userIdx,
-                                               @RequestParam(value = "sessionIdx") Long sessionIdx){
+    public BaseResponse<Long> Attend(@RequestParam(value = "userIdx") Long userIdx,
+                                     @RequestParam(value = "sessionIdx") Long sessionIdx){
         try{
             Long attendanceIdx = attendanceService.updateAttendance(userIdx,sessionIdx);
             return new BaseResponse<>(attendanceIdx);

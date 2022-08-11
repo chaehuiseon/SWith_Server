@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import com.example.demo.src.enums.RoleType;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,17 +27,17 @@ public class UserInfoArgumentResolver implements HandlerMethodArgumentResolver {
         UserDetails authentication = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return new AuthInfo(
                 webRequest.getHeader("Authorization"),
-                authentication.getUsername()
-//                mapRolesFromAuthorities(authentication.getAuthorities())
+                authentication.getUsername(),
+                mapRolesFromAuthorities(authentication.getAuthorities())
         );
     }
 
-//    private List<RoleType> mapRolesFromAuthorities(Collection<? extends GrantedAuthority> authorities) {
-//        List<RoleType> roles = new ArrayList<>();
-//        Iterator<? extends GrantedAuthority> iter = authorities.iterator();
-//        while (iter.hasNext()) {
-//            roles.add(RoleType.valueOf(iter.next().getAuthority()));
-//        }
-//        return roles;
-//    }
+    private List<RoleType> mapRolesFromAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        List<RoleType> roles = new ArrayList<>();
+        Iterator<? extends GrantedAuthority> iter = authorities.iterator();
+        while (iter.hasNext()) {
+            roles.add(RoleType.valueOf(iter.next().getAuthority()));
+        }
+        return roles;
+    }
 }

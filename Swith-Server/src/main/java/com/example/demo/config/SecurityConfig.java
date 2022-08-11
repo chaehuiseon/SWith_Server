@@ -3,6 +3,7 @@ package com.example.demo.config;
 import com.example.demo.config.auth.CustomOAuth2UserService;
 import com.example.demo.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,9 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-// todo : extend 할지 결정
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final JwtTokenProvider jwtTokenProvider;
+//    private final JwtTokenProvider jwtTokenProvider;
     private final CustomOAuth2UserService customOAuth2UserService;
 //    private final ExceptionHandlerFilter exceptionHandlerFilter;
 
@@ -24,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    public BCryptPasswordEncoder encoderPwd(){
 //        return new BCryptPasswordEncoder();
 //    }
-
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
@@ -37,8 +38,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")
                 .and()
                 .oauth2Login()
-                .userInfoEndpoint()
-                .userService(customOAuth2UserService);
+                    .loginPage("/")		// 인증이 필요한 URL에 접근 시
+                    .defaultSuccessUrl("/")			// 로그인 성공 시
+                    .failureUrl("/")		// 로그인 실패 시
+                    .userInfoEndpoint()			// 로그인 성공 후 사용자정보 가져옴
+                    .userService(customOAuth2UserService);
     }
 
 

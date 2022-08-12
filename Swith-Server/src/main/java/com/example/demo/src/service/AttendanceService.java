@@ -115,7 +115,7 @@ public class AttendanceService {
     }
 
     public Long updateAttendance(Long userIdx, Long sessionIdx) throws BaseException {
-        User user = userRepository.findById(sessionIdx)
+        User user = userRepository.findById(userIdx)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USER));
         Session session = sessionRepository.findByIdWithGroup(sessionIdx)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_SESSION));

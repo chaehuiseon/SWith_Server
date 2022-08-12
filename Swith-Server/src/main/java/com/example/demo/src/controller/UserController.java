@@ -35,7 +35,7 @@ public class UserController {
     @ApiOperation("로그인 성공 시 세션에 SessionUser 저장")
     @GetMapping("/")
     public String index(Model model){
-//        model.addAttribute("userName", "test");
+        model.addAttribute("userName", "test");
         // userName을 사용할 수 있게 model에 저장
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user != null){
@@ -75,27 +75,27 @@ public class UserController {
         }
     }
 
-    @ApiOperation("로그인")
-    @PostMapping("/v1/signIn")
-    public BaseResponse<PostSignInRes> signIn(@Valid @RequestBody PostSignInReq postSignInReq){
-        try{
-            PostSignInRes postSignInRes = userService.signIn(postSignInReq.getEmail(), postSignInReq.getPassword());
-            return new BaseResponse<>(postSignInRes);
-        } catch (BaseException e) {
-            return new BaseResponse<>(e.getStatus());
-        }
-    }
-
-    @ApiOperation("로그아웃 -> 엑세스 토큰 사용")
-    @PostMapping("/v1/logout")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public BaseResponse<String> logout(@Authenticated AuthInfo authInfo){
-        try {
-            userService.logout(authInfo.getToken(), authInfo.getEmail());
-            return new BaseResponse<>("logout success");
-        } catch (BaseException e) {
-//            e.printStackTrace();
-            return new BaseResponse<>(e.getStatus());
-        }
-    }
+//    @ApiOperation("로그인")
+//    @PostMapping("/v1/signIn")
+//    public BaseResponse<PostSignInRes> signIn(@Valid @RequestBody PostSignInReq postSignInReq){
+//        try{
+//            PostSignInRes postSignInRes = userService.signIn(postSignInReq.getEmail(), postSignInReq.getPassword());
+//            return new BaseResponse<>(postSignInRes);
+//        } catch (BaseException e) {
+//            return new BaseResponse<>(e.getStatus());
+//        }
+//    }
+//
+//    @ApiOperation("로그아웃 -> 엑세스 토큰 사용")
+//    @PostMapping("/v1/logout")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    public BaseResponse<String> logout(@Authenticated AuthInfo authInfo){
+//        try {
+//            userService.logout(authInfo.getToken(), authInfo.getEmail());
+//            return new BaseResponse<>("logout success");
+//        } catch (BaseException e) {
+////            e.printStackTrace();
+//            return new BaseResponse<>(e.getStatus());
+//        }
+//    }
 }

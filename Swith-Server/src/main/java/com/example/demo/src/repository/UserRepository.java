@@ -13,6 +13,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "join fetch u.interest1 " +
             "join fetch u.interest2 " +
             "where u.email = ?1")
-    User findByEmail(String email);
-//    Optional<User> findByEmail(String email);
+//    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
 }

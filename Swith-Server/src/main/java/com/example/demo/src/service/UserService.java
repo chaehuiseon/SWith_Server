@@ -58,56 +58,56 @@ public class UserService {
         return postSignUpRes;
     }
 
-    // 로그인
-    public PostSignInRes signIn(String email, String password) throws BaseException {
-        User user = userRepository.findByEmail(email);
-        // 이메일 없는 경우
-        if(user == null){
-            throw new BaseException(ERROR_FIND_EMAIL);
-        }
-        // 비밀번호 틀린 경우
-        if(!password.equals(user.getPassword())){
-            throw new BaseException(POST_USERS_INVALID_PASSWORD);
-        }
-//        if(!bCryptPasswordEncoder.matches(password, user.getPassword())){
-//            throw new PasswordIncorrectException("비밀번호가 일치하지 않습니다.");
+//    // 로그인
+//    public PostSignInRes signIn(String email, String password) throws BaseException {
+//        User user = userRepository.findByEmail(email);
+//        // 이메일 없는 경우
+//        if(user == null){
+//            throw new BaseException(ERROR_FIND_EMAIL);
 //        }
-
-        TokenInfo accessTokenDto = jwtTokenProvider.createJwtAccessToken(email);
-        TokenInfo refreshTokenDto = jwtTokenProvider.createJwtRefreshToken(email);
-        user.updateRefreshToken(refreshTokenDto.getToken());
-
-        PostSignInRes postSignInRes = PostSignInRes.builder()
-                .email(user.getEmail())
-                .nickname(user.getNickname())
-                .interest1(user.getInterest1())
-                .interest2(user.getInterest2())
-                .accessToken(accessTokenDto.getToken())
-                .refreshToken(refreshTokenDto.getToken())
-                .status(user.getStatus())
-                .build();
-
-        return postSignInRes;
-    }
-
-    // todo : 로그아웃 보완 필요
-    public void logout(String accessToken, String email) throws BaseException{
-        User user = userRepository.findByEmail(email);
-        // 유저 없는 경우
-        if(user == null){
-            throw new BaseException(NOT_EXIST_USER);
-        }
-        // 엑세스 토큰이 아닌 리프레시 토큰으로 로그아웃을 시도한경우
-        if(accessToken.equals(user.getRefreshToken())){
-            throw new BaseException(REFRESH_LOGOUT);
-        }
-        // 이미 로그아웃한경우
-        if(user.getRefreshToken() == null){
-            throw new BaseException(ALREADY_LOGOUT);
-        }
-        user.updateRefreshToken(null);
-        System.out.println("logout success!!!");
-    }
+//        // 비밀번호 틀린 경우
+//        if(!password.equals(user.getPassword())){
+//            throw new BaseException(POST_USERS_INVALID_PASSWORD);
+//        }
+////        if(!bCryptPasswordEncoder.matches(password, user.getPassword())){
+////            throw new PasswordIncorrectException("비밀번호가 일치하지 않습니다.");
+////        }
+//
+//        TokenInfo accessTokenDto = jwtTokenProvider.createJwtAccessToken(email);
+//        TokenInfo refreshTokenDto = jwtTokenProvider.createJwtRefreshToken(email);
+//        user.updateRefreshToken(refreshTokenDto.getToken());
+//
+//        PostSignInRes postSignInRes = PostSignInRes.builder()
+//                .email(user.getEmail())
+//                .nickname(user.getNickname())
+//                .interest1(user.getInterest1())
+//                .interest2(user.getInterest2())
+//                .accessToken(accessTokenDto.getToken())
+//                .refreshToken(refreshTokenDto.getToken())
+//                .status(user.getStatus())
+//                .build();
+//
+//        return postSignInRes;
+//    }
+//
+//    // todo : 로그아웃 보완 필요
+//    public void logout(String accessToken, String email) throws BaseException{
+//        User user = userRepository.findByEmail(email);
+//        // 유저 없는 경우
+//        if(user == null){
+//            throw new BaseException(NOT_EXIST_USER);
+//        }
+//        // 엑세스 토큰이 아닌 리프레시 토큰으로 로그아웃을 시도한경우
+//        if(accessToken.equals(user.getRefreshToken())){
+//            throw new BaseException(REFRESH_LOGOUT);
+//        }
+//        // 이미 로그아웃한경우
+//        if(user.getRefreshToken() == null){
+//            throw new BaseException(ALREADY_LOGOUT);
+//        }
+//        user.updateRefreshToken(null);
+//        System.out.println("logout success!!!");
+//    }
 
     public boolean isAdminOfGroup (Long userIdx, Long GroupIdx){
         User user = userRepository.findById(userIdx).get();

@@ -70,24 +70,24 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
 
     private User saveOrUpdate(OAuthAttributes attributes) {
-        User user = userRepository.findByEmail(attributes.getEmail());
-        User savedUser = user.builder()
-                .email(attributes.getEmail())
-//                .password("test")
-                .nickname(attributes.getName())
-//                .interest1(user.getInterest1())
-//                .interest2(user.getInterest2())
-//                .introduction("hello")
-//                .role(RoleType.GUEST)
-                .profileImgUrl(attributes.getPicture())
-//                .status(0)
-                .build();
+//        User user = userRepository.findByEmail(attributes.getEmail());
+//        User savedUser = user.builder()
+//                .email(attributes.getEmail())
+////                .password("test")
+//                .nickname(attributes.getName())
+////                .interest1(user.getInterest1())
+////                .interest2(user.getInterest2())
+////                .introduction("hello")
+////                .role(RoleType.GUEST)
+//                .profileImgUrl(attributes.getPicture())
+////                .status(0)
+//                .build();
 
-//        User user = userRepository.findByEmail(attributes.getEmail())
-//                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
-//                .orElse(attributes.toEntity());
-//        return userRepository.save(user);
+        User user = userRepository.findByEmail(attributes.getEmail())
+                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
+                .orElse(attributes.toEntity());
+        return userRepository.save(user);
 
-        return userRepository.save(savedUser);
+//        return userRepository.save(savedUser);
     }
 }

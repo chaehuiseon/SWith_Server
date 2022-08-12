@@ -38,6 +38,10 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
             "where a.user.userIdx = :userIdx and a.session.sessionIdx = :sessionIdx")
     Optional<Attendance> findByUserAndSession(Long userIdx, Long sessionIdx);
 
+    @Query("update Attendance a set a.status = :status " +
+            "where a.attendanceIdx = :attendanceIdx ")
+    Integer modifyStatus(Long attendanceIdx, Integer status);
+
 //    @Query("select (count(a) > 0) from Attendance a " +
 //            "where a.user.userIdx = :userIdx " +
 //            "and a.session.sessionIdx = :sessionIdx")

@@ -40,33 +40,34 @@ public class GroupInfoService {
 
     public List<GetHomeGroupInfoRes> loadHomeData(Long userIdx) throws BaseException {
         List<GroupInfo> groupInfos = registerRepository.findGroupInfoByUserIdx(userIdx);
-        if(groupInfos.isEmpty())
-            throw  new BaseException(NO_REGISTRATION_INFO);
+        if (groupInfos.isEmpty())
+            throw new BaseException(NO_REGISTRATION_INFO);
 
         List<GetHomeGroupInfoRes> getHomeGroupInfoResList = new ArrayList<>();
-        for(GroupInfo groupInfo : groupInfos){
+        for (GroupInfo groupInfo : groupInfos) {
             //가장 최근에 작성된 공지 불러오기
             String announcementContent;
-            try {            Announcement announcement = announcementRepository
-                    .findByGroupInfo_GroupIdxOrderByCreatedAtDesc(groupInfo.getGroupIdx())
-                    .get(0);
+            try {
+                Announcement announcement = announcementRepository
+                        .findByGroupInfo_GroupIdxOrderByCreatedAtDesc(groupInfo.getGroupIdx())
+                        .get(0);
                 announcementContent = announcement.getAnnouncementContent();
-            } catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 announcementContent = "작성된 공지가 없습니다.";
                 System.out.println("e = " + e);
             }
             //fetch join
             //근 시일내에 가장 빠르게 예정에 있는 회차 정보 불러오기
-                Session session = sessionRepository
-                        .findFirstByGroupInfo_GroupIdxAndSessionStartAfterOrderBySessionNum
-                                (groupInfo.getGroupIdx(), LocalDateTime.now()).get();
+            Session session = sessionRepository
+                    .findFirstByGroupInfo_GroupIdxAndSessionStartAfterOrderBySessionNum
+                            (groupInfo.getGroupIdx(), LocalDateTime.now()).get();
 
             //해당 그룹에서 ( 쿼리 다시 짜기 )
             List<Attendance> attendanceList = attendanceRepository
                     .findByGroupIdxAndUserIdxAndStatusIsNot(groupInfo.getGroupIdx(), userIdx, (Integer) 0);
             int attendanceNum = 0;
-            for (Attendance attendance : attendanceList){
-                if(attendance.getStatus().equals(1)){
+            for (Attendance attendance : attendanceList) {
+                if (attendance.getStatus().equals(1)) {
                     attendanceNum += 1;
                 }
             }
@@ -76,6 +77,10 @@ public class GroupInfoService {
                     .groupIdx(groupInfo.getGroupIdx())
                     .title(groupInfo.getTitle())
                     .memberLimit(groupInfo.getMemberLimit())
+                    .regionIdx1(groupInfo.getRegionIdx1())
+                    .regionIdx2(groupInfo.getRegionIdx2())
+                    .groupImgUrl(groupInfo.getGroupImgUrl())
+                    .online(groupInfo.getOnline())
                     .interestContent(groupInfo.getInterest().getInterestContent())
                     .announcementContent(announcementContent)
                     .sessionContent(session.getSessionContent())
@@ -89,7 +94,7 @@ public class GroupInfoService {
 
     }
 
-    public PostGroupInfoRes create(PostGroupInfoReq request){
+    public PostGroupInfoRes create(PostGroupInfoReq request) {
         System.out.println(request.toString());
         System.out.println("으악");
         PostGroupInfoReq body = request;
@@ -125,10 +130,7 @@ public class GroupInfoService {
         return new PostGroupInfoRes(groupIdx);
 
 
-
     }
-
-
 
 
 }

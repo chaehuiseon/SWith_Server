@@ -2,6 +2,7 @@ package com.example.demo.src.service;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponseStatus;
+import com.example.demo.src.dto.request.PatchSessionReq;
 import com.example.demo.src.dto.response.GetGroupInfoRes;
 import com.example.demo.src.dto.response.GetSessionRes;
 import com.example.demo.src.dto.request.PostSessionReq;
@@ -59,8 +60,10 @@ public class SessionService {
     }
 
 
-    public Integer findAppropriateSessionNum(@NotNull PostSessionReq postSessionReq) {
-        Integer sessionNum = sessionRepository.findAppropriateSessionNum(postSessionReq.getGroupIdx(), postSessionReq.getSessionStart());
+    public Integer findAppropriateSessionNum(Long groupIdx,LocalDateTime sessionStart) throws BaseException {
+        if(LocalDateTime.now().isAfter(sessionStart))
+            throw new BaseException(BaseResponseStatus.START_TIME_ERROR);
+        Integer sessionNum = sessionRepository.findAppropriateSessionNum(groupIdx, sessionStart);
         return (sessionNum + 1);
     }
 
@@ -155,5 +158,10 @@ public class SessionService {
                 .build();
 
         return getSessionTabRes;
+    }
+
+    public Long modifySession(PatchSessionReq patchSessionReq) throws BaseException {
+
+        return null;
     }
 }

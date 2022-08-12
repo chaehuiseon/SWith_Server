@@ -3,6 +3,7 @@ package com.example.demo.src.controller;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
+import com.example.demo.src.dto.request.PatchSessionReq;
 import com.example.demo.src.dto.response.GetGroupInfoRes;
 import com.example.demo.src.dto.request.PostSessionReq;
 import com.example.demo.src.dto.response.GetSessionRes;
@@ -42,6 +43,19 @@ public class SessionController {
 
     }
 
+
+    @ApiOperation("회차탭 - 개요, 출석, 메모 정보 불러오기 P10")
+    @GetMapping("/info")
+    public BaseResponse<GetSessionTabRes> getSessionTabInfo(@RequestParam(value = "userIdx") Long userIdx,
+                                                         @RequestParam(value = "sessionIdx") Long sessionIdx) {
+        try {
+            GetSessionTabRes getSessionTabRes = sessionService.getSessionInfo(userIdx, sessionIdx);
+            return new BaseResponse<>(getSessionTabRes);
+        }catch (BaseException e){
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
     @ApiOperation("회차 생성 - P3")
     @PostMapping            //@Valid 추가 <-회차 만들 때 디폴트로 출석정보를 추가하도록 할지 고민 필요
     public BaseResponse<Long> createSession(@RequestBody PostSessionReq postSessionReq) {
@@ -50,7 +64,7 @@ public class SessionController {
                 return new BaseResponse<>(BaseResponseStatus.POST_SESSION_NOT_ADMIN);
             }
             //회차 시작시간, 끝시간을 기준으로 회차의 적절한 sessionNum 을 찾는다.
-            Integer sessionNum = sessionService.findAppropriateSessionNum(postSessionReq);
+            Integer sessionNum = sessionService.findAppropriateSessionNum(postSessionReq.getUserIdx(), postSessionReq.getSessionStart());
 
             //찾은 sessionNum 이상의 회차들의 sessionNum 에 1을 더한다.
             sessionService.adjustSessionNum(sessionNum, postSessionReq.getGroupIdx());
@@ -64,19 +78,16 @@ public class SessionController {
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
-
     }
 
-    @ApiOperation("회차탭 - 개요, 출석, 메모 정보 불러오기 P10")
-    @GetMapping("/info")
-    public BaseResponse<GetSessionTabRes> getSessionTabInfo(@RequestParam(value = "userIdx") Long userIdx,
-                                                         @RequestParam(value = "sessionIdx") Long sessionIdx) {
-        try {
-            GetSessionTabRes getSessionTabRes = sessionService.getSessionInfo(userIdx, sessionIdx);
-            return new BaseResponse<>(getSessionTabRes);
-        }catch (BaseException e){
-            return new BaseResponse<>(e.getStatus());
-        }
-
-    }
+//    @ApiOperation("관리자탭 - 회차정보 수정 P13")
+//    @PatchMapping ("/admin")
+//    public BaseResponse<Long> modifySession(@RequestBody PatchSessionReq patchSessionReq) {
+//        try {
+//            Long sessionIdx = sessionService.modifySession(patchSessionReq);
+//            return new BaseResponse<>(sessionIdx);
+//        }catch (BaseException e){
+//            return new BaseResponse<>(e.getStatus());
+//        }
+//    }
 }

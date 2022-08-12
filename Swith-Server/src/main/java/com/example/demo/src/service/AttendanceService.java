@@ -2,6 +2,7 @@ package com.example.demo.src.service;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponseStatus;
+import com.example.demo.src.dto.request.PatchAttendanceReq;
 import com.example.demo.src.dto.response.GetGroupAttendanceRes;
 import com.example.demo.src.dto.response.GetUserAttendanceRes;
 import com.example.demo.src.dto.response.UserAttendanceInfo;
@@ -19,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -115,22 +115,20 @@ public class AttendanceService {
     }
 
     public Long updateAttendance(Long userIdx, Long sessionIdx) throws BaseException {
-        //출석정보가 없으면 만든다.
         User user = userRepository.findById(sessionIdx)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USER));
         Session session = sessionRepository.findByIdWithGroup(sessionIdx)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_SESSION));
-
+        //출석정보가 없으면 만든다.
         Attendance attendance = attendanceRepository.findByUserAndSession(userIdx, sessionIdx)
                 .orElseGet(() -> makeAttendanceInfo(user, session));
-
+        //지금 시간과 출석 유효시간을 고려해 상태를 결정
+        Integer status = decideStatus(session);
         //이미 출석정보가 있으면 오류(일반 사용자의 접근이기 때문)
         if (attendance.getStatus() != 0)
             throw new BaseException(BaseResponseStatus.ALREADY_ATTENDED);
 
 
-        //지금 시간과 출석 유효시간을 고려해 상태를 결정
-        Integer status = decideStatus(session);
         attendance.setStatus(status);
         Attendance save = attendanceRepository.save(attendance);
 
@@ -172,4 +170,11 @@ public class AttendanceService {
     }
 
 
+    public Integer modifyAttendance(List<PatchAttendanceReq> patchAttendanceReqList) throws BaseException {
+        Integer count = 0;
+        for (PatchAttendanceReq patchAttendanceReq : patchAttendanceReqList) {
+            count += attendanceRepository.modifyStatus(patchAttendanceReq.getAttendanceIdx(), patchAttendanceReq.getStatus());
+        }
+        return count;
+    }
 }

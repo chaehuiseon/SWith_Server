@@ -84,9 +84,9 @@ public enum BaseResponseStatus {
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다."),
 
 
-    // 5000 : 도기
+    // 5000 : 회차(SESSION)
     TEMP1(false, 9000, "conflict 방지용 1"),
-    POST_USERS_EMPTY_NICKNAME(false, 5000, "닉네임을 입력해주세요."),
+    START_TIME_ERROR(false, 5000, "회차 시작 시간이 현재 시각보다 이전입니다."),
     USERS_INVALID_NICKNAME(false, 5001, "닉네임은 10자까지 입력 가능합니다."),
     POST_USERS_DORMANT(false, 5002, "휴면 상태 계정입니다."),
     AUTH_REQ_SIGNUP(false, 5003, "회원가입이 필요합니다."),
@@ -106,7 +106,7 @@ public enum BaseResponseStatus {
     MODIFY_FAIL_FCM_TOKEN(false, 5017, "디바이스 토큰 갱신에 실패하였습니다."),
     POST_FAIL_FCM(false, 5018, "푸시 알림 요청에 실패하였습니다."),
 
-    // 6000 : 레마
+    // 6000 : INVALID 오류
     TEMP2(false, 9000, "conflict 방지용 2"),
     INVALID_USER(false, 6000, "존재하지 않는 회원입니다."),
     INVALID_NICKNAME(false, 6001, "존재하지 않는 회원 닉네임입니다."),

@@ -6,10 +6,7 @@ import com.example.demo.src.dto.request.PatchAttendanceReq;
 import com.example.demo.src.dto.response.GetGroupAttendanceRes;
 import com.example.demo.src.dto.response.GetUserAttendanceRes;
 import com.example.demo.src.dto.response.UserAttendanceInfo;
-import com.example.demo.src.entity.Attendance;
-import com.example.demo.src.entity.GroupInfo;
-import com.example.demo.src.entity.Session;
-import com.example.demo.src.entity.User;
+import com.example.demo.src.entity.*;
 import com.example.demo.src.repository.AttendanceRepository;
 import com.example.demo.src.repository.GroupInfoRepository;
 import com.example.demo.src.repository.SessionRepository;
@@ -119,6 +116,20 @@ public class AttendanceService {
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USER));
         Session session = sessionRepository.findByIdWithGroup(sessionIdx)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_SESSION));
+        ///User가 가입 했는지 Validation 필요
+        int checker = 0;
+        for (Register register : user.getRegisterList()) {
+            if(register.getGroupInfo() == session.getGroupInfo()){
+                checker++;
+                break;
+            }
+        }
+        //가입정보가 없을 경우 오류를 반환,
+        if(checker == 0)
+            throw new BaseException(BaseResponseStatus.NO_REGISTRATION_INFO);
+
+
+
         //출석정보가 없으면 만든다.
         Attendance attendance = attendanceRepository.findByUserAndSession(userIdx, sessionIdx)
                 .orElseGet(() -> makeAttendanceInfo(user, session));

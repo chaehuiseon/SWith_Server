@@ -3,22 +3,18 @@ buildscript {
         queryDslVersion = "5.0.0"
     }
 }
-plugins {
-    id 'org.springframework.boot' version '2.4.2'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'java'
 
+plugins {
+    id 'org.springframework.boot' version '2.6.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     //querydsl 추가
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+    id 'java'
 }
 
-group = 'com.example'
+group = 'study'
 version = '0.0.1-SNAPSHOT'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-compileJava.options.encoding = 'UTF-8'
+sourceCompatibility = '11'
 
 configurations {
     compileOnly {
@@ -31,10 +27,9 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.jetbrains:annotations:19.0.0'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
-
-    //-------------
     //p6spy~~ insert into hello (id) values(1) binding parameter을 쉽게 보여줌
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0'
 
@@ -42,13 +37,16 @@ dependencies {
     //querydsl liberary 추가
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
-    //-------------
 
 
 
+    //테스트에서 lombok 사용
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
-    // Spring Boot Starter
-    testImplementation ('org.springframework.boot:spring-boot-starter-test')
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 
     // Lombok
     implementation ('org.projectlombok:lombok')
@@ -64,7 +62,6 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-jpa') //mysql 5버전의 경우 삭제.
 
 
-
     // swagger 문서화
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'io.springfox:springfox-swagger-ui:3.0.0'
@@ -77,8 +74,6 @@ dependencies {
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 
-    // Web
-    implementation ('org.springframework.boot:spring-boot-starter-web')
 
     // Security, Authentication
     // 시큐리티 추가
@@ -91,21 +86,7 @@ dependencies {
 
     implementation group: 'org.json', name: 'json', version: '20090211'
 
-    //jpa
-    dependencies {
-        compile('org.springframework.boot:spring-boot-starter-web')
-        compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-        compile("org.springframework.boot:spring-boot-starter-data-jpa")
-        compile("com.h2database:h2")
-        testCompile("junit:junit")
-    }
-
-
-    //json
-    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
-
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.2'
-
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 
 

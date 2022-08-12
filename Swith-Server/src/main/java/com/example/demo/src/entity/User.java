@@ -2,6 +2,8 @@ package com.example.demo.src.entity;
 
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class User extends BaseTimeEntity { //유저 테이블
     //아래와 같이 설정하면 DB에 위임하는 방식(AUTO_INCREMENT)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long userIdx;
 
     private String email; //가입 email

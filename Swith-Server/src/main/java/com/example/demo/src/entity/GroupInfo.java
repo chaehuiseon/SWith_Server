@@ -110,4 +110,3 @@ public class GroupInfo extends BaseTimeEntity {
     private Integer status = 0;
 
 }
-

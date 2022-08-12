@@ -1,6 +1,7 @@
 package com.example.demo.src.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class Interest {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "TINYINT")
+    @JsonIgnore
     private Integer interestIdx;
 
     @Column( length = 45)

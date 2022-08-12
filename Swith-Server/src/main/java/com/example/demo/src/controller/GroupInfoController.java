@@ -6,16 +6,23 @@ import com.example.demo.src.dto.GetGroupInfoRes;
 import com.example.demo.src.dto.GetHomeGroupInfoRes;
 import com.example.demo.src.dto.PostGroupInfoReq;
 import com.example.demo.src.dto.PostGroupInfoRes;
+import com.example.demo.src.dto.request.GetGroupInfoSearchReq;
+import com.example.demo.src.dto.response.GetGroupInfoSearchRes;
+import com.example.demo.src.entity.GroupInfo;
 import com.example.demo.src.service.GroupInfoService;
 import com.example.demo.src.service.SessionService;
 import com.example.demo.src.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/groupinfo")
+@Slf4j
 public class GroupInfoController {
 
     private final GroupInfoService groupInfoService;
@@ -45,6 +52,23 @@ public class GroupInfoController {
         System.out.println("들어가기전!");
         PostGroupInfoRes response =  groupInfoService.create(request);
         return new BaseResponse<>(response);
+    }
+
+    @GetMapping("/search")
+    public BaseResponse<Slice<GetGroupInfoSearchRes>> searchGroup(@RequestBody GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable){
+        System.out.println("받은값"+getGroupInfoSearchReq.getInterest1()+getGroupInfoSearchReq.getInterest2());
+        Slice<GetGroupInfoSearchRes> result = groupInfoService.searchGroup(getGroupInfoSearchReq,pageable);
+        return new BaseResponse<>(result);
+
+
+    }
+
+    @GetMapping("/search/test")
+    @ResponseBody
+    public Slice<Long> searchtest(@RequestBody GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable) {
+        System.out.println("들어오ㅏ?"+getGroupInfoSearchReq.getTitle());
+        System.out.println(pageable.getPageSize()+"   "+pageable.toString());
+        return groupInfoService.searchtestGroup(getGroupInfoSearchReq, pageable);
     }
 
 

@@ -13,11 +13,11 @@ import com.example.demo.src.repository.AnnouncementRepository;
 import com.example.demo.src.repository.AttendanceRepository;
 import com.example.demo.src.repository.GroupInfoRepository;
 import com.example.demo.src.repository.SessionRepository;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

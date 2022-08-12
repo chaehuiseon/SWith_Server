@@ -5,9 +5,13 @@ import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.dto.GetHomeGroupInfoRes;
 import com.example.demo.src.dto.PostGroupInfoReq;
 import com.example.demo.src.dto.PostGroupInfoRes;
+import com.example.demo.src.dto.request.GetGroupInfoSearchReq;
+import com.example.demo.src.dto.response.GetGroupInfoSearchRes;
 import com.example.demo.src.entity.*;
 import com.example.demo.src.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -127,6 +131,18 @@ public class GroupInfoService {
 
 
 
+    }
+
+    public Slice<GetGroupInfoSearchRes> searchGroup(GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable){
+
+        System.out.println("서비스 진입");
+        return groupInfoRepository.searchGroupInfo(getGroupInfoSearchReq,pageable);
+
+
+    }
+
+    public Slice<Long> searchtestGroup(GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable) {
+        return groupInfoRepository.searchtestGroup(getGroupInfoSearchReq, pageable);
     }
 
 

@@ -8,6 +8,7 @@ import com.example.demo.src.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -16,6 +17,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextListener;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
@@ -25,6 +27,11 @@ import java.util.Collections;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final UserRepository userRepository;
     private final HttpSession httpSession;
+
+    @Bean
+    public RequestContextListener requestContextListener(){
+        return new RequestContextListener();
+    }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -66,14 +73,14 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         User user = userRepository.findByEmail(attributes.getEmail());
         User savedUser = user.builder()
                 .email(attributes.getEmail())
-                .password("test")
+//                .password("test")
                 .nickname(attributes.getName())
 //                .interest1(user.getInterest1())
 //                .interest2(user.getInterest2())
-                .introduction("hello")
-                .role(RoleType.GUEST)
+//                .introduction("hello")
+//                .role(RoleType.GUEST)
                 .profileImgUrl(attributes.getPicture())
-                .status(0)
+//                .status(0)
                 .build();
 
 //        User user = userRepository.findByEmail(attributes.getEmail())

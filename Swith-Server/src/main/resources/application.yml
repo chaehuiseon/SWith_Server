@@ -12,13 +12,10 @@ spring:
 
   datasource:
     platform: mysql
-#    url: jdbc:mysql://wnsvy607db.cwrwa6a6cgtb.ap-northeast-2.rds.amazonaws.com/jpDB
-##    jdbc:mysql://localhost:3306/test_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-#    username: wnsvy607
-#    password: ljp153153
-    url: jdbc:mysql://database-1.ci99ujibojwf.ap-northeast-2.rds.amazonaws.com/swithDB
-    username: youngmin
-    password: qkrdudals99
+    url: jdbc:mysql://wnsvy607db.cwrwa6a6cgtb.ap-northeast-2.rds.amazonaws.com/jpDB
+#    jdbc:mysql://localhost:3306/test_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: wnsvy607
+    password: ljp153153
 
     driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
     hikari:

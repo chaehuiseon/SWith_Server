@@ -21,18 +21,20 @@ com/example/demo/utils/ValidationRegex.java
 com/example/demo/src/entity/Session.java
  com.example.demo.src.entity.Session
  com.example.demo.src.entity.Session$SessionBuilder
-com/example/demo/src/service/UserService.java
- com.example.demo.src.service.UserService
+com/example/demo/src/entity/Badge.java
+ com.example.demo.src.entity.Badge
+ com.example.demo.src.entity.Badge$BadgeBuilder
 com/example/demo/config/WebConfig.java
  com.example.demo.config.WebConfig
 com/example/demo/src/exception/userServiceException/UserNotFoundException.java
  com.example.demo.src.exception.userServiceException.UserNotFoundException
-com/example/demo/src/service/GroupInfoService.java
- com.example.demo.src.service.GroupInfoService
+com/example/demo/src/dto/GetHomeGroupInfoRes.java
+ com.example.demo.src.dto.GetHomeGroupInfoRes
+ com.example.demo.src.dto.GetHomeGroupInfoRes$GetHomeGroupInfoResBuilder
 com/example/demo/config/BaseResponseStatus.java
  com.example.demo.config.BaseResponseStatus
-com/example/demo/src/controller/UserController.java
- com.example.demo.src.controller.UserController
+com/example/demo/DemoApplication.java
+ com.example.demo.DemoApplication
 com/example/demo/security/Authenticated.java
  com.example.demo.security.Authenticated
 com/example/demo/config/PagingRes.java
@@ -108,8 +110,8 @@ com/example/demo/src/entity/Attendance.java
 com/example/demo/src/entity/Register.java
  com.example.demo.src.entity.Register
  com.example.demo.src.entity.Register$RegisterBuilder
-com/example/demo/src/service/SessionService.java
- com.example.demo.src.service.SessionService
+com/example/demo/utils/JwtService.java
+ com.example.demo.utils.JwtService
 com/example/demo/jwt/TokenInfo.java
  com.example.demo.jwt.TokenInfo
 com/example/demo/config/auth/OAuthAttributes.java
@@ -117,14 +119,15 @@ com/example/demo/config/auth/OAuthAttributes.java
  com.example.demo.config.auth.OAuthAttributes$OAuthAttributesBuilder
 com/example/demo/src/test/TestController.java
  com.example.demo.src.test.TestController
-com/example/demo/src/controller/SessionController.java
- com.example.demo.src.controller.SessionController
+com/example/demo/src/service/AnnouncementService.java
+ com.example.demo.src.service.AnnouncementService
 com/example/demo/src/dto/request/PostSignInReq.java
  com.example.demo.src.dto.request.PostSignInReq
-com/example/demo/src/controller/GroupInfoController.java
- com.example.demo.src.controller.GroupInfoController
-com/example/demo/src/repository/UserRepository.java
- com.example.demo.src.repository.UserRepository
+com/example/demo/src/repository/RegisterRepository.java
+ com.example.demo.src.repository.RegisterRepository
+com/example/demo/src/dto/GetSessionRes.java
+ com.example.demo.src.dto.GetSessionRes
+ com.example.demo.src.dto.GetSessionRes$GetSessionResBuilder
 com/example/demo/src/controller/AnnouncementController.java
  com.example.demo.src.controller.AnnouncementController
 com/example/demo/src/entity/Rating.java
@@ -135,23 +138,20 @@ com/example/demo/src/dto/request/PostSignUpReq.java
  com.example.demo.src.dto.request.PostSignUpReq$PostSignUpReqBuilder
 com/example/demo/src/dto/PostGroupInfoRes.java
  com.example.demo.src.dto.PostGroupInfoRes
-com/example/demo/src/repository/RegisterRepository.java
- com.example.demo.src.repository.RegisterRepository
-com/example/demo/src/entity/Badge.java
- com.example.demo.src.entity.Badge
- com.example.demo.src.entity.Badge$BadgeBuilder
-com/example/demo/src/service/AnnouncementService.java
- com.example.demo.src.service.AnnouncementService
-com/example/demo/src/dto/GetHomeGroupInfoRes.java
- com.example.demo.src.dto.GetHomeGroupInfoRes
- com.example.demo.src.dto.GetHomeGroupInfoRes$GetHomeGroupInfoResBuilder
-com/example/demo/DemoApplication.java
- com.example.demo.DemoApplication
-com/example/demo/utils/JwtService.java
- com.example.demo.utils.JwtService
-com/example/demo/src/dto/GetSessionRes.java
- com.example.demo.src.dto.GetSessionRes
- com.example.demo.src.dto.GetSessionRes$GetSessionResBuilder
+com/example/demo/src/controller/GroupInfoController.java
+ com.example.demo.src.controller.GroupInfoController
+com/example/demo/src/service/GroupInfoService.java
+ com.example.demo.src.service.GroupInfoService
+com/example/demo/src/repository/UserRepository.java
+ com.example.demo.src.repository.UserRepository
+com/example/demo/src/service/SessionService.java
+ com.example.demo.src.service.SessionService
+com/example/demo/src/service/UserService.java
+ com.example.demo.src.service.UserService
+com/example/demo/src/controller/SessionController.java
+ com.example.demo.src.controller.SessionController
+com/example/demo/src/controller/UserController.java
+ com.example.demo.src.controller.UserController
 com/example/demo/config/auth/CustomOAuth2UserService.java
  com.example.demo.config.auth.CustomOAuth2UserService
 com/example/demo/config/SecurityConfig.java

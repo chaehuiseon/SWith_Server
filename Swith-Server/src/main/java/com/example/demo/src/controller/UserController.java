@@ -35,7 +35,7 @@ public class UserController {
     @ApiOperation("로그인 성공 시 세션에 SessionUser 저장")
     @GetMapping("/")
     public String index(Model model){
-//        model.addAttribute("posts", postsService.findAllDesc());
+//        model.addAttribute("userName", "test");
         // userName을 사용할 수 있게 model에 저장
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user != null){

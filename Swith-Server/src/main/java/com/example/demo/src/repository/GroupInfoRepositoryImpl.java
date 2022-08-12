@@ -33,7 +33,6 @@ import static com.example.demo.src.entity.QInterest.interest;
 public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
-    //EntityManager em;
     //                .select(new QGetGroupInfoSearchRes(
 //
 //                        groupInfo.groupIdx.as("groupIdx"),
@@ -53,22 +52,24 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
         List<GetGroupInfoSearchRes> content =  queryFactory
 
                 .select(Projections.fields(GetGroupInfoSearchRes.class,
-                        groupInfo.groupIdx.as("groupIdx"),
-                        groupInfo.title.as("title"),
-                        groupInfo.groupContent.as("groupContent"),
-                        groupInfo.regionIdx1.as("regionIdx1"),
+                        groupInfo.groupIdx,
+                        groupInfo.title,
+                        groupInfo.groupContent,
+                        groupInfo.regionIdx1,
                         groupInfo.regionIdx2,
                         groupInfo.recruitmentEndDate,
                         groupInfo.memberLimit,
-                        //application.count().intValue().as("numOfApplicants"),
+                        application.count().intValue().as("numOfApplicants"),
                         groupInfo.createdAt
                         ))
-                .from(groupInfo)
-                //.leftJoin(groupInfo.interest,interest)
+                .from(groupInfo,application)
                 .where(titlecontain(searchCond.getTitle()),
                         regionIn(searchCond.getRegionIdx()),
-                        interestEq(searchCond.getInterest1()).or(interestEq(searchCond.getInterest2()))
+                        interestEq(searchCond.getInterest1()).or(interestEq(searchCond.getInterest2())),
+                        application.status.eq(1),
+                        groupInfo.groupIdx.eq(application.groupInfo.groupIdx)
                 )
+                .groupBy(groupInfo.groupIdx)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize()+1) // limit보다 데이터를 1개 더 들고와서, 해당 데이터가 있다면 hasNext 변수에 true를 넣어 알림
                 .fetch();
@@ -107,7 +108,7 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
 
         System.out.println("뭐가 잡혔다");
         System.out.println("interestEq"+i);
-        return interest.interestIdx.eq(i);
+        return groupInfo.interest.interestIdx.eq(i);
 
 
     }

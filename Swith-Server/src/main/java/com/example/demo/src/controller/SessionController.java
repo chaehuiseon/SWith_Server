@@ -80,14 +80,14 @@ public class SessionController {
         }
     }
 
-//    @ApiOperation("관리자탭 - 회차정보 수정 P13")
-//    @PatchMapping ("/admin")
-//    public BaseResponse<Long> modifySession(@RequestBody PatchSessionReq patchSessionReq) {
-//        try {
-//            Long sessionIdx = sessionService.modifySession(patchSessionReq);
-//            return new BaseResponse<>(sessionIdx);
-//        }catch (BaseException e){
-//            return new BaseResponse<>(e.getStatus());
-//        }
-//    }
+    @ApiOperation("관리자탭 - 회차정보 수정 P13")
+    @PatchMapping ("/admin")
+    public BaseResponse<Long> modifySession(@RequestBody PatchSessionReq patchSessionReq) {
+        try {
+            Long sessionIdx = sessionService.modifySession(patchSessionReq);
+            return new BaseResponse<>(sessionIdx);
+        }catch (BaseException e){
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
 }

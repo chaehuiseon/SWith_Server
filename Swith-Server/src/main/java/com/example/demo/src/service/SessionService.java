@@ -116,8 +116,10 @@ public class SessionService {
 
 
         GetGroupInfoRes getGroupInfoRes = GetGroupInfoRes.builder()
-                .title(groupInfo.getTitle())
                 .isAdmin(isAdmin)
+                .title(groupInfo.getTitle())
+                .groupImgUrl(groupInfo.getGroupImgUrl())
+                .attendanceValidTime(groupInfo.getAttendanceValidTime())
                 .announcementDate(announcement.getCreatedAt())
                 .announcementContent(announcement.getAnnouncementContent())
                 .getSessionResList(getSessionResList)

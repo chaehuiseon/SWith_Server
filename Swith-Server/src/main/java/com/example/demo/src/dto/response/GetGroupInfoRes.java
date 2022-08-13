@@ -20,8 +20,11 @@ public class GetGroupInfoRes {
     @ApiModelProperty(notes = "스터디 그룹의 제목", example = "자격증 시험 스터디")
     private String title; //스터디 그룹의 제목
 
-//    @ApiModelProperty(notes = "스터디 대표 이미지의 링크", example = "?")
-//    private String img;
+    @ApiModelProperty(notes = "스터디 대표 이미지의 링크", example = "www.~~")
+    private String groupImgUrl;
+
+    @ApiModelProperty(notes = "스터디 대표 이미지의 링크", example = "www.~~")
+    private Integer attendanceValidTime;
 
     @ApiModelProperty(notes = "가장 최근의 공지사항 내용", example = "안녕하세요 6회차는 대면으로 진행할 예정입니다.")
     private String announcementContent; //가장 최근의 공지사항 내용

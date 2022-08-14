@@ -6,8 +6,14 @@ import com.example.demo.src.dto.response.GetGroupInfoSearchRes;
 //import com.example.demo.src.dto.response.QGetGroupInfoSearchRes;
 import com.example.demo.src.entity.GroupInfo;
 import com.example.demo.src.entity.Interest;
+import com.example.demo.src.entity.QGroupInfo;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.QueryFactory;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -33,24 +39,12 @@ import static com.example.demo.src.entity.QInterest.interest;
 public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
-    //                .select(new QGetGroupInfoSearchRes(
-//
-//                        groupInfo.groupIdx.as("groupIdx"),
-//                        groupInfo.title.as("title"),
-//                        groupInfo.groupContent.as("groupContent"),
-//                        groupInfo.regionIdx1.as("regionIdx1"),
-//                        groupInfo.regionIdx2,
-//                        groupInfo.recruitmentEndDate,
-//                        groupInfo.memberLimit,
-//                        application.count().intValue().as("numOfApplicants"),
-//                        groupInfo.createdAt
-//                ))
-
-
+    QGroupInfo groupInfoSub = new QGroupInfo("groupInfoSub");
     @Override
     public Slice<GetGroupInfoSearchRes> searchGroupInfo(GetGroupInfoSearchReq searchCond, Pageable pageable) {
-        List<GetGroupInfoSearchRes> content =  queryFactory
 
+        List<GetGroupInfoSearchRes> content =
+                queryFactory
                 .select(Projections.fields(GetGroupInfoSearchRes.class,
                         groupInfo.groupIdx,
                         groupInfo.title,
@@ -59,18 +53,26 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
                         groupInfo.regionIdx2,
                         groupInfo.recruitmentEndDate,
                         groupInfo.memberLimit,
-                        application.count().intValue().as("numOfApplicants"),
-                        groupInfo.createdAt
+                        //application.count().intValue().as("numOfApplicants"),
+                        groupInfo.createdAt,
+                        ExpressionUtils.as(
+                                JPAExpressions.select(application.count()).from(application)
+                                        .where(application.groupInfo.groupIdx.eq(groupInfo.groupIdx),
+                                                application.status.eq(1)),"NumOfApplicants")
+
                         ))
-                .from(groupInfo,application)
-                .where(titlecontain(searchCond.getTitle()),
-                        regionIn(searchCond.getRegionIdx()),
-                        interestEq(searchCond.getInterest1()).or(interestEq(searchCond.getInterest2())),
-                        application.status.eq(1),
-                        groupInfo.groupIdx.eq(application.groupInfo.groupIdx)
-                )
+                .from(groupInfo)
+                        .where(
+                                Search(searchCond), offset(searchCond.getSortCond(),searchCond.getGroupIdx())
+                        )
+//                .where(titlecontain(searchCond.getTitle()),
+//                        regionIn(searchCond.getRegionIdx()),
+//                        interestEq(searchCond.getInterest1()).or(interestEq(searchCond.getInterest2())),
+//                        offset(searchCond.getSortCond(),searchCond.getGroupIdx())
+//                        //application.status.eq(1),
+//                        //groupInfo.groupIdx.eq(application.groupInfo.groupIdx)
+//                )
                 .groupBy(groupInfo.groupIdx)
-                .offset(pageable.getOffset())
                 .limit(pageable.getPageSize()+1) // limit보다 데이터를 1개 더 들고와서, 해당 데이터가 있다면 hasNext 변수에 true를 넣어 알림
                 .fetch();
         System.out.println(content);
@@ -84,20 +86,35 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
 
     }
 
+    private BooleanBuilder Search(GetGroupInfoSearchReq searchCond){
+        BooleanBuilder builder = new BooleanBuilder();
+
+        builder.and(titlecontain(searchCond.getTitle()));
+        if(searchCond.getRegionIdx() != null){
+            builder.or(groupInfo.regionIdx1.eq(searchCond.getRegionIdx()));
+            builder.or(groupInfo.regionIdx2.eq(searchCond.getRegionIdx()));
+        }
+        builder.or(interestEq(searchCond.getInterest1()));
+        builder.or(interestEq(searchCond.getInterest2()));
+
+        return builder;
+
+    }
+
 
     private BooleanExpression titlecontain(String title){
         System.out.println(title);
-        return hasText(title) ? groupInfo.title.eq(title) :null;
+        return hasText(title) ? groupInfo.title.contains(title) :null;
 
     }
 
-    private BooleanExpression regionIn(Long regionIdx){
-        if(regionIdx == null){
-            return null;
-        }
-        return groupInfo.regionIdx1.in(regionIdx).or(groupInfo.regionIdx2.in(regionIdx));
-
-    }
+//    private BooleanExpression regionIn(Long regionIdx){
+//        if(regionIdx == null){
+//            return null;
+//        }
+//        return groupInfo.regionIdx1.in(regionIdx).or(groupInfo.regionIdx2.in(regionIdx));
+//
+//    }
 
     private BooleanExpression interestEq(Integer i){
         System.out.println("진입");
@@ -112,28 +129,30 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
 
 
     }
-
-    public Slice<Long> searchtestGroup(GetGroupInfoSearchReq searchCond, Pageable pageable){
-        //em.flush();
-        //em.clear();
-        System.out.println("repository => "+searchCond.getTitle());
-
-        List<Long> content = queryFactory.select(groupInfo.groupIdx).from(groupInfo)
-                .where(
-                        groupInfo.title.eq(searchCond.getTitle())
-                )
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize()+1) // limit보다 데이터를 1개 더 들고와서, 해당 데이터가 있다면 hasNext 변수에 true를 넣어 알림
-                .fetch();
-
-        System.out.println(content.toString());
-
-        boolean hasNext = false;
-        if (content.size() > pageable.getPageSize()) {
-            content.remove(pageable.getPageSize());
-            hasNext = true;
+    private BooleanExpression offset(Integer sortCond, Long groupIdx){
+        if(sortCond == 0){ //마감일
+            return groupInfo.recruitmentEndDate.gt(
+                    JPAExpressions.select(groupInfoSub.recruitmentEndDate)
+                            .from(groupInfoSub)
+                            .where(groupInfoSub.groupIdx.eq(groupIdx)));
         }
-        return new SliceImpl<>(content, pageable, hasNext);
+        return groupInfo.createdAt.gt(
+                JPAExpressions.select(groupInfoSub.createdAt)
+                        .from(groupInfoSub)
+                        .where(groupInfoSub.groupIdx.eq(groupIdx)));
+    }
+
+
+
+    public JPAQuery<Integer> searchtestGroup(GetGroupInfoSearchReq searchCond, Pageable pageable){
+
+        JPAQuery<Integer> numOfApplicants = queryFactory
+                .select(application.status.count().intValue())
+                .from(application)
+                .where( application.groupInfo.groupIdx.eq(searchCond.getGroupIdx()),
+                        application.status.eq(1));
+        return numOfApplicants;
+
 
 
     }

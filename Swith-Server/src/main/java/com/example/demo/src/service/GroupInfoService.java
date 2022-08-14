@@ -9,6 +9,7 @@ import com.example.demo.src.dto.request.GetGroupInfoSearchReq;
 import com.example.demo.src.dto.response.GetGroupInfoSearchRes;
 import com.example.demo.src.entity.*;
 import com.example.demo.src.repository.*;
+import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -141,7 +142,7 @@ public class GroupInfoService {
 
     }
 
-    public Slice<Long> searchtestGroup(GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable) {
+    public JPAQuery<Integer> searchtestGroup(GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable) {
         return groupInfoRepository.searchtestGroup(getGroupInfoSearchReq, pageable);
     }
 

@@ -12,6 +12,7 @@ import com.example.demo.src.entity.GroupInfo;
 import com.example.demo.src.service.GroupInfoService;
 import com.example.demo.src.service.SessionService;
 import com.example.demo.src.service.UserService;
+import com.querydsl.jpa.impl.JPAQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -57,6 +58,7 @@ public class GroupInfoController {
     @GetMapping("/search")
     public BaseResponse<Slice<GetGroupInfoSearchRes>> searchGroup(@RequestBody GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable){
         System.out.println("받은값"+getGroupInfoSearchReq.getInterest1()+getGroupInfoSearchReq.getInterest2());
+        System.out.println("page size : " + pageable.getPageSize());
         Slice<GetGroupInfoSearchRes> result = groupInfoService.searchGroup(getGroupInfoSearchReq,pageable);
         return new BaseResponse<>(result);
 
@@ -65,7 +67,7 @@ public class GroupInfoController {
 
     @GetMapping("/search/test")
     @ResponseBody
-    public Slice<Long> searchtest(@RequestBody GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable) {
+    public JPAQuery<Integer> searchtest(@RequestBody GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable) {
         System.out.println("들어오ㅏ?"+getGroupInfoSearchReq.getTitle());
         System.out.println(pageable.getPageSize()+"   "+pageable.toString());
         return groupInfoService.searchtestGroup(getGroupInfoSearchReq, pageable);

@@ -22,7 +22,7 @@ public class GetGroupInfoSearchRes {
     private Long regionIdx2;
     private LocalDate recruitmentEndDate; //마감일
     private Integer memberLimit; //정원(2~10)
-    private Integer NumOfApplicants; //지원자수
+    private Long NumOfApplicants; //지원자수
     private LocalDateTime createdAt; //생성일
 //
 //    //@QueryProjection

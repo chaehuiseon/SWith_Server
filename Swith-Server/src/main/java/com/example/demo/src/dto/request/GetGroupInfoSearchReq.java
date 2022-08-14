@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
+import java.time.LocalDateTime;
 
 @Builder
 @AllArgsConstructor
@@ -20,6 +21,12 @@ public class GetGroupInfoSearchReq {
     private Integer interest1;
 
     private Integer interest2;
+
+    private Long groupIdx;
+
+    private Integer sortCond; //마감일이 최초값..
+
+    //private LocalDateTime
 
 
 

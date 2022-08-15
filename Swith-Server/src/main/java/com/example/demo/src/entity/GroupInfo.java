@@ -21,7 +21,8 @@ import static javax.persistence.FetchType.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "GROUPINFO")
+@Table(name = "GROUPINFO", indexes = @Index(columnList = "recruitmentEndDate"))
+
 public class GroupInfo extends BaseTimeEntity {
 
     @Id
@@ -58,9 +59,9 @@ public class GroupInfo extends BaseTimeEntity {
 
     // 활동 예정 지역코드 2개 (온라인값이 1이면 둘 다 디폴트 값)
     @Builder.Default
-    private Long regionIdx1 = 0000000000L; //활동하는 지역 1
+    private String regionIdx1 = ""; //활동하는 지역 1
     @Builder.Default
-    private Long regionIdx2 = 0000000000L; //활동하는 지역 2
+    private String regionIdx2 = ""; //활동하는 지역 2
 
     //-----------------------
 

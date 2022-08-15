@@ -18,8 +18,8 @@ public class GetGroupInfoSearchRes {
     private Long groupIdx;
     private String title;
     private String groupContent;
-    private Long regionIdx1;
-    private Long regionIdx2;
+    private String regionIdx1;
+    private String regionIdx2;
     private LocalDate recruitmentEndDate; //마감일
     private Integer memberLimit; //정원(2~10)
     private Long NumOfApplicants; //지원자수

@@ -23,7 +23,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/groupinfo")
-@Slf4j
 public class GroupInfoController {
 
     private final GroupInfoService groupInfoService;
@@ -55,10 +54,12 @@ public class GroupInfoController {
         return new BaseResponse<>(response);
     }
 
+    @ResponseBody
     @GetMapping("/search")
     public BaseResponse<Slice<GetGroupInfoSearchRes>> searchGroup(@RequestBody GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable){
         System.out.println("받은값"+getGroupInfoSearchReq.getInterest1()+getGroupInfoSearchReq.getInterest2());
         System.out.println("page size : " + pageable.getPageSize());
+        System.out.println(getGroupInfoSearchReq.getClientTime());
         Slice<GetGroupInfoSearchRes> result = groupInfoService.searchGroup(getGroupInfoSearchReq,pageable);
         return new BaseResponse<>(result);
 

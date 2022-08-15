@@ -22,6 +22,8 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.util.StringUtils.hasText;
@@ -53,7 +55,6 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
                         groupInfo.regionIdx2,
                         groupInfo.recruitmentEndDate,
                         groupInfo.memberLimit,
-                        //application.count().intValue().as("numOfApplicants"),
                         groupInfo.createdAt,
                         ExpressionUtils.as(
                                 JPAExpressions.select(application.count()).from(application)
@@ -63,15 +64,12 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
                         ))
                 .from(groupInfo)
                         .where(
-                                Search(searchCond), offset(searchCond.getSortCond(),searchCond.getGroupIdx())
+                                Search(searchCond),
+                                Read(searchCond.getSortCond(),
+                                        searchCond.getGroupIdx(),
+                                        searchCond.getClientTime())
                         )
-//                .where(titlecontain(searchCond.getTitle()),
-//                        regionIn(searchCond.getRegionIdx()),
-//                        interestEq(searchCond.getInterest1()).or(interestEq(searchCond.getInterest2())),
-//                        offset(searchCond.getSortCond(),searchCond.getGroupIdx())
-//                        //application.status.eq(1),
-//                        //groupInfo.groupIdx.eq(application.groupInfo.groupIdx)
-//                )
+
                 .groupBy(groupInfo.groupIdx)
                 .limit(pageable.getPageSize()+1) // limit보다 데이터를 1개 더 들고와서, 해당 데이터가 있다면 hasNext 변수에 true를 넣어 알림
                 .fetch();
@@ -93,6 +91,8 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
         if(searchCond.getRegionIdx() != null){
             builder.or(groupInfo.regionIdx1.eq(searchCond.getRegionIdx()));
             builder.or(groupInfo.regionIdx2.eq(searchCond.getRegionIdx()));
+
+            //regionIdx string으로 바뀌면 startWith 쓰먼됨.
         }
         builder.or(interestEq(searchCond.getInterest1()));
         builder.or(interestEq(searchCond.getInterest2()));
@@ -129,19 +129,31 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
 
 
     }
-    private BooleanExpression offset(Integer sortCond, Long groupIdx){
-        if(sortCond == 0){ //마감일
-            return groupInfo.recruitmentEndDate.gt(
-                    JPAExpressions.select(groupInfoSub.recruitmentEndDate)
+    private BooleanExpression Read(Integer sortCond, Long groupIdx, LocalDateTime now){
+
+        if(groupIdx != null){
+            if(sortCond == 0){ //마감일
+                return groupInfo.recruitmentEndDate.gt(
+                        JPAExpressions.select(groupInfoSub.recruitmentEndDate)
+                                .from(groupInfoSub)
+                                .where(groupInfoSub.groupIdx.eq(groupIdx)));
+            }
+            return groupInfo.createdAt.gt(
+                    JPAExpressions.select(groupInfoSub.createdAt)
                             .from(groupInfoSub)
                             .where(groupInfoSub.groupIdx.eq(groupIdx)));
         }
-        return groupInfo.createdAt.gt(
-                JPAExpressions.select(groupInfoSub.createdAt)
-                        .from(groupInfoSub)
-                        .where(groupInfoSub.groupIdx.eq(groupIdx)));
-    }
+        //첫 번째 페이지
+        System.out.println("첫 페이지 ");
+        System.out.println(now);
+        System.out.println(LocalDate.from(now));
+        if(sortCond == 0 && groupIdx == null){
+            System.out.println("마감순");
+            return groupInfo.recruitmentEndDate.gt(LocalDate.from(now));
+        }
+        return groupInfo.createdAt.gt(now);
 
+    }
 
 
     public JPAQuery<Integer> searchtestGroup(GetGroupInfoSearchReq searchCond, Pageable pageable){
@@ -152,7 +164,6 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
                 .where( application.groupInfo.groupIdx.eq(searchCond.getGroupIdx()),
                         application.status.eq(1));
         return numOfApplicants;
-
 
 
     }

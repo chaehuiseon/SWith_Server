@@ -45,17 +45,12 @@ public class GroupInfoService {
 
         List<GetHomeGroupInfoRes> getHomeGroupInfoResList = new ArrayList<>();
         for (GroupInfo groupInfo : groupInfos) {
-            //가장 최근에 작성된 공지 불러오기
+            //가장 최근에 업데이트된 공지 불러오기
             String announcementContent;
-            try {
                 Announcement announcement = announcementRepository
-                        .findByGroupInfo_GroupIdxOrderByCreatedAtDesc(groupInfo.getGroupIdx())
+                        .findByGroupInfo_GroupIdxOrderByModifiedAtDesc(groupInfo.getGroupIdx())
                         .get(0);
                 announcementContent = announcement.getAnnouncementContent();
-            } catch (NullPointerException e) {
-                announcementContent = "작성된 공지가 없습니다.";
-                System.out.println("e = " + e);
-            }
             //fetch join
             //근 시일내에 가장 빠르게 예정에 있는 회차 정보 불러오기
             Session session = sessionRepository
@@ -65,13 +60,19 @@ public class GroupInfoService {
             //해당 그룹에서 ( 쿼리 다시 짜기 )
             List<Attendance> attendanceList = attendanceRepository
                     .findByGroupIdxAndUserIdxAndStatusIsNot(groupInfo.getGroupIdx(), userIdx, (Integer) 0);
+            int attendanceRate;
+
+
             int attendanceNum = 0;
             for (Attendance attendance : attendanceList) {
                 if (attendance.getStatus().equals(1)) {
                     attendanceNum += 1;
                 }
             }
-            int attendanceRate = attendanceNum * 100 / attendanceList.size();
+            if (attendanceList.isEmpty())
+                attendanceRate = -1;
+            else
+                attendanceRate = attendanceNum * 100 / attendanceList.size();
 
             GetHomeGroupInfoRes getHomeGroupInfoRes = GetHomeGroupInfoRes.builder()
                     .groupIdx(groupInfo.getGroupIdx())

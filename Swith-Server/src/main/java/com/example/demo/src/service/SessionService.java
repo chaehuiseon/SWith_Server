@@ -16,7 +16,6 @@ import com.example.demo.src.repository.AnnouncementRepository;
 import com.example.demo.src.repository.AttendanceRepository;
 import com.example.demo.src.repository.GroupInfoRepository;
 import com.example.demo.src.repository.SessionRepository;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,7 +78,7 @@ public class SessionService {
 
         //가장 최근의 공지사항 가져오기
         Announcement announcement = announcementRepository
-                .findByGroupInfo_GroupIdxOrderByCreatedAtDesc(groupIdx).get(0);
+                .findByGroupInfo_GroupIdxOrderByModifiedAtDesc(groupIdx).get(0);
 
         //sessionList 가져오기 <- fetch join으로 연관된 Attendance도 모두 가져오도록
         List<Session> getSessionList = sessionRepository.getSessionInfoByGroupIdx(groupIdx);

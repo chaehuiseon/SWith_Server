@@ -68,7 +68,7 @@ public class AnnouncementService {
 
         //내용 수정 작업
         Integer count = announcementRepository.updateById(patchAnnouncementReq.getAnnouncementIdx()
-                , patchAnnouncementReq.getAnnouncementContent());
+                ,patchAnnouncementReq.getAnnouncementContent());
         if(count != 1)
             throw new BaseException(BaseResponseStatus.MODIFY_FAIL_ANNOUNCEMENT);
         return announcement.getAnnouncementIdx();

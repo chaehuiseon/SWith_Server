@@ -60,8 +60,8 @@ public class SessionService {
     }
 
 
-    public Integer findAppropriateSessionNum(Long groupIdx,LocalDateTime sessionStart) throws BaseException {
-        if(LocalDateTime.now().isAfter(sessionStart))
+    public Integer findAppropriateSessionNum(Long groupIdx, LocalDateTime sessionStart) throws BaseException {
+        if (LocalDateTime.now().isAfter(sessionStart))
             throw new BaseException(BaseResponseStatus.START_TIME_ERROR);
         Integer sessionNum = sessionRepository.findAppropriateSessionNum(groupIdx, sessionStart);
         return (sessionNum + 1);
@@ -92,7 +92,7 @@ public class SessionService {
             int attendanceRate, attendances = 0;
 
             //해당 세션이 '예정'상태가 아닌 경우 출석율을, 맞다면 -1을 attendanceRate 변수에 할당한다.
-            if(LocalDateTime.now().isAfter(session.getSessionEnd()) && !attendanceList.isEmpty()) {
+            if (LocalDateTime.now().isAfter(session.getSessionEnd()) && !attendanceList.isEmpty()) {
                 for (Attendance attendance : attendanceList) {
                     if (attendance.getStatus() == 1)
                         attendances++;
@@ -128,7 +128,7 @@ public class SessionService {
         return getGroupInfoRes;
     }
 
-    public GetSessionTabRes getSessionInfo(Long userIdx, Long sessionIdx) throws BaseException{
+    public GetSessionTabRes getSessionInfo(Long userIdx, Long sessionIdx) throws BaseException {
         Session session = sessionRepository.findByIdWithGroup(sessionIdx)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_SESSION));
         List<Attendance> attendanceList = attendanceRepository.findBySession(sessionIdx);
@@ -163,7 +163,36 @@ public class SessionService {
     }
 
     public Long modifySession(PatchSessionReq patchSessionReq) throws BaseException {
+        LocalDateTime start = patchSessionReq.getSessionStart();
+        LocalDateTime end = patchSessionReq.getSessionEnd();
+        LocalDateTime now = LocalDateTime.now();
+        Long sessionIdx = patchSessionReq.getSessionIdx();
+//        if (start.isBefore(now))
+//            throw new BaseException(BaseResponseStatus.INAPPROPRIATE_START_TIME);
+        Session session = sessionRepository.findByIdWithGroup(sessionIdx)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_SESSION));
+        Long groupIdx = session.getGroupInfo().getGroupIdx();
 
-        return null;
+        if (sessionRepository.existsOverlappedSession(groupIdx, sessionIdx, start, end))
+            throw new BaseException(BaseResponseStatus.TIME_OVERLAPPED);
+        session.setOnline(patchSessionReq.getOnline());
+        session.setPlace(patchSessionReq.getPlace());
+        session.setSessionContent(patchSessionReq.getSessionContent());
+        session.setSessionStart(start);
+        session.setSessionEnd(end);
+        sessionRepository.save(session);
+        List<Session> sessionList = sessionRepository.findByGroupIdx(groupIdx);
+        if (sessionList.isEmpty())
+            throw new BaseException(BaseResponseStatus.NO_SESSION_INFO);
+
+        for (int i = 1; i < sessionList.size() + 1; i++) {
+            Session session1 = sessionList.get(i - 1);
+            if (session1.getSessionNum() != i) {
+                session1.setSessionNum(i);
+                sessionRepository.save(session1);
+            }
+        }
+
+        return 1L;
     }
 }

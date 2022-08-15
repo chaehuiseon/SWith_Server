@@ -14,7 +14,7 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
 
     Optional<Session> findFirstByGroupInfo_GroupIdxAndSessionStartAfterOrderBySessionNum(Long sessionIdx, LocalDateTime currentTime);
 
-    @Query("select s from Session s where s.groupInfo.groupIdx = ?1")
+    @Query("select s from Session s where s.groupInfo.groupIdx = :groupIdx order by s.sessionStart")
     List<Session> findByGroupIdx(Long groupIdx);
 
     @Query("select count(s) from Session s where s.groupInfo.groupIdx = :groupIdx " +
@@ -36,7 +36,16 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
             "where s.sessionIdx = :sessionIdx")
     Optional<Session> findByIdWithGroup(Long sessionIdx);
 
-//    @Query("select s.groupInfo from Session s " +
-//            "where s.sessionIdx = :sessionIdx")
-//    Optional<GroupInfo> findGroupInfo(Long sessionIdx);
+//    @Query("update Session s set s.sessionNum = s.sessionNum + :num " +
+//            "where s.groupInfo.groupIdx = :groupIdx " +
+//            "and s.sessionNum > :start " +
+//            "and s.sessionNum < :end ")
+//    Integer updateSessionNum(Integer start, Integer end, Integer num, Long groupIdx);
+
+    @Query("select (count(s) > 0) from Session s " +
+            "where s.groupInfo.groupIdx = :groupIdx and " +
+            "s.sessionIdx <> :sessionIdx and " +
+            "((s.sessionStart <= :start and s.sessionEnd > :start ) or" +
+            "(:start < s.sessionStart and :end > s.sessionStart )) ")
+    boolean existsOverlappedSession(Long groupIdx, Long sessionIdx, LocalDateTime start, LocalDateTime end);
 }

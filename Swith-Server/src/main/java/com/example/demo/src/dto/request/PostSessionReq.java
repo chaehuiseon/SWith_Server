@@ -1,4 +1,4 @@
-package com.example.demo.src.dto;
+package com.example.demo.src.dto.request;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 
 @Builder
 @Getter
-@Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostSessionReq {

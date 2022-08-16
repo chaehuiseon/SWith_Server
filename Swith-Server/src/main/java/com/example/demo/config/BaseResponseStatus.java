@@ -84,48 +84,35 @@ public enum BaseResponseStatus {
     PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다."),
 
 
-    // 5000 : 도기
+    // 5000 : 회차(SESSION)
     TEMP1(false, 9000, "conflict 방지용 1"),
-    POST_USERS_EMPTY_NICKNAME(false, 5000, "닉네임을 입력해주세요."),
-    USERS_INVALID_NICKNAME(false, 5001, "닉네임은 10자까지 입력 가능합니다."),
-    POST_USERS_DORMANT(false, 5002, "휴면 상태 계정입니다."),
-    AUTH_REQ_SIGNUP(false, 5003, "회원가입이 필요합니다."),
-    AUTH_FAILED_TO_LOGIN(false, 5004, "로그인에 실패하였습니다."),
-    MODIFY_FAIL_STATUS(false, 5005, "상태 변경에 실패하였습니다."),
-    INVALID_USER_BIRTH(false, 5006, "생년은 1 이상의 값만 가능합니다."),
-    INVALID_USER_STATUS(false, 5007, "탈퇴, 활성화, 휴면 상태값만 가능합니다."),
-    MODIFY_FAIL_INFO(false, 5008, "정보 변경에 실패하였습니다."),
-    PATCH_USERS_EXISTS_NICKNAME(false, 5009, "이미 존재하는 닉네임입니다."),
-    PATCH_USERS_NOT_VALUES(false, 5010, "변경하실 닉네임을 입력해주세요."),
-    MODIFY_FAIL_PUSH_ALARM(false, 5011, "푸시 알람 수신 변경에 실패했습니다."),
-    INVALID_FONT(false, 5012, "유효하지 않은 폰트입니다."),
-    CHANGE_FAIL_FONT(false, 5013, "폰트 변경에 실패하였습니다."),
-    MODIFY_FAIL_RECEIVE_OTHERS(false, 5014, "다른 사람의 편지 수신 변경에 실패하였습니다."),
-    MODIFY_FAIL_RECEIVE_SIMILAR_AGE(false, 5015, "비슷한 연령대의 편지 수신 변경에 실패하였습니다."),
-    CHANGE_FAIL_IS_SAD(false, 5016, "시무룩이 상태 변경에 실패하였습니다."),
-    MODIFY_FAIL_FCM_TOKEN(false, 5017, "디바이스 토큰 갱신에 실패하였습니다."),
-    POST_FAIL_FCM(false, 5018, "푸시 알림 요청에 실패하였습니다."),
-    REFRESH_LOGOUT(false, 5019, "로그아웃 할때 액세스토큰을 사용해 주세요. 액세스토큰이 없다면 리프레시 토큰으로 재발급해주세요."),
-    ALREADY_LOGOUT(false, 5020, "이미 로그아웃 사용자입니다. 다시 로그인 해주세요."),
+    START_TIME_ERROR(false, 5000, "회차 시작 시간이 현재 시각보다 이전입니다."),
+    NO_SESSION_INFO(false, 5001, "해당 그룹의 세션 정보가 없거나 유효하지 않은 groupIdx 입니다."),
+    INAPPROPRIATE_START_TIME(false, 5002, "수정 요청된 시작시간이 현재 보다 이전입니다."),
+    TIME_OVERLAPPED(false, 5003, "다른 회차의 시간대와 겹칩니다."),
+    ALREADY_DELETED_SESSION(false, 5004, "해당 세션은 이미 삭제된 상태입니다."),
 
-    // 6000 : 레마
+
+    // 6000 : INVALID 오류
     TEMP2(false, 9000, "conflict 방지용 2"),
-    INVALID_USERIDX(false, 6000, "존재하지 않는 회원입니다."),
+    INVALID_USER(false, 6000, "존재하지 않는 회원입니다."),
     INVALID_NICKNAME(false, 6001, "존재하지 않는 회원 닉네임입니다."),
-    INVALID_GROUPIDX(false,6002,"존재하지 않는 그룹입니다." ),
-    INVALID_USER_ABOUT_DIARY(false, 6003, "해당 일기에 접근 권한이 없는 회원입니다."),
-    INVALID_TYPE(false, 6004, "잘못된 type 입니다. (diary, letter, reply 중 1)"),
-    INVALID_TYPEIDX_ABOUT_TYPE(false, 6005, "해당 type에 존재하지 않는 typeIdx 입니다."),
+    INVALID_GROUP(false,6002,"존재하지 않는 그룹입니다." ),
+    INVALID_ANNOUNCEMENT(false,6003,"존재하지 않는 공지사항입니다."),
+    INVALID_SESSION(false, 6004, "세션 정보가 없습니다."),
+    INVALID_ATTENDANCE(false, 6005, "출석 정보가 없습니다."),
     NO_REGISTRATION_INFO(false, 6006, "유저의 스터디 그룹 가입 정보가 없습니다."),
+    NO_GROUP_ATTENDANCE(false, 6007, "그룹의 출석 정보가 없습니다."),
 
 
 
 
-    // 7000 : 자몽
+    // 7000 : 공지사항
+    MODIFY_FAIL_ANNOUNCEMENT(false, 7000, "수정에 실패하였습니다."),
+    DELETE_FAIL_ANNOUNCEMENT(false, 7002, "삭제에 실패하였습니다."),
+    ALREADY_DELETED_ANNOUNCEMENT(false, 7003, "해당 공지사항은 이미 삭제된 상태입니다."),
     TEMP3(false, 9000, "conflict 방지용 3"),
 
-    //    MODIFY_FAIL_STATUS(false, 7010, "화분 상태 변경에 실패하였습니다."),
-    INSERT_FAIL_PLANT(false, 7000, "해당 유저의 화분 초기화에 실패하였습니다."),
 
     MODIFY_FAIL_BUY_PLANT(false, 7011, "화분 선택에 실패하였습니다."),
     MODIFY_FAIL_SCORE(false, 7012, "화분 점수 변경에 실패하였습니다."),
@@ -146,20 +133,10 @@ public enum BaseResponseStatus {
     SAD_STATUS_PLANT(false, 7032, "화분이 시무룩 상태입니다. 화분의 성장치를 증가시킬 수 없습니다."),
 
 
-    // 8000 : 잭, 레마
-    INVALID_LETTERIDX(false, 8000, "존재하지 않는 편지입니다."),
-    INVALID_USER_ABOUT_LETTER(false, 8001, "해당 편지에 접근 권한이 없는 회원입니다."),
-    MODIFY_FAIL_LETTER_STATUS(false, 8002, "편지 삭제에 실패하였습니다."),
-    MODIFY_FAIL_ISCHECKED(false, 8003, "열람 여부 변경에 실패하였습니다."),
-
-    MODIFY_FAIL_REPLY_STATUS(false, 8004, "답장 삭제에 실패하였습니다."),
-    INVALID_USER_ABOUT_REPLY(false, 8005, "해당 답장에 접근 권한이 없는 회원입니다."),
-
-    MODIFY_FAIL_BLOCK_STATUS(false, 8002, "차단 해제 실패"),
-    GET_FAIL_USERIDX(false, 8003, "해당 유저의 인덱스가 입력되지않았습니다."),
-    NOTICE_DATABASE_ERROR(false, 8006, "공지 조회 실패"),
-
-    POST_REPORT_REASON(false, 8009, "신고의 사유가 정해진 사유를 벗어납니다."),
+    // 8000 : 출석
+    ALREADY_ATTENDED(false, 8000, "출석 상태가 결정되어 있습니다. 관리자만 변경 가능합니다."),
+    FAIL_ATTEND(false, 8001, "출석 가능한 시간이 아닙니다."),
+    EXIST_ATTEND_INFO(false, 8002, "이미 출석 데이터가 있습니다."),
 
     TEMP4(false, 9000, "conflict 방지용 4");
 

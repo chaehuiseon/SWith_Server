@@ -1,4 +1,4 @@
-package com.example.demo.src.dto;
+package com.example.demo.src.dto.response;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -20,6 +20,19 @@ public class GetHomeGroupInfoRes {
 
     @ApiModelProperty(notes = "정원(2~10)", example = "8")
     private Integer memberLimit; //정원(2~10)
+
+    @ApiModelProperty(notes = "스터디 그룹을 대표하는 이미지 -S3", example = "www.~~")
+    private String groupImgUrl;
+
+    @ApiModelProperty(notes = "활동하는 지역 1", example = "1111000000")
+    private Long regionIdx1;
+
+    @ApiModelProperty(notes = "활동하는 지역 2", example = "1111000000")
+    private Long regionIdx2;
+
+    @ApiModelProperty(notes = "활동하는 지역 2", example = "1111000000")
+    private Integer online;
+
 
     @ApiModelProperty(notes = "분류의 이름(카테고리)", example = "자격증")
     private String interestContent; //분류의 이름(카테고리)

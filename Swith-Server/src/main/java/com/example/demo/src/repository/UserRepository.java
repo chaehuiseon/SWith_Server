@@ -16,4 +16,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 //    User findByEmail(String email);
     // youngmin -> change
     Optional<User> findByEmail(String email);
+
+    @Query("select u " +
+            "from User u " +
+            "join fetch u.registerList " +
+            "where u.userIdx = :userIdx ")
+    Optional<User> findByIdWithRegister(Long userIdx);
+
 }

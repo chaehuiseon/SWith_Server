@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class AnnouncementService {
 
         //내용 수정 작업
         Integer count = announcementRepository.updateById(patchAnnouncementReq.getAnnouncementIdx()
-                ,patchAnnouncementReq.getAnnouncementContent());
+                ,patchAnnouncementReq.getAnnouncementContent(), LocalDateTime.now());
         if(count != 1)
             throw new BaseException(BaseResponseStatus.MODIFY_FAIL_ANNOUNCEMENT);
         return announcement.getAnnouncementIdx();

@@ -24,9 +24,9 @@ public class GroupInfoController {
     private final UserService userService;
 
     @Autowired
-    public GroupInfoController(GroupInfoService groupInfoService, UserService userService, SessionService sessionService, UserService userService1) {
+    public GroupInfoController(GroupInfoService groupInfoService,UserService userService) {
         this.groupInfoService = groupInfoService;
-        this.userService = userService1;
+        this.userService = userService;
     }
 
     @ApiOperation("홈화면 정보 불러오기 - P1")

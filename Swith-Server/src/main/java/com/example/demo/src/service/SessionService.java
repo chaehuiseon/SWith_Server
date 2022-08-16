@@ -81,7 +81,7 @@ public class SessionService {
                 .findByGroupInfo_GroupIdxOrderByModifiedAtDesc(groupIdx).get(0);
 
         //sessionList 가져오기 <- fetch join으로 연관된 Attendance도 모두 가져오도록
-        List<Session> getSessionList = sessionRepository.getSessionInfoByGroupIdx(groupIdx);
+        List<Session> getSessionList = sessionRepository.getSessionAndAttendanceByGroupIdx(groupIdx);
 
         List<GetSessionRes> getSessionResList = new ArrayList<>();
 
@@ -175,7 +175,11 @@ public class SessionService {
         if (sessionRepository.existsOverlappedSession(groupIdx, sessionIdx, start, end))
             throw new BaseException(BaseResponseStatus.TIME_OVERLAPPED);
         session.setOnline(patchSessionReq.getOnline());
-        session.setPlace(patchSessionReq.getPlace());
+        if (patchSessionReq.getOnline() == 1)
+            session.setPlace("");
+        else
+            session.setPlace(patchSessionReq.getPlace());
+
         session.setSessionContent(patchSessionReq.getSessionContent());
         session.setSessionStart(start);
         session.setSessionEnd(end);
@@ -191,7 +195,16 @@ public class SessionService {
                 sessionRepository.save(session1);
             }
         }
+        return sessionIdx;
 
-        return 1L;
+    }
+
+    public Long deleteSession(Long sessionIdx) throws BaseException {
+        Session session = sessionRepository.findById(sessionIdx)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_SESSION_INFO));
+        if (session.getStatus() == 1)
+            throw new BaseException(BaseResponseStatus.ALREADY_DELETED_ANNOUNCEMENT);
+        sessionRepository.deleteSession(sessionIdx);
+        return sessionIdx;
     }
 }

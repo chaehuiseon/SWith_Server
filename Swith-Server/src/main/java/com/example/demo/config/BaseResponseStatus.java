@@ -90,6 +90,8 @@ public enum BaseResponseStatus {
     NO_SESSION_INFO(false, 5001, "해당 그룹의 세션 정보가 없거나 유효하지 않은 groupIdx 입니다."),
     INAPPROPRIATE_START_TIME(false, 5002, "수정 요청된 시작시간이 현재 보다 이전입니다."),
     TIME_OVERLAPPED(false, 5003, "다른 회차의 시간대와 겹칩니다."),
+    ALREADY_DELETED_SESSION(false, 5004, "해당 세션은 이미 삭제된 상태입니다."),
+
 
     // 6000 : INVALID 오류
     TEMP2(false, 9000, "conflict 방지용 2"),

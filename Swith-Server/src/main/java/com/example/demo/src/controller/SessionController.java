@@ -29,7 +29,7 @@ public class SessionController {
         this.userService = userService;
     }
 
-    @ApiOperation("스터디탭-회차 정보 불러오기 - P2")
+    @ApiOperation("스터디탭-그룹 정보 불러오기 - P2")
     @GetMapping
     public BaseResponse<GetGroupInfoRes> loadGroupData(@RequestParam(value = "userIdx") Long userIdx,
                                                        @RequestParam(value = "groupIdx") Long groupIdx) {
@@ -86,6 +86,17 @@ public class SessionController {
         try {
             Long sessionIdx = sessionService.modifySession(patchSessionReq);
             return new BaseResponse<>(sessionIdx);
+        }catch (BaseException e){
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    @ApiOperation("관리자탭 - 회차 삭제 P14")
+    @PatchMapping ("/admin/{sessionIdx}/status")
+    public BaseResponse<Long> modifySession(@PathVariable Long sessionIdx) {
+        try {
+            Long session = sessionService.deleteSession(sessionIdx);
+            return new BaseResponse<>(session);
         }catch (BaseException e){
             return new BaseResponse<>(e.getStatus());
         }

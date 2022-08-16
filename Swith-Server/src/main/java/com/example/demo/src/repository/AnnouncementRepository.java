@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AnnouncementRepository extends JpaRepository<Announcement,Long> {
@@ -19,9 +20,11 @@ public interface AnnouncementRepository extends JpaRepository<Announcement,Long>
     List<Announcement> findByGroupIdx(Long groupIdx);
 
     @Modifying
-    @Query("update Announcement a set a.announcementContent = :announcementContent " +
+    @Query("update Announcement a " +
+            "set a.announcementContent = :announcementContent, " +
+            "a.modifiedAt = :now " +
             "where a.announcementIdx = :announcementIdx")
-    Integer updateById(Long announcementIdx,String announcementContent);
+    Integer updateById(Long announcementIdx, String announcementContent, LocalDateTime now);
 
 
     //상태만 비활성화로 바꾸는 로직,

@@ -47,15 +47,15 @@ public class GroupInfoService {
         for (GroupInfo groupInfo : groupInfos) {
             //가장 최근에 업데이트된 공지 불러오기
             String announcementContent;
-                Announcement announcement = announcementRepository
-                        .findByGroupInfo_GroupIdxOrderByModifiedAtDesc(groupInfo.getGroupIdx())
-                        .get(0);
-                announcementContent = announcement.getAnnouncementContent();
+            Announcement announcement = announcementRepository
+                    .findByGroupInfo_GroupIdxOrderByModifiedAtDesc(groupInfo.getGroupIdx())
+                    .get(0);
+            announcementContent = announcement.getAnnouncementContent();
             //fetch join
             //근 시일내에 가장 빠르게 예정에 있는 회차 정보 불러오기
             Session session = sessionRepository
-                    .findFirstByGroupInfo_GroupIdxAndSessionStartAfterOrderBySessionNum
-                            (groupInfo.getGroupIdx(), LocalDateTime.now()).get();
+                    .findFirstByGroupInfo_GroupIdxAndSessionStartAfterAndStatusEqualsOrderBySessionNum
+                            (groupInfo.getGroupIdx(), LocalDateTime.now(), 0).get();
 
             //해당 그룹에서 ( 쿼리 다시 짜기 )
             List<Attendance> attendanceList = attendanceRepository

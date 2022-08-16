@@ -2,6 +2,9 @@ package com.example.demo.src.entity;
 
 
 import javax.persistence.*;
+
+import com.example.demo.src.enums.RoleType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.util.ArrayList;

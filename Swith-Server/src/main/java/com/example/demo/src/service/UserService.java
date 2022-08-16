@@ -112,9 +112,9 @@ public class UserService {
 
     public boolean isAdminOfGroup (Long userIdx, Long GroupIdx) throws BaseException{
         User user = userRepository.findById(userIdx)
-                .orElseThrow(() -> new BaseException(INVALID_USERIDX));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USER));
         GroupInfo groupInfo = groupInfoRepository.findById(GroupIdx)
-                .orElseThrow(() -> new BaseException(INVALID_GROUPIDX));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUP));
         if(groupInfo.getUser() == user){
             return true;
         }

@@ -25,10 +25,10 @@ public class GetHomeGroupInfoRes {
     private String groupImgUrl;
 
     @ApiModelProperty(notes = "활동하는 지역 1", example = "1111000000")
-    private Long regionIdx1;
+    private String regionIdx1;
 
     @ApiModelProperty(notes = "활동하는 지역 2", example = "1111000000")
-    private Long regionIdx2;
+    private String regionIdx2;
 
     @ApiModelProperty(notes = "활동하는 지역 2", example = "1111000000")
     private Integer online;

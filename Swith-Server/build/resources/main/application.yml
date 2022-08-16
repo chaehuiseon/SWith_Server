@@ -12,10 +12,14 @@ spring:
 
   datasource:
     platform: mysql
-    url: jdbc:mysql://wnsvy607db.cwrwa6a6cgtb.ap-northeast-2.rds.amazonaws.com/jpDB
-#    jdbc:mysql://localhost:3306/test_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: wnsvy607
-    password: ljp153153
+#    url: jdbc:mysql://wnsvy607db.cwrwa6a6cgtb.ap-northeast-2.rds.amazonaws.com/jpDB
+##    jdbc:mysql://localhost:3306/test_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+#    username: wnsvy607
+#    password: ljp153153
+    url: jdbc:mysql://database-1.ci99ujibojwf.ap-northeast-2.rds.amazonaws.com/swithDB
+    username: youngmin
+    password: qkrdudals99
+
     driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
     hikari:
       connectionInitSql: "SET NAMES 'utf8mb4'"
@@ -35,10 +39,7 @@ spring:
       use-new-id-generator-mappings: false #jpa 기본 numvering 전략을 따라가지 않겠다.
     show-sql: true
     properties:
-      hibernate:
-        # show_sql: true
-        format_sql: true
-        use_sql_comments: true #querydsl jpql 보기
+      hibernate.format_sql: true #예쁘게
 
 
   security:
@@ -55,11 +56,6 @@ spring:
           scope:
             - public_profile
             - email
-
-logging:
-  level:
-    org.hibernate.SQL: debug # 하이버네이트가 생성하는 SQL이 다보인다.
-    org.hibernate.type:  #binding parameter의 값이 무엇인지를 알려줌.
 
 
 

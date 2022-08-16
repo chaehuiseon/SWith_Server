@@ -2,8 +2,6 @@ package com.example.demo.src.entity;
 
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -58,6 +56,9 @@ public class User extends BaseTimeEntity { //유저 테이블
 
     private String refreshToken;
 
+    @Enumerated(EnumType.STRING)
+    private RoleType role;
+
     //가입한 그룹을 불러올 때 쓰일 것
     @Builder.Default
     @OneToMany(mappedBy = "user") // N:1 양방향
@@ -65,5 +66,15 @@ public class User extends BaseTimeEntity { //유저 테이블
 
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public User update(String name, String picture){
+        this.nickname = name;
+        this.profileImgUrl = picture;
+        return this;
+    }
+
+    public String getRoleKey(){
+        return this.role.getKey();
     }
 }

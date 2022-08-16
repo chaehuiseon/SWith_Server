@@ -60,6 +60,9 @@
 # *.iml
 # *.ipr
 
+# oauth
+application-oauth.properties
+src/main/resources/application-oauth.properties
 # CMake
 cmake-build-*/
 

@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9772725e-a081-41d7-8e44-8279460a8199" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +47,13 @@
         </projects_view>
       </state>
     </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Merge.Settings">
     <option name="BRANCH" value="main" />
@@ -101,19 +106,39 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="모듈" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/exception" />
       <recent name="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo" />
+      <recent name="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/exception" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.demo.src.enums" />
+      <recent name="com.example.demo.src.exception" />
+      <recent name="com.example.demo.config" />
       <recent name="com.example.demo.src.dto.response" />
       <recent name="com.example.demo.src.dto.request" />
-      <recent name="com.example.demo.src.exception.userServiceException" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.DemoApplication">
+    <configuration name="SignInTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="swith.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.demo.userControllerTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.demo.userControllerTest" />
+      <option name="MAIN_CLASS_NAME" value="com.example.demo.userControllerTest.SignInTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="swith.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.demo.DemoApplication" />
@@ -121,6 +146,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.SignInTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -132,7 +162,18 @@
       <updated>1659587230062</updated>
       <workItem from="1659587231217" duration="629000" />
       <workItem from="1659603942983" duration="32000" />
-      <workItem from="1659667535367" duration="3949000" />
+      <workItem from="1659667535367" duration="9430000" />
+      <workItem from="1659771227814" duration="4601000" />
+      <workItem from="1659869383431" duration="5424000" />
+      <workItem from="1659933441187" duration="1886000" />
+      <workItem from="1659935344687" duration="5221000" />
+      <workItem from="1659960444930" duration="1033000" />
+      <workItem from="1660022191668" duration="289000" />
+      <workItem from="1660112450068" duration="3727000" />
+      <workItem from="1660195449673" duration="6989000" />
+      <workItem from="1660301937789" duration="7354000" />
+      <workItem from="1660567303846" duration="1290000" />
+      <workItem from="1660629945818" duration="1857000" />
     </task>
     <servers />
   </component>
@@ -149,5 +190,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/UserService.java</url>
+          <line>126</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -173,7 +173,6 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
         return groupInfo.createdAt.asc();
     }
 
-
     public JPAQuery<Integer> searchtestGroup(GetGroupInfoSearchReq searchCond, Pageable pageable){
 
         JPAQuery<Integer> numOfApplicants = queryFactory

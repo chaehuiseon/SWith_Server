@@ -48,37 +48,38 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
                 .where(Read(searchCond.getSortCond(),
                         searchCond.getGroupIdx(),
                         searchCond.getClientTime()))
-                .limit(pageable.getPageSize())
                 .fetch();
 
+        System.out.println("PK >> " + ids.toString());
 
         List<GetGroupInfoSearchRes> content =
                 queryFactory
-                .select(Projections.fields(GetGroupInfoSearchRes.class,
-                        groupInfo.groupIdx,
-                        groupInfo.title,
-                        groupInfo.groupContent,
-                        groupInfo.regionIdx1,
-                        groupInfo.regionIdx2,
-                        groupInfo.recruitmentEndDate,
-                        groupInfo.memberLimit,
-                        groupInfo.createdAt,
-                        ExpressionUtils.as(
-                                JPAExpressions.select(application.count()).from(application)
-                                        .where(application.groupInfo.groupIdx.eq(groupInfo.groupIdx),
-                                                application.status.eq(1)),"NumOfApplicants")
+                        .select(Projections.fields(GetGroupInfoSearchRes.class,
+                                groupInfo.groupIdx,
+                                groupInfo.title,
+                                groupInfo.groupContent,
+                                groupInfo.regionIdx1,
+                                groupInfo.regionIdx2,
+                                groupInfo.recruitmentEndDate,
+                                groupInfo.memberLimit,
+                                groupInfo.createdAt,
+                                groupInfo.applicationMethod,
+                                ExpressionUtils.as(
+                                        JPAExpressions.select(application.count()).from(application)
+                                                .where(application.groupInfo.groupIdx.eq(groupInfo.groupIdx),
+                                                        application.status.eq(1)),"NumOfApplicants")
                         ))
-                .from(groupInfo)
+                        .from(groupInfo)
                         .where(
                                 Search(searchCond),
                                 groupInfo.groupIdx.in(ids)
                         )
 
-                .groupBy(groupInfo.groupIdx)
-                .limit(pageable.getPageSize()+1) // limit보다 데이터를 1개 더 들고와서, 해당 데이터가 있다면 hasNext 변수에 true를 넣어 알림
+                        .groupBy(groupInfo.groupIdx)
+                        .limit(pageable.getPageSize()+1) // limit보다 데이터를 1개 더 들고와서, 해당 데이터가 있다면 hasNext 변수에 true를 넣어 알림
                         .orderBy((OrderSpecifier<?>) Sort(searchCond.getSortCond()))
                         .fetch();
-                        //.orderBy(new OrderSpecifier(Order.ASC,groupInfo.recruitmentEndDate);
+        //.orderBy(new OrderSpecifier(Order.ASC,groupInfo.recruitmentEndDate);
         System.out.println(content);
 
         boolean hasNext = false;
@@ -108,6 +109,7 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
         //builder.or(interestEq(searchCond.getInterest1()));
         //builder.or(interestEq(searchCond.getInterest2()));
 
+        System.out.println( "interset >> " +searchCond.getInterest1()+ searchCond.getInterest2());
         builder.and(groupInfo.interest.interestIdx.in(searchCond.getInterest1(), searchCond.getInterest2()));
         return builder;
 
@@ -128,19 +130,24 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
 //
 //    }
 
-    private BooleanExpression interestEq(Integer i){
-        System.out.println("진입");
-        if(i == null){
-            System.out.println("null이래.interestEq"+i);
-            return null;
-        }
+//    private BooleanExpression interestEq(Integer i){
+//        System.out.println("진입");
+//        if(i == null){
+//            System.out.println("null이래.interestEq"+i);
+//            return null;
+//        }
+//
+//        System.out.println("뭐가 잡혔다");
+//        System.out.println("interestEq"+i);
+//        return groupInfo.interest.interestIdx.eq(i);
+//
+//
+//    }
 
-        System.out.println("뭐가 잡혔다");
-        System.out.println("interestEq"+i);
-        return groupInfo.interest.interestIdx.eq(i);
-
-
-    }
+    //    private BooleanExpression interestIn(Integer interest1, Integer interest2){
+//        return interest != null ?
+//                groupInfo.interest.interestIdx.in(searchCond.getInterest1(), searchCond.getInterest2()
+//    }
     private BooleanExpression Read(Integer sortCond, Long groupIdx, LocalDateTime now){
 
         if(groupIdx != null){

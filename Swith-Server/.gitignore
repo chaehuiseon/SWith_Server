@@ -60,6 +60,9 @@
 # *.iml
 # *.ipr
 
+# oauth
+application-oauth.properties
+src/main/resources/application-oauth.properties
 # CMake
 cmake-build-*/
 
@@ -126,6 +129,7 @@ fabric.properties
 ### macOS ###
 # General
 .DS_Store
+*/.DS_Store
 .AppleDouble
 .LSOverride
 

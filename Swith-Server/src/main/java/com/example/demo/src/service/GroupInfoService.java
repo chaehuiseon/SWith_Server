@@ -1,8 +1,7 @@
 package com.example.demo.src.service;
 
 import com.example.demo.config.BaseException;
-import com.example.demo.config.BaseResponseStatus;
-import com.example.demo.src.dto.GetHomeGroupInfoRes;
+import com.example.demo.src.dto.response.GetHomeGroupInfoRes;
 import com.example.demo.src.dto.PostGroupInfoReq;
 import com.example.demo.src.dto.PostGroupInfoRes;
 import com.example.demo.src.dto.request.GetGroupInfoSearchReq;
@@ -46,42 +45,48 @@ public class GroupInfoService {
 
     public List<GetHomeGroupInfoRes> loadHomeData(Long userIdx) throws BaseException {
         List<GroupInfo> groupInfos = registerRepository.findGroupInfoByUserIdx(userIdx);
-        if(groupInfos.isEmpty())
-            throw  new BaseException(NO_REGISTRATION_INFO);
+        if (groupInfos.isEmpty())
+            throw new BaseException(NO_REGISTRATION_INFO);
 
         List<GetHomeGroupInfoRes> getHomeGroupInfoResList = new ArrayList<>();
-        for(GroupInfo groupInfo : groupInfos){
-            //가장 최근에 작성된 공지 불러오기
+        for (GroupInfo groupInfo : groupInfos) {
+            //가장 최근에 업데이트된 공지 불러오기
             String announcementContent;
-            try {Announcement announcement = announcementRepository
-                    .findByGroupInfo_GroupIdxOrderByCreatedAtDesc(groupInfo.getGroupIdx())
+            Announcement announcement = announcementRepository
+                    .findByGroupInfo_GroupIdxOrderByModifiedAtDesc(groupInfo.getGroupIdx())
                     .get(0);
-                announcementContent = announcement.getAnnouncementContent();
-            } catch (NullPointerException e){
-                announcementContent = "작성된 공지가 없습니다.";
-                System.out.println("e = " + e);
-            }
+            announcementContent = announcement.getAnnouncementContent();
             //fetch join
             //근 시일내에 가장 빠르게 예정에 있는 회차 정보 불러오기
-                Session session = sessionRepository
-                        .findFirstByGroupInfo_GroupIdxAndSessionStartAfterOrderBySessionNum
-                                (groupInfo.getGroupIdx(), LocalDateTime.now()).get();
+            Session session = sessionRepository
+                    .findFirstByGroupInfo_GroupIdxAndSessionStartAfterAndStatusEqualsOrderBySessionNum
+                            (groupInfo.getGroupIdx(), LocalDateTime.now(), 0).get();
 
             //해당 그룹에서 ( 쿼리 다시 짜기 )
             List<Attendance> attendanceList = attendanceRepository
-                    .findByGroupInfo_GroupIdxAndUser_UserIdxAndStatusIsNot(groupInfo.getGroupIdx(), userIdx, (Integer) 0);
+                    .findByGroupIdxAndUserIdxAndStatusIsNot(groupInfo.getGroupIdx(), userIdx, (Integer) 0);
+            int attendanceRate;
+
+
             int attendanceNum = 0;
-            for (Attendance attendance : attendanceList){
-                if(attendance.getStatus().equals(1)){
+            for (Attendance attendance : attendanceList) {
+                if (attendance.getStatus().equals(1)) {
                     attendanceNum += 1;
                 }
             }
-            int attendanceRate = attendanceNum * 100 / attendanceList.size();
+            if (attendanceList.isEmpty())
+                attendanceRate = -1;
+            else
+                attendanceRate = attendanceNum * 100 / attendanceList.size();
 
             GetHomeGroupInfoRes getHomeGroupInfoRes = GetHomeGroupInfoRes.builder()
                     .groupIdx(groupInfo.getGroupIdx())
                     .title(groupInfo.getTitle())
                     .memberLimit(groupInfo.getMemberLimit())
+                    .regionIdx1(groupInfo.getRegionIdx1())
+                    .regionIdx2(groupInfo.getRegionIdx2())
+                    .groupImgUrl(groupInfo.getGroupImgUrl())
+                    .online(groupInfo.getOnline())
                     .interestContent(groupInfo.getInterest().getInterestContent())
                     .announcementContent(announcementContent)
                     .sessionContent(session.getSessionContent())

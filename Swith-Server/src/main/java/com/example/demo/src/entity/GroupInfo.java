@@ -59,9 +59,9 @@ public class GroupInfo extends BaseTimeEntity {
 
     // 활동 예정 지역코드 2개 (온라인값이 1이면 둘 다 디폴트 값)
     @Builder.Default
-    private String regionIdx1 = ""; //활동하는 지역 1
+    private String regionIdx1 = "0000000000"; //활동하는 지역 1
     @Builder.Default
-    private String regionIdx2 = ""; //활동하는 지역 2
+    private String regionIdx2 = "0000000000"; //활동하는 지역 2
 
     //-----------------------
 

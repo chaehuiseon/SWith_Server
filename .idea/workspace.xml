@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9772725e-a081-41d7-8e44-8279460a8199" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/repository/UserRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +58,7 @@
     </option>
   </component>
   <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="main" />
+    <option name="BRANCH" value="youngmin" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -173,7 +175,7 @@
       <workItem from="1660195449673" duration="6989000" />
       <workItem from="1660301937789" duration="7354000" />
       <workItem from="1660567303846" duration="1290000" />
-      <workItem from="1660629945818" duration="1857000" />
+      <workItem from="1660629945818" duration="2169000" />
     </task>
     <servers />
   </component>
@@ -196,7 +198,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/UserService.java</url>
-          <line>126</line>
+          <line>128</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>

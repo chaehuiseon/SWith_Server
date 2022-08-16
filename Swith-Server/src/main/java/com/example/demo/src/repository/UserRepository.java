@@ -14,5 +14,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "join fetch u.interest2 " +
             "where u.email = ?1")
 //    User findByEmail(String email);
+    // youngmin -> change
     Optional<User> findByEmail(String email);
 }

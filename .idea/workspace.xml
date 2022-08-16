@@ -14,13 +14,9 @@
       <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/6.7.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/repository/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/repository/UserRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/classes/java/main/com/example/demo/src/service/UserService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/build/tmp/compileJava/source-classes-mapping.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/build/tmp/compileJava/source-classes-mapping.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/config/auth/CustomOAuth2UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/config/auth/CustomOAuth2UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/config/auth/OAuthAttributes.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/config/auth/OAuthAttributes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,7 +182,9 @@
       <workItem from="1660022191668" duration="289000" />
       <workItem from="1660112450068" duration="3727000" />
       <workItem from="1660195449673" duration="6989000" />
-      <workItem from="1660301937789" duration="5034000" />
+      <workItem from="1660301937789" duration="7354000" />
+      <workItem from="1660567303846" duration="1290000" />
+      <workItem from="1660629945818" duration="55000" />
     </task>
     <servers />
   </component>
@@ -211,11 +209,6 @@
           <url>file://$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/src/service/UserService.java</url>
           <line>126</line>
           <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Swith-Server/src/main/java/com/example/demo/config/auth/CustomOAuth2UserService.java</url>
-          <line>48</line>
-          <option name="timeStamp" value="39" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -71,8 +71,8 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
                         ))
                         .from(groupInfo)
                         .where(
-                                Search(searchCond),
-                                groupInfo.groupIdx.in(ids)
+                                groupInfo.groupIdx.in(ids),
+                                Search(searchCond)
                         )
 
                         .groupBy(groupInfo.groupIdx)
@@ -110,7 +110,7 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
         //builder.or(interestEq(searchCond.getInterest2()));
 
         System.out.println( "interset >> " +searchCond.getInterest1()+ searchCond.getInterest2());
-        builder.and(groupInfo.interest.interestIdx.in(searchCond.getInterest1(), searchCond.getInterest2()));
+        builder.and(interestIn(searchCond.getInterest1(), searchCond.getInterest2()));
         return builder;
 
     }
@@ -144,10 +144,14 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
 //
 //    }
 
-    //    private BooleanExpression interestIn(Integer interest1, Integer interest2){
-//        return interest != null ?
-//                groupInfo.interest.interestIdx.in(searchCond.getInterest1(), searchCond.getInterest2()
-//    }
+    private BooleanExpression interestIn(Integer interest1, Integer interest2){
+        if(interest1 != null || interest2 != null){
+            return groupInfo.interest.interestIdx.in(interest1,interest2);
+        }
+        return null;
+    }
+
+
     private BooleanExpression Read(Integer sortCond, Long groupIdx, LocalDateTime now){
 
         if(groupIdx != null){
@@ -157,7 +161,7 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
                                 .from(groupInfoSub)
                                 .where(groupInfoSub.groupIdx.eq(groupIdx)));
             }
-            return groupInfo.createdAt.gt(
+            return groupInfo.createdAt.lt(
                     JPAExpressions.select(groupInfoSub.createdAt)
                             .from(groupInfoSub)
                             .where(groupInfoSub.groupIdx.eq(groupIdx)));
@@ -170,14 +174,16 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
             System.out.println("마감순");
             return groupInfo.recruitmentEndDate.gt(LocalDate.from(now));
         }
-        return groupInfo.createdAt.gt(now);
+        now = now.plusSeconds(1); //ms까지 비교를 못해서 누락되는 데이터 발생 +1s, 0ms로 해서 누락 방지.
+        return groupInfo.createdAt.lt(now);
 
     }
+
     private Object Sort(Integer sortCond){
         if(sortCond == 0){
             return groupInfo.recruitmentEndDate.asc();
         }
-        return groupInfo.createdAt.asc();
+        return groupInfo.createdAt.desc();
     }
 
     public JPAQuery<Integer> searchtestGroup(GetGroupInfoSearchReq searchCond, Pageable pageable){

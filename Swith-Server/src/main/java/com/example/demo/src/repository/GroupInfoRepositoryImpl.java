@@ -1,15 +1,13 @@
 package com.example.demo.src.repository;
 
-import com.example.demo.src.dto.PostGroupInfoReq;
 import com.example.demo.src.dto.request.GetGroupInfoSearchReq;
 import com.example.demo.src.dto.response.GetGroupInfoSearchRes;
 //import com.example.demo.src.dto.response.QGetGroupInfoSearchRes;
-import com.example.demo.src.entity.GroupInfo;
 import com.example.demo.src.entity.Interest;
 import com.example.demo.src.entity.QGroupInfo;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.QueryFactory;
 import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
@@ -21,7 +19,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,7 +27,6 @@ import static org.springframework.util.StringUtils.hasText;
 
 import static com.example.demo.src.entity.QApplication.application;
 import static com.example.demo.src.entity.QGroupInfo.groupInfo;
-import static com.example.demo.src.entity.QInterest.interest;
 
 
 @Repository
@@ -44,6 +40,17 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
     QGroupInfo groupInfoSub = new QGroupInfo("groupInfoSub");
     @Override
     public Slice<GetGroupInfoSearchRes> searchGroupInfo(GetGroupInfoSearchReq searchCond, Pageable pageable) {
+
+        //커버링 인덱스 전략
+        List<Long> ids = queryFactory
+                .select(groupInfo.groupIdx)
+                .from(groupInfo)
+                .where(Read(searchCond.getSortCond(),
+                        searchCond.getGroupIdx(),
+                        searchCond.getClientTime()))
+                .limit(pageable.getPageSize())
+                .fetch();
+
 
         List<GetGroupInfoSearchRes> content =
                 queryFactory
@@ -60,19 +67,18 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
                                 JPAExpressions.select(application.count()).from(application)
                                         .where(application.groupInfo.groupIdx.eq(groupInfo.groupIdx),
                                                 application.status.eq(1)),"NumOfApplicants")
-
                         ))
                 .from(groupInfo)
                         .where(
                                 Search(searchCond),
-                                Read(searchCond.getSortCond(),
-                                        searchCond.getGroupIdx(),
-                                        searchCond.getClientTime())
+                                groupInfo.groupIdx.in(ids)
                         )
 
                 .groupBy(groupInfo.groupIdx)
                 .limit(pageable.getPageSize()+1) // limit보다 데이터를 1개 더 들고와서, 해당 데이터가 있다면 hasNext 변수에 true를 넣어 알림
-                .fetch();
+                        .orderBy((OrderSpecifier<?>) Sort(searchCond.getSortCond()))
+                        .fetch();
+                        //.orderBy(new OrderSpecifier(Order.ASC,groupInfo.recruitmentEndDate);
         System.out.println(content);
 
         boolean hasNext = false;
@@ -84,19 +90,25 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
 
     }
 
+
+
     private BooleanBuilder Search(GetGroupInfoSearchReq searchCond){
         BooleanBuilder builder = new BooleanBuilder();
-
+        BooleanBuilder builder2 = new BooleanBuilder(); // and ( or ) and // or 괄호용
         builder.and(titlecontain(searchCond.getTitle()));
         if(searchCond.getRegionIdx() != null){
-            builder.or(groupInfo.regionIdx1.eq(searchCond.getRegionIdx()));
-            builder.or(groupInfo.regionIdx2.eq(searchCond.getRegionIdx()));
 
+            //builder.or(groupInfo.regionIdx1.eq(searchCond.getRegionIdx()));
+            //builder.or(groupInfo.regionIdx2.eq(searchCond.getRegionIdx()));
             //regionIdx string으로 바뀌면 startWith 쓰먼됨.
+            builder2.or(groupInfo.regionIdx1.startsWith(searchCond.getRegionIdx()));
+            builder2.or(groupInfo.regionIdx2.startsWith(searchCond.getRegionIdx()));
+            builder.and(builder2);
         }
-        builder.or(interestEq(searchCond.getInterest1()));
-        builder.or(interestEq(searchCond.getInterest2()));
+        //builder.or(interestEq(searchCond.getInterest1()));
+        //builder.or(interestEq(searchCond.getInterest2()));
 
+        builder.and(groupInfo.interest.interestIdx.in(searchCond.getInterest1(), searchCond.getInterest2()));
         return builder;
 
     }
@@ -153,6 +165,12 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
         }
         return groupInfo.createdAt.gt(now);
 
+    }
+    private Object Sort(Integer sortCond){
+        if(sortCond == 0){
+            return groupInfo.recruitmentEndDate.asc();
+        }
+        return groupInfo.createdAt.asc();
     }
 
 

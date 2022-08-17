@@ -35,7 +35,7 @@ public class AttendanceController {
         }
     }
 
-    @ApiOperation("스터디탭 - 사용자 출석  - P11")
+    @ApiOperation("스터디탭 - 사용자 출석 - P11")
     @PatchMapping()
     public BaseResponse<Long> Attend(@RequestParam(value = "userIdx") Long userIdx,
                                      @RequestParam(value = "sessionIdx") Long sessionIdx) {

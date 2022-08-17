@@ -49,6 +49,7 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
     @Query("select (count(s) > 0) from Session s " +
             "where s.groupInfo.groupIdx = :groupIdx and " +
             "s.sessionIdx <> :sessionIdx and " +
+            "s.status = 0 and " +
             "((s.sessionStart <= :start and s.sessionEnd > :start ) or" +
             "(:start < s.sessionStart and :end > s.sessionStart )) ")
     boolean existsOverlappedSession(Long groupIdx, Long sessionIdx, LocalDateTime start, LocalDateTime end);

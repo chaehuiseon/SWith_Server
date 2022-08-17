@@ -197,7 +197,6 @@ public class SessionService {
             }
         }
         return sessionIdx;
-
     }
 
     public Long deleteSession(Long sessionIdx) throws BaseException {

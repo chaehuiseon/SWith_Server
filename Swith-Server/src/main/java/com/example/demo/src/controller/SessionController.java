@@ -60,9 +60,10 @@ public class SessionController {
     @PostMapping            //@Valid 추가 <-회차 만들 때 디폴트로 출석정보를 추가하도록 할지 고민 필요
     public BaseResponse<Long> createSession(@RequestBody PostSessionReq postSessionReq) {
         try {
-            if (!userService.isAdminOfGroup(postSessionReq.getUserIdx(), postSessionReq.getGroupIdx())) {
+            //요청한 유저가 관리자인지 검증
+            if (!userService.isAdminOfGroup(postSessionReq.getUserIdx(), postSessionReq.getGroupIdx()))
                 return new BaseResponse<>(BaseResponseStatus.POST_SESSION_NOT_ADMIN);
-            }
+            //요청된 회차의 시간대가 겹치지 않는 지를 검증
             if(sessionService.existsOverlappedSession(postSessionReq.getGroupIdx(),
                     postSessionReq.getSessionStart(),postSessionReq.getSessionEnd()))
                 throw new BaseException(BaseResponseStatus.TIME_OVERLAPPED);

@@ -44,7 +44,7 @@ public class SessionController {
     }
 
 
-    @ApiOperation("회차탭 - 개요, 출석, 메모 정보 불러오기 P10")
+    @ApiOperation("회차탭 - 개요, 출석, 메모 정보 불러오기 - P10")
     @GetMapping("/info")
     public BaseResponse<GetSessionTabRes> getSessionTabInfo(@RequestParam(value = "userIdx") Long userIdx,
                                                          @RequestParam(value = "sessionIdx") Long sessionIdx) {
@@ -80,7 +80,7 @@ public class SessionController {
         }
     }
 
-    @ApiOperation("관리자탭 - 회차정보 수정 P13")
+    @ApiOperation("관리자탭 - 회차정보 수정 - P13")
     @PatchMapping ("/admin")
     public BaseResponse<Long> modifySession(@RequestBody PatchSessionReq patchSessionReq) {
         try {
@@ -91,7 +91,7 @@ public class SessionController {
         }
     }
 
-    @ApiOperation("관리자탭 - 회차 삭제 P14")
+    @ApiOperation("관리자탭 - 회차 삭제 - P14")
     @PatchMapping ("/admin/{sessionIdx}/status")
     public BaseResponse<Long> modifySession(@PathVariable Long sessionIdx) {
         try {

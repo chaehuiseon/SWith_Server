@@ -49,7 +49,9 @@ public class AttendanceService {
 
         for (UserAttendanceInfo attend : userTotalAttendance) {
             Integer status = attend.getStatus();
+            Integer attendanceNum = attend.getAttendanceNum();
 
+            //다른 유저의 출석으로 넘어왔을 경우 출석율을 계산
             if (!attend.getUserIdx().equals(prevId)) {
                 int attendanceRate;
                 if (totalAttendance == 0)        //status 가 0(예정)인 출석 정보만 있을 경우
@@ -71,12 +73,13 @@ public class AttendanceService {
                 totalAttendance = 0;
                 validAttendance = 0;
             }
+            //마지막일 경우
             if (attend.equals(userTotalAttendance.get(userTotalAttendance.size() - 1))) {
                 if (status == 1) {    //유효한 출석일 경우
-                    totalAttendance++;
-                    validAttendance++;
+                    totalAttendance += attendanceNum;
+                    validAttendance += attendanceNum;
                 } else if (status != 0) { // 2 혹은 3일 경우
-                    totalAttendance++;
+                    totalAttendance += attendanceNum;
                 }
                 int attendanceRate;
                 if (totalAttendance == 0)        //status 가 0(예정)인 출석 정보만 있을 경우
@@ -95,17 +98,16 @@ public class AttendanceService {
             }
 
             if (status == 1) {    //유효한 출석일 경우
-                totalAttendance++;
-                validAttendance++;
+                totalAttendance += attendanceNum;
+                validAttendance += attendanceNum;
             } else if (status != 0) { // 2 혹은 3일 경우
-                totalAttendance++;
+                totalAttendance += attendanceNum;
             }
         }
 
 
-        String attendanceValidTime = groupInfo.getAttendanceValidTime() + "분";
         GetGroupAttendanceRes getGroupAttendanceRes = GetGroupAttendanceRes.builder()
-                .attendanceValidTime(attendanceValidTime)
+                .attendanceValidTime(groupInfo.getAttendanceValidTime())
                 .getUserAttendanceResList(getUserAttendanceResList)
                 .build();
         return getGroupAttendanceRes;
@@ -119,15 +121,14 @@ public class AttendanceService {
         ///User가 가입 했는지 Validation 필요
         int checker = 0;
         for (Register register : user.getRegisterList()) {
-            if(register.getGroupInfo() == session.getGroupInfo()){
+            if (register.getGroupInfo() == session.getGroupInfo()) {
                 checker++;
                 break;
             }
         }
         //가입정보가 없을 경우 오류를 반환,
-        if(checker == 0)
+        if (checker == 0)
             throw new BaseException(BaseResponseStatus.NO_REGISTRATION_INFO);
-
 
 
         //출석정보가 없으면 만든다.

@@ -14,8 +14,17 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
             "and a.user.userIdx = :userIdx and a.status <> :status")
     List<Attendance> findByGroupIdxAndUserIdxAndStatusIsNot(Long groupIdx, Long userIdx, Integer status);
 
-    @Query("select a from Attendance a where a.groupInfo.groupIdx = :groupIdx and a.status <> :status")
+    @Query("select a from Attendance a " +
+            "where a.groupInfo.groupIdx = :groupIdx " +
+            "and a.status <> :status")
     List<Attendance> findByGroupIdxAndStatusIsNot(Long groupIdx, Integer status);
+
+    @Query("select a from Attendance a " +
+            "join fetch a.session " +
+            "where a.groupInfo.groupIdx = :groupIdx " +
+            "and a.status = 0")
+    List<Attendance> testFind(Long groupIdx);
+
 
     @Query("select a.user.userIdx as userIdx , a.user.nickname as nickname , " +
             "a.status as status , count(a) as attendanceNum " +

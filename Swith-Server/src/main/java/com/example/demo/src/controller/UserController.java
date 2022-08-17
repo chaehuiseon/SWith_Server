@@ -23,7 +23,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.demo.config.BaseResponseStatus.ERROR_FIND_EMAIL;
+import static com.example.demo.config.BaseResponseStatus.NOT_LOGIN;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,32 +36,45 @@ public class UserController {
     private final UserService userService;
     private final HttpSession httpSession;
 
-    @ApiOperation("로그인 성공 시 세션에 SessionUser 저장")
     @GetMapping("/")
-    public String index(Model model){
+    @ApiOperation("서버 시간")
+    public String time(){
+        return LocalDateTime.now().toString();
+    }
+
+    @ApiOperation("로그인 성공 시 세션에 SessionUser 저장")
+    @GetMapping("/success")
+    @ResponseBody
+    public Map login(Model model){
         model.addAttribute("userName", "test");
         // userName을 사용할 수 있게 model에 저장
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user != null){
             model.addAttribute("userName",user.getName());
         }
-        return "index";
+
+        Map result = new HashMap<String, Object>();
+        result.put("nickname", user.getName());
+        result.put("email", user.getEmail());
+        result.put("picture", user.getPicture());
+        return result;
     }
 
-//    @GetMapping("/fail")
-//    @ApiOperation("서버 시간")
-//    public String time(){
-//        return LocalDateTime.now().toString();
-//    }
-
-    @ApiOperation("로그인 정보")
-    @GetMapping("/loginInfo")
+    @ApiOperation("유저 정보")
+    @GetMapping("/userInfo")
     @ResponseBody
-    public String oauthLoginInfo(Authentication authentication, @AuthenticationPrincipal OAuth2User oAuth2UserPrincipal){
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        Map<String, Object> attributes = oAuth2User.getAttributes();
-        System.out.println(attributes);
-        return attributes.toString();     //세션에 담긴 user가져올 수 있음음
+    public BaseResponse<Map> oauthLoginInfo(Authentication authentication, @AuthenticationPrincipal OAuth2User oAuth2UserPrincipal){
+        try{
+            // 로그인 안한 경우
+            if(authentication == null){
+                throw new BaseException(NOT_LOGIN);
+            }
+            OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+            Map<String, Object> attributes = oAuth2User.getAttributes();
+            return new BaseResponse<>(attributes);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
     }
 
     @ApiOperation("회원 가입")

@@ -58,6 +58,7 @@ public enum BaseResponseStatus {
     ERROR_FIND_EMAIL(false,2083,"가입하지 않은 이메일 입니다."),
     ERROR_FIND_USERIDX(false,2084,"email로 가입된 userIdx가 존재하지 않음."),
     PATCH_USER_PASSWORD(false,2085,"password patch실패"),
+    NOT_LOGIN(false,2086,"로그인 해주세요."),
 
 
     /*

@@ -35,7 +35,7 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
     Integer updateSessionNumPlusOne(Integer sessionNum, Long groupIdx);
 
 
-    @Query("select s from Session s " +
+    @Query("select distinct s from Session s " +
             "left join fetch s.attendances " +
             "where s.groupInfo.groupIdx = :groupIdx " +
             "and s.status = 0 ")
@@ -45,12 +45,6 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
             "join fetch s.groupInfo " +
             "where s.sessionIdx = :sessionIdx")
     Optional<Session> findByIdWithGroup(Long sessionIdx);
-
-//    @Query("update Session s set s.sessionNum = s.sessionNum + :num " +
-//            "where s.groupInfo.groupIdx = :groupIdx " +
-//            "and s.sessionNum > :start " +
-//            "and s.sessionNum < :end ")
-//    Integer updateSessionNum(Integer start, Integer end, Integer num, Long groupIdx);
 
     @Query("select (count(s) > 0) from Session s " +
             "where s.groupInfo.groupIdx = :groupIdx and " +

@@ -208,4 +208,8 @@ public class SessionService {
         sessionRepository.deleteSession(sessionIdx);
         return sessionIdx;
     }
+
+    public boolean existsOverlappedSession(Long groupIdx, LocalDateTime sessionStart, LocalDateTime sessionEnd) {
+        return sessionRepository.existsOverlappedSession(groupIdx, 0L, sessionStart, sessionEnd);
+    }
 }

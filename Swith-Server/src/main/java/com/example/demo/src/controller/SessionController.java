@@ -63,8 +63,12 @@ public class SessionController {
             if (!userService.isAdminOfGroup(postSessionReq.getUserIdx(), postSessionReq.getGroupIdx())) {
                 return new BaseResponse<>(BaseResponseStatus.POST_SESSION_NOT_ADMIN);
             }
+            if(sessionService.existsOverlappedSession(postSessionReq.getGroupIdx(),
+                    postSessionReq.getSessionStart(),postSessionReq.getSessionEnd()))
+                throw new BaseException(BaseResponseStatus.TIME_OVERLAPPED);
+
             //회차 시작시간, 끝시간을 기준으로 회차의 적절한 sessionNum 을 찾는다.
-            Integer sessionNum = sessionService.findAppropriateSessionNum(postSessionReq.getUserIdx(), postSessionReq.getSessionStart());
+            Integer sessionNum = sessionService.findAppropriateSessionNum(postSessionReq.getGroupIdx(), postSessionReq.getSessionStart());
 
             //찾은 sessionNum 이상의 회차들의 sessionNum 에 1을 더한다.
             sessionService.adjustSessionNum(sessionNum, postSessionReq.getGroupIdx());

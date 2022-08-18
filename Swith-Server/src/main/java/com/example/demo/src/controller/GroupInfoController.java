@@ -2,6 +2,7 @@ package com.example.demo.src.controller;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.dto.response.GetEachGroupInfoRes;
 import com.example.demo.src.dto.response.GetHomeGroupInfoRes;
 import com.example.demo.src.dto.PostGroupInfoReq;
 import com.example.demo.src.dto.PostGroupInfoRes;
@@ -18,8 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -56,17 +59,45 @@ public class GroupInfoController {
         return new BaseResponse<>(response);
     }
 
+    //@ResponseBody
+    //@GetMapping("/search")
+    @RequestMapping(path = "/search", method = RequestMethod.GET)
     @ResponseBody
-    @GetMapping("/search")
-    public BaseResponse<Slice<GetGroupInfoSearchRes>> searchGroup(@RequestBody GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable){
-        System.out.println("받은값"+getGroupInfoSearchReq.getInterest1()+getGroupInfoSearchReq.getInterest2());
-        System.out.println("page size : " + pageable.getPageSize());
+    //public BaseResponse<Slice<GetGroupInfoSearchRes>> searchGroup(@RequestParam GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable){
+    public BaseResponse<Slice<GetGroupInfoSearchRes>> searchGroup(@RequestParam(name = "title",required = false) String title, @RequestParam(name = "regionIdx",required = false) String regionIdx,
+                                                                  @RequestParam(name = "interest1",required = false)Integer interest1, @RequestParam(name = "interest2",required = false)Integer interest2,
+                                                                  @RequestParam(name = "groupIdx",required = false)Long groupIdx, @RequestParam(name = "sortCond") Integer sortCond,
+                                                                  @RequestParam(name = "ClientTime",required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime ClientTime,
+                                                                    Pageable pageable){
+        //System.out.println("받은값"+getGroupInfoSearchReq.getInterest1()+getGroupInfoSearchReq.getInterest2());
+        //System.out.println("page size : " + pageable.getPageSize());
+        //System.out.println(getGroupInfoSearchReq.getClientTime());
+        System.out.println("title : "+title+"regionIdx : "+ regionIdx +"groupIdx : "+groupIdx +
+                "sortCond : "+sortCond + "ClientTime : "+ClientTime  );
+        GetGroupInfoSearchReq getGroupInfoSearchReq = new GetGroupInfoSearchReq(
+                title, regionIdx, interest1, interest2, groupIdx, sortCond, ClientTime
+        );
+        System.out.println(getGroupInfoSearchReq.getSortCond());
         System.out.println(getGroupInfoSearchReq.getClientTime());
         Slice<GetGroupInfoSearchRes> result = groupInfoService.searchGroup(getGroupInfoSearchReq,pageable);
+        System.out.println("---------");
+        System.out.println(result.isLast());
         return new BaseResponse<>(result);
 
 
     }
+
+
+//    @GetMapping("/search/{groupIdx}")
+//    @ResponseBody
+//    public BaseResponse<GetEachGroupInfoRes> selectEachGroupInfo(@PathVariable Long groupIdx){
+//
+//        GetEachGroupInfoRes response = groupInfoService.selectEachGroupInfo(groupIdx);
+//        return new BaseResponse<>(response);
+//    }
+
+
+
 
     @GetMapping("/search/test")
     @ResponseBody

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
@@ -150,6 +151,10 @@ public class GroupInfoService {
     public JPAQuery<Integer> searchtestGroup(GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable) {
         return groupInfoRepository.searchtestGroup(getGroupInfoSearchReq, pageable);
     }
+//
+//    public Optional<GroupInfo> selectEachGroupInfo(Long groupIdx){
+//        return groupInfoRepository.findById(groupIdx);
+//    }
 
 
 

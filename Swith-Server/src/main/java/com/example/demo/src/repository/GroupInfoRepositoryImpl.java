@@ -41,6 +41,9 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
     @Override
     public Slice<GetGroupInfoSearchRes> searchGroupInfo(GetGroupInfoSearchReq searchCond, Pageable pageable) {
 
+        if(searchCond.getGroupIdx()!= null){
+            System.out.println("groupIdx >> "+searchCond.getGroupIdx());
+        }
         //커버링 인덱스 전략
         List<Long> ids = queryFactory
                 .select(groupInfo.groupIdx)
@@ -79,11 +82,16 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
                         .limit(pageable.getPageSize()+1) // limit보다 데이터를 1개 더 들고와서, 해당 데이터가 있다면 hasNext 변수에 true를 넣어 알림
                         .orderBy((OrderSpecifier<?>) Sort(searchCond.getSortCond()))
                         .fetch();
-        //.orderBy(new OrderSpecifier(Order.ASC,groupInfo.recruitmentEndDate);
-        System.out.println(content);
+        //.orderBy(new OrderSpecifier(Order.ASC,groupInfo.recruitmentEndDate)
+        System.out.println(content.toString());
+        System.out.println("content.size>>>>>" + content.size());
+        System.out.println("getPageaSize>>>>" + pageable.getPageSize());
+
 
         boolean hasNext = false;
+
         if (content.size() > pageable.getPageSize()) {
+            System.out.println("들어와????? true로 바뀌냐?");
             content.remove(pageable.getPageSize());
             hasNext = true;
         }
@@ -156,10 +164,13 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
 
         if(groupIdx != null){
             if(sortCond == 0){ //마감일
-                return groupInfo.recruitmentEndDate.gt(
+                System.out.println("마감일 정렬 >> groupIdx >> ");
+                return groupInfo.recruitmentEndDate.goe(
                         JPAExpressions.select(groupInfoSub.recruitmentEndDate)
                                 .from(groupInfoSub)
-                                .where(groupInfoSub.groupIdx.eq(groupIdx)));
+                                .where(groupInfoSub.groupIdx.eq(groupIdx))).and(
+                                        groupInfo.groupIdx.gt(groupIdx)
+                );
             }
             return groupInfo.createdAt.lt(
                     JPAExpressions.select(groupInfoSub.createdAt)

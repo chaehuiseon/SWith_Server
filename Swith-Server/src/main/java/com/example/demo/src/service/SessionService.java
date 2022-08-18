@@ -204,6 +204,9 @@ public class SessionService {
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_SESSION_INFO));
         if (session.getStatus() == 1)
             throw new BaseException(BaseResponseStatus.ALREADY_DELETED_ANNOUNCEMENT);
+        if(session.getSessionStart().isBefore(LocalDateTime.now()))
+            throw new BaseException(BaseResponseStatus.DELETE_FAIL_SESSION);
+
         sessionRepository.deleteSession(sessionIdx);
         return sessionIdx;
     }

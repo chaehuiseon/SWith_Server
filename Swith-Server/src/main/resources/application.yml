@@ -32,11 +32,11 @@ spring:
         #만약, org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy 전략을 사용하겠다고 하면,
         #entity에서 변수명을 myEmail 이라고 하면, DB에 myEmail이 아닌 my_email로 만들어짐.
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      use-new-id-generator-mappings: false #jpa 기본 numvering 전략을 따라가지 않겠다.
+      use-new-id-generator-mappings: false #jpa 기본 numbering 전략을 따라가지 않겠다.
     show-sql: true
     properties:
       hibernate:
-        # show_sql: true
+        show_sql: true
         format_sql: true
         use_sql_comments: true #querydsl jpql 보기
 
@@ -56,10 +56,10 @@ spring:
             - public_profile
             - email
 
-logging:
-  level:
-    org.hibernate.SQL: debug # 하이버네이트가 생성하는 SQL이 다보인다.
-    org.hibernate.type:  #binding parameter의 값이 무엇인지를 알려줌.
+#logging:
+#  level:
+#    org.hibernate.SQL: debug # 하이버네이트가 생성하는 SQL이 다보인다.
+##    org.hibernate.type:  #binding parameter의 값이 무엇인지를 알려줌.
 
 
 

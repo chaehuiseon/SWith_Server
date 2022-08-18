@@ -91,6 +91,7 @@ public enum BaseResponseStatus {
     INAPPROPRIATE_START_TIME(false, 5002, "수정 요청된 시작시간이 현재 보다 이전입니다."),
     TIME_OVERLAPPED(false, 5003, "다른 회차의 시간대와 겹칩니다."),
     ALREADY_DELETED_SESSION(false, 5004, "해당 세션은 이미 삭제된 상태입니다."),
+    DELETE_FAIL_SESSION(false, 5005, "해당 세션은 삭제가 불가능합니다."),
 
 
     // 6000 : INVALID 오류

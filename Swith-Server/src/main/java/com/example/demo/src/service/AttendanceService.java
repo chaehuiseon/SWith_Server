@@ -3,14 +3,9 @@ package com.example.demo.src.service;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.dto.request.PatchAttendanceReq;
-import com.example.demo.src.dto.response.GetGroupAttendanceRes;
-import com.example.demo.src.dto.response.GetUserAttendanceRes;
-import com.example.demo.src.dto.response.UserAttendanceInfo;
+import com.example.demo.src.dto.response.*;
 import com.example.demo.src.entity.*;
-import com.example.demo.src.repository.AttendanceRepository;
-import com.example.demo.src.repository.GroupInfoRepository;
-import com.example.demo.src.repository.SessionRepository;
-import com.example.demo.src.repository.UserRepository;
+import com.example.demo.src.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,12 +20,14 @@ public class AttendanceService {
     private final SessionRepository sessionRepository;
     private final GroupInfoRepository groupInfoRepository;
     private final UserRepository userRepository;
+    private final RegisterRepository registerRepository;
 
-    public AttendanceService(AttendanceRepository attendanceRepository, SessionRepository sessionRepository, GroupInfoRepository groupInfoRepository, UserRepository userRepository) {
+    public AttendanceService(AttendanceRepository attendanceRepository, SessionRepository sessionRepository, GroupInfoRepository groupInfoRepository, UserRepository userRepository, RegisterRepository registerRepository) {
         this.attendanceRepository = attendanceRepository;
         this.sessionRepository = sessionRepository;
         this.groupInfoRepository = groupInfoRepository;
         this.userRepository = userRepository;
+        this.registerRepository = registerRepository;
     }
 
     public GetGroupAttendanceRes getGroupAttendance(Long groupIdx) throws BaseException {
@@ -188,5 +185,31 @@ public class AttendanceService {
             count += attendanceRepository.modifyStatus(patchAttendanceReq.getAttendanceIdx(), patchAttendanceReq.getStatus());
         }
         return count;
+    }
+
+    public List<GetSessionAttendanceRes> getSessionAttendance(Long groupIdx) throws BaseException{
+        if(!groupInfoRepository.existsById(groupIdx))
+            throw new BaseException(BaseResponseStatus.INVALID_GROUP);
+        List<User> userList = registerRepository.findUserByGroup(groupIdx);
+        List<Session> sessionList = sessionRepository.getSessionAndAttendanceByGroupIdx(groupIdx);
+        List<GetSessionAttendanceRes> getSessionAttendanceResList = new ArrayList<>();
+        for (Session session : sessionList) {
+            List<GetAttendanceInfo> getAttendanceInfoList = new ArrayList<>();
+            for (Attendance attendance : session.getAttendances()) {
+                GetAttendanceInfo getAttendanceInfo = GetAttendanceInfo.builder()
+                        .attendanceIdx(attendance.getAttendanceIdx())
+                        .nickname(attendance.getUser().getNickname())
+                        .status(attendance.getStatus())
+                        .build();
+                getAttendanceInfoList.add(getAttendanceInfo);
+            }
+            GetSessionAttendanceRes getSessionAttendanceRes = GetSessionAttendanceRes.builder()
+                    .sessionIdx(session.getSessionIdx())
+                    .sessionNum(session.getSessionNum())
+                    .getAttendanceInfos(getAttendanceInfoList)
+                    .build();
+            getSessionAttendanceResList.add(getSessionAttendanceRes);
+        }
+        return getSessionAttendanceResList;
     }
 }

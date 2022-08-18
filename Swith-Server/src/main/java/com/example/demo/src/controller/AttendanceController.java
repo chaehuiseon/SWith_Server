@@ -4,6 +4,8 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.dto.request.PatchAttendanceReq;
 import com.example.demo.src.dto.response.GetGroupAttendanceRes;
+import com.example.demo.src.dto.response.GetSessionAttendanceRes;
+import com.example.demo.src.dto.response.GetSessionRes;
 import com.example.demo.src.repository.AttendanceRepository;
 import com.example.demo.src.service.AttendanceService;
 import io.swagger.annotations.Api;
@@ -53,6 +55,17 @@ public class AttendanceController {
         try {
             Integer numberOfModified = attendanceService.modifyAttendance(patchAttendanceReqList);
             return new BaseResponse<>(numberOfModified);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    @ApiOperation("관리자탭 - 출석 정보 조회 - P15")
+    @PatchMapping("/admin")
+    public BaseResponse<List<GetSessionAttendanceRes>> getSessionAttendance(@RequestParam Long groupIdx) {
+        try {
+            List<GetSessionAttendanceRes> getSessionAttendanceResList = attendanceService.getSessionAttendance(groupIdx);
+            return new BaseResponse<>(getSessionAttendanceResList);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }

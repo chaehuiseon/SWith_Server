@@ -67,8 +67,9 @@ public class User extends BaseTimeEntity { //유저 테이블
     @OneToMany(mappedBy = "user") // N:1 양방향
     private List<Register> registerList = new ArrayList<>();
 
-    public void updateRefreshToken(String refreshToken) {
+    public User updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+        return this;
     }
 
     public String getRoleKey(){

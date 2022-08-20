@@ -3,15 +3,11 @@ package com.example.demo.src.controller;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.config.auth.SessionUser;
-import com.example.demo.security.AuthInfo;
-import com.example.demo.security.Authenticated;
-import com.example.demo.src.dto.request.GetUserInfoReq;
-import com.example.demo.src.dto.request.PostSignInReq;
+import com.example.demo.src.dto.request.PostSignUpAndInReq;
+import com.example.demo.src.dto.request.PostUserInfoReq;
 import com.example.demo.src.dto.request.PostSignUpReq;
-import com.example.demo.src.dto.response.GetUserInfoRes;
-import com.example.demo.src.dto.response.PostSignInRes;
+import com.example.demo.src.dto.response.PostUserInfoRes;
 import com.example.demo.src.dto.response.PostSignUpRes;
-import com.example.demo.src.entity.User;
 import com.example.demo.src.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,7 +16,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -29,7 +24,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.demo.config.BaseResponseStatus.ERROR_FIND_EMAIL;
 import static com.example.demo.config.BaseResponseStatus.NOT_LOGIN;
 
 @RestController
@@ -82,21 +76,32 @@ public class UserController {
 
     @ApiOperation("회원 DB 정보 조회")
     @PostMapping("/userInfo")
-    public BaseResponse<GetUserInfoRes> userInfo(@Valid @RequestBody GetUserInfoReq getUserInfoReq) {
+    public BaseResponse<PostUserInfoRes> userInfo(@Valid @RequestBody PostUserInfoReq postUserInfoReq) {
         try{
-            GetUserInfoRes getUserInfoRes = userService.userInfo(getUserInfoReq);
-            return new BaseResponse<>(getUserInfoRes);
+            PostUserInfoRes postUserInfoRes = userService.userInfo(postUserInfoReq);
+            return new BaseResponse<>(postUserInfoRes);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
     }
 
-    @ApiOperation("회원 가입 폼 등록")
+    @ApiOperation("초기 회원 정보 등록")
     @PostMapping("/register")
     public BaseResponse<PostSignUpRes> register(@Valid @RequestBody PostSignUpReq postSignUpReq) {
         try{
             PostSignUpRes postSignUpRes = userService.register(postSignUpReq);
             return new BaseResponse<>(postSignUpRes);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    @ApiOperation("회원가입 및 로그인")
+    @PostMapping("/signUpAndIn")
+    public BaseResponse<PostUserInfoRes> signUpAndIn(@Valid @RequestBody PostSignUpAndInReq postSignUpAndInReq){
+        try{
+            PostUserInfoRes postUserInfoRes = userService.signUpAndIn(postSignUpAndInReq);
+            return new BaseResponse<>(postUserInfoRes);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }

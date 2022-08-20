@@ -1,6 +1,5 @@
 package com.example.demo.src.dto.response;
 
-import com.example.demo.src.entity.Interest;
 import com.example.demo.src.enums.RoleType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -12,7 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class GetUserInfoRes {
+public class PostUserInfoRes {
+    @ApiModelProperty(notes = "유저 인덱스",example = "53")
+    private Long userIdx;
+
     @ApiModelProperty(notes = "유저 이메일",example = "test1@naver.com")
     private String email;
 
@@ -37,8 +39,14 @@ public class GetUserInfoRes {
     @ApiModelProperty(notes = "소셜로그인 - role", example = "GUEST")
     private RoleType role;
 
-    @ApiModelProperty(notes = "토큰",example = "token")
+    @ApiModelProperty(notes = "엑세스토큰",example = "token")
+    private String accessToken;
+
+    @ApiModelProperty(notes = "리프레시토큰",example = "token")
     private String refreshToken;
+
+    @ApiModelProperty(notes = "처음 가입하는지 여부",example = "false")
+    private Boolean isSignUp;
 
     private Integer status;
 }

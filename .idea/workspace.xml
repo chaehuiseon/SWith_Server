@@ -98,8 +98,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.example.demo.src.dto.response" />
       <recent name="com.example.demo.src.dto.request" />
+      <recent name="com.example.demo.src.dto.response" />
     </key>
   </component>
   <component name="RunManager">
@@ -122,7 +122,7 @@
       <workItem from="1660721575714" duration="74000" />
       <workItem from="1660721661797" duration="6822000" />
       <workItem from="1660968801126" duration="6217000" />
-      <workItem from="1661001490971" duration="3024000" />
+      <workItem from="1661001490971" duration="8647000" />
     </task>
     <servers />
   </component>

@@ -6,14 +6,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class GetUserInfoReq {
+public class PostUserInfoReq {
 //    @Email
 //    @NotBlank
 //    @ApiModelProperty(notes = "유저 이메일",example = "test1@naver.com")

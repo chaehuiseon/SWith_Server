@@ -19,6 +19,9 @@ public class GetUserInfoRes {
     @ApiModelProperty(notes = "유저 닉네임",example = "ym123")
     private String nickname;
 
+    @ApiModelProperty(notes = "프로필 이미지 링크",example = "https://lh3.googleusercontent.com/a/AItbvmmZTEhJKpZdLsPHSnT9XH2q469L0kulNTIFqjm2=s96-c")
+    private String profileImgUrl;
+
     @ApiModelProperty(notes = "소개글",example = "안녕하세요")
     private String introduction;
 

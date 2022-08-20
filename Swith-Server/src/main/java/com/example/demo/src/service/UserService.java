@@ -44,6 +44,7 @@ public class UserService {
         GetUserInfoRes getUserInfoRes = GetUserInfoRes.builder()
                 .email(findUser.getEmail())
                 .nickname(findUser.getNickname())
+                .profileImgUrl(findUser.getProfileImgUrl())
                 .introduction(findUser.getIntroduction())
                 .interestIdx1(findUser.getInterest1().getInterestIdx())
                 .interestIdx2(findUser.getInterest2().getInterestIdx())

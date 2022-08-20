@@ -8,19 +8,12 @@ import com.example.demo.src.dto.response.GetSessionRes;
 import com.example.demo.src.dto.request.PostSessionReq;
 import com.example.demo.src.dto.response.GetSessionTabRes;
 import com.example.demo.src.dto.response.SessionAttendanceInfo;
-import com.example.demo.src.entity.Announcement;
-import com.example.demo.src.entity.Attendance;
-import com.example.demo.src.entity.GroupInfo;
-import com.example.demo.src.entity.Session;
-import com.example.demo.src.repository.AnnouncementRepository;
-import com.example.demo.src.repository.AttendanceRepository;
-import com.example.demo.src.repository.GroupInfoRepository;
-import com.example.demo.src.repository.SessionRepository;
+import com.example.demo.src.entity.*;
+import com.example.demo.src.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,14 +25,16 @@ public class SessionService {
     private final GroupInfoRepository groupInfoRepository;
     private final AnnouncementRepository announcementRepository;
     private final AttendanceRepository attendanceRepository;
+    private final MemoRepository memoRepository;
 
 
     @Autowired
-    public SessionService(SessionRepository sessionRepository, GroupInfoService groupInfoService, GroupInfoRepository groupInfoRepository, AnnouncementRepository announcementRepository, AttendanceRepository attendanceRepository) {
+    public SessionService(SessionRepository sessionRepository, GroupInfoService groupInfoService, GroupInfoRepository groupInfoRepository, AnnouncementRepository announcementRepository, AttendanceRepository attendanceRepository, MemoRepository memoRepository) {
         this.sessionRepository = sessionRepository;
         this.groupInfoRepository = groupInfoRepository;
         this.announcementRepository = announcementRepository;
         this.attendanceRepository = attendanceRepository;
+        this.memoRepository = memoRepository;
     }
 
 
@@ -145,6 +140,13 @@ public class SessionService {
         }
 
 
+        //메모를 찾고 메모정보가 없으면 Idx는 -1, 내용은 NULL을 반환
+        Memo memo = memoRepository.findByUserAndSession(userIdx, sessionIdx)
+                .orElseGet(() -> Memo.builder()
+                        .memoIdx(-1L)
+                        .memoContent("NULL")
+                        .build());
+
         GetSessionTabRes getSessionTabRes = GetSessionTabRes.builder()
                 .sessionIdx(session.getSessionIdx())
                 .sessionNum(session.getSessionNum())
@@ -156,8 +158,8 @@ public class SessionService {
                 .getAttendanceList(getAttendanceList)
                 .groupImgUrl(session.getGroupInfo().getGroupImgUrl())
                 .attendanceValidTime(session.getGroupInfo().getAttendanceValidTime())
-                .memoIdx(0L)
-                .userMemo("미완성")
+                .memoIdx(memo.getMemoIdx())
+                .userMemo(memo.getMemoContent())
                 .build();
 
         return getSessionTabRes;

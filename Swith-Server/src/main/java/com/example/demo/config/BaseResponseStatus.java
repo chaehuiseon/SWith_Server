@@ -135,10 +135,11 @@ public enum BaseResponseStatus {
     SAD_STATUS_PLANT(false, 7032, "화분이 시무룩 상태입니다. 화분의 성장치를 증가시킬 수 없습니다."),
 
 
-    // 8000 : 출석
+    // 8000 : 출석, 메모
     ALREADY_ATTENDED(false, 8000, "출석 상태가 결정되어 있습니다. 관리자만 변경 가능합니다."),
     FAIL_ATTEND(false, 8001, "출석 가능한 시간이 아닙니다."),
     EXIST_ATTEND_INFO(false, 8002, "이미 출석 데이터가 있습니다."),
+    ALREADY_EXIST(false, 8003, "메모가 이미 존재하여 생성할 수 없습니다."),
 
     TEMP4(false, 9000, "conflict 방지용 4");
 

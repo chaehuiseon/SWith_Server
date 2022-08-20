@@ -30,10 +30,14 @@ public class MemoService {
     }
 
     public Long postMemo(PostMemoReq postMemoReq) throws BaseException {
-        User user = userRepository.findById(postMemoReq.getUserIdx())
+        Long userIdx = postMemoReq.getUserIdx();
+        Long sessionIdx = postMemoReq.getSessionIdx();
+        User user = userRepository.findById(userIdx)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USER));
-        Session session = sessionRepository.findById(postMemoReq.getSessionIdx())
+        Session session = sessionRepository.findById(sessionIdx)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_SESSION));
+        if(!memoRepository.existsByUserAndSession(userIdx, sessionIdx))
+            throw new BaseException(BaseResponseStatus.ALREADY_EXIST);
 
         Memo memo = Memo.builder()
                 .memoContent(postMemoReq.getMemoContent())

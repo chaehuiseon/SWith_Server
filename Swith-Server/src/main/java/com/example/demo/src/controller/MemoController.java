@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/groupinfo")
+@RequestMapping("/groupinfo/memo")
 @Api(tags = {"Swith Memo API"})
 public class MemoController {
 
@@ -37,10 +37,8 @@ public class MemoController {
         }
     }
 
-
-
     @ApiOperation("회차탭 - 메모 변경 - P17")
-    @PatchMapping("/{memoIdx}")
+    @PatchMapping()
     public BaseResponse<Long> patchMemo (@RequestBody PatchMemoReq patchMemoReq) {
         try {
             Long memoIdx = memoService.patchMemo(patchMemoReq);

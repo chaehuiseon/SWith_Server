@@ -124,7 +124,6 @@ public class UserService {
     private User buildUserForSignUp(PostSignUpReq postSignUpReq, Interest interest1, Interest interest2) {
         User user = User.builder()
                 .email(postSignUpReq.getEmail())
-                .password(postSignUpReq.getPassword())
 //                .password((bCryptPasswordEncoder.encode(postSignUpReq.getPassword())))
                 .nickname(postSignUpReq.getNickname())
                 .interest1(interest1)

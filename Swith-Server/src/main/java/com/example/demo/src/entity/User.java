@@ -29,10 +29,6 @@ public class User extends BaseTimeEntity { //유저 테이블
 
     private String email; //가입 email
 
-    @Column(length = 100)
-    private String password; //가입 password
-
-
     private String nickname; // 닉네임
 
     @ManyToOne(fetch = LAZY) // N:1 단방향

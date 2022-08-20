@@ -14,9 +14,12 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Getter
 public class GetUserInfoReq {
-    @Email
-    @NotBlank
-    @ApiModelProperty(notes = "유저 이메일",example = "test1@naver.com")
-    private String email;
+//    @Email
+//    @NotBlank
+//    @ApiModelProperty(notes = "유저 이메일",example = "test1@naver.com")
+//    private String email;
+
+    @ApiModelProperty(notes = "유저 고유 idx",example = "53")
+    private Long userIdx;
 
 }

@@ -17,6 +17,7 @@ import com.example.demo.src.repository.GroupInfoRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.demo.config.BaseResponseStatus.ERROR_FIND_EMAIL;
+import static com.example.demo.config.BaseResponseStatus.NOT_EXIST_USER;
 
 @Service
 @Transactional
@@ -35,9 +36,9 @@ public class UserService {
 
     // 회원 DB 조회
     public GetUserInfoRes userInfo(GetUserInfoReq getUserInfoReq) throws BaseException {
-        User findUser = userRepository.findByEmail(getUserInfoReq.getEmail());
+        User findUser = userRepository.findByUserIdx(getUserInfoReq.getUserIdx());
         if(findUser == null){
-            throw new BaseException(ERROR_FIND_EMAIL);
+            throw new BaseException(NOT_EXIST_USER);
         }
 
         GetUserInfoRes getUserInfoRes = GetUserInfoRes.builder()

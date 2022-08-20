@@ -3,7 +3,9 @@ package com.example.demo.src.service;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.jwt.JwtTokenProvider;
+import com.example.demo.src.dto.request.GetUserInfoReq;
 import com.example.demo.src.dto.request.PostSignUpReq;
+import com.example.demo.src.dto.response.GetUserInfoRes;
 import com.example.demo.src.dto.response.PostSignUpRes;
 import com.example.demo.src.entity.Interest;
 import com.example.demo.src.entity.User;
@@ -31,13 +33,34 @@ public class UserService {
         this.groupInfoRepository = groupInfoRepository;
     }
 
+    // 회원 DB 조회
+    public GetUserInfoRes userInfo(GetUserInfoReq getUserInfoReq) throws BaseException {
+        User findUser = userRepository.findByEmail(getUserInfoReq.getEmail());
+        if(findUser == null){
+            throw new BaseException(ERROR_FIND_EMAIL);
+        }
+
+        GetUserInfoRes getUserInfoRes = GetUserInfoRes.builder()
+                .email(findUser.getEmail())
+                .nickname(findUser.getNickname())
+                .introduction(findUser.getIntroduction())
+                .interestIdx1(findUser.getInterest1().getInterestIdx())
+                .interestIdx2(findUser.getInterest2().getInterestIdx())
+                .averageStar(findUser.getAverageStar())
+                .role(findUser.getRole())
+                .refreshToken(findUser.getRefreshToken())
+                .status(findUser.getStatus())
+                .build();
+
+        return getUserInfoRes;
+    }
+
     // 회원 정보 업데이트
     public PostSignUpRes register(PostSignUpReq postSignUpReq) throws BaseException {
         User findUser = userRepository.findByEmail(postSignUpReq.getEmail());
         if(findUser == null){
             throw new BaseException(ERROR_FIND_EMAIL);
         }
-
         Interest interest1 = Interest.builder()
                 .interestIdx(postSignUpReq.getInterest1())
                 .build();
@@ -46,8 +69,8 @@ public class UserService {
                 .build();
 
         User user = findUser.update(postSignUpReq.getNickname(), interest1, interest2, postSignUpReq.getIntroduction());
-
         User savedUser = userRepository.save(user);
+
         PostSignUpRes postSignUpRes = getSignUpResponseDto(savedUser);
 
         return postSignUpRes;

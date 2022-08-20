@@ -5,10 +5,13 @@ import com.example.demo.config.BaseResponse;
 import com.example.demo.config.auth.SessionUser;
 import com.example.demo.security.AuthInfo;
 import com.example.demo.security.Authenticated;
+import com.example.demo.src.dto.request.GetUserInfoReq;
 import com.example.demo.src.dto.request.PostSignInReq;
 import com.example.demo.src.dto.request.PostSignUpReq;
+import com.example.demo.src.dto.response.GetUserInfoRes;
 import com.example.demo.src.dto.response.PostSignInRes;
 import com.example.demo.src.dto.response.PostSignUpRes;
+import com.example.demo.src.entity.User;
 import com.example.demo.src.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -60,8 +63,8 @@ public class UserController {
         return result;
     }
 
-    @ApiOperation("유저 정보")
-    @GetMapping("/userInfo")
+    @ApiOperation("소셜 로그인 정보")
+    @GetMapping("/oauthInfo")
     @ResponseBody
     public BaseResponse<Map> oauthLoginInfo(Authentication authentication, @AuthenticationPrincipal OAuth2User oAuth2UserPrincipal){
         try{
@@ -72,6 +75,17 @@ public class UserController {
             OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
             Map<String, Object> attributes = oAuth2User.getAttributes();
             return new BaseResponse<>(attributes);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    @ApiOperation("회원 DB 정보 조회")
+    @PostMapping("/userInfo")
+    public BaseResponse<GetUserInfoRes> userInfo(@Valid @RequestBody GetUserInfoReq getUserInfoReq) {
+        try{
+            GetUserInfoRes getUserInfoRes = userService.userInfo(getUserInfoReq);
+            return new BaseResponse<>(getUserInfoRes);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }

@@ -165,12 +165,11 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
         if(groupIdx != null){
             if(sortCond == 0){ //마감일
                 System.out.println("마감일 정렬 >> groupIdx >> ");
-                return groupInfo.recruitmentEndDate.goe(
+                return (groupInfo.recruitmentEndDate.goe(
                         JPAExpressions.select(groupInfoSub.recruitmentEndDate)
                                 .from(groupInfoSub)
-                                .where(groupInfoSub.groupIdx.eq(groupIdx))).and(
-                                        groupInfo.groupIdx.gt(groupIdx)
-                );
+                                .where(groupInfoSub.groupIdx.eq(groupIdx))))
+                        .and(groupInfo.groupIdx.notIn(groupIdx));
             }
             return groupInfo.createdAt.lt(
                     JPAExpressions.select(groupInfoSub.createdAt)
@@ -196,6 +195,20 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
         }
         return groupInfo.createdAt.desc();
     }
+
+//    private BooleanBuilder recruitmentEndSort(Long groupIdx){
+//        BooleanBuilder builder1 = new BooleanBuilder();
+//        BooleanBuilder builder2 = new BooleanBuilder();
+//
+//        builder1.and(groupInfo.recruitmentEndDate.goe(
+//                JPAExpressions.select(groupInfoSub.recruitmentEndDate)
+//                        .from(groupInfoSub)
+//                        .where(groupInfoSub.groupIdx.eq(groupIdx))));
+//
+//        builder2.and()
+//
+//        builder1.and(builder2);
+//    }
 
     public JPAQuery<Integer> searchtestGroup(GetGroupInfoSearchReq searchCond, Pageable pageable){
 

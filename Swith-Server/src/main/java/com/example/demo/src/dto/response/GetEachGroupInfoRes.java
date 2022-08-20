@@ -62,6 +62,9 @@ public class GetEachGroupInfoRes {
     @Min(2) @Max(10)
     private Integer memberLimit; //정원(2~10)
 
+    @ApiModelProperty(notes = "스터디 신청 승인된 인원",example = "3")
+    private Long NumOfApplicants; //스터디 신청 승인된 인원.
+
     @ApiModelProperty(notes = "모집방식 0: 선착순 1: 지원",example = "1")
     private Integer applicationMethod;  //모집 방식 -- 0: 선착순 1: 지원
 

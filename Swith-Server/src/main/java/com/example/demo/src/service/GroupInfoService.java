@@ -1,6 +1,8 @@
 package com.example.demo.src.service;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.dto.response.GetEachGroupInfoRes;
+import com.example.demo.src.dto.response.GetGroupInfoRes;
 import com.example.demo.src.dto.response.GetHomeGroupInfoRes;
 import com.example.demo.src.dto.PostGroupInfoReq;
 import com.example.demo.src.dto.PostGroupInfoRes;
@@ -32,9 +34,12 @@ public class GroupInfoService {
     private final SessionRepository sessionRepository;
     private final AttendanceRepository attendanceRepository;
     private final UserRepository userRepository;
+    private final ApplicationRepository applicationRepository;
 
     @Autowired
-    public GroupInfoService(GroupInfoRepository groupInfoRepository, RegisterRepository registerRepository, RegisterService registerService, InterestRepository interestRepository, AnnouncementRepository announcementRepository, SessionRepository sessionRepository, AttendanceRepository attendanceRepository, UserRepository userRepository) {
+    public GroupInfoService(GroupInfoRepository groupInfoRepository, RegisterRepository registerRepository, RegisterService registerService,
+                            InterestRepository interestRepository, AnnouncementRepository announcementRepository, ApplicationRepository applicationRepository,
+                            SessionRepository sessionRepository, AttendanceRepository attendanceRepository, UserRepository userRepository) {
         this.groupInfoRepository = groupInfoRepository;
         this.registerRepository = registerRepository;
         this.interestRepository = interestRepository;
@@ -42,6 +47,7 @@ public class GroupInfoService {
         this.sessionRepository = sessionRepository;
         this.attendanceRepository = attendanceRepository;
         this.userRepository = userRepository;
+        this.applicationRepository = applicationRepository;
     }
 
     public List<GetHomeGroupInfoRes> loadHomeData(Long userIdx) throws BaseException {
@@ -151,10 +157,59 @@ public class GroupInfoService {
     public JPAQuery<Integer> searchtestGroup(GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable) {
         return groupInfoRepository.searchtestGroup(getGroupInfoSearchReq, pageable);
     }
-//
-//    public Optional<GroupInfo> selectEachGroupInfo(Long groupIdx){
-//        return groupInfoRepository.findById(groupIdx);
-//    }
+
+    public GetEachGroupInfoRes selectEachGroupInfo(Long groupIdx){
+        GroupInfo groupInfo = groupInfoRepository.findByGroupIdx(groupIdx);
+        System.out.println(groupInfo.toString());
+        System.out.println(groupIdx);
+        Long NumOfApplicants = 0L;
+        NumOfApplicants = applicationRepository.findNumOfApplicants(groupIdx);
+        System.out.println(">>>"+NumOfApplicants);
+        GetEachGroupInfoRes data = GetEachGroupInfoRes.builder()
+                .adminIdx(groupInfo.getUser().getUserIdx())
+                .groupImgUrl(groupInfo.getGroupImgUrl())
+                .title(groupInfo.getTitle())
+                .meet(groupInfo.getMeet())
+                .frequency(groupInfo.getFrequency())
+                .periods(groupInfo.getPeriods())
+                .online(groupInfo.getOnline())
+                .regionIdx1(groupInfo.getRegionIdx1())
+                .regionIdx2(groupInfo.getRegionIdx2())
+                .interest(groupInfo.getInterest().getInterestIdx())
+                .topic(groupInfo.getTopic())
+                .memberLimit(groupInfo.getMemberLimit())
+                .NumOfApplicants(NumOfApplicants)
+                .applicationMethod(groupInfo.getApplicationMethod())
+                .recruitmentEndDate(groupInfo.getRecruitmentEndDate())
+                .groupStart(groupInfo.getGroupStart())
+                .groupEnd(groupInfo.getGroupEnd())
+                .attendanceValidTime(groupInfo.getAttendanceValidTime())
+                .groupContent(groupInfo.getGroupContent())
+                .build();
+
+        System.out.println("방법 >>>>>>" + data.getApplicationMethod());
+
+        return data;
+
+
+
+    }
+
+    public boolean existGroupIdx(Long groupIdx){
+        boolean check = groupInfoRepository.existsById(groupIdx);
+        return check;
+    }
+
+    public Integer statusOfGroupInfo(Long groupIdx){
+
+        Integer status = groupInfoRepository.findstatusOfGroupInfo(groupIdx);
+
+        return status;
+
+    }
+
+
+
 
 
 

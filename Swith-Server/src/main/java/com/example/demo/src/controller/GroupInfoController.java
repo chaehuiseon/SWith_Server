@@ -88,13 +88,17 @@ public class GroupInfoController {
     }
 
 
-//    @GetMapping("/search/{groupIdx}")
-//    @ResponseBody
-//    public BaseResponse<GetEachGroupInfoRes> selectEachGroupInfo(@PathVariable Long groupIdx){
-//
-//        GetEachGroupInfoRes response = groupInfoService.selectEachGroupInfo(groupIdx);
-//        return new BaseResponse<>(response);
-//    }
+    @GetMapping("/search/{groupIdx}")
+    @ResponseBody
+    public BaseResponse<GetEachGroupInfoRes> selectEachGroupInfo(@PathVariable Long groupIdx){
+
+        System.out.println(groupIdx);
+        GetEachGroupInfoRes response = groupInfoService.selectEachGroupInfo(groupIdx);
+        return new BaseResponse<>(response);
+    }
+
+
+
 
 
 

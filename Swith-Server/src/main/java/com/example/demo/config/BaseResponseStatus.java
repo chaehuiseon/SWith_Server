@@ -138,12 +138,20 @@ public enum BaseResponseStatus {
     FAIL_ATTEND(false, 8001, "출석 가능한 시간이 아닙니다."),
     EXIST_ATTEND_INFO(false, 8002, "이미 출석 데이터가 있습니다."),
 
-    TEMP4(false, 9000, "conflict 방지용 4");
+    TEMP4(false, 9000, "conflict 방지용 4"),
+
+
+    //9000 : 신청
+
+    FULL_NUM_OF_Applicants(false,9001,"신청 인원이 전부 다 찼습니다."),
+    FAIL_SAVED_APPLICATION(false,9002,"서버 error. 가입 신청 실패");
 
 
     private final boolean isSuccess;
     private final int code;
     private final String message;
+
+
 
     private BaseResponseStatus(boolean isSuccess, int code, String message) { // BaseResponseStatus 에서 각 해당하는 코드를 생성자로 맵핑
         this.isSuccess = isSuccess;

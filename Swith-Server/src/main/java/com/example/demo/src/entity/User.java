@@ -71,13 +71,15 @@ public class User extends BaseTimeEntity { //유저 테이블
         this.refreshToken = refreshToken;
     }
 
-    public User update(String name, String picture){
-        this.nickname = name;
-        this.profileImgUrl = picture;
-        return this;
-    }
-
     public String getRoleKey(){
         return this.role.getKey();
+    }
+
+    public User update(String nickname, Interest interest1, Interest interest2, String introduction){
+        this.nickname = nickname;
+        this.interest1 = interest1;
+        this.interest2 = interest2;
+        this.introduction = introduction;
+        return this;
     }
 }

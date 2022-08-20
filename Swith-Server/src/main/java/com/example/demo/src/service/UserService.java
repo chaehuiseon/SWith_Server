@@ -3,26 +3,18 @@ package com.example.demo.src.service;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.jwt.JwtTokenProvider;
-import com.example.demo.jwt.TokenInfo;
 import com.example.demo.src.dto.request.PostSignUpReq;
-import com.example.demo.src.dto.response.PostSignInRes;
 import com.example.demo.src.dto.response.PostSignUpRes;
 import com.example.demo.src.entity.Interest;
 import com.example.demo.src.entity.User;
-import com.example.demo.src.exception.userServiceException.PasswordIncorrectException;
-import com.example.demo.src.exception.userServiceException.UserNotFoundException;
 import com.example.demo.src.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.demo.src.entity.GroupInfo;
 import com.example.demo.src.repository.GroupInfoRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
-import static com.example.demo.config.BaseResponseStatus.*;
+import static com.example.demo.config.BaseResponseStatus.ERROR_FIND_EMAIL;
 
 @Service
 @Transactional
@@ -39,12 +31,13 @@ public class UserService {
         this.groupInfoRepository = groupInfoRepository;
     }
 
-    // 회원 가입
-    public PostSignUpRes signUp(PostSignUpReq postSignUpReq) throws BaseException {
-        // 이메일 중복 시
-        if(userRepository.existsByEmail(postSignUpReq.getEmail())){
-            throw new BaseException(POST_USERS_EXISTS_EMAIL);
+    // 회원 정보 업데이트
+    public PostSignUpRes register(PostSignUpReq postSignUpReq) throws BaseException {
+        User findUser = userRepository.findByEmail(postSignUpReq.getEmail());
+        if(findUser == null){
+            throw new BaseException(ERROR_FIND_EMAIL);
         }
+
         Interest interest1 = Interest.builder()
                 .interestIdx(postSignUpReq.getInterest1())
                 .build();
@@ -52,12 +45,33 @@ public class UserService {
                 .interestIdx(postSignUpReq.getInterest2())
                 .build();
 
-        User user = buildUserForSignUp(postSignUpReq, interest1, interest2);
+        User user = findUser.update(postSignUpReq.getNickname(), interest1, interest2, postSignUpReq.getIntroduction());
+
         User savedUser = userRepository.save(user);
         PostSignUpRes postSignUpRes = getSignUpResponseDto(savedUser);
 
         return postSignUpRes;
     }
+
+//    // 회원 가입
+//    public PostSignUpRes signUp(PostSignUpReq postSignUpReq) throws BaseException {
+//        // 이메일 중복 시
+//        if(userRepository.existsByEmail(postSignUpReq.getEmail())){
+//            throw new BaseException(POST_USERS_EXISTS_EMAIL);
+//        }
+//        Interest interest1 = Interest.builder()
+//                .interestIdx(postSignUpReq.getInterest1())
+//                .build();
+//        Interest interest2 = Interest.builder()
+//                .interestIdx(postSignUpReq.getInterest2())
+//                .build();
+//
+//        User user = buildUserForSignUp(postSignUpReq, interest1, interest2);
+//        User savedUser = userRepository.save(user);
+//        PostSignUpRes postSignUpRes = getSignUpResponseDto(savedUser);
+//
+//        return postSignUpRes;
+//    }
 
 //    // 로그인
 //    public PostSignInRes signIn(String email, String password) throws BaseException {
@@ -121,19 +135,19 @@ public class UserService {
         return false;
     }
 
-    private User buildUserForSignUp(PostSignUpReq postSignUpReq, Interest interest1, Interest interest2) {
-        User user = User.builder()
-                .email(postSignUpReq.getEmail())
-                .password(postSignUpReq.getPassword())
-//                .password((bCryptPasswordEncoder.encode(postSignUpReq.getPassword())))
-                .nickname(postSignUpReq.getNickname())
-                .interest1(interest1)
-                .interest2(interest2)
-                .introduction(postSignUpReq.getIntroduction())
-                .status(0)
-                .build();
-        return user;
-    }
+//    private User buildUserForSignUp(PostSignUpReq postSignUpReq, Interest interest1, Interest interest2) {
+//        User user = User.builder()
+//                .email(postSignUpReq.getEmail())
+////                .password(postSignUpReq.getPassword())
+////                .password((bCryptPasswordEncoder.encode(postSignUpReq.getPassword())))
+//                .nickname(postSignUpReq.getNickname())
+//                .interest1(interest1)
+//                .interest2(interest2)
+//                .introduction(postSignUpReq.getIntroduction())
+//                .status(0)
+//                .build();
+//        return user;
+//    }
 
     private PostSignUpRes getSignUpResponseDto(User savedUser) {
         PostSignUpRes postSignUpRes = PostSignUpRes.builder()

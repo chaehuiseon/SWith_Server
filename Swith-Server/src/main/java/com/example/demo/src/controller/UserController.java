@@ -77,11 +77,11 @@ public class UserController {
         }
     }
 
-    @ApiOperation("회원 가입")
-    @PostMapping("/v1/signUp")
-    public BaseResponse<PostSignUpRes> signUp(@Valid @RequestBody PostSignUpReq postSignUpReq) {
+    @ApiOperation("회원 가입 폼 등록")
+    @PostMapping("/register")
+    public BaseResponse<PostSignUpRes> register(@Valid @RequestBody PostSignUpReq postSignUpReq) {
         try{
-            PostSignUpRes postSignUpRes = userService.signUp(postSignUpReq);
+            PostSignUpRes postSignUpRes = userService.register(postSignUpReq);
             return new BaseResponse<>(postSignUpRes);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());

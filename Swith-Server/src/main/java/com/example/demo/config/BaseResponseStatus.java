@@ -104,6 +104,7 @@ public enum BaseResponseStatus {
     INVALID_ATTENDANCE(false, 6005, "출석 정보가 없습니다."),
     NO_REGISTRATION_INFO(false, 6006, "유저의 스터디 그룹 가입 정보가 없습니다."),
     NO_GROUP_ATTENDANCE(false, 6007, "그룹의 출석 정보가 없습니다."),
+    INVALID_MEMO(false, 6008, "메모 정보가 없습니다."),
 
 
 

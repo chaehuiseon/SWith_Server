@@ -156,6 +156,7 @@ public class SessionService {
                 .getAttendanceList(getAttendanceList)
                 .groupImgUrl(session.getGroupInfo().getGroupImgUrl())
                 .attendanceValidTime(session.getGroupInfo().getAttendanceValidTime())
+                .memoIdx(0L)
                 .userMemo("미완성")
                 .build();
 

@@ -44,6 +44,10 @@ public class GetSessionTabRes {
     @ApiModelProperty(notes = "이미지의 주소", example = "www.~~")
     private Integer attendanceValidTime;
 
-    @ApiModelProperty(notes = "각 유저가 남길 수 있는 메모", example = "오늘 배운 내용: 없다.")
+    @ApiModelProperty(notes = "메모의 Id", example = "10")
+    private Long memoIdx;
+
+    @ApiModelProperty(notes = "메모의 내용", example = "")
     private String userMemo;
+
 }

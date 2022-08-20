@@ -20,7 +20,6 @@ public class DemoApplication {
         long heapSize = Runtime.getRuntime().totalMemory();
         System.out.println("HEAP Size(M) : "+ heapSize / (1024*1024) + " MB");
 
-
     }
     @Bean
     public JPAQueryFactory queryFactory(EntityManager em){

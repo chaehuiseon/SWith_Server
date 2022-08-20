@@ -42,11 +42,8 @@
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="STDOUT"/>
     </root>
 
     <logger name="com.example.demo" level="WARN">
-        <appender-ref ref="APP_FILE"/>
-        <appender-ref ref="ERROR_FILE"/>
     </logger>
 </configuration>

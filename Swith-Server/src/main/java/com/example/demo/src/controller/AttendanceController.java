@@ -5,8 +5,6 @@ import com.example.demo.config.BaseResponse;
 import com.example.demo.src.dto.request.PatchAttendanceReq;
 import com.example.demo.src.dto.response.GetGroupAttendanceRes;
 import com.example.demo.src.dto.response.GetSessionAttendanceRes;
-import com.example.demo.src.dto.response.GetSessionRes;
-import com.example.demo.src.repository.AttendanceRepository;
 import com.example.demo.src.service.AttendanceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

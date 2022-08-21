@@ -1,6 +1,7 @@
 package com.example.demo.src.repository;
 
 import com.example.demo.src.entity.Session;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -57,4 +58,14 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
     @Query("update Session s set s.status = 1 " +
             "where s.sessionIdx = :sessionIdx ")
     Long deleteSession(Long sessionIdx);
+
+    //결석 케이스 조회
+    @Query("select distinct s from Session s " +
+            "left join fetch s.attendances " +
+            "where s.groupInfo.status = 1 " +
+            "and s.sessionEnd < :now " +      //지금 이전에 끝나고
+            "and s.sessionStart > :limit " +      //limit 이후에 시작한 회차
+            "and s.status = 0")
+    List<Session> getAllWithGroupAndAttendances(LocalDateTime now, LocalDateTime limit);
+
 }

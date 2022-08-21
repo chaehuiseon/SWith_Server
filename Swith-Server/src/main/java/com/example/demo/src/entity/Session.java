@@ -50,6 +50,6 @@ public class Session extends BaseTimeEntity {//회차 테이블
 
     //N:1 양방향   //fetch join 을 위해서 사용
     @Builder.Default
-    @OneToMany(mappedBy = "session")
+    @OneToMany(mappedBy = "session", cascade = CascadeType.PERSIST)
     private List<Attendance> attendances = new ArrayList<>();
 }

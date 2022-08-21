@@ -143,8 +143,6 @@ public class SessionService {
         //메모를 찾고 메모정보가 없으면 Idx는 -1, 내용은 NULL을 반환
         Memo memo = memoRepository.findByUserAndSession(userIdx, sessionIdx)
                 .orElseGet(() -> Memo.builder()
-                        .memoIdx(-1L)
-                        .memoContent("NULL")
                         .build());
 
         GetSessionTabRes getSessionTabRes = GetSessionTabRes.builder()

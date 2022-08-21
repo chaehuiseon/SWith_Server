@@ -6,6 +6,7 @@ import com.example.demo.src.dto.request.PatchAttendanceReq;
 import com.example.demo.src.dto.response.*;
 import com.example.demo.src.entity.*;
 import com.example.demo.src.repository.*;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -187,8 +188,8 @@ public class AttendanceService {
         return count;
     }
 
-    public List<GetSessionAttendanceRes> getSessionAttendance(Long groupIdx) throws BaseException{
-        if(!groupInfoRepository.existsById(groupIdx))
+    public List<GetSessionAttendanceRes> getSessionAttendance(Long groupIdx) throws BaseException {
+        if (!groupInfoRepository.existsById(groupIdx))
             throw new BaseException(BaseResponseStatus.INVALID_GROUP);
         List<User> userList = registerRepository.findUserByGroup(groupIdx);
         List<Session> sessionList = sessionRepository.getSessionAndAttendanceByGroupIdx(groupIdx);
@@ -211,5 +212,31 @@ public class AttendanceService {
             getSessionAttendanceResList.add(getSessionAttendanceRes);
         }
         return getSessionAttendanceResList;
+    }
+
+    //10분마다 동작
+    //결석 체크하는 메서드
+    @Scheduled(cron = "0 0/10 * * * *")
+    public void schedulyUpdateAttendance() {
+        System.out.println("regular attendances updating routine started");
+        LocalDateTime now = LocalDateTime.now();
+        List<Session> sessions = sessionRepository.
+                getAllWithGroupAndAttendances(now, now.minusHours(9));
+        //Start 이후, 끝난 or 끝날 시점은 지금으로부터 9시간 후 시각 이전
+        if(sessions.isEmpty()){
+            System.out.println("There is no session in progress");
+            return;
+        }
+        for (Session session : sessions) {
+            LocalDateTime end = session.getSessionEnd();
+            List<Attendance> attendances = session.getAttendances();
+            for (Attendance attendance : attendances) {
+                Integer status = attendance.getStatus();
+                if (status == 0) {
+                        attendance.setStatus(3);
+                }
+            }
+            sessionRepository.saveAll(sessions);
+        }
     }
 }

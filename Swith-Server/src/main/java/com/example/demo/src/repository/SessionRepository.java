@@ -15,6 +15,7 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
     Optional<Session> findFirstByGroupInfo_GroupIdxAndSessionStartAfterAndStatusEqualsOrderBySessionNum(
             Long sessionIdx, LocalDateTime currentTime,Integer status);
 
+
     @Query("select s from Session s " +
             "where s.groupInfo.groupIdx = :groupIdx " +
             "and s.status = 0" +
@@ -55,9 +56,10 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
             "(:start < s.sessionStart and :end > s.sessionStart )) ")
     boolean existsOverlappedSession(Long groupIdx, Long sessionIdx, LocalDateTime start, LocalDateTime end);
 
+    @Modifying
     @Query("update Session s set s.status = 1 " +
             "where s.sessionIdx = :sessionIdx ")
-    Long deleteSession(Long sessionIdx);
+    Integer deleteSession(Long sessionIdx);
 
     //결석 케이스 조회
     @Query("select distinct s from Session s " +

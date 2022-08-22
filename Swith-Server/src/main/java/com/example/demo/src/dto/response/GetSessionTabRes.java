@@ -47,7 +47,7 @@ public class GetSessionTabRes {
     @ApiModelProperty(notes = "메모의 Id", example = "10")
     private Long memoIdx;
 
-    @ApiModelProperty(notes = "메모의 내용", example = "")
+    @ApiModelProperty(notes = "메모의 내용", example = "오늘 배운 내용: 없다.")
     private String userMemo;
 
 }

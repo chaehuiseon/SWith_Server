@@ -26,21 +26,24 @@ public class SessionService {
     private final AnnouncementRepository announcementRepository;
     private final AttendanceRepository attendanceRepository;
     private final MemoRepository memoRepository;
+    private final RegisterRepository registerRepository;
 
 
     @Autowired
-    public SessionService(SessionRepository sessionRepository, GroupInfoService groupInfoService, GroupInfoRepository groupInfoRepository, AnnouncementRepository announcementRepository, AttendanceRepository attendanceRepository, MemoRepository memoRepository) {
+    public SessionService(SessionRepository sessionRepository, GroupInfoService groupInfoService, GroupInfoRepository groupInfoRepository, AnnouncementRepository announcementRepository, AttendanceRepository attendanceRepository, MemoRepository memoRepository, RegisterRepository registerRepository) {
         this.sessionRepository = sessionRepository;
         this.groupInfoRepository = groupInfoRepository;
         this.announcementRepository = announcementRepository;
         this.attendanceRepository = attendanceRepository;
         this.memoRepository = memoRepository;
+        this.registerRepository = registerRepository;
     }
 
 
     public Long createSession(PostSessionReq postSessionReq, Integer sessionNum) throws BaseException {
         GroupInfo groupInfo = groupInfoRepository.findById(postSessionReq.getGroupIdx())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUP));
+
         Session session = Session.builder()
                 .sessionContent(postSessionReq.getSessionContent())
                 .sessionNum(sessionNum)
@@ -50,6 +53,18 @@ public class SessionService {
                 .online(postSessionReq.getOnline())
                 .place(postSessionReq.getPlace())
                 .build();
+        List<Attendance> attendanceList = session.getAttendances();
+        //출석 만들기
+        List<User> userByGroup = registerRepository.findUserByGroup(postSessionReq.getGroupIdx());
+        for (User user : userByGroup) {
+            Attendance attendance = Attendance.builder()
+                    .user(user)
+                    .session(session)
+                    .groupInfo(groupInfo)
+                    .build();
+            attendanceList.add(attendance);
+        }
+
         Session session1 = sessionRepository.save(session);
         return session1.getSessionIdx();
     }
@@ -207,7 +222,7 @@ public class SessionService {
             throw new BaseException(BaseResponseStatus.ALREADY_DELETED_ANNOUNCEMENT);
         if(session.getSessionStart().isBefore(LocalDateTime.now()))
             throw new BaseException(BaseResponseStatus.DELETE_FAIL_SESSION);
-
+        //회차 넘버 재조정 필요
         sessionRepository.deleteSession(sessionIdx);
         return sessionIdx;
     }

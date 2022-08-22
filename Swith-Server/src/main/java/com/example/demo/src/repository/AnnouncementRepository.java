@@ -16,7 +16,10 @@ public interface AnnouncementRepository extends JpaRepository<Announcement,Long>
             "order by a.modifiedAt DESC")
     List<Announcement> findByGroupInfo_GroupIdxOrderByModifiedAtDesc(Long groupIdx);
 
-    @Query("select a from Announcement a where a.groupInfo.groupIdx = :groupIdx and a.status = 0")
+    @Query("select a " +
+            "from Announcement a " +
+            "where a.groupInfo.groupIdx = :groupIdx " +
+            "and a.status = 0")
     List<Announcement> findByGroupIdx(Long groupIdx);
 
     @Modifying

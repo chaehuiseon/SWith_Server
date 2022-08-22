@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetGroupInfoRes {
-    @ApiModelProperty(notes = "스터디 그룹의 인덱스", example = "10")
+    @ApiModelProperty(notes = "어드민 여부", example = "10")
     private boolean isAdmin;
 
     @ApiModelProperty(notes = "스터디 그룹의 제목", example = "자격증 시험 스터디")

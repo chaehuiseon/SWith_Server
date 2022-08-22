@@ -3,6 +3,7 @@ package com.example.demo.src.repository;
 import com.example.demo.src.dto.response.UserAttendanceInfo;
 import com.example.demo.src.entity.Attendance;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -47,6 +48,7 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
             "where a.user.userIdx = :userIdx and a.session.sessionIdx = :sessionIdx")
     Optional<Attendance> findByUserAndSession(Long userIdx, Long sessionIdx);
 
+    @Modifying
     @Query("update Attendance a set a.status = :status " +
             "where a.attendanceIdx = :attendanceIdx ")
     Integer modifyStatus(Long attendanceIdx, Integer status);

@@ -24,8 +24,10 @@ public class PostGroupInfoReq {
 
     @ApiModelProperty(notes = "스터디 개설 하는 유저의 PK",example = "1")
     private Long adminIdx;
+
     @ApiModelProperty(notes = "스터디 그룹 대표 이미지",example = "S3 경로")
     private String groupImgUrl;
+
     @ApiModelProperty(notes = "스터디 그룹의 제목", example = "자격증 시험 스터디")
     private String title;
 

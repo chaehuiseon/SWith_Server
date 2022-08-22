@@ -44,11 +44,11 @@ public class UserController {
         return "index";
     }
 
-//    @GetMapping("/fail")
-//    @ApiOperation("서버 시간")
-//    public String time(){
-//        return LocalDateTime.now().toString();
-//    }
+    @GetMapping("/fail")
+    @ApiOperation("서버 시간")
+    public String time(){
+        return LocalDateTime.now().toString();
+    }
 
     @ApiOperation("로그인 정보")
     @GetMapping("/loginInfo")

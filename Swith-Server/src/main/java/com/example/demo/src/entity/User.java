@@ -83,4 +83,10 @@ public class User extends BaseTimeEntity { //유저 테이블
         this.introduction = introduction;
         return this;
     }
+
+    public User updateInterest(Interest interest1, Interest interest2){
+        this.interest1 = interest1;
+        this.interest2 = interest2;
+        return this;
+    }
 }

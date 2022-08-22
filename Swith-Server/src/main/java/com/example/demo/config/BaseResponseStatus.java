@@ -59,6 +59,8 @@ public enum BaseResponseStatus {
     ERROR_FIND_USERIDX(false,2084,"email로 가입된 userIdx가 존재하지 않음."),
     PATCH_USER_PASSWORD(false,2085,"password patch실패"),
     NOT_LOGIN(false,2086,"로그인 해주세요."),
+    REFRESH_LOGOUT(false,2087,"리프레시 토큰이 아닌 엑세스 토큰을 사용해주세요."),
+    ALREADY_LOGOUT(false,2088,"이미 로그아웃한 상태입니다."),
 
 
     /*

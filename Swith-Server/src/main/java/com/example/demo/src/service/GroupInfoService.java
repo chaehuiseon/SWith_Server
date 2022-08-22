@@ -1,6 +1,7 @@
 package com.example.demo.src.service;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.dto.request.PatchGroupInfoReq;
 import com.example.demo.src.dto.response.GetEachGroupInfoRes;
 import com.example.demo.src.dto.response.GetGroupInfoRes;
 import com.example.demo.src.dto.response.GetHomeGroupInfoRes;
@@ -207,6 +208,64 @@ public class GroupInfoService {
         return status;
 
     }
+
+    public boolean IsAdmin(Long groupIdx, Long adminIdx){
+        Long FoundAdminIdx = groupInfoRepository.findAdminIdxBy(groupIdx);
+        return FoundAdminIdx == adminIdx ;
+    }
+
+
+    public Long ModifyGroupInformation(Long groupIdx, PatchGroupInfoReq request){
+
+        if(!existGroupIdx(groupIdx)){ //존재하지 않음.
+            return -1L;
+        }
+        //존재함
+        GroupInfo groupInfo = groupInfoRepository.findById(groupIdx).orElseThrow(
+                () -> new IllegalArgumentException(String.valueOf(FAIL_LOAD_GROUPINFO))
+        );
+
+        Long ReqgroupIdx = groupInfo.getGroupIdx();
+        if(ReqgroupIdx != groupIdx) return -2L;//잘못된 값 읽음
+
+        groupInfo.setGroupImgUrl(request.getGroupImgUrl());
+        groupInfo.setTitle(request.getTitle());
+        groupInfo.setMeet(request.getMeet());
+        groupInfo.setFrequency(request.getFrequency());
+        groupInfo.setPeriods(request.getPeriods());
+        groupInfo.setOnline(request.getOnline());
+        groupInfo.setRegionIdx1(request.getRegionIdx1());
+        groupInfo.setRegionIdx2(request.getRegionIdx2());
+        Integer originInterest = groupInfo.getInterest().getInterestIdx();
+        if(request.getInterest() != originInterest){ //다른 경우만 바꾸겠다.
+            Interest ReqInterest = interestRepository.getById(request.getInterest());
+            groupInfo.setInterest(ReqInterest);
+        }
+        groupInfo.setTopic(request.getTopic());
+        groupInfo.setMemberLimit(request.getMemberLimit());
+        groupInfo.setApplicationMethod(request.getApplicationMethod());
+        groupInfo.setRecruitmentEndDate(request.getRecruitmentEndDate());
+        groupInfo.setGroupStart(request.getGroupStart());
+        groupInfo.setGroupEnd(request.getGroupEnd());
+        groupInfo.setAttendanceValidTime(request.getAttendanceValidTime());
+        groupInfo.setGroupContent(request.getGroupContent());
+
+
+        groupInfoRepository.save(groupInfo);
+        GroupInfo check = groupInfoRepository.findByGroupIdx(groupIdx);
+        System.out.println(check);
+        return check.getGroupIdx();
+
+
+
+
+
+
+    }
+
+
+
+
 
 
 

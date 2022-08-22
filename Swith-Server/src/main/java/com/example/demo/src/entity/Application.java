@@ -30,7 +30,7 @@ public class Application extends BaseTimeEntity {
 
     @Column(columnDefinition = "TINYINT")
     @Builder.Default
-    private Integer status = 0; //0: 승인 대기 1: 승인 2: 반려
+    private Integer status = 0; //0: 승인 대기 1: 승인 2: 반려 3:추방
 
     @Column(length = 200)
     private String applicationContent; //지원서에 작성한 내용

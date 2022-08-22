@@ -1,9 +1,13 @@
 package com.example.demo.src.service;
 
 
+import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.config.BaseResponseStatus;
+import com.example.demo.src.dto.request.PatchApplicationStatusReq;
 import com.example.demo.src.dto.request.PostApplicationReq;
 import com.example.demo.src.dto.response.GetApplicationManageRes;
+import com.example.demo.src.dto.response.PatchApplicationStatusRes;
 import com.example.demo.src.entity.Application;
 import com.example.demo.src.repository.ApplicationRepository;
 import com.example.demo.src.repository.GroupInfoRepository;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -89,7 +94,57 @@ public class ApplicationService {
     }
 
 
-    //public List<GetApplicationManageRes> getApplicationList(Long groupIdx)
+    public List<GetApplicationManageRes> getApplicationList(Long groupIdx,Integer status){
 
+        List<Application> applications =  applicationRepository.getApplicationListBy(groupIdx,status);
+
+        List<GetApplicationManageRes> results = applications.stream()
+                .map(a -> new GetApplicationManageRes(a))
+                .collect(Collectors.toList());
+
+        System.out.println(results.toString());
+
+        return results;
+
+
+    }
+
+
+
+    public PatchApplicationStatusRes changeApplicationStatus(Long groupIdx, Integer status, PatchApplicationStatusReq request)
+            throws BaseException {
+        Integer check = 0;
+        if (status == 0) { //변경전. 지원에 있음.
+            Integer req_status = request.getStatusOfApplication(); //요구된 상태
+            Long req_applicationIdx = request.getApplicationIdx(); //요구된 idx
+            System.out.println(">>"+req_status+req_status);
+            //변경
+            try {
+                applicationRepository.updateStatusOfApplication(req_status, req_applicationIdx, groupIdx);
+            } catch (Exception exception) {
+                throw new BaseException(BaseResponseStatus.FAIL_CHANGED_STATUS);
+            }
+
+            //확인
+            Application changed = applicationRepository.findById(req_applicationIdx).get();
+            if ((changed.getApplicationIdx() == req_applicationIdx) &&
+                    (changed.getGroupInfo().getGroupIdx() == groupIdx) && (req_status == changed.getStatus())) {
+                //전송
+                PatchApplicationStatusRes results = PatchApplicationStatusRes.builder()
+                        .applicationIdx(changed.getApplicationIdx())
+                        .status(changed.getStatus())
+                        .build();
+
+                return results;
+            }
+
+        }else {
+            throw new BaseException(BaseResponseStatus.DO_NOT_EXECUTE_CHANGE);
+        }
+
+        return null;
+
+
+    }
 
 }

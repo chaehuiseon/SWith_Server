@@ -2,6 +2,8 @@ package com.example.demo.src.controller;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.config.BaseResponseStatus;
+import com.example.demo.src.dto.request.PatchGroupInfoReq;
 import com.example.demo.src.dto.response.GetEachGroupInfoRes;
 import com.example.demo.src.dto.response.GetHomeGroupInfoRes;
 import com.example.demo.src.dto.PostGroupInfoReq;
@@ -61,6 +63,7 @@ public class GroupInfoController {
 
     //@ResponseBody
     //@GetMapping("/search")
+    @ApiOperation("스터디 검색")
     @RequestMapping(path = "/search", method = RequestMethod.GET)
     @ResponseBody
     //public BaseResponse<Slice<GetGroupInfoSearchRes>> searchGroup(@RequestParam GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable){
@@ -88,6 +91,7 @@ public class GroupInfoController {
     }
 
 
+    @ApiOperation("스터디 정보 상세 보기")
     @GetMapping("/search/{groupIdx}")
     @ResponseBody
     public BaseResponse<GetEachGroupInfoRes> selectEachGroupInfo(@PathVariable Long groupIdx){
@@ -96,6 +100,27 @@ public class GroupInfoController {
         GetEachGroupInfoRes response = groupInfoService.selectEachGroupInfo(groupIdx);
         return new BaseResponse<>(response);
     }
+
+    @ApiOperation("스터디 정보 수정")
+    @PatchMapping("/modify/{groupIdx}")
+    @ResponseBody
+    public BaseResponse<Long> ModifyGroupInformation(@PathVariable Long groupIdx, @RequestBody PatchGroupInfoReq patchGroupInfoReq){
+        Long ReqAdminIdx = patchGroupInfoReq.getAdminIdx();
+        //jwt 유효성 검사 추가해야됨.
+
+        //상태 변경 권한이 있는지..즉, 스터디 개설자가 맞는지.
+        boolean check = groupInfoService.IsAdmin(groupIdx,ReqAdminIdx);
+        if(check == false){//권한없음
+            return new BaseResponse<>(BaseResponseStatus.NO_GROUP_LEADER);
+        }
+
+        Long result = groupInfoService.ModifyGroupInformation(groupIdx, patchGroupInfoReq);
+        return new BaseResponse<>(result);
+
+    }
+
+
+
 
 
 

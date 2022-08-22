@@ -7,13 +7,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
+import java.util.TimeZone;
 
 @EnableJpaAuditing
 @EnableScheduling
 @SpringBootApplication
 public class DemoApplication {
-
+    @PostConstruct
+    public void started() {
+        // timezone UTC 셋팅
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+        System.out.println("현재시각 : " + LocalDateTime.now());
+    }
     public static void main(String[] args) {
 
         SpringApplication.run(DemoApplication.class, args);

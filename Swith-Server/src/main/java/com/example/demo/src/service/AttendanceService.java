@@ -113,7 +113,7 @@ public class AttendanceService {
         return getGroupAttendanceRes;
     }
 
-    public Long updateAttendance(Long userIdx, Long sessionIdx) throws BaseException {
+    public Integer updateAttendance(Long userIdx, Long sessionIdx) throws BaseException {
         User user = userRepository.findById(userIdx)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USER));
         Session session = sessionRepository.findByIdWithGroup(sessionIdx)
@@ -142,9 +142,9 @@ public class AttendanceService {
 
 
         attendance.setStatus(status);
-        Attendance save = attendanceRepository.save(attendance);
+        attendanceRepository.save(attendance);
 
-        return save.getAttendanceIdx();
+        return status;
     }
 
     private Attendance makeAttendanceInfo(User user, Session session) {

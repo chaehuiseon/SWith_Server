@@ -37,11 +37,11 @@ public class AttendanceController {
 
     @ApiOperation("스터디탭 - 사용자 출석 - P11")
     @PatchMapping()
-    public BaseResponse<Long> Attend(@RequestParam(value = "userIdx") Long userIdx,
+    public BaseResponse<Integer> Attend(@RequestParam(value = "userIdx") Long userIdx,
                                      @RequestParam(value = "sessionIdx") Long sessionIdx) {
         try {
-            Long attendanceIdx = attendanceService.updateAttendance(userIdx, sessionIdx);
-            return new BaseResponse<>(attendanceIdx);
+            Integer status = attendanceService.updateAttendance(userIdx, sessionIdx);
+            return new BaseResponse<>(status);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }

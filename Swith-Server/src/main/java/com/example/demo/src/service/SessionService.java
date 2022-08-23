@@ -204,7 +204,31 @@ public class SessionService {
         List<Session> sessionList = sessionRepository.findByGroupIdx(groupIdx);
         if (sessionList.isEmpty())
             throw new BaseException(BaseResponseStatus.NO_SESSION_INFO);
+        adjustSessionNum(sessionList);
 
+        return sessionIdx;
+    }
+
+    public Long deleteSession(Long sessionIdx) throws BaseException {
+        Session session = sessionRepository.findByIdWithGroup(sessionIdx)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_SESSION_INFO));
+        if (session.getStatus() == 1)
+            throw new BaseException(BaseResponseStatus.ALREADY_DELETED_SESSION);
+        if(session.getSessionStart().isBefore(LocalDateTime.now()))
+            throw new BaseException(BaseResponseStatus.DELETE_FAIL_SESSION);
+
+        sessionRepository.deleteSession(sessionIdx);
+
+        //회차 수 재조정
+        List<Session> sessionList = sessionRepository.findByGroupIdx(session.getGroupInfo().getGroupIdx());
+        if (sessionList.isEmpty())
+            throw new BaseException(BaseResponseStatus.NO_SESSION_INFO);
+        adjustSessionNum(sessionList);
+
+        return sessionIdx;
+    }
+
+    private void adjustSessionNum(List<Session> sessionList) {
         for (int i = 1; i < sessionList.size() + 1; i++) {
             Session session1 = sessionList.get(i - 1);
             if (session1.getSessionNum() != i) {
@@ -212,19 +236,6 @@ public class SessionService {
                 sessionRepository.save(session1);
             }
         }
-        return sessionIdx;
-    }
-
-    public Long deleteSession(Long sessionIdx) throws BaseException {
-        Session session = sessionRepository.findById(sessionIdx)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_SESSION_INFO));
-        if (session.getStatus() == 1)
-            throw new BaseException(BaseResponseStatus.ALREADY_DELETED_ANNOUNCEMENT);
-        if(session.getSessionStart().isBefore(LocalDateTime.now()))
-            throw new BaseException(BaseResponseStatus.DELETE_FAIL_SESSION);
-        //회차 넘버 재조정 필요
-        sessionRepository.deleteSession(sessionIdx);
-        return sessionIdx;
     }
 
     public boolean existsOverlappedSession(Long groupIdx, LocalDateTime sessionStart, LocalDateTime sessionEnd) {

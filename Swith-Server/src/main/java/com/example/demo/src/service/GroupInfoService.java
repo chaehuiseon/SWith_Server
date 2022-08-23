@@ -1,6 +1,8 @@
 package com.example.demo.src.service;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.dto.request.PatchEndGroupReq;
+import com.example.demo.src.dto.request.PatchExpelUserReq;
 import com.example.demo.src.dto.request.PatchGroupInfoReq;
 import com.example.demo.src.dto.response.GetEachGroupInfoRes;
 import com.example.demo.src.dto.response.GetGroupInfoRes;
@@ -112,8 +114,7 @@ public class GroupInfoService {
         System.out.println(request.toString());
         System.out.println("으악");
         PostGroupInfoReq body = request;
-        long regionimsi1 = 123;
-        long regionimsi2 = 456;
+
         //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초");
         // 문자열 -> Date
         //LocalDateTime date = LocalDateTime.parse(dateStr, formatter);
@@ -189,6 +190,7 @@ public class GroupInfoService {
                 .build();
 
         System.out.println("방법 >>>>>>" + data.getApplicationMethod());
+        System.out.println("interest >>>" + data.getInterest().toString());
 
         return data;
 
@@ -197,8 +199,22 @@ public class GroupInfoService {
     }
 
     public boolean existGroupIdx(Long groupIdx){
-        boolean check = groupInfoRepository.existsById(groupIdx);
-        return check;
+        //boolean check = groupInfoRepository.existsById(groupIdx);
+        //상태 확인 코드 추가해야됨.
+        try{
+            Integer check = groupInfoRepository.findStatusOfGroupInfo(groupIdx);
+            // 상태가 0(진행예정)또는 1(진행중) 이면 존재 ->true
+            if(check == 0 || check == 1) return true;
+            //상태가 2(종료)면 존재하지 않음 -> false
+            else if(check == 2) return false;
+        }catch (Exception e){
+            System.out.println("서버 error");
+            return false;
+        }
+        //이상한 값...
+        return false;
+
+
     }
 
     public Integer statusOfGroupInfo(Long groupIdx){
@@ -251,16 +267,38 @@ public class GroupInfoService {
         groupInfo.setGroupContent(request.getGroupContent());
 
 
-        groupInfoRepository.save(groupInfo);
+
+        GroupInfo save = groupInfoRepository.save(groupInfo);
+        System.out.println(">>>>>>>>>>>>"+save.getGroupIdx().toString());
+        return save.getGroupIdx();
+
+
+    }
+
+    public Long EndGroup(Long groupIdx,Long adminIdx) {
+
+        if(!existGroupIdx(groupIdx)){ //존재하지 않음.
+            return -1L;
+        }
+
+        //Integer status = groupInfoRepository.findStatusOfGroupInfo(groupIdx);
+        groupInfoRepository.changeGroupInfoStatusEnd(2,groupIdx,adminIdx);
+
         GroupInfo check = groupInfoRepository.findByGroupIdx(groupIdx);
-        System.out.println(check);
-        return check.getGroupIdx();
+        if( check.getStatus() == 2) return check.getGroupIdx();
+
+        return -2L;
 
 
 
 
 
+    }
 
+
+
+    public GroupInfo findGroup(Long groupIdx){
+        return groupInfoRepository.findByGroupIdx(groupIdx);
     }
 
 

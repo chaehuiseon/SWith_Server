@@ -28,11 +28,13 @@ public interface ApplicationRepository extends JpaRepository<Application,Long> {
 
 
 
+    //nativequery는 진짜 SQL 문법기준으로 작성해야됨..
     @Modifying(clearAutomatically = true)
-    @Query(value = "update Application a " +
-            "set a.status = :status " +
-            "where a.applicationIdx = :applicationIdx and a.groupIdx = :groupIdx and a.status = 0 ",nativeQuery = true)
-    Integer updateStatusOfApplication(@Param("status")Integer status, @Param("applicationIdx")Long applicationIdx, @Param("groupIdx")Long groupIdx);
+    @Query(value = "update APPLICATION a " +
+            "set a.status = :reqstatus " +
+            "where a.applicationIdx = :applicationIdx and a.groupIdx = :groupIdx and a.status = :status ",nativeQuery = true)
+    Integer updateStatusOfApplication(@Param("reqstatus")Integer reqstatus, @Param("applicationIdx")Long applicationIdx,
+                                      @Param("groupIdx")Long groupIdx, @Param("status") Integer status);
 
 
 

@@ -3,6 +3,7 @@ package com.example.demo.src.controller;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
+import com.example.demo.src.dto.request.PatchEndGroupReq;
 import com.example.demo.src.dto.request.PatchGroupInfoReq;
 import com.example.demo.src.dto.response.GetEachGroupInfoRes;
 import com.example.demo.src.dto.response.GetHomeGroupInfoRes;
@@ -14,6 +15,7 @@ import com.example.demo.src.entity.GroupInfo;
 import com.example.demo.src.service.GroupInfoService;
 import com.example.demo.src.service.SessionService;
 import com.example.demo.src.service.UserService;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -104,7 +106,10 @@ public class GroupInfoController {
     @ApiOperation("스터디 정보 수정")
     @PatchMapping("/modify/{groupIdx}")
     @ResponseBody
-    public BaseResponse<Long> ModifyGroupInformation(@PathVariable Long groupIdx, @RequestBody PatchGroupInfoReq patchGroupInfoReq){
+    public BaseResponse<Long> ModifyGroupInformation(@PathVariable Long groupIdx, @RequestBody PatchGroupInfoReq patchGroupInfoReq) throws BaseException{
+        System.out.println(patchGroupInfoReq.getAdminIdx());
+        System.out.println(patchGroupInfoReq.getGroupEnd());
+        System.out.println(patchGroupInfoReq.getInterest().toString());
         Long ReqAdminIdx = patchGroupInfoReq.getAdminIdx();
         //jwt 유효성 검사 추가해야됨.
 
@@ -115,6 +120,29 @@ public class GroupInfoController {
         }
 
         Long result = groupInfoService.ModifyGroupInformation(groupIdx, patchGroupInfoReq);
+
+        return new BaseResponse<>(result);
+
+    }
+
+    @ApiOperation("스터디 종료 API")
+    @ResponseBody
+    @PatchMapping("/end")
+    public BaseResponse<Long> EndGroup(@RequestBody PatchEndGroupReq patchEndGroupReq){
+        Long groupIdx = patchEndGroupReq.getGroupIdx();
+        Long adminIdx = patchEndGroupReq.getAminIdx();
+        boolean check = groupInfoService.IsAdmin(groupIdx,adminIdx);
+        //jwt 유효성 검사 추가해야됨 ..
+
+
+        if(check == false){//권한없음
+            return new BaseResponse<>(BaseResponseStatus.NO_GROUP_LEADER);
+        }
+        Long result = groupInfoService.EndGroup(groupIdx, adminIdx);
+        //그룹 존재하지 않아서 실패
+        if(result == -1L) return new BaseResponse<>(BaseResponseStatus.FAIL_LOAD_GROUPINFO);
+        //삭제가 실패
+        if(result == -2L) return new BaseResponse<>(BaseResponseStatus.FAIL_CHANGED_STATUS);
         return new BaseResponse<>(result);
 
     }

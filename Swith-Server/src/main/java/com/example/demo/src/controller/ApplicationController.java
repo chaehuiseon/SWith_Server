@@ -5,6 +5,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.dto.request.PatchApplicationStatusReq;
+import com.example.demo.src.dto.request.PatchExpelUserReq;
 import com.example.demo.src.dto.request.PostApplicationReq;
 import com.example.demo.src.dto.response.GetApplicationManageRes;
 import com.example.demo.src.dto.response.PatchApplicationStatusRes;
@@ -15,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.RESPONSE_ERROR;
@@ -66,10 +68,12 @@ public class ApplicationController {
 
         boolean existcheck = groupInfoService.existGroupIdx(groupIdx);
         if(existcheck == false){ //존재하지 않는 스터디
+            System.out.println("종료된 스터디거나 오류임~~~~~~");
             return new BaseResponse<>(BaseResponseStatus.FAIL_LOAD_GROUPINFO);
         }
 
         //groupInfo의 status를 check 종료된 스터디인지.
+        //exist에서 이 검사를 다 하니깐...이부분 없애도 될거같음 -> refactory대상.
         Integer statuscheck = groupInfoService.statusOfGroupInfo(groupIdx);
         if(statuscheck == 2 ){//종료된 스터디
             return new BaseResponse<>(BaseResponseStatus.FAIL_CLOSED_GROUPINFO);
@@ -91,9 +95,10 @@ public class ApplicationController {
     public BaseResponse<PatchApplicationStatusRes> ApproveOrRejectStudyEnrollment(
             @PathVariable Long groupIdx, @PathVariable Integer status, @RequestBody PatchApplicationStatusReq patchApplicationStatusReq) throws BaseException {
 
-        System.out.println(patchApplicationStatusReq.getStatusOfApplication());
-        System.out.println(patchApplicationStatusReq.getApplicationIdx());
-        System.out.println(patchApplicationStatusReq.getAdminIdx());
+        System.out.println("승인시작 : ");
+        System.out.println("application 요청 status :  "+ patchApplicationStatusReq.getStatusOfApplication());
+        System.out.println("application Idx " + patchApplicationStatusReq.getApplicationIdx());
+        System.out.println("admin " +patchApplicationStatusReq.getAdminIdx());
         //목록이 보여졌다는것은.. 스터디가 종료 및 삭제 되지 않았다는 검사를 앞에서 다 했다는 것으로 간주.
 
         //jwt 유효성 검사 추가해야됨.
@@ -102,10 +107,11 @@ public class ApplicationController {
         Long ReqAdminIdx = patchApplicationStatusReq.getAdminIdx();
         boolean check = groupInfoService.IsAdmin(groupIdx,ReqAdminIdx);
         if(check == false){//권한없음
+            System.out.println("권한이 없습니다.");
             return new BaseResponse<>(BaseResponseStatus.NO_GROUP_LEADER);
         }
         Integer ReqStatus = patchApplicationStatusReq.getStatusOfApplication();
-        if(!(ReqStatus == 1 || ReqStatus == 2)){
+        if(!(ReqStatus == 1 || ReqStatus == 2 )){//요청이 승인(1) 또는 반려(2)가 아니면 잘못된 값을 받은 것.
             return new BaseResponse<>(BaseResponseStatus.INVALID_STATUS);
         }
         //권한 있음.
@@ -117,6 +123,42 @@ public class ApplicationController {
 
 
     }
+
+    @ApiOperation("스터디 유저 추방 API")
+    @ResponseBody
+    @PatchMapping("/manage/expel/{groupIdx}/{status}")
+    public BaseResponse<Long> ExpelUserFromGroup (@PathVariable Long groupIdx, @PathVariable Integer status , @RequestBody @Valid PatchExpelUserReq patchExpelUserReq) throws BaseException {
+
+        System.out.println("groupIDx >> " + groupIdx);
+        System.out.println("user >> " +patchExpelUserReq.getUserIdx());
+        System.out.println("applicationIdx >> "+patchExpelUserReq.getApplicationIdx());
+        System.out.println("adminIDx >> " +patchExpelUserReq.getAdminIdx());
+        //jwt 유효성 검사 추가
+
+        //그룹 존재
+        boolean existgroup = groupInfoService.existGroupIdx(groupIdx);
+        if(!existgroup) return new BaseResponse<>(BaseResponseStatus.FAIL_LOAD_GROUPINFO);
+
+
+        //추방 권한 확인
+        Long ReqAdminIdx = patchExpelUserReq.getAdminIdx();
+        boolean check = groupInfoService.IsAdmin(groupIdx,ReqAdminIdx);
+        if(check == false){//권한없음
+            return new BaseResponse<>(BaseResponseStatus.NO_GROUP_LEADER);
+        }
+
+        if(!(status == 1)){ //가입 승인이 된 유저만 대상으로 추방을 할 수 있음.
+            return new BaseResponse<>(BaseResponseStatus.INVALID_STATUS);
+        }
+
+        //추방하기
+        Long result = applicationService.ExpelUserFromGroup(groupIdx, patchExpelUserReq);
+        if(result == -3L) return new BaseResponse<>(BaseResponseStatus.DO_NOT_EXECUTE_CHANGE);
+        return new BaseResponse<>(result);
+
+    }
+
+
 
 
 

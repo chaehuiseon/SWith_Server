@@ -5,6 +5,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.dto.request.PatchApplicationStatusReq;
+import com.example.demo.src.dto.request.PatchExpelUserReq;
 import com.example.demo.src.dto.request.PostApplicationReq;
 import com.example.demo.src.dto.response.GetApplicationManageRes;
 import com.example.demo.src.dto.response.PatchApplicationStatusRes;
@@ -117,10 +118,10 @@ public class ApplicationService {
         if (status == 0) { //변경전. 지원에 있음.
             Integer req_status = request.getStatusOfApplication(); //요구된 상태
             Long req_applicationIdx = request.getApplicationIdx(); //요구된 idx
-            System.out.println(">>"+req_status+req_status);
+            System.out.println("변경 시작 >>"+req_status+req_status);
             //변경
             try {
-                applicationRepository.updateStatusOfApplication(req_status, req_applicationIdx, groupIdx);
+                applicationRepository.updateStatusOfApplication(req_status, req_applicationIdx, groupIdx,status);
             } catch (Exception exception) {
                 throw new BaseException(BaseResponseStatus.FAIL_CHANGED_STATUS);
             }
@@ -134,6 +135,7 @@ public class ApplicationService {
                         .applicationIdx(changed.getApplicationIdx())
                         .status(changed.getStatus())
                         .build();
+                System.out.println("변경확인되었습니다.");
 
                 return results;
             }
@@ -146,5 +148,33 @@ public class ApplicationService {
 
 
     }
+
+
+    public Long ExpelUserFromGroup(Long groupIdx, PatchExpelUserReq patchExpelUserReq) throws BaseException {
+
+        Long req_applicationIdx = patchExpelUserReq.getApplicationIdx();
+
+        try {
+            applicationRepository.updateStatusOfApplication(3, req_applicationIdx, groupIdx,1);
+        } catch (Exception exception) {
+            throw new BaseException(BaseResponseStatus.FAIL_CHANGED_STATUS);
+        }
+
+        Application changed = applicationRepository.findById(req_applicationIdx).get();
+        if ((changed.getApplicationIdx() == req_applicationIdx) &&
+                (changed.getGroupInfo().getGroupIdx() == groupIdx) && (3 == changed.getStatus())) {
+            System.out.println("추방확인 >> "+ changed.getApplicationIdx() );
+            return changed.getApplicationIdx();
+        }
+
+        return -3L;
+
+
+
+
+
+    }
+
+
 
 }

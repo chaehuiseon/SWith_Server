@@ -16,7 +16,9 @@ public interface RegisterRepository extends JpaRepository<Register,Long> {
     //Status = 0(가입)인 그룹을 List 형태로 userIdx를 기준으로 불러온다.
     @Query("select g from Register r " +
             "join GroupInfo g on g = r.groupInfo " +
-            "where r.user.userIdx = :userIdx and r.status = 0")
+            "where r.user.userIdx = :userIdx " +
+            "and r.status = 0 " +
+            "and r.groupInfo.status <> 2")
     List<GroupInfo> findGroupInfoByUserIdx(Long userIdx);
 
     @Query("select r.user " +

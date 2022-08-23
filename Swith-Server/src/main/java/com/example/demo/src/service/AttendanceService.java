@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -220,6 +222,7 @@ public class AttendanceService {
     public void schedulyUpdateAttendance() {
         System.out.println("regular attendances updating routine started");
         LocalDateTime now = LocalDateTime.now();
+//        ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
         List<Session> sessions = sessionRepository.
                 getAllWithGroupAndAttendances(now, now.minusHours(9));
         //Start 이후, 끝난 or 끝날 시점은 지금으로부터 9시간 후 시각 이전

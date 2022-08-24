@@ -61,8 +61,10 @@
 # *.ipr
 
 # oauth
+application-aws.yml
 application-oauth.properties
 src/main/resources/application-oauth.properties
+src/main/resources/application-aws.yml
 # CMake
 cmake-build-*/
 

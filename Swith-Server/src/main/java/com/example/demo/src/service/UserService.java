@@ -4,23 +4,20 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.jwt.JwtTokenProvider;
 import com.example.demo.jwt.TokenInfo;
+import com.example.demo.src.dto.request.PostSignUpAndInReq;
+import com.example.demo.src.dto.request.PostUserInfoReq;
 import com.example.demo.src.dto.request.PostSignUpReq;
-import com.example.demo.src.dto.response.PostSignInRes;
+import com.example.demo.src.dto.response.PostUserInfoRes;
 import com.example.demo.src.dto.response.PostSignUpRes;
 import com.example.demo.src.entity.Interest;
 import com.example.demo.src.entity.User;
-import com.example.demo.src.exception.userServiceException.PasswordIncorrectException;
-import com.example.demo.src.exception.userServiceException.UserNotFoundException;
+import com.example.demo.src.enums.RoleType;
 import com.example.demo.src.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.demo.src.entity.GroupInfo;
 import com.example.demo.src.repository.GroupInfoRepository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
@@ -30,7 +27,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final GroupInfoRepository groupInfoRepository;
-//    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public UserService(UserRepository userRepository, JwtTokenProvider jwtTokenProvider, GroupInfoRepository groupInfoRepository) {
@@ -39,11 +35,35 @@ public class UserService {
         this.groupInfoRepository = groupInfoRepository;
     }
 
-    // 회원 가입
-    public PostSignUpRes signUp(PostSignUpReq postSignUpReq) throws BaseException {
-        // 이메일 중복 시
-        if(userRepository.existsByEmail(postSignUpReq.getEmail())){
-            throw new BaseException(POST_USERS_EXISTS_EMAIL);
+    // 회원 DB 조회
+    public PostUserInfoRes userInfo(PostUserInfoReq postUserInfoReq) throws BaseException {
+        User findUser = userRepository.findByUserIdx(postUserInfoReq.getUserIdx());
+        if(findUser == null){
+            throw new BaseException(NOT_EXIST_USER);
+        }
+
+        PostUserInfoRes postUserInfoRes = PostUserInfoRes.builder()
+                .userIdx(findUser.getUserIdx())
+                .email(findUser.getEmail())
+                .nickname(findUser.getNickname())
+                .profileImgUrl(findUser.getProfileImgUrl())
+                .introduction(findUser.getIntroduction())
+                .interestIdx1(findUser.getInterest1().getInterestIdx())
+                .interestIdx2(findUser.getInterest2().getInterestIdx())
+                .averageStar(findUser.getAverageStar())
+                .role(findUser.getRole())
+                .refreshToken(findUser.getRefreshToken())
+                .status(findUser.getStatus())
+                .build();
+
+        return postUserInfoRes;
+    }
+
+    // 초기 회원 정보 등록
+    public PostSignUpRes register(PostSignUpReq postSignUpReq) throws BaseException {
+        User findUser = userRepository.findByEmail(postSignUpReq.getEmail());
+        if(findUser == null){
+            throw new BaseException(ERROR_FIND_EMAIL);
         }
         Interest interest1 = Interest.builder()
                 .interestIdx(postSignUpReq.getInterest1())
@@ -52,63 +72,61 @@ public class UserService {
                 .interestIdx(postSignUpReq.getInterest2())
                 .build();
 
-        User user = buildUserForSignUp(postSignUpReq, interest1, interest2);
+        User user = findUser.update(postSignUpReq.getNickname(), interest1, interest2, postSignUpReq.getIntroduction());
         User savedUser = userRepository.save(user);
+
         PostSignUpRes postSignUpRes = getSignUpResponseDto(savedUser);
 
         return postSignUpRes;
     }
 
-//    // 로그인
-//    public PostSignInRes signIn(String email, String password) throws BaseException {
-//        User user = userRepository.findByEmail(email);
-//        // 이메일 없는 경우
-//        if(user == null){
-//            throw new BaseException(ERROR_FIND_EMAIL);
-//        }
-//        // 비밀번호 틀린 경우
-//        if(!password.equals(user.getPassword())){
-//            throw new BaseException(POST_USERS_INVALID_PASSWORD);
-//        }
-////        if(!bCryptPasswordEncoder.matches(password, user.getPassword())){
-////            throw new PasswordIncorrectException("비밀번호가 일치하지 않습니다.");
-////        }
-//
-//        TokenInfo accessTokenDto = jwtTokenProvider.createJwtAccessToken(email);
-//        TokenInfo refreshTokenDto = jwtTokenProvider.createJwtRefreshToken(email);
-//        user.updateRefreshToken(refreshTokenDto.getToken());
-//
-//        PostSignInRes postSignInRes = PostSignInRes.builder()
-//                .email(user.getEmail())
-//                .nickname(user.getNickname())
-//                .interest1(user.getInterest1())
-//                .interest2(user.getInterest2())
-//                .accessToken(accessTokenDto.getToken())
-//                .refreshToken(refreshTokenDto.getToken())
-//                .status(user.getStatus())
-//                .build();
-//
-//        return postSignInRes;
-//    }
-//
-//    // todo : 로그아웃 보완 필요
-//    public void logout(String accessToken, String email) throws BaseException{
-//        User user = userRepository.findByEmail(email);
-//        // 유저 없는 경우
-//        if(user == null){
-//            throw new BaseException(NOT_EXIST_USER);
-//        }
-//        // 엑세스 토큰이 아닌 리프레시 토큰으로 로그아웃을 시도한경우
-//        if(accessToken.equals(user.getRefreshToken())){
-//            throw new BaseException(REFRESH_LOGOUT);
-//        }
-//        // 이미 로그아웃한경우
-//        if(user.getRefreshToken() == null){
-//            throw new BaseException(ALREADY_LOGOUT);
-//        }
-//        user.updateRefreshToken(null);
-//        System.out.println("logout success!!!");
-//    }
+    // 회원가입 및 로그인
+    public PostUserInfoRes signUpAndIn(PostSignUpAndInReq postSignUpAndInReq) throws BaseException {
+        User findUser = userRepository.findByEmail(postSignUpAndInReq.getEmail());
+        TokenInfo accessTokenDto = jwtTokenProvider.createJwtAccessToken(postSignUpAndInReq.getEmail());
+        TokenInfo refreshTokenDto = jwtTokenProvider.createJwtRefreshToken(postSignUpAndInReq.getEmail());
+        // 이메일 없는 경우 -> isSignUp -> true로 변경
+        if(findUser == null){
+            User user = buildUserForSignUp(postSignUpAndInReq, refreshTokenDto);
+
+            Interest interest1 = Interest.builder()
+                    .interestIdx(1)
+                    .build();
+            Interest interest2 = Interest.builder()
+                    .interestIdx(2)
+                    .build();
+
+            User updateUser = user.updateInterest(interest1, interest2);
+
+            User savedUser = userRepository.save(updateUser);
+            PostUserInfoRes postUserInfoRes = PostUserInfoRes.builder()
+                    .userIdx(savedUser.getUserIdx())
+                    .email(savedUser.getEmail())
+                    .nickname(savedUser.getNickname())
+                    .profileImgUrl(savedUser.getProfileImgUrl())
+                    .introduction(savedUser.getIntroduction())
+                    .interestIdx1(1)
+                    .interestIdx2(2)
+                    .averageStar(savedUser.getAverageStar())
+                    .role(savedUser.getRole())
+                    .accessToken(accessTokenDto.getToken())
+                    .refreshToken(refreshTokenDto.getToken())
+                    .isSignUp(true)
+                    .status(savedUser.getStatus())
+                    .build();
+
+            return postUserInfoRes;
+        }
+        else{
+            // refreshToken DB에 저장
+            User user = findUser.updateRefreshToken(refreshTokenDto.getToken());
+            User savedUser = userRepository.save(user);
+
+            PostUserInfoRes postUserInfoRes = getSignUpAndInResponseDto(savedUser, accessTokenDto, refreshTokenDto);
+
+            return postUserInfoRes;
+        }
+    }
 
     public boolean isAdminOfGroup (Long userIdx, Long GroupIdx) throws BaseException{
         User user = userRepository.findById(userIdx)
@@ -121,18 +139,23 @@ public class UserService {
         return false;
     }
 
-    private User buildUserForSignUp(PostSignUpReq postSignUpReq, Interest interest1, Interest interest2) {
-        User user = User.builder()
-                .email(postSignUpReq.getEmail())
-                .password(postSignUpReq.getPassword())
-//                .password((bCryptPasswordEncoder.encode(postSignUpReq.getPassword())))
-                .nickname(postSignUpReq.getNickname())
-                .interest1(interest1)
-                .interest2(interest2)
-                .introduction(postSignUpReq.getIntroduction())
-                .status(0)
+    private PostUserInfoRes getSignUpAndInResponseDto(User savedUser, TokenInfo accessTokenDto, TokenInfo refreshTokenDto){
+        PostUserInfoRes postUserInfoRes = PostUserInfoRes.builder()
+                .userIdx(savedUser.getUserIdx())
+                .email(savedUser.getEmail())
+                .nickname(savedUser.getNickname())
+                .profileImgUrl(savedUser.getProfileImgUrl())
+                .introduction(savedUser.getIntroduction())
+                .interestIdx1(savedUser.getInterest1().getInterestIdx())
+                .interestIdx2(savedUser.getInterest2().getInterestIdx())
+                .averageStar(savedUser.getAverageStar())
+                .role(savedUser.getRole())
+                .accessToken(accessTokenDto.getToken())
+                .refreshToken(refreshTokenDto.getToken())
+                .isSignUp(false)
+                .status(savedUser.getStatus())
                 .build();
-        return user;
+        return postUserInfoRes;
     }
 
     private PostSignUpRes getSignUpResponseDto(User savedUser) {
@@ -146,5 +169,38 @@ public class UserService {
         return postSignUpRes;
     }
 
+<<<<<<< HEAD
 
+=======
+    // 로그아웃
+    public void logout(String accessToken, String email) throws BaseException{
+        User findUser = userRepository.findByEmail(email);
+        // 유저 없는 경우
+        if(findUser == null){
+            throw new BaseException(NOT_EXIST_USER);
+        }
+        // 엑세스 토큰이 아닌 리프레시 토큰으로 로그아웃을 시도한경우
+        if(accessToken.equals(findUser.getRefreshToken())){
+            throw new BaseException(REFRESH_LOGOUT);
+        }
+        // 이미 로그아웃한경우
+        if(findUser.getRefreshToken() == null){
+            throw new BaseException(ALREADY_LOGOUT);
+        }
+        User user = findUser.updateRefreshToken(null);
+        userRepository.save(user);
+    }
+
+    private User buildUserForSignUp(PostSignUpAndInReq postSignUpAndInReq, TokenInfo refreshTokenDto) {
+        User user = User.builder()
+                .email(postSignUpAndInReq.getEmail())
+                .nickname(postSignUpAndInReq.getNickname())
+                .profileImgUrl(postSignUpAndInReq.getProfileImgUrl())
+                .role(RoleType.GUEST)
+                .refreshToken(refreshTokenDto.getToken())
+                .status(0)
+                .build();
+        return user;
+    }
+>>>>>>> 9f9569e7a9a816d777e5dfba03f6185d17685fbd
 }

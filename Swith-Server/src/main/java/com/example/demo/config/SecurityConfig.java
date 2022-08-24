@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .oauth2Login()
                     .loginPage("/")		// 인증이 필요한 URL에 접근 시
-                    .defaultSuccessUrl("/")			// 로그인 성공 시
+                    .defaultSuccessUrl("/success")			// 로그인 성공 시
                     .failureUrl("/")		// 로그인 실패 시
                     .userInfoEndpoint()			// 로그인 성공 후 사용자정보 가져옴
                     .userService(customOAuth2UserService);

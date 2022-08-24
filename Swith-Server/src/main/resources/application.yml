@@ -7,6 +7,10 @@ server:
       enabled: true
 
 spring:
+  config:
+    import:
+      - application-aws.yml
+
   application:
     name : swith
 

@@ -67,21 +67,34 @@ public class User extends BaseTimeEntity { //유저 테이블
     @OneToMany(mappedBy = "user") // N:1 양방향
     private List<Register> registerList = new ArrayList<>();
 
+<<<<<<< HEAD
 
     //fcmtoken 추가되야함
     //private String fcmtoken;
 
     public void updateRefreshToken(String refreshToken) {
+=======
+    public User updateRefreshToken(String refreshToken) {
+>>>>>>> 9f9569e7a9a816d777e5dfba03f6185d17685fbd
         this.refreshToken = refreshToken;
-    }
-
-    public User update(String name, String picture){
-        this.nickname = name;
-        this.profileImgUrl = picture;
         return this;
     }
 
     public String getRoleKey(){
         return this.role.getKey();
+    }
+
+    public User update(String nickname, Interest interest1, Interest interest2, String introduction){
+        this.nickname = nickname;
+        this.interest1 = interest1;
+        this.interest2 = interest2;
+        this.introduction = introduction;
+        return this;
+    }
+
+    public User updateInterest(Interest interest1, Interest interest2){
+        this.interest1 = interest1;
+        this.interest2 = interest2;
+        return this;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.config.auth;
 
+import com.example.demo.config.BaseException;
 import com.example.demo.config.auth.OAuthAttributes;
 import com.example.demo.config.auth.SessionUser;
 import com.example.demo.src.entity.User;
@@ -21,6 +22,8 @@ import org.springframework.web.context.request.RequestContextListener;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
+
+import static com.example.demo.config.BaseResponseStatus.POST_USERS_EXISTS_EMAIL;
 
 @RequiredArgsConstructor
 @Service
@@ -48,13 +51,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         User user = saveOrUpdate(attributes);
 
+        // 로그 출력
 //        try {
 //            System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(userRequest));
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(oAuth2User));
 //        } catch (JsonProcessingException e) {
 //            e.printStackTrace();
 //        }
@@ -70,24 +69,35 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
 
     private User saveOrUpdate(OAuthAttributes attributes) {
-//        User user = userRepository.findByEmail(attributes.getEmail());
-//        User savedUser = user.builder()
-//                .email(attributes.getEmail())
-////                .password("test")
-//                .nickname(attributes.getName())
-////                .interest1(user.getInterest1())
-////                .interest2(user.getInterest2())
-////                .introduction("hello")
-////                .role(RoleType.GUEST)
-//                .profileImgUrl(attributes.getPicture())
-////                .status(0)
-//                .build();
+        // 이미 가입된 경우
+        if(userRepository.existsByEmail(attributes.getEmail())){
+            System.out.println("이미 가입된 이메일");
+            User user = userRepository.findByEmail(attributes.getEmail());
+            User updateUser = user.builder()
+                    .email(attributes.getEmail())
+                    .nickname(attributes.getName())
+                    .role(RoleType.GUEST)
+                    .profileImgUrl(attributes.getPicture())
+                    .build();
+            return updateUser;
+        }
+        else{
+            // todo : 가입 시 필요한 정보 입력 페이지로 이동
+            User user = userRepository.findByEmail(attributes.getEmail());
+            User savedUser = user.builder()
+                    .email(attributes.getEmail())
+                    .nickname(attributes.getName())
+                    .role(RoleType.GUEST)
+                    .profileImgUrl(attributes.getPicture())
+//                .status(0)
+                    .build();
+            return userRepository.save(savedUser);
+        }
 
-        User user = userRepository.findByEmail(attributes.getEmail())
-                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
-                .orElse(attributes.toEntity());
-        return userRepository.save(user);
+//        User user = userRepository.findByEmail(attributes.getEmail())
+//                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
+//                .orElse(attributes.toEntity());
+//        return userRepository.save(user);
 
-//        return userRepository.save(savedUser);
     }
 }

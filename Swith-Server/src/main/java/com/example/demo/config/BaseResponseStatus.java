@@ -120,6 +120,8 @@ public enum BaseResponseStatus {
     ALREADY_EXIST(false, 8003, "메모가 이미 존재하여 생성할 수 없습니다."),
 
     TEMP4(false, 9000, "conflict 방지용 4"),
+    // 8050 : register
+    FAIL_REGISTER_SAVE(false,9051,"register 등록에 실패"),
 
 
     //9000 : 신청

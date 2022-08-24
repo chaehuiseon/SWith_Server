@@ -59,7 +59,7 @@ public class GroupInfoController {
     @PostMapping
     public BaseResponse<PostGroupInfoRes> createGroup(@RequestBody PostGroupInfoReq request){
         System.out.println(request.toString());
-        System.out.println("들어가기전!");
+        //System.out.println("들어가기전!");
         PostGroupInfoRes response =  groupInfoService.create(request);
         return new BaseResponse<>(response);
     }

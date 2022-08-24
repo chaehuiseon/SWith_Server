@@ -22,7 +22,7 @@ public class ApplicationService {
         this.applicationRepository = applicationRepository;
     }
 
-    public List<getApplicationRes> getGroupAttendance(Long userIdx) throws BaseException {
+    public List<getApplicationRes> getUserApplication(Long userIdx) throws BaseException {
         List<Application> applicationList = applicationRepository.findByUserWithGroup(userIdx);
         if(applicationList.isEmpty())
             throw new BaseException(BaseResponseStatus.NO_APPLICATION_INFO);

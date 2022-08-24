@@ -36,5 +36,16 @@ public class ApplicationController {
         }
     }
 
+//    @ApiOperation("유저 지원 취소 - K2")
+//    @GetMapping
+//    public BaseResponse<List<getApplicationRes>> getUserApplication(@RequestParam Long userIdx) {
+//        try {
+//            List<getApplicationRes> getApplicationResList = applicationService.getUserApplication(userIdx);
+//            return new BaseResponse<>(getApplicationResList);
+//        } catch (BaseException e) {
+//            return new BaseResponse<>(e.getStatus());
+//        }
+//    }
+
 
 }

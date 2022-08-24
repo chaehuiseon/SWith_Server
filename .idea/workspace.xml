@@ -48,6 +48,13 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Swith-Server" />
   </component>
@@ -94,18 +101,23 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.demo.src.controller" />
+      <recent name="com.example.demo.src.entity" />
+      <recent name="com.example.demo.src.service" />
+      <recent name="com.example.demo.config" />
       <recent name="com.example.demo.src.dto.request" />
-      <recent name="com.example.demo.src.dto.response" />
     </key>
   </component>
   <component name="RunManager">
     <configuration name="DemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="swith.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.demo.DemoApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -125,7 +137,9 @@
       <workItem from="1661001490971" duration="10250000" />
       <workItem from="1661011949650" duration="289000" />
       <workItem from="1661057767831" duration="1219000" />
-      <workItem from="1661153538210" duration="6587000" />
+      <workItem from="1661153538210" duration="6761000" />
+      <workItem from="1661311008393" duration="1978000" />
+      <workItem from="1661313041030" duration="6575000" />
     </task>
     <servers />
   </component>

@@ -41,6 +41,9 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
     @Override
     public Slice<GetGroupInfoSearchRes> searchGroupInfo(GetGroupInfoSearchReq searchCond, Pageable pageable) {
 
+        if(searchCond.getGroupIdx()!= null){
+            System.out.println("groupIdx >> "+searchCond.getGroupIdx());
+        }
         //커버링 인덱스 전략
         List<Long> ids = queryFactory
                 .select(groupInfo.groupIdx)
@@ -48,41 +51,47 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
                 .where(Read(searchCond.getSortCond(),
                         searchCond.getGroupIdx(),
                         searchCond.getClientTime()))
-                .limit(pageable.getPageSize())
                 .fetch();
 
+        System.out.println("PK >> " + ids.toString());
 
         List<GetGroupInfoSearchRes> content =
                 queryFactory
-                .select(Projections.fields(GetGroupInfoSearchRes.class,
-                        groupInfo.groupIdx,
-                        groupInfo.title,
-                        groupInfo.groupContent,
-                        groupInfo.regionIdx1,
-                        groupInfo.regionIdx2,
-                        groupInfo.recruitmentEndDate,
-                        groupInfo.memberLimit,
-                        groupInfo.createdAt,
-                        ExpressionUtils.as(
-                                JPAExpressions.select(application.count()).from(application)
-                                        .where(application.groupInfo.groupIdx.eq(groupInfo.groupIdx),
-                                                application.status.eq(1)),"NumOfApplicants")
+                        .select(Projections.fields(GetGroupInfoSearchRes.class,
+                                groupInfo.groupIdx,
+                                groupInfo.title,
+                                groupInfo.groupContent,
+                                groupInfo.regionIdx1,
+                                groupInfo.regionIdx2,
+                                groupInfo.recruitmentEndDate,
+                                groupInfo.memberLimit,
+                                groupInfo.createdAt,
+                                groupInfo.applicationMethod,
+                                ExpressionUtils.as(
+                                        JPAExpressions.select(application.count()).from(application)
+                                                .where(application.groupInfo.groupIdx.eq(groupInfo.groupIdx),
+                                                        application.status.eq(1)),"NumOfApplicants")
                         ))
-                .from(groupInfo)
+                        .from(groupInfo)
                         .where(
-                                Search(searchCond),
-                                groupInfo.groupIdx.in(ids)
+                                groupInfo.groupIdx.in(ids),
+                                Search(searchCond)
                         )
 
-                .groupBy(groupInfo.groupIdx)
-                .limit(pageable.getPageSize()+1) // limit보다 데이터를 1개 더 들고와서, 해당 데이터가 있다면 hasNext 변수에 true를 넣어 알림
+                        .groupBy(groupInfo.groupIdx)
+                        .limit(pageable.getPageSize()+1) // limit보다 데이터를 1개 더 들고와서, 해당 데이터가 있다면 hasNext 변수에 true를 넣어 알림
                         .orderBy((OrderSpecifier<?>) Sort(searchCond.getSortCond()))
                         .fetch();
-                        //.orderBy(new OrderSpecifier(Order.ASC,groupInfo.recruitmentEndDate);
-        System.out.println(content);
+        //.orderBy(new OrderSpecifier(Order.ASC,groupInfo.recruitmentEndDate)
+        System.out.println(content.toString());
+        System.out.println("content.size>>>>>" + content.size());
+        System.out.println("getPageaSize>>>>" + pageable.getPageSize());
+
 
         boolean hasNext = false;
+
         if (content.size() > pageable.getPageSize()) {
+            System.out.println("들어와????? true로 바뀌냐?");
             content.remove(pageable.getPageSize());
             hasNext = true;
         }
@@ -108,7 +117,8 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
         //builder.or(interestEq(searchCond.getInterest1()));
         //builder.or(interestEq(searchCond.getInterest2()));
 
-        builder.and(groupInfo.interest.interestIdx.in(searchCond.getInterest1(), searchCond.getInterest2()));
+        System.out.println( "interset >> " +searchCond.getInterest1()+ searchCond.getInterest2());
+        builder.and(interestIn(searchCond.getInterest1(), searchCond.getInterest2()));
         return builder;
 
     }
@@ -128,29 +138,40 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
 //
 //    }
 
-    private BooleanExpression interestEq(Integer i){
-        System.out.println("진입");
-        if(i == null){
-            System.out.println("null이래.interestEq"+i);
-            return null;
+//    private BooleanExpression interestEq(Integer i){
+//        System.out.println("진입");
+//        if(i == null){
+//            System.out.println("null이래.interestEq"+i);
+//            return null;
+//        }
+//
+//        System.out.println("뭐가 잡혔다");
+//        System.out.println("interestEq"+i);
+//        return groupInfo.interest.interestIdx.eq(i);
+//
+//
+//    }
+
+    private BooleanExpression interestIn(Integer interest1, Integer interest2){
+        if(interest1 != null || interest2 != null){
+            return groupInfo.interest.interestIdx.in(interest1,interest2);
         }
-
-        System.out.println("뭐가 잡혔다");
-        System.out.println("interestEq"+i);
-        return groupInfo.interest.interestIdx.eq(i);
-
-
+        return null;
     }
+
+
     private BooleanExpression Read(Integer sortCond, Long groupIdx, LocalDateTime now){
 
         if(groupIdx != null){
             if(sortCond == 0){ //마감일
-                return groupInfo.recruitmentEndDate.gt(
+                System.out.println("마감일 정렬 >> groupIdx >> ");
+                return (groupInfo.recruitmentEndDate.goe(
                         JPAExpressions.select(groupInfoSub.recruitmentEndDate)
                                 .from(groupInfoSub)
-                                .where(groupInfoSub.groupIdx.eq(groupIdx)));
+                                .where(groupInfoSub.groupIdx.eq(groupIdx))))
+                        .and(groupInfo.groupIdx.notIn(groupIdx));
             }
-            return groupInfo.createdAt.gt(
+            return groupInfo.createdAt.lt(
                     JPAExpressions.select(groupInfoSub.createdAt)
                             .from(groupInfoSub)
                             .where(groupInfoSub.groupIdx.eq(groupIdx)));
@@ -163,15 +184,31 @@ public class GroupInfoRepositoryImpl implements GroupInfoRepositoryCustom{
             System.out.println("마감순");
             return groupInfo.recruitmentEndDate.gt(LocalDate.from(now));
         }
-        return groupInfo.createdAt.gt(now);
+        now = now.plusSeconds(1); //ms까지 비교를 못해서 누락되는 데이터 발생 +1s, 0ms로 해서 누락 방지.
+        return groupInfo.createdAt.lt(now);
 
     }
+
     private Object Sort(Integer sortCond){
         if(sortCond == 0){
             return groupInfo.recruitmentEndDate.asc();
         }
-        return groupInfo.createdAt.asc();
+        return groupInfo.createdAt.desc();
     }
+
+//    private BooleanBuilder recruitmentEndSort(Long groupIdx){
+//        BooleanBuilder builder1 = new BooleanBuilder();
+//        BooleanBuilder builder2 = new BooleanBuilder();
+//
+//        builder1.and(groupInfo.recruitmentEndDate.goe(
+//                JPAExpressions.select(groupInfoSub.recruitmentEndDate)
+//                        .from(groupInfoSub)
+//                        .where(groupInfoSub.groupIdx.eq(groupIdx))));
+//
+//        builder2.and()
+//
+//        builder1.and(builder2);
+//    }
 
     public JPAQuery<Integer> searchtestGroup(GetGroupInfoSearchReq searchCond, Pageable pageable){
 

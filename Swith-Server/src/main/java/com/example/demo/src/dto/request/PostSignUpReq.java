@@ -18,9 +18,6 @@ public class PostSignUpReq {
     @NotBlank
     @ApiModelProperty(notes = "유저 이메일",example = "test1@naver.com")
     private String email;
-    @NotBlank
-    @ApiModelProperty(notes = "유저 비밀번호",example = "pwd123")
-    private String password;
 
     @NotBlank
     @ApiModelProperty(notes = "유저 닉네임",example = "ym123")

@@ -1,12 +1,18 @@
 package com.example.demo.src.service;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.dto.request.PatchEndGroupReq;
+import com.example.demo.src.dto.request.PatchExpelUserReq;
+import com.example.demo.src.dto.request.PatchGroupInfoReq;
+import com.example.demo.src.dto.response.GetEachGroupInfoRes;
+import com.example.demo.src.dto.response.GetGroupInfoRes;
 import com.example.demo.src.dto.response.GetHomeGroupInfoRes;
 import com.example.demo.src.dto.PostGroupInfoReq;
 import com.example.demo.src.dto.PostGroupInfoRes;
 import com.example.demo.src.dto.request.GetGroupInfoSearchReq;
 import com.example.demo.src.dto.response.GetGroupInfoSearchRes;
 import com.example.demo.src.entity.*;
+import com.example.demo.src.firebase.FirebaseCloudMessageService;
 import com.example.demo.src.repository.*;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +21,11 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
@@ -31,9 +39,14 @@ public class GroupInfoService {
     private final SessionRepository sessionRepository;
     private final AttendanceRepository attendanceRepository;
     private final UserRepository userRepository;
+    private final ApplicationRepository applicationRepository;
+    private final FirebaseCloudMessageService fcmService;
 
     @Autowired
-    public GroupInfoService(GroupInfoRepository groupInfoRepository, RegisterRepository registerRepository, RegisterService registerService, InterestRepository interestRepository, AnnouncementRepository announcementRepository, SessionRepository sessionRepository, AttendanceRepository attendanceRepository, UserRepository userRepository) {
+    public GroupInfoService(GroupInfoRepository groupInfoRepository, RegisterRepository registerRepository, RegisterService registerService,
+                            InterestRepository interestRepository, AnnouncementRepository announcementRepository, ApplicationRepository applicationRepository,
+                            SessionRepository sessionRepository, AttendanceRepository attendanceRepository, UserRepository userRepository,
+                            FirebaseCloudMessageService fcmService) {
         this.groupInfoRepository = groupInfoRepository;
         this.registerRepository = registerRepository;
         this.interestRepository = interestRepository;
@@ -41,6 +54,8 @@ public class GroupInfoService {
         this.sessionRepository = sessionRepository;
         this.attendanceRepository = attendanceRepository;
         this.userRepository = userRepository;
+        this.applicationRepository = applicationRepository;
+        this.fcmService = fcmService;
     }
 
     public List<GetHomeGroupInfoRes> loadHomeData(Long userIdx) throws BaseException {
@@ -104,8 +119,7 @@ public class GroupInfoService {
         System.out.println(request.toString());
         System.out.println("으악");
         PostGroupInfoReq body = request;
-        long regionimsi1 = 123;
-        long regionimsi2 = 456;
+
         //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초");
         // 문자열 -> Date
         //LocalDateTime date = LocalDateTime.parse(dateStr, formatter);
@@ -150,6 +164,171 @@ public class GroupInfoService {
     public JPAQuery<Integer> searchtestGroup(GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable) {
         return groupInfoRepository.searchtestGroup(getGroupInfoSearchReq, pageable);
     }
+
+    public GetEachGroupInfoRes selectEachGroupInfo(Long groupIdx){
+        GroupInfo groupInfo = groupInfoRepository.findByGroupIdx(groupIdx);
+        System.out.println(groupInfo.toString());
+        System.out.println(groupIdx);
+        Long NumOfApplicants = 0L;
+        NumOfApplicants = applicationRepository.findNumOfApplicants(groupIdx);
+        System.out.println(">>>"+NumOfApplicants);
+        GetEachGroupInfoRes data = GetEachGroupInfoRes.builder()
+                .adminIdx(groupInfo.getUser().getUserIdx())
+                .groupImgUrl(groupInfo.getGroupImgUrl())
+                .title(groupInfo.getTitle())
+                .meet(groupInfo.getMeet())
+                .frequency(groupInfo.getFrequency())
+                .periods(groupInfo.getPeriods())
+                .online(groupInfo.getOnline())
+                .regionIdx1(groupInfo.getRegionIdx1())
+                .regionIdx2(groupInfo.getRegionIdx2())
+                .interest(groupInfo.getInterest().getInterestIdx())
+                .topic(groupInfo.getTopic())
+                .memberLimit(groupInfo.getMemberLimit())
+                .NumOfApplicants(NumOfApplicants)
+                .applicationMethod(groupInfo.getApplicationMethod())
+                .recruitmentEndDate(groupInfo.getRecruitmentEndDate())
+                .groupStart(groupInfo.getGroupStart())
+                .groupEnd(groupInfo.getGroupEnd())
+                .attendanceValidTime(groupInfo.getAttendanceValidTime())
+                .groupContent(groupInfo.getGroupContent())
+                .build();
+
+        System.out.println("방법 >>>>>>" + data.getApplicationMethod());
+        System.out.println("interest >>>" + data.getInterest().toString());
+
+        return data;
+
+
+
+    }
+
+    public boolean existGroupIdx(Long groupIdx){
+        //boolean check = groupInfoRepository.existsById(groupIdx);
+        //상태 확인 코드 추가해야됨.
+        try{
+            Integer check = groupInfoRepository.findStatusOfGroupInfo(groupIdx);
+            // 상태가 0(진행예정)또는 1(진행중) 이면 존재 ->true
+            if(check == 0 || check == 1) return true;
+            //상태가 2(종료)면 존재하지 않음 -> false
+            else if(check == 2) return false;
+        }catch (Exception e){
+            System.out.println("서버 error");
+            return false;
+        }
+        //이상한 값...
+        return false;
+
+
+    }
+
+    public Integer statusOfGroupInfo(Long groupIdx){
+
+        Integer status = groupInfoRepository.findstatusOfGroupInfo(groupIdx);
+
+        return status;
+
+    }
+
+    public boolean IsAdmin(Long groupIdx, Long adminIdx){
+        Long FoundAdminIdx = groupInfoRepository.findAdminIdxBy(groupIdx);
+        return FoundAdminIdx == adminIdx ;
+    }
+
+
+    public Long ModifyGroupInformation(Long groupIdx, PatchGroupInfoReq request){
+
+        if(!existGroupIdx(groupIdx)){ //존재하지 않음.
+            return -1L;
+        }
+        //존재함
+        GroupInfo groupInfo = groupInfoRepository.findById(groupIdx).orElseThrow(
+                () -> new IllegalArgumentException(String.valueOf(FAIL_LOAD_GROUPINFO))
+        );
+
+        Long ReqgroupIdx = groupInfo.getGroupIdx();
+        if(ReqgroupIdx != groupIdx) return -2L;//잘못된 값 읽음
+
+        groupInfo.setGroupImgUrl(request.getGroupImgUrl());
+        groupInfo.setTitle(request.getTitle());
+        groupInfo.setMeet(request.getMeet());
+        groupInfo.setFrequency(request.getFrequency());
+        groupInfo.setPeriods(request.getPeriods());
+        groupInfo.setOnline(request.getOnline());
+        groupInfo.setRegionIdx1(request.getRegionIdx1());
+        groupInfo.setRegionIdx2(request.getRegionIdx2());
+        Integer originInterest = groupInfo.getInterest().getInterestIdx();
+        if(request.getInterest() != originInterest){ //다른 경우만 바꾸겠다.
+            Interest ReqInterest = interestRepository.getById(request.getInterest());
+            groupInfo.setInterest(ReqInterest);
+        }
+        groupInfo.setTopic(request.getTopic());
+        groupInfo.setMemberLimit(request.getMemberLimit());
+        groupInfo.setApplicationMethod(request.getApplicationMethod());
+        groupInfo.setRecruitmentEndDate(request.getRecruitmentEndDate());
+        groupInfo.setGroupStart(request.getGroupStart());
+        groupInfo.setGroupEnd(request.getGroupEnd());
+        groupInfo.setAttendanceValidTime(request.getAttendanceValidTime());
+        groupInfo.setGroupContent(request.getGroupContent());
+
+
+
+        GroupInfo save = groupInfoRepository.save(groupInfo);
+        System.out.println(">>>>>>>>>>>>"+save.getGroupIdx().toString());
+        return save.getGroupIdx();
+
+
+    }
+
+    public Long EndGroup(Long groupIdx,Long adminIdx) throws IOException {
+
+        if(!existGroupIdx(groupIdx)){ //존재하지 않음.
+            return -1L;
+        }
+
+        //Integer status = groupInfoRepository.findStatusOfGroupInfo(groupIdx);
+        groupInfoRepository.changeGroupInfoStatusEnd(2,groupIdx,adminIdx);
+
+        GroupInfo check = groupInfoRepository.findByGroupIdx(groupIdx);
+        if(check.getStatus() == 2){ //종료
+            // 종료 알림을 받을 유저 list
+            ArrayList<Long> pushEndAlramToUsers = groupInfoRepository.findUsersInGroup(groupIdx,1);
+            System.out.println(">>>>>>> user : " +pushEndAlramToUsers);
+            ArrayList<String> pushUserToken = groupInfoRepository.findUserToken(pushEndAlramToUsers);
+            System.out.println(">>>>> token : "+ pushUserToken);
+            //List<User> users = registerRepository.findRegisterUser(groupIdx);
+            // 종료 groupIdx,종료 group title, 종료 알림 내용, 종료 날짜
+            String title = check.getTitle();
+            String phrases = "스터디가 종료되었습니다!";
+            LocalDateTime now = LocalDateTime.now();
+            String content =  phrases + "//" + now + "//" + groupIdx + "//" ;
+            // 보냄
+            for (String token : pushUserToken) {
+                System.out.println("가즈아!");
+                fcmService.sendMessageTo(token,title,content);
+            }
+
+            return check.getGroupIdx();
+        }
+
+
+        return -2L;
+
+
+    }
+
+
+
+    public GroupInfo findGroup(Long groupIdx){
+        return groupInfoRepository.findByGroupIdx(groupIdx);
+    }
+
+
+
+
+
+
+
 
 
 

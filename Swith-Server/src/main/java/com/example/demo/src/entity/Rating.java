@@ -32,4 +32,5 @@ public class Rating extends BaseTimeEntity{
     private Integer star; //평점(1~5)
 
 
+
 }

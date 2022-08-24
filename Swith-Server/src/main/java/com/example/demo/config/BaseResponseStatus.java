@@ -33,7 +33,6 @@ public enum BaseResponseStatus {
     POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
     POST_USERS_EXISTS_EMAIL(false, 2017, "중복된 이메일입니다."),
 
-    POST_USERS_EVENT_CREATION_FAIL(false,2018,"event생성 실패"),
 
 
 
@@ -43,13 +42,6 @@ public enum BaseResponseStatus {
     //session
     POST_SESSION_NOT_ADMIN(false, 2040, "해당 유저가 그룹의 관리자가 아닙니다."),
 
-    //event
-
-    EVENT_EXISTS(false,2050,"evnet가 존재하지 않습니다."),
-    PHOTO_EXISTS(false,2051,"evnet가 존재하지 않습니다."),
-    PATCH_EVENT_CONTENTS_FAIL(false,2052,"event 내용 update 실패"),
-
-
     //auth
 
     PATCH_USER_CERTIFIED_FAIL(false,2080,"certify실패"),
@@ -58,6 +50,9 @@ public enum BaseResponseStatus {
     ERROR_FIND_EMAIL(false,2083,"가입하지 않은 이메일 입니다."),
     ERROR_FIND_USERIDX(false,2084,"email로 가입된 userIdx가 존재하지 않음."),
     PATCH_USER_PASSWORD(false,2085,"password patch실패"),
+    NOT_LOGIN(false,2086,"로그인 해주세요."),
+    REFRESH_LOGOUT(false,2087,"리프레시 토큰이 아닌 엑세스 토큰을 사용해주세요."),
+    ALREADY_LOGOUT(false,2088,"이미 로그아웃한 상태입니다."),
 
 
     /*
@@ -104,8 +99,9 @@ public enum BaseResponseStatus {
     INVALID_ATTENDANCE(false, 6005, "출석 정보가 없습니다."),
     NO_REGISTRATION_INFO(false, 6006, "유저의 스터디 그룹 가입 정보가 없습니다."),
     NO_GROUP_ATTENDANCE(false, 6007, "그룹의 출석 정보가 없습니다."),
-    NO_APPLICATION_INFO(false, 6007, "유저의 지원서 정보가 없습니다."),
-    INVALID_MEMO(false, 6008, "메모 정보가 없습니다."),
+    NO_GROUP_LEADER(false,6008,"그룹 리더가 아니기 때문에, 권한이 없습니다."),
+    NO_APPLICATION_INFO(false, 6009, "유저의 지원서 정보가 없습니다."),
+    INVALID_MEMO(false, 6010, "메모 정보가 없습니다."),
 
 
 
@@ -117,37 +113,35 @@ public enum BaseResponseStatus {
     TEMP3(false, 9000, "conflict 방지용 3"),
 
 
-    MODIFY_FAIL_BUY_PLANT(false, 7011, "화분 선택에 실패하였습니다."),
-    MODIFY_FAIL_SCORE(false, 7012, "화분 점수 변경에 실패하였습니다."),
-    MODIFY_FAIL_LEVEL(false, 7013, "화분 단계 변경에 실패하였습니다."),
-
-
-    INVALID_SCORE_PLANT(false, 7014, "선택한 화분의 점수가 0점입니다. 점수를 감소시킬 수 없습니다."),
-    INVALID_LEVEL_PLANT(false, 7015, "동작을 수행할 화분의 단계가 0단계이므로 더 이상 단계와 점수를 감소시킬 수 없습니다."),
-
-    INVALID_IDX_PLANT(false, 7016, "이미 선택된 화분입니다."),
-    DUPLICATE_IDX_PLANT(false, 7017, "이미 보유한 화분입니다."),
-
-    MODIFY_FAIL_PREMIUM(false, 7020, "프리미엄 계정 변경에 실패하였습니다."),
-    MODIFY_FAIL_WITHDRAW(false, 7021, "청약철회에 실패하였습니다."),
-
-    PREMIUM_USER(false, 7030, "프리미엄 계정 회원은 화분 성장치가 감소하지 않습니다."),
-    MAXLEVEL_PLANT(false, 7031, "성장치가 MAX 단계에 도달한 화분은 성장치가 감소하지 않습니다."),
-    SAD_STATUS_PLANT(false, 7032, "화분이 시무룩 상태입니다. 화분의 성장치를 증가시킬 수 없습니다."),
-
-
     // 8000 : 출석, 메모
     ALREADY_ATTENDED(false, 8000, "출석 상태가 결정되어 있습니다. 관리자만 변경 가능합니다."),
     FAIL_ATTEND(false, 8001, "출석 가능한 시간이 아닙니다."),
     EXIST_ATTEND_INFO(false, 8002, "이미 출석 데이터가 있습니다."),
     ALREADY_EXIST(false, 8003, "메모가 이미 존재하여 생성할 수 없습니다."),
 
-    TEMP4(false, 9000, "conflict 방지용 4");
+    TEMP4(false, 9000, "conflict 방지용 4"),
+
+
+    //9000 : 신청
+
+    FULL_NUM_OF_Applicants(false,9001,"신청 인원이 전부 다 찼습니다."),
+    FAIL_SAVED_APPLICATION(false,9002,"서버 error. 가입 신청 실패"),
+    FAIL_CHANGED_STATUS(false,9003,"상태 변경 실패"),
+    DO_NOT_EXECUTE_CHANGE(false,9004,"변경 실행안함 : 이미 변경되었거나 잘못된 조건"),
+    INVALID_STATUS(false,9005,"상태 변경 실패 : 유효하지 않은 값"),
+    FAIL_REGISER(false, 9006, "가입승인 -> Regiest 등록 실패"),
+
+    //9050 : 그룹
+    FAIL_LOAD_GROUPINFO(false,9003,"스터디 그룹이 존재하지 않습니다."),
+    FAIL_CLOSED_GROUPINFO(false,9051,"종료된 스터디 그룹입니다.");
+
 
 
     private final boolean isSuccess;
     private final int code;
     private final String message;
+
+
 
     private BaseResponseStatus(boolean isSuccess, int code, String message) { // BaseResponseStatus 에서 각 해당하는 코드를 생성자로 맵핑
         this.isSuccess = isSuccess;

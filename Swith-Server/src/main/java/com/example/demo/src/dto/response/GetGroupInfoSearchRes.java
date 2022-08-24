@@ -24,6 +24,7 @@ public class GetGroupInfoSearchRes {
     private Integer memberLimit; //정원(2~10)
     private Long NumOfApplicants; //지원자수
     private LocalDateTime createdAt; //생성일
+    private Integer applicationMethod;
 //
 //    //@QueryProjection
 //    public GetGroupInfoSearchRes(Long groupIdx,String title, String groupContent, Long regionIdx1,Long regionIdx2, LocalDate recruitmentEndDate, int memberLimit, int numOfApplicants, LocalDateTime createdAt) {

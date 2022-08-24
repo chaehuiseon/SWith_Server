@@ -61,10 +61,13 @@ dependencies {
     implementation ('org.springframework.boot:spring-boot-starter-jdbc')
     compile('org.springframework.boot:spring-boot-starter-data-jpa') //mysql 5버전의 경우 삭제.
 
+    // 이미지 S3 업로드
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
     // swagger 문서화
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
 
     // oauth
     compile('org.springframework.boot:spring-boot-starter-oauth2-client')
@@ -91,6 +94,13 @@ dependencies {
     implementation group: 'org.json', name: 'json', version: '20090211'
 
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    //firebase
+    implementation 'com.google.firebase:firebase-admin:6.8.1'
+
+    // okhttp
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.2.2'
+
 
 
 

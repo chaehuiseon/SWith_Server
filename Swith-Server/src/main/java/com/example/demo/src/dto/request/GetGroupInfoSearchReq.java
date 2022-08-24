@@ -8,13 +8,14 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class GetGroupInfoSearchReq {
+public class GetGroupInfoSearchReq implements Serializable {
 
     private String title; //스터디 그룹의 제목
 
@@ -23,13 +24,13 @@ public class GetGroupInfoSearchReq {
     private Integer interest1;
 
     private Integer interest2;
-
     private Long groupIdx;
 
     private Integer sortCond; //마감일이 최초값..
 
     //@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime ClientTime;
 
 

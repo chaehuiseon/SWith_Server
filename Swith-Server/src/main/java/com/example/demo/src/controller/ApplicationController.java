@@ -8,6 +8,7 @@ import com.example.demo.src.dto.request.PatchExpelUserReq;
 import com.example.demo.src.dto.request.PostApplicationReq;
 import com.example.demo.src.dto.response.GetApplicationManageRes;
 import com.example.demo.src.dto.response.PatchApplicationStatusRes;
+import com.example.demo.src.dto.response.getApplicationRes;
 import com.example.demo.src.service.ApplicationService;
 import com.example.demo.src.service.GroupInfoService;
 import io.swagger.annotations.Api;
@@ -158,7 +159,7 @@ public class ApplicationController {
     }
 
     @ApiOperation("프로필 탭 내 지원서 목록 조회 - K1")
-    @GetMapping(/user)
+    @GetMapping("/user")
     public BaseResponse<List<getApplicationRes>> getUserApplication(@RequestParam Long userIdx) {
         try {
             List<getApplicationRes> getApplicationResList = applicationService.getUserApplication(userIdx);

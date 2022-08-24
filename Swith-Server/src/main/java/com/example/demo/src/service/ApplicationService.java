@@ -9,7 +9,9 @@ import com.example.demo.src.dto.request.PatchExpelUserReq;
 import com.example.demo.src.dto.request.PostApplicationReq;
 import com.example.demo.src.dto.response.GetApplicationManageRes;
 import com.example.demo.src.dto.response.PatchApplicationStatusRes;
+import com.example.demo.src.dto.response.getApplicationRes;
 import com.example.demo.src.entity.Application;
+import com.example.demo.src.entity.GroupInfo;
 import com.example.demo.src.entity.Register;
 import com.example.demo.src.repository.ApplicationRepository;
 import com.example.demo.src.repository.GroupInfoRepository;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

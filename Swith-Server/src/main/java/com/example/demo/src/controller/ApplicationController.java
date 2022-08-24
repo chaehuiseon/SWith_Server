@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/groupinfo/Application")
+@RequestMapping("/user/Application")
 @Api(tags = {"Swith Application API"})
 public class ApplicationController {
     private final ApplicationService applicationService;

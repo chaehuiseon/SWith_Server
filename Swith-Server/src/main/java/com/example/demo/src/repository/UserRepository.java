@@ -3,6 +3,7 @@ package com.example.demo.src.repository;
 import com.example.demo.src.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.math.BigInteger;
 import java.util.Optional;
@@ -14,4 +15,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByUserIdx(Long id);
 
+
+    @Query(value = "update USER u " +
+            "set u.averageStar = :averageStar " +
+            "where u.userIdx = :userIdx",nativeQuery = true)
+    Double updateAvgStar(@Param("averageStar") Double averageStar, @Param("userIdx") Long userIdx);
+
+    @Query("select u.averageStar " +
+            "from User u " +
+            "where u.userIdx = :userIdx ")
+    Double findUserStar(@Param("userIdx") Long userIdx);
 }

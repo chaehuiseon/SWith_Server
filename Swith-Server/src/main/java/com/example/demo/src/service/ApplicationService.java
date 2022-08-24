@@ -142,10 +142,13 @@ public class ApplicationService {
                     Register register = Register.builder()
                             .user(userRepository.getOne(changed.getUser().getUserIdx()))
                             .groupInfo(groupInfoRepository.getOne(changed.getGroupInfo().getGroupIdx()))
-                            .status(0).build();
+                            .status(0)
+                            .build();
 
                     //등록이 잘 되었는지 확인.
+                    System.out.println("Register >>>>> "+register.getUser().getNickname());
                     Register saved = registerRepository.save(register);
+                    System.out.println(saved.toString());
                     if( !((saved.getStatus() == 1 ) && (saved.getUser().getUserIdx() == changed.getUser().getUserIdx() )
                         && (saved.getGroupInfo().getGroupIdx() == changed.getGroupInfo().getGroupIdx() ) )){
                         throw new BaseException(BaseResponseStatus.FAIL_REGISER);

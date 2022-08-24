@@ -20,7 +20,7 @@ public class DemoApplication {
     public void started() {
         // timezone UTC 셋팅
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-        System.out.println("현재시각 : " + LocalDateTime.now());
+        System.out.println("현재시각 : " + LocalDateTime.nㅎow());
     }
     public static void main(String[] args) {
 

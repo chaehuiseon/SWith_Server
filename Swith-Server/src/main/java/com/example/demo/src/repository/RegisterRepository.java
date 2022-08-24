@@ -6,10 +6,11 @@ import com.example.demo.src.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+@Repository
 public interface RegisterRepository extends JpaRepository<Register,Long> {
 
     List<Register> findByUser_UserIdxAndStatusEquals(Long userIdx, Integer status);
@@ -17,9 +18,7 @@ public interface RegisterRepository extends JpaRepository<Register,Long> {
     //Status = 0(가입)인 그룹을 List 형태로 userIdx를 기준으로 불러온다.
     @Query("select g from Register r " +
             "join GroupInfo g on g = r.groupInfo " +
-            "where r.user.userIdx = :userIdx " +
-            "and r.status = 0 " +
-            "and r.groupInfo.status <> 2")
+            "where r.user.userIdx = :userIdx and r.status = 0 and r.groupInfo.status <> 2 ")
     List<GroupInfo> findGroupInfoByUserIdx(@Param("userIdx")Long userIdx);
 
     @Query("select r.user " +

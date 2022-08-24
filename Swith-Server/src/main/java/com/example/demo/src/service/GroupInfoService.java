@@ -197,6 +197,7 @@ public class GroupInfoService {
         System.out.println("방법 >>>>>>" + data.getApplicationMethod());
         System.out.println("interest >>>" + data.getInterest().toString());
 
+
         return data;
 
 

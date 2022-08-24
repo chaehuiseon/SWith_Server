@@ -32,6 +32,7 @@ public class ImageService {
 
 //    private final AmazonS3Client s3Client;
     private final AmazonS3 amazonS3;
+    private final String baseUrl = "https://0m1n-bucket.s3.ap-northeast-2.amazonaws.com/";
 
     public UploadImageResponseDto uploadImage(List<MultipartFile> multipartFile){
         List<String> fileNameList = new ArrayList<>();
@@ -49,7 +50,7 @@ public class ImageService {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "이미지 업로드에 실패했습니다.");
             }
 
-            fileNameList.add(fileName);
+            fileNameList.add(baseUrl+fileName);
         });
 
         return new UploadImageResponseDto(fileNameList);

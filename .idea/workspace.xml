@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55595a61-9c1b-4f0a-9672-659ec4940dfa" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/Swith-Server/system.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,7 +57,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Swith-Server" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -105,6 +106,9 @@
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Swith-Server" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.example.demo.src.controller" />
       <recent name="com.example.demo.src.entity" />
@@ -139,11 +143,22 @@
       <workItem from="1661057767831" duration="1219000" />
       <workItem from="1661153538210" duration="6761000" />
       <workItem from="1661311008393" duration="1978000" />
-      <workItem from="1661313041030" duration="8958000" />
+      <workItem from="1661313041030" duration="9732000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

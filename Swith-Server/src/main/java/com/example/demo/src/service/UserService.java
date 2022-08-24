@@ -169,9 +169,6 @@ public class UserService {
         return postSignUpRes;
     }
 
-<<<<<<< HEAD
-
-=======
     // 로그아웃
     public void logout(String accessToken, String email) throws BaseException{
         User findUser = userRepository.findByEmail(email);
@@ -202,5 +199,4 @@ public class UserService {
                 .build();
         return user;
     }
->>>>>>> 9f9569e7a9a816d777e5dfba03f6185d17685fbd
 }

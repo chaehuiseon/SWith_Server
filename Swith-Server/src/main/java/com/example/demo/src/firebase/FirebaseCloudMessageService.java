@@ -78,7 +78,7 @@ public class FirebaseCloudMessageService {
 
 
     private String getAccessToken() throws IOException {
-        String firebaseConfigPath = "/Users/chaehuiseon/git/SWith_Server/Swith-Server/src/main/java/com/example/demo/src/firebase/firebase_secret_key.json";
+        String firebaseConfigPath = "/firebase/firebase_secret_key.json";
 
         List<String> scopeUrl = new ArrayList<>();
         scopeUrl.add("https://www.googleapis.com/auth/firebase.messaging");

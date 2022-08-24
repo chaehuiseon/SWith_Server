@@ -67,15 +67,10 @@ public class User extends BaseTimeEntity { //유저 테이블
     @OneToMany(mappedBy = "user") // N:1 양방향
     private List<Register> registerList = new ArrayList<>();
 
-<<<<<<< HEAD
-
     //fcmtoken 추가되야함
     //private String fcmtoken;
 
-    public void updateRefreshToken(String refreshToken) {
-=======
     public User updateRefreshToken(String refreshToken) {
->>>>>>> 9f9569e7a9a816d777e5dfba03f6185d17685fbd
         this.refreshToken = refreshToken;
         return this;
     }

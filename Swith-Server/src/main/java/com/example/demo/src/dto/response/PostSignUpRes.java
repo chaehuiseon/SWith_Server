@@ -25,4 +25,7 @@ public class PostSignUpRes {
 
     @ApiModelProperty(notes = "소개글",example = "hello")
     private String introduction;
+
+    @ApiModelProperty(notes = "지역",example = "서울 강남구")
+    private String region; //지역
 }

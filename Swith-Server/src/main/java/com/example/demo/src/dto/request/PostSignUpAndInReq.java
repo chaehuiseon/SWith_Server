@@ -25,4 +25,7 @@ public class PostSignUpAndInReq {
 
     @ApiModelProperty(notes = "프로필 이미지 url",example = "https://lh3.googleusercontent.com/a/AItbvmmZTEhJKpZdLsPHSnT9XH2q469L0kulNTIFqjm2=s96-c")
     private String profileImgUrl; // 프로필 이미지 url
+
+    @ApiModelProperty(notes = "알람 토큰",example = "token")
+    private String token; // 프로필 이미지 url
 }

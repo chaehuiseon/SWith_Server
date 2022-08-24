@@ -31,4 +31,7 @@ public class PostSignUpReq {
 
     @ApiModelProperty(notes = "소개글",example = "hello")
     private String introduction; //소개글
+
+    @ApiModelProperty(notes = "지역",example = "서울 강남구")
+    private String region; //지역
 }

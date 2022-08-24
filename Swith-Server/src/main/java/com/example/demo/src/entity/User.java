@@ -31,6 +31,8 @@ public class User extends BaseTimeEntity { //유저 테이블
 
     private String nickname; // 닉네임
 
+    private String noticeToken; // 알림 토큰
+
     @ManyToOne(fetch = LAZY) // N:1 단방향
     @JoinColumn(name = "interestIdx1")
     private Interest interest1; //관심 분류
@@ -39,6 +41,7 @@ public class User extends BaseTimeEntity { //유저 테이블
     @JoinColumn(name = "interestIdx2")
     private Interest interest2; //관심 분류
 
+    private String region; // 활동 지역
 
     @Column(length = 80)
     private String introduction; //소개글
@@ -75,11 +78,12 @@ public class User extends BaseTimeEntity { //유저 테이블
         return this.role.getKey();
     }
 
-    public User update(String nickname, Interest interest1, Interest interest2, String introduction){
+    public User update(String nickname, Interest interest1, Interest interest2, String introduction, String region){
         this.nickname = nickname;
         this.interest1 = interest1;
         this.interest2 = interest2;
         this.introduction = introduction;
+        this.region = region;
         return this;
     }
 

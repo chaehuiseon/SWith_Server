@@ -50,9 +50,11 @@ public class UserService {
                 .introduction(findUser.getIntroduction())
                 .interestIdx1(findUser.getInterest1().getInterestIdx())
                 .interestIdx2(findUser.getInterest2().getInterestIdx())
+                .region(findUser.getRegion())
                 .averageStar(findUser.getAverageStar())
                 .role(findUser.getRole())
                 .refreshToken(findUser.getRefreshToken())
+                .noticeToken(findUser.getNoticeToken())
                 .status(findUser.getStatus())
                 .build();
 
@@ -72,7 +74,7 @@ public class UserService {
                 .interestIdx(postSignUpReq.getInterest2())
                 .build();
 
-        User user = findUser.update(postSignUpReq.getNickname(), interest1, interest2, postSignUpReq.getIntroduction());
+        User user = findUser.update(postSignUpReq.getNickname(), interest1, interest2, postSignUpReq.getIntroduction(), postSignUpReq.getRegion());
         User savedUser = userRepository.save(user);
 
         PostSignUpRes postSignUpRes = getSignUpResponseDto(savedUser);
@@ -107,10 +109,12 @@ public class UserService {
                     .introduction(savedUser.getIntroduction())
                     .interestIdx1(1)
                     .interestIdx2(2)
+                    .region(savedUser.getRegion())
                     .averageStar(savedUser.getAverageStar())
                     .role(savedUser.getRole())
                     .accessToken(accessTokenDto.getToken())
                     .refreshToken(refreshTokenDto.getToken())
+                    .noticeToken(savedUser.getNoticeToken())
                     .isSignUp(true)
                     .status(savedUser.getStatus())
                     .build();
@@ -148,10 +152,12 @@ public class UserService {
                 .introduction(savedUser.getIntroduction())
                 .interestIdx1(savedUser.getInterest1().getInterestIdx())
                 .interestIdx2(savedUser.getInterest2().getInterestIdx())
+                .region(savedUser.getRegion())
                 .averageStar(savedUser.getAverageStar())
                 .role(savedUser.getRole())
                 .accessToken(accessTokenDto.getToken())
                 .refreshToken(refreshTokenDto.getToken())
+                .noticeToken(savedUser.getNoticeToken())
                 .isSignUp(false)
                 .status(savedUser.getStatus())
                 .build();
@@ -165,6 +171,7 @@ public class UserService {
                 .interestIdx2(savedUser.getInterest2().getInterestIdx())
                 .nickname(savedUser.getNickname())
                 .introduction(savedUser.getIntroduction())
+                .region(savedUser.getRegion())
                 .build();
         return postSignUpRes;
     }
@@ -195,6 +202,7 @@ public class UserService {
                 .profileImgUrl(postSignUpAndInReq.getProfileImgUrl())
                 .role(RoleType.GUEST)
                 .refreshToken(refreshTokenDto.getToken())
+                .noticeToken(postSignUpAndInReq.getToken())
                 .status(0)
                 .build();
         return user;

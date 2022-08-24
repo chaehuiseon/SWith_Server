@@ -33,6 +33,9 @@ public class PostUserInfoRes {
     @ApiModelProperty(notes = "관심 분류 인덱스2",example = "2")
     private Integer interestIdx2;
 
+    @ApiModelProperty(notes = "활동지경",example = "서울 강남구")
+    private String region;
+
     @ApiModelProperty(notes = "평점", example = "2.5")
     private Double averageStar; // 평점
 
@@ -44,6 +47,9 @@ public class PostUserInfoRes {
 
     @ApiModelProperty(notes = "리프레시토큰",example = "token")
     private String refreshToken;
+
+    @ApiModelProperty(notes = "안드로이드 고유 기기 알람 토큰",example = "token")
+    private String noticeToken;
 
     @ApiModelProperty(notes = "처음 가입하는지 여부",example = "false")
     private Boolean isSignUp;

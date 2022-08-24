@@ -2,6 +2,7 @@ package com.example.demo.src.repository;
 
 import com.example.demo.src.entity.GroupInfo;
 import com.example.demo.src.entity.Register;
+import com.example.demo.src.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,5 +19,17 @@ public interface RegisterRepository extends JpaRepository<Register,Long> {
             "join GroupInfo g on g = r.groupInfo " +
             "where r.user.userIdx = :userIdx and r.status = 0")
     List<GroupInfo> findGroupInfoByUserIdx(@Param("userIdx")Long userIdx);
+
+
+//    @Query("select u " +
+//            "from Register r " +
+//            "join fetch r.user u " +
+//            "where r.groupInfo.groupIdx = :groupIdx and r.status = 0")
+//    List<User> findRegisterUser(@Param("groupIdx")Long groupIdx);
+
+
+
+
+
 
 }

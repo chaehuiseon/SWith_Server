@@ -10,8 +10,10 @@ import com.example.demo.src.dto.request.PostApplicationReq;
 import com.example.demo.src.dto.response.GetApplicationManageRes;
 import com.example.demo.src.dto.response.PatchApplicationStatusRes;
 import com.example.demo.src.entity.Application;
+import com.example.demo.src.entity.Register;
 import com.example.demo.src.repository.ApplicationRepository;
 import com.example.demo.src.repository.GroupInfoRepository;
+import com.example.demo.src.repository.RegisterRepository;
 import com.example.demo.src.repository.UserRepository;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.models.auth.In;
@@ -31,14 +33,17 @@ public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final GroupInfoRepository groupInfoRepository;
     private final UserRepository userRepository;
+    private final RegisterRepository registerRepository;
 
     @Autowired
     public ApplicationService(ApplicationRepository applicationRepository,
                               GroupInfoRepository groupInfoRepository,
-                              UserRepository userRepository) {
+                              UserRepository userRepository,
+                                RegisterRepository registerRepository) {
         this.applicationRepository = applicationRepository;
         this.groupInfoRepository = groupInfoRepository;
         this.userRepository = userRepository;
+        this.registerRepository = registerRepository;
     }
 
     public Integer getMemberLimit(Long groupIdx){
@@ -130,6 +135,23 @@ public class ApplicationService {
             Application changed = applicationRepository.findById(req_applicationIdx).get();
             if ((changed.getApplicationIdx() == req_applicationIdx) &&
                     (changed.getGroupInfo().getGroupIdx() == groupIdx) && (req_status == changed.getStatus())) {
+                if(changed.getStatus() == 1 ){ //가입 승인된 경우는 Register에 등록함.
+                    Register register = Register.builder()
+                            .user(userRepository.getOne(changed.getUser().getUserIdx()))
+                            .groupInfo(groupInfoRepository.getOne(changed.getGroupInfo().getGroupIdx()))
+                            .status(0).build();
+
+                    //등록이 잘 되었는지 확인.
+                    Register saved = registerRepository.save(register);
+                    if( !((saved.getStatus() == 1 ) && (saved.getUser().getUserIdx() == changed.getUser().getUserIdx() )
+                        && (saved.getGroupInfo().getGroupIdx() == changed.getGroupInfo().getGroupIdx() ) )){
+                        throw new BaseException(BaseResponseStatus.FAIL_REGISER);
+                    }
+
+
+
+
+                }
                 //전송
                 PatchApplicationStatusRes results = PatchApplicationStatusRes.builder()
                         .applicationIdx(changed.getApplicationIdx())

@@ -12,6 +12,7 @@ import com.example.demo.src.dto.PostGroupInfoRes;
 import com.example.demo.src.dto.request.GetGroupInfoSearchReq;
 import com.example.demo.src.dto.response.GetGroupInfoSearchRes;
 import com.example.demo.src.entity.*;
+import com.example.demo.src.firebase.FirebaseCloudMessageService;
 import com.example.demo.src.repository.*;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +40,13 @@ public class GroupInfoService {
     private final AttendanceRepository attendanceRepository;
     private final UserRepository userRepository;
     private final ApplicationRepository applicationRepository;
+    private final FirebaseCloudMessageService fcmService;
 
     @Autowired
     public GroupInfoService(GroupInfoRepository groupInfoRepository, RegisterRepository registerRepository, RegisterService registerService,
                             InterestRepository interestRepository, AnnouncementRepository announcementRepository, ApplicationRepository applicationRepository,
-                            SessionRepository sessionRepository, AttendanceRepository attendanceRepository, UserRepository userRepository) {
+                            SessionRepository sessionRepository, AttendanceRepository attendanceRepository, UserRepository userRepository,
+                            FirebaseCloudMessageService fcmService) {
         this.groupInfoRepository = groupInfoRepository;
         this.registerRepository = registerRepository;
         this.interestRepository = interestRepository;
@@ -51,6 +55,7 @@ public class GroupInfoService {
         this.attendanceRepository = attendanceRepository;
         this.userRepository = userRepository;
         this.applicationRepository = applicationRepository;
+        this.fcmService = fcmService;
     }
 
     public List<GetHomeGroupInfoRes> loadHomeData(Long userIdx) throws BaseException {
@@ -275,7 +280,7 @@ public class GroupInfoService {
 
     }
 
-    public Long EndGroup(Long groupIdx,Long adminIdx) {
+    public Long EndGroup(Long groupIdx,Long adminIdx) throws IOException {
 
         if(!existGroupIdx(groupIdx)){ //존재하지 않음.
             return -1L;
@@ -285,12 +290,29 @@ public class GroupInfoService {
         groupInfoRepository.changeGroupInfoStatusEnd(2,groupIdx,adminIdx);
 
         GroupInfo check = groupInfoRepository.findByGroupIdx(groupIdx);
-        if( check.getStatus() == 2) return check.getGroupIdx();
+        if(check.getStatus() == 2){ //종료
+            // 종료 알림을 받을 유저 list
+            ArrayList<Long> pushEndAlramToUsers = groupInfoRepository.findUsersInGroup(groupIdx,1);
+            System.out.println(">>>>>>> user : " +pushEndAlramToUsers);
+            ArrayList<String> pushUserToken = groupInfoRepository.findUserToken(pushEndAlramToUsers);
+            System.out.println(">>>>> token : "+ pushUserToken);
+            //List<User> users = registerRepository.findRegisterUser(groupIdx);
+            // 종료 groupIdx,종료 group title, 종료 알림 내용, 종료 날짜
+            String title = check.getTitle();
+            String phrases = "스터디가 종료되었습니다!";
+            LocalDateTime now = LocalDateTime.now();
+            String content =  phrases + "//" + now + "//" + groupIdx + "//" ;
+            // 보냄
+            for (String token : pushUserToken) {
+                System.out.println("가즈아!");
+                fcmService.sendMessageTo(token,title,content);
+            }
+
+            return check.getGroupIdx();
+        }
+
 
         return -2L;
-
-
-
 
 
     }

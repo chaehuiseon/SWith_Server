@@ -122,6 +122,7 @@ public enum BaseResponseStatus {
     FAIL_CHANGED_STATUS(false,9003,"상태 변경 실패"),
     DO_NOT_EXECUTE_CHANGE(false,9004,"변경 실행안함 : 이미 변경되었거나 잘못된 조건"),
     INVALID_STATUS(false,9005,"상태 변경 실패 : 유효하지 않은 값"),
+    FAIL_REGISER(false, 9006, "가입승인 -> Regiest 등록 실패"),
 
     //9050 : 그룹
     FAIL_LOAD_GROUPINFO(false,9003,"스터디 그룹이 존재하지 않습니다."),

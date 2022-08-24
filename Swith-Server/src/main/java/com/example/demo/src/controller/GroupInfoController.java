@@ -26,6 +26,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -128,17 +129,19 @@ public class GroupInfoController {
     @ApiOperation("스터디 종료 API")
     @ResponseBody
     @PatchMapping("/end")
-    public BaseResponse<Long> EndGroup(@RequestBody PatchEndGroupReq patchEndGroupReq){
+    public BaseResponse<Long> EndGroup(@RequestBody PatchEndGroupReq patchEndGroupReq) throws IOException {
         Long groupIdx = patchEndGroupReq.getGroupIdx();
-        Long adminIdx = patchEndGroupReq.getAminIdx();
+        Long adminIdx = patchEndGroupReq.getAdminIdx();
+        System.out.println("end 받은 값 > "+groupIdx+adminIdx);
         boolean check = groupInfoService.IsAdmin(groupIdx,adminIdx);
         //jwt 유효성 검사 추가해야됨 ..
-
 
         if(check == false){//권한없음
             return new BaseResponse<>(BaseResponseStatus.NO_GROUP_LEADER);
         }
+
         Long result = groupInfoService.EndGroup(groupIdx, adminIdx);
+        System.out.println("종료 >>>>"+result);
         //그룹 존재하지 않아서 실패
         if(result == -1L) return new BaseResponse<>(BaseResponseStatus.FAIL_LOAD_GROUPINFO);
         //삭제가 실패
@@ -146,6 +149,11 @@ public class GroupInfoController {
         return new BaseResponse<>(result);
 
     }
+
+
+
+
+
 
 
 

@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class PatchEndGroupReq {
-    private Long aminIdx;
+    private Long adminIdx;
     private Long groupIdx;
 }

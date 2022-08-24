@@ -300,8 +300,8 @@ public class GroupInfoService {
             // 종료 groupIdx,종료 group title, 종료 알림 내용, 종료 날짜
             String title = check.getTitle();
             String phrases = "스터디가 종료되었습니다!";
-            LocalDateTime now = LocalDateTime.now();
-            String content =  phrases + "//" + now + "//" + groupIdx + "//" ;
+            //LocalDateTime now = LocalDateTime.now();
+            String content =  phrases + "//" + groupIdx + "//" + "스터디종료" ;
             // 보냄
             for (String token : pushUserToken) {
                 System.out.println("가즈아!");

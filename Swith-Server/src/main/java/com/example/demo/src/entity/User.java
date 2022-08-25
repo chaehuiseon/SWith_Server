@@ -67,7 +67,8 @@ public class User extends BaseTimeEntity { //유저 테이블
     private List<Register> registerList = new ArrayList<>();
 
     //fcmtoken 추가되야함
-    //private String fcmtoken;
+    @Column(length = 300)
+    private String fcmtoken;
 
     public User updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;

@@ -63,7 +63,8 @@ public class RatingService {
 
     public String RatingStart(PostRatingStarReq postRatingStarReq) {
         Long raterIdx = postRatingStarReq.getRaterIdx();
-        List<Start> star = postRatingStarReq.getStart();
+        System.out.println(postRatingStarReq.getStar());
+        List<Start> star = postRatingStarReq.getStar();
         for(Start s : star){
             Rating r = Rating.builder()
                     .raterIdx(raterIdx)

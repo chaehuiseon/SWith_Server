@@ -2,6 +2,7 @@ package com.example.demo.src.controller;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.dto.request.PatchAnnouncementReq;
 import com.example.demo.src.dto.request.PostAnnouncementReq;
 import com.example.demo.src.dto.response.GetAnnouncementRes;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -46,6 +48,8 @@ public class AnnouncementController {
             return new BaseResponse<>(announcementIdx);
         } catch (BaseException e){
             return new BaseResponse<>(e.getStatus());
+        } catch (IOException e){
+            return new BaseResponse<>(BaseResponseStatus.INVALID_GROUP);
         }
     }
 

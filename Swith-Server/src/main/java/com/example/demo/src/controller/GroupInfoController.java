@@ -57,7 +57,7 @@ public class GroupInfoController {
 
     @ApiOperation("그룹 생성")
     @PostMapping
-    public BaseResponse<PostGroupInfoRes> createGroup(@RequestBody PostGroupInfoReq request){
+    public BaseResponse<PostGroupInfoRes> createGroup(@RequestBody PostGroupInfoReq request) throws BaseException {
         System.out.println(request.toString());
         //System.out.println("들어가기전!");
         PostGroupInfoRes response =  groupInfoService.create(request);

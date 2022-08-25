@@ -84,6 +84,6 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
             "and s.sessionEnd < :now " +      //지금 이전에 끝나고
             "and s.sessionStart > :limit " +      //limit 이후에 시작한 회차
             "and s.status = 0")
-    List<Session> getAllWithGroupAndAttendances(LocalDateTime now, LocalDateTime limit);
+    List<Session> getAllWithGroupAndAttendances(@Param("now") LocalDateTime now,@Param("limit") LocalDateTime limit);
 
 }

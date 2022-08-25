@@ -1,6 +1,7 @@
 package com.example.demo.src.service;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.dto.request.PatchEndGroupReq;
 import com.example.demo.src.dto.request.PatchExpelUserReq;
 import com.example.demo.src.dto.request.PatchGroupInfoReq;
@@ -129,8 +130,9 @@ public class GroupInfoService {
 
     }
 
-    public PostGroupInfoRes create(PostGroupInfoReq request){
+    public PostGroupInfoRes create(PostGroupInfoReq request) throws BaseException {
         System.out.println(request.toString());
+        System.out.println(request.getGroupImgUrl());
         System.out.println("으악");
         PostGroupInfoReq body = request;
 
@@ -170,6 +172,17 @@ public class GroupInfoService {
 
 
         GroupInfo savedgroupInfo = groupInfoRepository.save(groupInfo);
+        Register register = Register.builder()
+                .user(userRepository.getOne(savedgroupInfo.getUser().getUserIdx()))
+                .groupInfo(groupInfoRepository.getOne(savedgroupInfo.getGroupIdx()))
+                .status(0)//Register status 0 = 승인
+                .build();
+        Register saved = registerRepository.save(register);
+        if(saved.getGroupInfo().getGroupIdx() != savedgroupInfo.getGroupIdx()) {
+            throw new BaseException(BaseResponseStatus.FAIL_REGISTER_SAVE);
+        }
+
+
         long groupIdx = savedgroupInfo.getGroupIdx();
         return new PostGroupInfoRes(groupIdx);
 

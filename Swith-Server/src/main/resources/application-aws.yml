@@ -1,0 +1,11 @@
+cloud:
+  aws:
+    s3:
+      bucket: 0m1n-bucket
+    credentials:
+      access-key: AKIAYOTC7K43GHOJXC4M
+      secret-key: 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
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

@@ -161,14 +161,14 @@ public class GroupInfoService {
                 .groupContent(body.getGroupContent())
                 .build();
         //풀그 추가 가입 정보 생성
-        Register register = Register.builder()
-                .groupInfo(groupInfo)
-                .user(User.builder()
-                        .userIdx(request.getAdminIdx())
-                        .build())
-                .status(0)
-                .build();
-        registerRepository.save(register);
+//        Register register = Register.builder()
+//                .groupInfo(groupInfo)
+//                .user(User.builder()
+//                        .userIdx(request.getAdminIdx())
+//                        .build())
+//                .status(0)
+//                .build();
+//        registerRepository.save(register);
 
 
         GroupInfo savedgroupInfo = groupInfoRepository.save(groupInfo);

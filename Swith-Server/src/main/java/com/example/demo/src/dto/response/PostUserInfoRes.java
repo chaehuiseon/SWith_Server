@@ -49,7 +49,7 @@ public class PostUserInfoRes {
     private String refreshToken;
 
     @ApiModelProperty(notes = "안드로이드 고유 기기 알람 토큰",example = "token")
-    private String noticeToken;
+    private String fcmtoken;
 
     @ApiModelProperty(notes = "처음 가입하는지 여부",example = "false")
     private Boolean isSignUp;

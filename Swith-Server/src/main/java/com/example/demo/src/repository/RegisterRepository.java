@@ -26,8 +26,16 @@ public interface RegisterRepository extends JpaRepository<Register,Long> {
 
     @Query("select r.user " +
             "from Register r " +
-            "where r.groupInfo.groupIdx = :groupIdx")
+            "where r.groupInfo.groupIdx = :groupIdx " +
+            "and r.status = 0")
     List<User> findUserByGroup(Long groupIdx);
+
+
+    @Query("select r.user.userIdx " +
+            "from Register r " +
+            "where r.groupInfo.groupIdx = :groupIdx " +
+            "and r.status = 0")
+    ArrayList<Long> findUserByGroup2(Long groupIdx);
 
     @Query("select r.user.userIdx " +
             "from Register r " +

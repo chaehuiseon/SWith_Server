@@ -317,7 +317,8 @@ public class GroupInfoService {
         GroupInfo check = groupInfoRepository.findByGroupIdx(groupIdx);
         if(check.getStatus() == 2){ //종료
             // 종료 알림을 받을 유저 list
-            ArrayList<Long> pushEndAlramToUsers = groupInfoRepository.findUsersInGroup(groupIdx,1);
+            ArrayList<Long> pushEndAlramToUsers =registerRepository.findUserByGroup2(groupIdx);
+//            ArrayList<Long> pushEndAlramToUsers = groupInfoRepository.findUsersInGroup(groupIdx,1);
             System.out.println(">>>>>>> user : " +pushEndAlramToUsers);
             ArrayList<String> pushUserToken = groupInfoRepository.findUserToken(pushEndAlramToUsers);
             System.out.println(">>>>> token : "+ pushUserToken);

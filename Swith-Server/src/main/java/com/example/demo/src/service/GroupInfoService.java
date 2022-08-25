@@ -118,6 +118,7 @@ public class GroupInfoService {
 
     public PostGroupInfoRes create(PostGroupInfoReq request) throws BaseException {
         System.out.println(request.toString());
+        System.out.println(request.getGroupImgUrl());
         System.out.println("으악");
         PostGroupInfoReq body = request;
 

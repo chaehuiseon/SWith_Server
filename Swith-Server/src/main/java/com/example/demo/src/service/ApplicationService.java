@@ -118,7 +118,7 @@ public class ApplicationService {
 
     public List<GetApplicationManageRes> getApplicationList(Long groupIdx,Integer status){
         Long adminIdx = groupInfoRepository.findAdminIdxBy(groupIdx);
-        List<Application> applications =  applicationRepository.getApplicationListBy(groupIdx,status,adminIdx);
+        List<Application> applications =  applicationRepository.getApplicationListBy(groupIdx,status);
         List<GetApplicationManageRes> results = applications.stream()
                 .map(a -> new GetApplicationManageRes(a))
                 .collect(Collectors.toList());

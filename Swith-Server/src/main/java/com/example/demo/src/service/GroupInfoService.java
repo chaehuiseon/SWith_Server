@@ -73,6 +73,7 @@ public class GroupInfoService {
             if(announcements.isEmpty()) {
                 announcement = Announcement
                         .builder()
+                        .announcementContent("공지 사항이 없습니다.")
                         .build();
             } else {
                 announcement = announcements.get(0);
@@ -85,13 +86,15 @@ public class GroupInfoService {
             Session session = sessionRepository
                     .findFirstByGroupInfo_GroupIdxAndSessionStartAfterAndStatusEqualsOrderBySessionNum
                             (groupInfo.getGroupIdx(), LocalDateTime.now(), 0)
-                    .orElseGet(() -> Session.builder()
+                    .orElseGet(() -> Session
+                            .builder()
+                            .sessionContent("세션이 없습니다.")
                             .build());
 
             //해당 그룹에서 ( 쿼리 다시 짜기 )
             List<Attendance> attendanceList = attendanceRepository
                     .findByGroupIdxAndUserIdxAndStatusIsNot(groupInfo.getGroupIdx(), userIdx, (Integer) 0);
-            int attendanceRate;
+            Integer attendanceRate;
 
 
             int attendanceNum = 0;
@@ -101,7 +104,7 @@ public class GroupInfoService {
                 }
             }
             if (attendanceList.isEmpty())
-                attendanceRate = -1;
+                attendanceRate = null;
             else
                 attendanceRate = attendanceNum * 100 / attendanceList.size();
 

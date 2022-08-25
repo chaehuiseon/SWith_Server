@@ -34,6 +34,11 @@ public interface RegisterRepository extends JpaRepository<Register,Long> {
             "where r.groupInfo.groupIdx = :groupIdx")
     ArrayList<Long> findUserIdxByGroup(@Param("groupIdx") Long groupIdx);
 
+    @Query("select r " +
+            "from Register r " +
+            "where r.groupInfo.groupIdx = :groupIdx and r.status = 0")
+    List<Register> findUser(@Param("groupIdx") Long groupIdx);
+
     //    @Query("select u " +
 //            "from Register r " +
 //            "join fetch r.user u " +

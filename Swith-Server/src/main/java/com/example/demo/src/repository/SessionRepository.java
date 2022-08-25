@@ -13,8 +13,18 @@ import java.util.Optional;
 
 public interface SessionRepository extends JpaRepository<Session, Long> {
 
+
+    @Query("select s from Session s " +
+            "where s.groupInfo.groupIdx = :groupIdx " +
+            "and s.sessionStart > :currentTime " +
+            "and s.status = :status " +
+            "order by s.sessionNum")
+    List<Session> findByGroupIdxWithStatus(
+            Long groupIdx, LocalDateTime currentTime,Integer status);
+
+
     Optional<Session> findFirstByGroupInfo_GroupIdxAndSessionStartAfterAndStatusEqualsOrderBySessionNum(
-            Long sessionIdx, LocalDateTime currentTime,Integer status);
+            Long groupIdx, LocalDateTime currentTime,Integer status);
 
 
     @Query("select s from Session s " +

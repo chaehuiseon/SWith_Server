@@ -88,8 +88,17 @@ public class SessionService {
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUP));
 
         //가장 최근의 공지사항 가져오기
-        Announcement announcement = announcementRepository
-                .findByGroupInfo_GroupIdxOrderByModifiedAtDesc(groupIdx).get(0);
+        Announcement announcement;
+        List<Announcement> announcementList = announcementRepository
+                .findByGroupInfo_GroupIdxOrderByModifiedAtDesc(groupIdx);
+        if(announcementList.isEmpty()){
+            announcement = Announcement
+                    .builder()
+                    .announcementContent("공지사항이 없습니다.")
+                    .build();
+        } else
+            announcement = announcementList.get(0);
+
 
         //sessionList 가져오기 <- fetch join으로 연관된 Attendance도 모두 가져오도록
         List<Session> getSessionList = sessionRepository.getSessionAndAttendanceByGroupIdx(groupIdx);

@@ -67,20 +67,34 @@ public class GroupInfoService {
         for (GroupInfo groupInfo : groupInfos) {
             //가장 최근에 업데이트된 공지 불러오기
             String announcementContent;
-            Announcement announcement = announcementRepository
-                    .findByGroupInfo_GroupIdxOrderByModifiedAtDesc(groupInfo.getGroupIdx())
-                    .get(0);
+            List<Announcement> announcements = announcementRepository
+                    .findByGroupInfo_GroupIdxOrderByModifiedAtDesc(groupInfo.getGroupIdx());
+            Announcement announcement;
+            if(announcements.isEmpty()) {
+                announcement = Announcement
+                        .builder()
+                        .announcementContent("공지 사항이 없습니다.")
+                        .build();
+            } else {
+                announcement = announcements.get(0);
+            }
+
+
             announcementContent = announcement.getAnnouncementContent();
             //fetch join
             //근 시일내에 가장 빠르게 예정에 있는 회차 정보 불러오기
             Session session = sessionRepository
                     .findFirstByGroupInfo_GroupIdxAndSessionStartAfterAndStatusEqualsOrderBySessionNum
-                            (groupInfo.getGroupIdx(), LocalDateTime.now(), 0).get();
+                            (groupInfo.getGroupIdx(), LocalDateTime.now(), 0)
+                    .orElseGet(() -> Session
+                            .builder()
+                            .sessionContent("세션이 없습니다.")
+                            .build());
 
             //해당 그룹에서 ( 쿼리 다시 짜기 )
             List<Attendance> attendanceList = attendanceRepository
                     .findByGroupIdxAndUserIdxAndStatusIsNot(groupInfo.getGroupIdx(), userIdx, (Integer) 0);
-            int attendanceRate;
+            Integer attendanceRate;
 
 
             int attendanceNum = 0;
@@ -90,7 +104,7 @@ public class GroupInfoService {
                 }
             }
             if (attendanceList.isEmpty())
-                attendanceRate = -1;
+                attendanceRate = null;
             else
                 attendanceRate = attendanceNum * 100 / attendanceList.size();
 

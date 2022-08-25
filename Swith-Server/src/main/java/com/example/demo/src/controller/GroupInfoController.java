@@ -150,19 +150,6 @@ public class GroupInfoController {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     @GetMapping("/search/test")
     @ResponseBody
     public JPAQuery<Integer> searchtest(@RequestBody GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable) {

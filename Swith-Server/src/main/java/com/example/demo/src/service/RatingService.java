@@ -64,7 +64,8 @@ public class RatingService {
 
     public String RatingStart(PostRatingStarReq postRatingStarReq) {
         Long raterIdx = postRatingStarReq.getRaterIdx();
-        List<Start> star = postRatingStarReq.getStart();
+        System.out.println(postRatingStarReq.getStar());
+        List<Start> star = postRatingStarReq.getStar();
         for(Start s : star){
             calculateStar(s.getRateeIdx(), s.getStar());
             Rating r = Rating.builder()
@@ -84,36 +85,17 @@ public class RatingService {
         User user = userRepository.findByUserIdx(rateeIdx);
         // 스타 계산 후 저장
         double beforeRatedCnt = user.getRatedCnt() ; // 새로 추가됐으므로
-        // todo : 처음 평점 생성할때 0, ratedCnt 0
-        double averageStar = (user.getAverageStar() * beforeRatedCnt) + star / beforeRatedCnt + 1;
-        averageStar = Math.round(averageStar * 10 / 10); // 반올림
-        System.out.println(averageStar);
+        double averageStar;
+        if(beforeRatedCnt == 0)
+            averageStar = star;
+        else averageStar = (user.getAverageStar() * beforeRatedCnt + star) / (beforeRatedCnt + 1);
+        // 소수점 첫째자리까지 반올림
+        String str = String.format("%.1f", averageStar);
+        averageStar = Double.parseDouble(str);
         User updateUser = user.updateRating(averageStar, user.getRatedCnt() + 1);
         userRepository.save(updateUser);
 
         return averageStar;
     }
-
-
-//    //10분마다 동작
-//    //rating update
-//    @Scheduled(cron = "0 0/10 * * * *")
-//    public void schedulyUpdateAvgStar() {
-//
-//        System.out.println("regular avgStar Calculation updating routine started");
-//        userRepository.findUserStar()
-//
-//
-//
-//    }
-
-
-
-
-
-
-
-
-
 
 }

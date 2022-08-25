@@ -30,7 +30,4 @@ public class Rating extends BaseTimeEntity{
 
     @Column(columnDefinition = "TINYINT")
     private Integer star; //평점(1~5)
-
-
-
 }

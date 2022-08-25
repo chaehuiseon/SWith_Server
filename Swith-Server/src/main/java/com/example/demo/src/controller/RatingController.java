@@ -49,6 +49,10 @@ public class RatingController {
     @ResponseBody
     @PostMapping("/evaluate/{groupIdx}")
     public BaseResponse<String> RatingStart(@PathVariable Long groupIdx, @RequestBody PostRatingStarReq postRatingStarReq){
+        System.out.println(groupIdx);
+        System.out.println(postRatingStarReq.getRaterIdx());
+        System.out.println(postRatingStarReq.getStar());
+
         //그룹 끝났어?
         Integer status = groupInfoService.statusOfGroupInfo(groupIdx);
         if(status != 2){//종료된 그룹이 아니다.

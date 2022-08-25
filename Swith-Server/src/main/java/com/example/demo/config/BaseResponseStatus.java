@@ -102,6 +102,7 @@ public enum BaseResponseStatus {
     NO_GROUP_LEADER(false,6008,"그룹 리더가 아니기 때문에, 권한이 없습니다."),
     NO_APPLICATION_INFO(false, 6009, "유저의 지원서 정보가 없습니다."),
     INVALID_MEMO(false, 6010, "메모 정보가 없습니다."),
+    IOEXCEPTION(false, 6011, "입출력 오류 발생"),
 
 
 
@@ -120,6 +121,8 @@ public enum BaseResponseStatus {
     ALREADY_EXIST(false, 8003, "메모가 이미 존재하여 생성할 수 없습니다."),
 
     TEMP4(false, 9000, "conflict 방지용 4"),
+    // 8050 : register
+    FAIL_REGISTER_SAVE(false,9051,"register 등록에 실패"),
 
 
     //9000 : 신청

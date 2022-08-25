@@ -199,6 +199,8 @@ public class UserService {
         User user = User.builder()
                 .email(postSignUpAndInReq.getEmail())
                 .nickname(postSignUpAndInReq.getNickname())
+                .averageStar(0.0)
+                .ratedCnt(0L)
                 .profileImgUrl(postSignUpAndInReq.getProfileImgUrl())
                 .role(RoleType.GUEST)
                 .refreshToken(refreshTokenDto.getToken())

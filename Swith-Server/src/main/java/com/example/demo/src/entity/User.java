@@ -31,8 +31,6 @@ public class User extends BaseTimeEntity { //유저 테이블
 
     private String nickname; // 닉네임
 
-    private String fcmtoken; // 알림 토큰
-
     @ManyToOne(fetch = LAZY) // N:1 단방향
     @JoinColumn(name = "interestIdx1")
     private Interest interest1; //관심 분류
@@ -69,7 +67,8 @@ public class User extends BaseTimeEntity { //유저 테이블
     private List<Register> registerList = new ArrayList<>();
 
     //fcmtoken 추가되야함
-    //private String fcmtoken;
+    @Column(length = 300)
+    private String fcmtoken;
 
 
     public User updateRating(Double averageStar, Long ratedCnt) {

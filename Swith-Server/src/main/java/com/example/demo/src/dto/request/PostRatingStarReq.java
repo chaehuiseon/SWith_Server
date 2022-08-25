@@ -15,6 +15,6 @@ import java.util.List;
 public class PostRatingStarReq {
 
     private Long raterIdx; //평가자
-    private List<Start> start;
+    private List<Start> star;
 
 }

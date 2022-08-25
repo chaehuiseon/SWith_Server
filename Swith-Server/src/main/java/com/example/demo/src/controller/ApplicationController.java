@@ -39,7 +39,7 @@ public class ApplicationController {
     @ResponseBody
     @PostMapping("/apply/{groupIdx}/{applicationMethod}")
     public BaseResponse<Long> Apply(@PathVariable Long groupIdx, @PathVariable Integer applicationMethod,
-                                    @RequestBody PostApplicationReq postApplicationReq){
+                                    @RequestBody PostApplicationReq postApplicationReq) throws BaseException {
 
 
         Integer limit = applicationService.getMemberLimit(groupIdx);

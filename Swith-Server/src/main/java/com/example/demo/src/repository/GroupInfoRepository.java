@@ -8,10 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface GroupInfoRepository extends JpaRepository<GroupInfo, Long>, GroupInfoRepositoryCustom {
@@ -49,7 +46,7 @@ public interface GroupInfoRepository extends JpaRepository<GroupInfo, Long>, Gro
     ArrayList<Long> findUsersInGroup(@Param("groupIdx") Long groupIdx, @Param("status") Integer status);
 
 
-    @Query("select u.nickname " +
+    @Query("select u.fcmtoken " +
             "from User u " +
             "where u.userIdx in :userIdx ")
     ArrayList<String> findUserToken(@Param("userIdx") ArrayList<Long> userIdx);

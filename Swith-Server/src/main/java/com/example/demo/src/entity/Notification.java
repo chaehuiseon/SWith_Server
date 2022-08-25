@@ -26,8 +26,4 @@ public class Notification extends BaseTimeEntity{
 
     @Column(length = 45)
     private String notificationContent; //알림 내용
-
-
-
-
 }

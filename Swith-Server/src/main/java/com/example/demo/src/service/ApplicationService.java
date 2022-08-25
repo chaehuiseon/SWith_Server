@@ -37,16 +37,20 @@ public class ApplicationService {
     private final GroupInfoRepository groupInfoRepository;
     private final UserRepository userRepository;
     private final RegisterRepository registerRepository;
+    private final RegisterService registerService;
 
     @Autowired
     public ApplicationService(ApplicationRepository applicationRepository,
                               GroupInfoRepository groupInfoRepository,
                               UserRepository userRepository,
-                                RegisterRepository registerRepository) {
+                                RegisterRepository registerRepository,
+                              RegisterService registerService) {
         this.applicationRepository = applicationRepository;
         this.groupInfoRepository = groupInfoRepository;
         this.userRepository = userRepository;
         this.registerRepository = registerRepository;
+        this.registerService = registerService;
+
     }
 
     public Integer getMemberLimit(Long groupIdx){
@@ -62,7 +66,7 @@ public class ApplicationService {
         return NumOfApplicants;
     }
 
-    public Long Apply(Long groupIdx,Integer applicationMethod, PostApplicationReq postApplicationReq){
+    public Long Apply(Long groupIdx,Integer applicationMethod, PostApplicationReq postApplicationReq) throws BaseException{
 
         if(applicationMethod == 0){//0: 선착순
             Integer status = 1 ;//선착순이므로 바로 승인.
@@ -76,6 +80,15 @@ public class ApplicationService {
             Application savedInfo = applicationRepository.save(data);
             System.out.println(savedInfo.toString());
             Long applicationIdx = savedInfo.getApplicationIdx();
+
+            //application 가입 승인 -> Register 등록
+            if ((savedInfo.getGroupInfo().getGroupIdx() == groupIdx) && (savedInfo.getStatus() == 1)) {
+                try{
+                    boolean registerCheck = registerService.RegisterUserInGroup(savedInfo);
+                }catch (BaseException exception){
+                    throw new BaseException(BaseResponseStatus.FAIL_REGISTER_SAVE);
+                }
+            }
 
             return applicationIdx;
 
@@ -119,7 +132,6 @@ public class ApplicationService {
     }
 
 
-
     public PatchApplicationStatusRes changeApplicationStatus(Long groupIdx, Integer status, PatchApplicationStatusReq request)
             throws BaseException {
         Integer check = 0;
@@ -138,21 +150,32 @@ public class ApplicationService {
             Application changed = applicationRepository.findById(req_applicationIdx).get();
             if ((changed.getApplicationIdx() == req_applicationIdx) &&
                     (changed.getGroupInfo().getGroupIdx() == groupIdx) && (req_status == changed.getStatus())) {
-                if(changed.getStatus() == 1 ){ //가입 승인된 경우는 Register에 등록함.
-                    Register register = Register.builder()
-                            .user(userRepository.getOne(changed.getUser().getUserIdx()))
-                            .groupInfo(groupInfoRepository.getOne(changed.getGroupInfo().getGroupIdx()))
-                            .status(0).build();
-
-                    //등록이 잘 되었는지 확인.
-                    Register saved = registerRepository.save(register);
-                    if( !((saved.getStatus() == 1 ) && (saved.getUser().getUserIdx() == changed.getUser().getUserIdx() )
-                        && (saved.getGroupInfo().getGroupIdx() == changed.getGroupInfo().getGroupIdx() ) )){
-                        throw new BaseException(BaseResponseStatus.FAIL_REGISER);
+                if(changed.getStatus() == 1 ){  //Application 가입 승인 -> Register에 등록
+                    try{
+                        boolean registerCheck = registerService.RegisterUserInGroup(changed);
+                    }catch (BaseException exception){
+                        throw new BaseException(BaseResponseStatus.FAIL_REGISTER_SAVE);
                     }
 
 
 
+                    //                    Register register = Register.builder()
+//                            .user(userRepository.getOne(changed.getUser().getUserIdx()))
+//                            .groupInfo(groupInfoRepository.getOne(changed.getGroupInfo().getGroupIdx()))
+//                            .status(0)//Register status 0 = 승인
+//                            .build();
+//                    Register saved = registerRepository.save(register);
+//                    //등록이 잘 되었는지 확인.
+////                    System.out.println(">>>>"+saved.getUser().getStatus()+
+////                            saved.getUser().getUserIdx()
+////                            +saved.getGroupInfo().getGroupIdx());
+////                    if( !((saved.getStatus() == 0 ) && (saved.getUser().getUserIdx() == changed.getUser().getUserIdx() )
+////                        && (saved.getGroupInfo().getGroupIdx() == changed.getGroupInfo().getGroupIdx() ) )){
+////                        throw new BaseException(BaseResponseStatus.FAIL_REGISER);
+////                    }
+//
+//                    boolean registerCheck = CheckRegisterStatus(changed,saved,0);
+//                    if(!registerCheck) throw new BaseException(BaseResponseStatus.FAIL_REGISTER_SAVE);
 
                 }
                 //전송
@@ -175,6 +198,8 @@ public class ApplicationService {
     }
 
 
+
+    //Group에서 추방
     public Long ExpelUserFromGroup(Long groupIdx, PatchExpelUserReq patchExpelUserReq) throws BaseException {
 
         Long req_applicationIdx = patchExpelUserReq.getApplicationIdx();
@@ -193,8 +218,6 @@ public class ApplicationService {
         }
 
         return -3L;
-
-
 
 
 
@@ -223,5 +246,8 @@ public class ApplicationService {
 
         return getApplicationResList;
     }
+
+
+
 
 }

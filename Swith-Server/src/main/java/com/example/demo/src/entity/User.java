@@ -31,8 +31,6 @@ public class User extends BaseTimeEntity { //유저 테이블
 
     private String nickname; // 닉네임
 
-    private String noticeToken; // 알림 토큰
-
     @ManyToOne(fetch = LAZY) // N:1 단방향
     @JoinColumn(name = "interestIdx1")
     private Interest interest1; //관심 분류
@@ -50,6 +48,8 @@ public class User extends BaseTimeEntity { //유저 테이블
     private String profileImgUrl; //프로필 사진의 Url , S3연결해야됨.
 
     private Double averageStar; // 평점
+
+    private Long ratedCnt; // 평가받은 횟수
 
     //DB에서는 TINYINT 타입으로 저장
     @Column(columnDefinition = "TINYINT")
@@ -69,6 +69,13 @@ public class User extends BaseTimeEntity { //유저 테이블
     //fcmtoken 추가되야함
     @Column(length = 300)
     private String fcmtoken;
+
+
+    public User updateRating(Double averageStar, Long ratedCnt) {
+        this.averageStar = averageStar;
+        this.ratedCnt = ratedCnt;
+        return this;
+    }
 
     public User updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;

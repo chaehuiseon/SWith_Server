@@ -90,7 +90,6 @@ public class GroupInfoController {
         System.out.println(result.isLast());
         return new BaseResponse<>(result);
 
-
     }
 
 

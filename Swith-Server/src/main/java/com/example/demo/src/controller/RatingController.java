@@ -62,14 +62,6 @@ public class RatingController {
         if(!check.equals("평가완료")) return new BaseResponse<>("평가 실패");
 
         return new BaseResponse<>(check);
-
-
-
     }
-
-
-
-
-
 
 }

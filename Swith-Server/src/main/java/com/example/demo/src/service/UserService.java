@@ -54,7 +54,7 @@ public class UserService {
                 .averageStar(findUser.getAverageStar())
                 .role(findUser.getRole())
                 .refreshToken(findUser.getRefreshToken())
-                .noticeToken(findUser.getNoticeToken())
+                .fcmtoken(findUser.getFcmtoken())
                 .status(findUser.getStatus())
                 .build();
 
@@ -114,7 +114,7 @@ public class UserService {
                     .role(savedUser.getRole())
                     .accessToken(accessTokenDto.getToken())
                     .refreshToken(refreshTokenDto.getToken())
-                    .noticeToken(savedUser.getNoticeToken())
+                    .fcmtoken(savedUser.getFcmtoken())
                     .isSignUp(true)
                     .status(savedUser.getStatus())
                     .build();
@@ -157,7 +157,7 @@ public class UserService {
                 .role(savedUser.getRole())
                 .accessToken(accessTokenDto.getToken())
                 .refreshToken(refreshTokenDto.getToken())
-                .noticeToken(savedUser.getNoticeToken())
+                .fcmtoken(savedUser.getFcmtoken())
                 .isSignUp(false)
                 .status(savedUser.getStatus())
                 .build();
@@ -199,10 +199,12 @@ public class UserService {
         User user = User.builder()
                 .email(postSignUpAndInReq.getEmail())
                 .nickname(postSignUpAndInReq.getNickname())
+                .averageStar(0.0)
+                .ratedCnt(0L)
                 .profileImgUrl(postSignUpAndInReq.getProfileImgUrl())
                 .role(RoleType.GUEST)
                 .refreshToken(refreshTokenDto.getToken())
-                .noticeToken(postSignUpAndInReq.getToken())
+                .fcmtoken(postSignUpAndInReq.getToken())
                 .status(0)
                 .build();
         return user;

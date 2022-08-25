@@ -23,8 +23,8 @@ public interface ApplicationRepository extends JpaRepository<Application,Long> {
     @Query("select a "+
             "from Application a "+
             "join fetch a.user u "+
-            "where a.groupInfo.groupIdx = :groupIdx and a.status = :status")
-    List<Application> getApplicationListBy(@Param("groupIdx")Long groupIdx, @Param("status")Integer status);
+            "where a.groupInfo.groupIdx = :groupIdx and a.status = :status and a.groupInfo.user.userIdx <> : userIdx")
+    List<Application> getApplicationListBy(@Param("groupIdx")Long groupIdx, @Param("status")Integer status,@Param("userIdx")Long userIdx);
 
 
 

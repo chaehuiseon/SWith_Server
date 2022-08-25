@@ -41,6 +41,12 @@ public class ApplicationController {
     public BaseResponse<Long> Apply(@PathVariable Long groupIdx, @PathVariable Integer applicationMethod,
                                     @RequestBody PostApplicationReq postApplicationReq) throws BaseException {
 
+        Long admin = applicationService.findAdminIdx(groupIdx);
+        if(admin == postApplicationReq.getUserIdx()){
+            return new BaseResponse<>(BaseResponseStatus.INVAILD_ADMIN_APPLICATION);
+        }
+
+
 
         Integer limit = applicationService.getMemberLimit(groupIdx);
         Long NumOfApplicants = applicationService.findNumOfApplicants(groupIdx);

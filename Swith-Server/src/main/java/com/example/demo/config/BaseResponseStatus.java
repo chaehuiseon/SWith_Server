@@ -136,7 +136,8 @@ public enum BaseResponseStatus {
 
     //9050 : 그룹
     FAIL_LOAD_GROUPINFO(false,9003,"스터디 그룹이 존재하지 않습니다."),
-    FAIL_CLOSED_GROUPINFO(false,9051,"종료된 스터디 그룹입니다.");
+    FAIL_CLOSED_GROUPINFO(false,9051,"종료된 스터디 그룹입니다."),
+    INVAILD_ADMIN_APPLICATION(false,9052,"그룹장은 가입이 불가합니다.");
 
 
 

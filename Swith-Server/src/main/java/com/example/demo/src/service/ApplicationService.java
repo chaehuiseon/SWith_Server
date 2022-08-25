@@ -246,6 +246,10 @@ public class ApplicationService {
         return getApplicationResList;
     }
 
+    public Long findAdminIdx(Long groupIdx){
+        return groupInfoRepository.findAdminIdxBy(groupIdx);
+    }
+
 
 
 

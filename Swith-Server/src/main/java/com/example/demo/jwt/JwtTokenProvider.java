@@ -24,7 +24,6 @@ public class JwtTokenProvider {
     private final String BEARER_TYPE = "Bearer ";
     @Value("jwt.secret")
     private String secretKey;
-
     public TokenInfo createJwtAccessToken(String email) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + ACCESS_TOKEN_VALID_TIME);

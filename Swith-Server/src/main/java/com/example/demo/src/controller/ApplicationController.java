@@ -22,11 +22,7 @@ import java.util.List;
 import static com.example.demo.config.BaseResponseStatus.RESPONSE_ERROR;
 
 @RestController
-<<<<<<< HEAD
 @RequestMapping("/application")
-=======
-@RequestMapping("/groupinfo/Application")
->>>>>>> parent of 1809514 (application-aws.yml file added)
 @Api(tags = {"Swith Application API"})
 public class ApplicationController {
 

@@ -20,10 +20,10 @@ spring:
 #    username: root
 #    password: smilechs5542
 #    platform: mysql
-    url: jdbc:mysql://wnsvy607db.cwrwa6a6cgtb.ap-northeast-2.rds.amazonaws.com/jpDB
+    url: ENC(tlzBhvJGBqVCdhlED4A3+8bI1XsUL7LLkJqqqie5QwmbLWPKill6zYU04E0ZOMpdGs7Y+O5ho9t3aBVRojNDd3jxlLE7pIkZZu7Cr2W/qre0XpWHMZH2PA==)
     #    jdbc:mysql://localhost:3306/test_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: wnsvy607
-    password: ljp153153
+    username: ENC(EWZbD80PyOIlDT2TjHmxbiicPlktenKz)
+    password: ENC(psGvp3CI0mqxpQT5nD3E7h0klqGCia0c)
     driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
     hikari:
       connectionInitSql: "SET NAMES 'utf8mb4'"
@@ -57,8 +57,8 @@ spring:
     client:
       registration:
         facebook:
-          client-id: 315293796826930
-          client-secret: 487af9479023b8c0e58f913b411327cf
+          client-id: ENC(IscomAi+P52awf3dhXmeBFBbc/FqK30P)
+          client-secret: ENC(Qg7XhLb+yIVr6GcBu99Ljuk7+i8ZubyXWrc205FMohnoiaeZijnqC0Jw7YfVSaGm)
           scope:
             - public_profile
             - email
@@ -72,8 +72,11 @@ spring:
 
 secret:
   # private-diary-key: ${PRIVATE_DIARY_KEY}
-  jwt-secret-key: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
+  jwt-secret-key: ENC(j9LQ4c0yOt4FTCPsqjnjpFDarB+xQ0xNkdYP9KM8POD2EqlzIcZnEHqZ4RBs4DYx+fp2PwvGfi4HVMgrvNuUhqSf+h2uexUSHRLXsUB6t7NwBmJ2BgITYCtWeDQn6tkYVRR8hh9cZ1g8Z5fEs9hd4g==)
 
 
 file:
   path:
+
+jasypt:
+  password: ${PASSWORD}

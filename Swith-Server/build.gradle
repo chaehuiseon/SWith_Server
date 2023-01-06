@@ -62,13 +62,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa' //mysql 5버전의 경우 삭제.
 
+    //h2 DB
+    runtimeOnly 'com.h2database:h2'
+
     // 이미지 S3 업로드
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
     // swagger 문서화
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'io.springfox:springfox-swagger-ui:3.0.0'
-
 
     // oauth
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
@@ -84,12 +86,8 @@ dependencies {
 
     // Security, Authentication
     // 시큐리티 추가
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation  'io.jsonwebtoken:jjwt:0.9.1'
-
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
 
     implementation group: 'org.json', name: 'json', version: '20090211'
 
@@ -102,11 +100,7 @@ dependencies {
     implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.2.2'
 
     //jasypt 설정파일 암호화 라이브러리
-    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
-
-
-
-
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
 }
 
 test {

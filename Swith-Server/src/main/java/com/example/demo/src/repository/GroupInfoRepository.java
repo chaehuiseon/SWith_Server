@@ -19,10 +19,10 @@ public interface GroupInfoRepository extends JpaRepository<GroupInfo, Long>, Gro
             "where g.groupIdx = :groupIdx")
     Integer findMemberLimitBy(@Param("groupIdx") Long groupIdx);
 
-
     @Query("select g.status from GroupInfo g "+
             "where g.groupIdx = :groupIdx")
     Integer findstatusOfGroupInfo(@Param("groupIdx") Long groupIdx);
+
 
     @Query("select g.user.userIdx from GroupInfo g where g.groupIdx = :groupIdx")
     Long findAdminIdxBy(@Param("groupIdx")Long groupIdx);

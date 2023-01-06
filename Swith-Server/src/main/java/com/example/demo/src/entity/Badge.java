@@ -30,7 +30,4 @@ public class Badge extends BaseTimeEntity{
     @JoinColumn(name = "interest")
     private Interest interest; //종료된 스터디 그룹의 분류
 
-
-
-
 }

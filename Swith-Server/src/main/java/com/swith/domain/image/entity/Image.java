@@ -1,4 +1,4 @@
-package com.swith.src.entity;
+package com.swith.domain.image.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.swith.domain.common.BaseTimeEntity;

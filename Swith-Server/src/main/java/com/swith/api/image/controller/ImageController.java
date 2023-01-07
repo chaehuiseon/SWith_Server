@@ -1,7 +1,7 @@
-package com.swith.src.controller;
+package com.swith.api.image.controller;
 
-import com.swith.api.dto.response.UploadImageResponseDto;
-import com.swith.src.service.ImageService;
+import com.swith.api.image.dto.UploadImageResponseDto;
+import com.swith.domain.image.service.ImageService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

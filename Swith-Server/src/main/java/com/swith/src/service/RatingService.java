@@ -10,7 +10,7 @@ import com.swith.domain.register.entity.Register;
 import com.swith.domain.user.entity.User;
 import com.swith.src.repository.RatingRepository;
 import com.swith.src.repository.RegisterRepository;
-import com.swith.src.repository.UserRepository;
+import com.swith.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

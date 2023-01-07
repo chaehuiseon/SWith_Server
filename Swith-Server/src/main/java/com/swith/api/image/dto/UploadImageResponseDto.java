@@ -1,4 +1,4 @@
-package com.swith.api.dto.response;
+package com.swith.api.image.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

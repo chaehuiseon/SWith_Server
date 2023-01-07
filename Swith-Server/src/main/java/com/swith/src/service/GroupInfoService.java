@@ -6,6 +6,7 @@ import com.swith.domain.groupinfo.entity.GroupInfo;
 import com.swith.domain.interest.entity.Interest;
 import com.swith.domain.register.entity.Register;
 import com.swith.domain.session.entity.Session;
+import com.swith.domain.user.repository.UserRepository;
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.constant.BaseResponseStatus;
 import com.swith.api.dto.request.PatchGroupInfoReq;

@@ -1,18 +1,18 @@
-package com.swith.src.service;
+package com.swith.domain.user.service;
 
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.constant.BaseResponseStatus;
 import com.swith.global.jwt.JwtTokenProvider;
 import com.swith.global.jwt.TokenInfo;
-import com.swith.api.dto.request.PostSignUpAndInReq;
-import com.swith.api.dto.request.PostUserInfoReq;
-import com.swith.api.dto.request.PostSignUpReq;
-import com.swith.api.dto.response.PostUserInfoRes;
-import com.swith.api.dto.response.PostSignUpRes;
+import com.swith.api.user.dto.PostSignUpAndInReq;
+import com.swith.api.user.dto.PostUserInfoReq;
+import com.swith.api.user.dto.PostSignUpReq;
+import com.swith.api.user.dto.PostUserInfoRes;
+import com.swith.api.user.dto.PostSignUpRes;
 import com.swith.domain.interest.entity.Interest;
 import com.swith.domain.user.entity.User;
 import com.swith.domain.user.constant.RoleType;
-import com.swith.src.repository.UserRepository;
+import com.swith.domain.user.repository.UserRepository;
 import com.swith.src.repository.GroupInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

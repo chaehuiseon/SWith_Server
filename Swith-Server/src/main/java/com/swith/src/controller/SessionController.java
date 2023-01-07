@@ -8,7 +8,7 @@ import com.swith.api.dto.response.GetGroupInfoRes;
 import com.swith.api.dto.request.PostSessionReq;
 import com.swith.api.dto.response.GetSessionTabRes;
 import com.swith.src.service.SessionService;
-import com.swith.src.service.UserService;
+import com.swith.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

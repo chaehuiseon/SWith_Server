@@ -12,7 +12,7 @@ import com.swith.api.dto.PostGroupInfoRes;
 import com.swith.api.dto.request.GetGroupInfoSearchReq;
 import com.swith.api.dto.response.GetGroupInfoSearchRes;
 import com.swith.src.service.GroupInfoService;
-import com.swith.src.service.UserService;
+import com.swith.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import com.querydsl.jpa.impl.JPAQuery;

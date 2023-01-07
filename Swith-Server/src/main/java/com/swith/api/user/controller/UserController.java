@@ -1,16 +1,16 @@
-package com.swith.src.controller;
+package com.swith.api.user.controller;
 
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.dto.BaseResponse;
 import com.swith.external.oauth.SessionUser;
 import com.swith.global.resolver.authinfo.AuthInfo;
 import com.swith.global.resolver.authinfo.Authenticated;
-import com.swith.api.dto.request.PostSignUpAndInReq;
-import com.swith.api.dto.request.PostUserInfoReq;
-import com.swith.api.dto.request.PostSignUpReq;
-import com.swith.api.dto.response.PostUserInfoRes;
-import com.swith.api.dto.response.PostSignUpRes;
-import com.swith.src.service.UserService;
+import com.swith.api.user.dto.PostSignUpAndInReq;
+import com.swith.api.user.dto.PostUserInfoReq;
+import com.swith.api.user.dto.PostSignUpReq;
+import com.swith.api.user.dto.PostUserInfoRes;
+import com.swith.api.user.dto.PostSignUpRes;
+import com.swith.domain.user.service.UserService;
 import com.swith.api.common.constant.BaseResponseStatus;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

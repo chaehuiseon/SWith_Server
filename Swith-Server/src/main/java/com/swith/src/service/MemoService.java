@@ -9,7 +9,7 @@ import com.swith.domain.session.entity.Session;
 import com.swith.domain.user.entity.User;
 import com.swith.src.repository.MemoRepository;
 import com.swith.src.repository.SessionRepository;
-import com.swith.src.repository.UserRepository;
+import com.swith.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

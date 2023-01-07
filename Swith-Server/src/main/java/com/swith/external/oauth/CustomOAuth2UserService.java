@@ -2,7 +2,7 @@ package com.swith.external.oauth;
 
 import com.swith.domain.user.entity.User;
 import com.swith.domain.user.constant.RoleType;
-import com.swith.src.repository.UserRepository;
+import com.swith.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

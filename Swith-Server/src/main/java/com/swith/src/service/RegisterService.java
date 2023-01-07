@@ -6,7 +6,7 @@ import com.swith.domain.application.entity.Application;
 import com.swith.domain.register.entity.Register;
 import com.swith.src.repository.GroupInfoRepository;
 import com.swith.src.repository.RegisterRepository;
-import com.swith.src.repository.UserRepository;
+import com.swith.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,4 +1,4 @@
-package com.swith.api.dto.response;
+package com.swith.api.user.dto;
 
 import com.swith.domain.user.constant.RoleType;
 import io.swagger.annotations.ApiModelProperty;

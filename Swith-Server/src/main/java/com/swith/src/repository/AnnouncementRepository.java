@@ -1,6 +1,6 @@
 package com.swith.src.repository;
 
-import com.swith.src.entity.Announcement;
+import com.swith.domain.announcement.entity.Announcement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

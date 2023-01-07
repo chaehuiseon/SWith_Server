@@ -1,11 +1,11 @@
 package com.swith.src.controller;
 
-import com.swith.config.BaseException;
-import com.swith.config.BaseResponse;
-import com.swith.config.BaseResponseStatus;
-import com.swith.src.dto.request.PatchAnnouncementReq;
-import com.swith.src.dto.request.PostAnnouncementReq;
-import com.swith.src.dto.response.GetAnnouncementRes;
+import com.swith.global.error.exception.BaseException;
+import com.swith.api.common.dto.BaseResponse;
+import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.api.dto.request.PatchAnnouncementReq;
+import com.swith.api.dto.request.PostAnnouncementReq;
+import com.swith.api.dto.response.GetAnnouncementRes;
 import com.swith.src.service.AnnouncementService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

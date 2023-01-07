@@ -1,13 +1,13 @@
 package com.swith.src.service;
 
 
-import com.swith.src.dto.request.PostRatingReq;
-import com.swith.src.dto.request.PostRatingStarReq;
-import com.swith.src.dto.request.Start;
-import com.swith.src.dto.response.PostRatingRes;
+import com.swith.api.dto.request.PostRatingReq;
+import com.swith.api.dto.request.PostRatingStarReq;
+import com.swith.api.dto.request.Start;
+import com.swith.api.dto.response.PostRatingRes;
 import com.swith.src.entity.Rating;
-import com.swith.src.entity.Register;
-import com.swith.src.entity.User;
+import com.swith.domain.register.entity.Register;
+import com.swith.domain.user.entity.User;
 import com.swith.src.repository.RatingRepository;
 import com.swith.src.repository.RegisterRepository;
 import com.swith.src.repository.UserRepository;

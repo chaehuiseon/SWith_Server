@@ -1,9 +1,9 @@
 package com.swith.src.service;
 
-import com.swith.config.BaseException;
-import com.swith.config.BaseResponseStatus;
-import com.swith.src.entity.Application;
-import com.swith.src.entity.Register;
+import com.swith.global.error.exception.BaseException;
+import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.domain.application.entity.Application;
+import com.swith.domain.register.entity.Register;
 import com.swith.src.repository.GroupInfoRepository;
 import com.swith.src.repository.RegisterRepository;
 import com.swith.src.repository.UserRepository;

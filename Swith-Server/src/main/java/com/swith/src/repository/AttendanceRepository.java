@@ -1,7 +1,7 @@
 package com.swith.src.repository;
 
-import com.swith.src.dto.response.UserAttendanceInfo;
-import com.swith.src.entity.Attendance;
+import com.swith.api.dto.response.UserAttendanceInfo;
+import com.swith.domain.attendance.entity.Attendance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -1,12 +1,12 @@
 package com.swith.src.service;
 
-import com.swith.config.BaseException;
-import com.swith.config.BaseResponseStatus;
-import com.swith.src.dto.request.PatchAnnouncementReq;
-import com.swith.src.dto.request.PostAnnouncementReq;
-import com.swith.src.dto.response.GetAnnouncementRes;
-import com.swith.src.entity.Announcement;
-import com.swith.src.entity.GroupInfo;
+import com.swith.global.error.exception.BaseException;
+import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.api.dto.request.PatchAnnouncementReq;
+import com.swith.api.dto.request.PostAnnouncementReq;
+import com.swith.api.dto.response.GetAnnouncementRes;
+import com.swith.domain.announcement.entity.Announcement;
+import com.swith.domain.groupinfo.entity.GroupInfo;
 import com.swith.src.firebase.FirebaseCloudMessageService;
 import com.swith.src.repository.AnnouncementRepository;
 import com.swith.src.repository.GroupInfoRepository;

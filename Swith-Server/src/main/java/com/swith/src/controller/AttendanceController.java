@@ -1,10 +1,10 @@
 package com.swith.src.controller;
 
-import com.swith.config.BaseException;
-import com.swith.config.BaseResponse;
-import com.swith.src.dto.request.PatchAttendanceReq;
-import com.swith.src.dto.response.GetGroupAttendanceRes;
-import com.swith.src.dto.response.GetSessionAttendanceRes;
+import com.swith.global.error.exception.BaseException;
+import com.swith.api.common.dto.BaseResponse;
+import com.swith.api.dto.request.PatchAttendanceReq;
+import com.swith.api.dto.response.GetGroupAttendanceRes;
+import com.swith.api.dto.response.GetSessionAttendanceRes;
 import com.swith.src.service.AttendanceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

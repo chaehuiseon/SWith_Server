@@ -1,10 +1,14 @@
 package com.swith.src.service;
 
-import com.swith.config.BaseException;
-import com.swith.config.BaseResponseStatus;
-import com.swith.src.dto.request.PatchAttendanceReq;
-import com.swith.src.dto.response.*;
-import com.swith.src.entity.*;
+import com.swith.api.dto.response.*;
+import com.swith.domain.attendance.entity.Attendance;
+import com.swith.domain.groupinfo.entity.GroupInfo;
+import com.swith.domain.register.entity.Register;
+import com.swith.domain.session.entity.Session;
+import com.swith.domain.user.entity.User;
+import com.swith.global.error.exception.BaseException;
+import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.api.dto.request.PatchAttendanceReq;
 import com.swith.src.repository.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

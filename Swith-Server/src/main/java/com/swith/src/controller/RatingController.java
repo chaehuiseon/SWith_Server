@@ -1,10 +1,10 @@
 package com.swith.src.controller;
 
 
-import com.swith.config.BaseResponse;
-import com.swith.src.dto.request.PostRatingReq;
-import com.swith.src.dto.request.PostRatingStarReq;
-import com.swith.src.dto.response.PostRatingRes;
+import com.swith.api.common.dto.BaseResponse;
+import com.swith.api.dto.request.PostRatingReq;
+import com.swith.api.dto.request.PostRatingStarReq;
+import com.swith.api.dto.response.PostRatingRes;
 import com.swith.src.service.GroupInfoService;
 import com.swith.src.service.RatingService;
 import io.swagger.annotations.Api;

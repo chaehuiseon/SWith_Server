@@ -1,6 +1,6 @@
 package com.swith.src.repository;
 
-import com.swith.src.entity.Session;
+import com.swith.domain.session.entity.Session;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

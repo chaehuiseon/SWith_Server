@@ -1,9 +1,7 @@
 package com.swith.src.repository;
 
-import com.swith.src.dto.request.GetGroupInfoSearchReq;
-import com.swith.src.dto.response.GetGroupInfoSearchRes;
-//import com.example.demo.src.dto.response.QGetGroupInfoSearchRes;
-import com.swith.src.entity.QGroupInfo;
+import com.swith.api.dto.request.GetGroupInfoSearchReq;
+import com.swith.api.dto.response.GetGroupInfoSearchRes;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.OrderSpecifier;
@@ -12,7 +10,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.swith.src.entity.QApplication;
+import com.swith.domain.application.entity.QApplication;
+import com.swith.domain.groupinfo.entity.QGroupInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

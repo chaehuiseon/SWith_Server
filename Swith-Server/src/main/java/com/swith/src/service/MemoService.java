@@ -1,12 +1,12 @@
 package com.swith.src.service;
 
-import com.swith.config.BaseException;
-import com.swith.config.BaseResponseStatus;
-import com.swith.src.dto.request.PatchMemoReq;
-import com.swith.src.dto.request.PostMemoReq;
-import com.swith.src.entity.Memo;
-import com.swith.src.entity.Session;
-import com.swith.src.entity.User;
+import com.swith.global.error.exception.BaseException;
+import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.api.dto.request.PatchMemoReq;
+import com.swith.api.dto.request.PostMemoReq;
+import com.swith.domain.memo.entity.Memo;
+import com.swith.domain.session.entity.Session;
+import com.swith.domain.user.entity.User;
 import com.swith.src.repository.MemoRepository;
 import com.swith.src.repository.SessionRepository;
 import com.swith.src.repository.UserRepository;

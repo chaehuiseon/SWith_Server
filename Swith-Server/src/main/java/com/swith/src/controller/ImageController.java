@@ -1,6 +1,6 @@
 package com.swith.src.controller;
 
-import com.swith.src.dto.response.UploadImageResponseDto;
+import com.swith.api.dto.response.UploadImageResponseDto;
 import com.swith.src.service.ImageService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

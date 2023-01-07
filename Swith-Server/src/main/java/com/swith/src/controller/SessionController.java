@@ -1,12 +1,12 @@
 package com.swith.src.controller;
 
-import com.swith.config.BaseException;
-import com.swith.config.BaseResponse;
-import com.swith.config.BaseResponseStatus;
-import com.swith.src.dto.request.PatchSessionReq;
-import com.swith.src.dto.response.GetGroupInfoRes;
-import com.swith.src.dto.request.PostSessionReq;
-import com.swith.src.dto.response.GetSessionTabRes;
+import com.swith.global.error.exception.BaseException;
+import com.swith.api.common.dto.BaseResponse;
+import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.api.dto.request.PatchSessionReq;
+import com.swith.api.dto.response.GetGroupInfoRes;
+import com.swith.api.dto.request.PostSessionReq;
+import com.swith.api.dto.response.GetSessionTabRes;
 import com.swith.src.service.SessionService;
 import com.swith.src.service.UserService;
 import io.swagger.annotations.Api;

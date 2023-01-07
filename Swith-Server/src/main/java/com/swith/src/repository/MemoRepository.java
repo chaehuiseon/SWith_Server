@@ -1,6 +1,6 @@
 package com.swith.src.repository;
 
-import com.swith.src.entity.Memo;
+import com.swith.domain.memo.entity.Memo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

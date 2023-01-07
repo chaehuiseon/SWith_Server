@@ -1,16 +1,16 @@
 package com.swith.src.controller;
 
-import com.swith.config.BaseException;
-import com.swith.config.BaseResponse;
-import com.swith.config.BaseResponseStatus;
-import com.swith.src.dto.request.PatchEndGroupReq;
-import com.swith.src.dto.request.PatchGroupInfoReq;
-import com.swith.src.dto.response.GetEachGroupInfoRes;
-import com.swith.src.dto.response.GetHomeGroupInfoRes;
-import com.swith.src.dto.PostGroupInfoReq;
-import com.swith.src.dto.PostGroupInfoRes;
-import com.swith.src.dto.request.GetGroupInfoSearchReq;
-import com.swith.src.dto.response.GetGroupInfoSearchRes;
+import com.swith.global.error.exception.BaseException;
+import com.swith.api.common.dto.BaseResponse;
+import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.api.dto.request.PatchEndGroupReq;
+import com.swith.api.dto.request.PatchGroupInfoReq;
+import com.swith.api.dto.response.GetEachGroupInfoRes;
+import com.swith.api.dto.response.GetHomeGroupInfoRes;
+import com.swith.api.dto.PostGroupInfoReq;
+import com.swith.api.dto.PostGroupInfoRes;
+import com.swith.api.dto.request.GetGroupInfoSearchReq;
+import com.swith.api.dto.response.GetGroupInfoSearchRes;
 import com.swith.src.service.GroupInfoService;
 import com.swith.src.service.UserService;
 import io.swagger.annotations.Api;

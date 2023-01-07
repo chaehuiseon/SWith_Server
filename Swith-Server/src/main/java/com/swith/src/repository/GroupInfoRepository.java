@@ -1,7 +1,7 @@
 package com.swith.src.repository;
 
 
-import com.swith.src.entity.GroupInfo;
+import com.swith.domain.groupinfo.entity.GroupInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -1,6 +1,6 @@
 package com.swith.src.repository;
 
-import com.swith.src.entity.Application;
+import com.swith.domain.application.entity.Application;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

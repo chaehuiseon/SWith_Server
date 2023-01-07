@@ -1,16 +1,16 @@
 package com.swith.src.service;
 
 
-import com.swith.config.BaseException;
-import com.swith.config.BaseResponseStatus;
-import com.swith.src.dto.request.PatchApplicationStatusReq;
-import com.swith.src.dto.request.PatchExpelUserReq;
-import com.swith.src.dto.request.PostApplicationReq;
-import com.swith.src.dto.response.GetApplicationManageRes;
-import com.swith.src.dto.response.PatchApplicationStatusRes;
-import com.swith.src.dto.response.getApplicationRes;
-import com.swith.src.entity.Application;
-import com.swith.src.entity.GroupInfo;
+import com.swith.global.error.exception.BaseException;
+import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.api.dto.request.PatchApplicationStatusReq;
+import com.swith.api.dto.request.PatchExpelUserReq;
+import com.swith.api.dto.request.PostApplicationReq;
+import com.swith.api.dto.response.GetApplicationManageRes;
+import com.swith.api.dto.response.PatchApplicationStatusRes;
+import com.swith.api.dto.response.getApplicationRes;
+import com.swith.domain.application.entity.Application;
+import com.swith.domain.groupinfo.entity.GroupInfo;
 import com.swith.src.repository.ApplicationRepository;
 import com.swith.src.repository.GroupInfoRepository;
 import com.swith.src.repository.RegisterRepository;

@@ -1,6 +1,8 @@
 package com.swith.src.entity;
 
 
+import com.swith.domain.common.BaseTimeEntity;
+import com.swith.domain.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,7 +16,7 @@ import static javax.persistence.FetchType.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "RATING")
-public class Rating extends BaseTimeEntity{
+public class Rating extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ratingIdx; //평가 Idx

@@ -67,12 +67,10 @@ public class UserService {
         // 이메일 없는 경우 -> isSignUp -> true로 변경
         if(findUser == null){
             User user = buildUserForSignUp(postSignUpAndInReq, refreshTokenDto);
-
             Interest interest1 = buildInterest(1);
             Interest interest2 = buildInterest(2);
 
             User updateUser = user.updateInterest(interest1, interest2);
-
             User savedUser = userRepository.save(updateUser);
             return PostUserInfoRes.from(savedUser, 1, 2, accessTokenDto, refreshTokenDto);
         }
@@ -86,7 +84,7 @@ public class UserService {
         }
     }
 
-    public boolean isAdminOfGroup (Long userIdx, Long GroupIdx) throws BaseException{
+    public boolean isAdminOfGroup(Long userIdx, Long GroupIdx) throws BaseException{
         User user = userRepository.findById(userIdx)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USER));
         GroupInfo groupInfo = groupInfoRepository.findById(GroupIdx)
@@ -98,15 +96,7 @@ public class UserService {
     }
 
     private PostSignUpRes getSignUpResponseDto(User savedUser) {
-        PostSignUpRes postSignUpRes = PostSignUpRes.builder()
-                .email(savedUser.getEmail())
-                .interestIdx1(savedUser.getInterest1().getInterestIdx())
-                .interestIdx2(savedUser.getInterest2().getInterestIdx())
-                .nickname(savedUser.getNickname())
-                .introduction(savedUser.getIntroduction())
-                .region(savedUser.getRegion())
-                .build();
-        return postSignUpRes;
+        return PostSignUpRes.toDetailUser(savedUser);
     }
 
     // 로그아웃

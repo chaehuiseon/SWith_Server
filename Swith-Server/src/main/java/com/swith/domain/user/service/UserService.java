@@ -39,24 +39,7 @@ public class UserService {
         if(findUser == null){
             throw new BaseException(BaseResponseStatus.NOT_EXIST_USER);
         }
-
-        PostUserInfoRes postUserInfoRes = PostUserInfoRes.builder()
-                .userIdx(findUser.getUserIdx())
-                .email(findUser.getEmail())
-                .nickname(findUser.getNickname())
-                .profileImgUrl(findUser.getProfileImgUrl())
-                .introduction(findUser.getIntroduction())
-                .interestIdx1(findUser.getInterest1().getInterestIdx())
-                .interestIdx2(findUser.getInterest2().getInterestIdx())
-                .region(findUser.getRegion())
-                .averageStar(findUser.getAverageStar())
-                .role(findUser.getRole())
-                .refreshToken(findUser.getRefreshToken())
-                .fcmtoken(findUser.getFcmtoken())
-                .status(findUser.getStatus())
-                .build();
-
-        return postUserInfoRes;
+        return PostUserInfoRes.toDetailUser(findUser);
     }
 
     // 초기 회원 정보 등록
@@ -65,12 +48,8 @@ public class UserService {
         if(findUser == null){
             throw new BaseException(BaseResponseStatus.ERROR_FIND_EMAIL);
         }
-        Interest interest1 = Interest.builder()
-                .interestIdx(postSignUpReq.getInterest1())
-                .build();
-        Interest interest2 = Interest.builder()
-                .interestIdx(postSignUpReq.getInterest2())
-                .build();
+        Interest interest1 = buildInterest(postSignUpReq.getInterest1());
+        Interest interest2 = buildInterest(postSignUpReq.getInterest2());
 
         User user = findUser.update(postSignUpReq.getNickname(), interest1, interest2, postSignUpReq.getIntroduction(), postSignUpReq.getRegion());
         User savedUser = userRepository.save(user);
@@ -89,44 +68,21 @@ public class UserService {
         if(findUser == null){
             User user = buildUserForSignUp(postSignUpAndInReq, refreshTokenDto);
 
-            Interest interest1 = Interest.builder()
-                    .interestIdx(1)
-                    .build();
-            Interest interest2 = Interest.builder()
-                    .interestIdx(2)
-                    .build();
+            Interest interest1 = buildInterest(1);
+            Interest interest2 = buildInterest(2);
 
             User updateUser = user.updateInterest(interest1, interest2);
 
             User savedUser = userRepository.save(updateUser);
-            PostUserInfoRes postUserInfoRes = PostUserInfoRes.builder()
-                    .userIdx(savedUser.getUserIdx())
-                    .email(savedUser.getEmail())
-                    .nickname(savedUser.getNickname())
-                    .profileImgUrl(savedUser.getProfileImgUrl())
-                    .introduction(savedUser.getIntroduction())
-                    .interestIdx1(1)
-                    .interestIdx2(2)
-                    .region(savedUser.getRegion())
-                    .averageStar(savedUser.getAverageStar())
-                    .role(savedUser.getRole())
-                    .accessToken(accessTokenDto.getToken())
-                    .refreshToken(refreshTokenDto.getToken())
-                    .fcmtoken(savedUser.getFcmtoken())
-                    .isSignUp(true)
-                    .status(savedUser.getStatus())
-                    .build();
-
-            return postUserInfoRes;
+            return PostUserInfoRes.from(savedUser, 1, 2, accessTokenDto, refreshTokenDto);
         }
         else{
             // refreshToken DB에 저장
             User user = findUser.updateRefreshToken(refreshTokenDto.getToken());
             User savedUser = userRepository.save(user);
 
-            PostUserInfoRes postUserInfoRes = getSignUpAndInResponseDto(savedUser, accessTokenDto, refreshTokenDto);
-
-            return postUserInfoRes;
+            return PostUserInfoRes.from(savedUser,savedUser.getInterest1().getInterestIdx(),
+                    savedUser.getInterest2().getInterestIdx(), accessTokenDto, refreshTokenDto);
         }
     }
 
@@ -139,27 +95,6 @@ public class UserService {
             return true;
         }
         return false;
-    }
-
-    private PostUserInfoRes getSignUpAndInResponseDto(User savedUser, TokenInfo accessTokenDto, TokenInfo refreshTokenDto){
-        PostUserInfoRes postUserInfoRes = PostUserInfoRes.builder()
-                .userIdx(savedUser.getUserIdx())
-                .email(savedUser.getEmail())
-                .nickname(savedUser.getNickname())
-                .profileImgUrl(savedUser.getProfileImgUrl())
-                .introduction(savedUser.getIntroduction())
-                .interestIdx1(savedUser.getInterest1().getInterestIdx())
-                .interestIdx2(savedUser.getInterest2().getInterestIdx())
-                .region(savedUser.getRegion())
-                .averageStar(savedUser.getAverageStar())
-                .role(savedUser.getRole())
-                .accessToken(accessTokenDto.getToken())
-                .refreshToken(refreshTokenDto.getToken())
-                .fcmtoken(savedUser.getFcmtoken())
-                .isSignUp(false)
-                .status(savedUser.getStatus())
-                .build();
-        return postUserInfoRes;
     }
 
     private PostSignUpRes getSignUpResponseDto(User savedUser) {
@@ -206,5 +141,12 @@ public class UserService {
                 .status(0)
                 .build();
         return user;
+    }
+
+    private Interest buildInterest(Integer interestIdx){
+        Interest interest = Interest.builder()
+                .interestIdx(interestIdx)
+                .build();
+        return interest;
     }
 }

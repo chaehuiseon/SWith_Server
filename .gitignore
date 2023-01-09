@@ -3,5 +3,7 @@
 .idea
 .idea/*.xml
 .idea/*.iml
+.idea/modules
+.idea/modules/*.iml
 
 logs

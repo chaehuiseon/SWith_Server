@@ -1,6 +1,7 @@
 package com.swith.src.service;
 
 
+import com.swith.domain.register.service.RegisterService;
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.constant.BaseResponseStatus;
 import com.swith.api.dto.request.PatchApplicationStatusReq;
@@ -13,8 +14,8 @@ import com.swith.domain.application.entity.Application;
 import com.swith.domain.groupinfo.entity.GroupInfo;
 import com.swith.src.repository.ApplicationRepository;
 import com.swith.src.repository.GroupInfoRepository;
-import com.swith.src.repository.RegisterRepository;
 import com.swith.domain.user.repository.UserRepository;
+import com.swith.domain.register.repository.RegisterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

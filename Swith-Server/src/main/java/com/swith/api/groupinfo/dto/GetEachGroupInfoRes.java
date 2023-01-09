@@ -1,4 +1,4 @@
-package com.swith.api.dto.response;
+package com.swith.api.groupinfo.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;

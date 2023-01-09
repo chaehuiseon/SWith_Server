@@ -1,12 +1,12 @@
-package com.swith.src.controller;
+package com.swith.api.rating.controller;
 
 
 import com.swith.api.common.dto.BaseResponse;
-import com.swith.api.dto.request.PostRatingReq;
-import com.swith.api.dto.request.PostRatingStarReq;
-import com.swith.api.dto.response.PostRatingRes;
+import com.swith.api.rating.dto.PostRatingReq;
+import com.swith.api.rating.dto.PostRatingStarReq;
+import com.swith.api.rating.dto.PostRatingRes;
 import com.swith.domain.groupinfo.service.GroupInfoService;
-import com.swith.src.service.RatingService;
+import com.swith.domain.rating.service.RatingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

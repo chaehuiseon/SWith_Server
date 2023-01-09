@@ -1,5 +1,6 @@
 package com.swith.api.dto.response;
 
+import com.swith.api.attendance.dto.GetUserAttendanceRes;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

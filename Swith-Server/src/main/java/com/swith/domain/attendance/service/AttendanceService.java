@@ -1,5 +1,7 @@
 package com.swith.domain.attendance.service;
 
+import com.swith.api.attendance.dto.GetUserAttendanceRes;
+import com.swith.api.attendance.dto.UserAttendanceInfo;
 import com.swith.api.dto.response.*;
 import com.swith.domain.attendance.entity.Attendance;
 import com.swith.domain.attendance.repository.AttendanceRepository;

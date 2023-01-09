@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class getApplicationRes {
+public class GetApplicationRes {
 
     @ApiModelProperty(notes = "지원서 Idx", example = "1")
     private Long applicationIdx;

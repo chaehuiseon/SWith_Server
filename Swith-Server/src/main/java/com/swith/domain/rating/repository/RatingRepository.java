@@ -1,6 +1,6 @@
-package com.swith.src.repository;
+package com.swith.domain.rating.repository;
 
-import com.swith.src.entity.Rating;
+import com.swith.domain.rating.entity.Rating;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

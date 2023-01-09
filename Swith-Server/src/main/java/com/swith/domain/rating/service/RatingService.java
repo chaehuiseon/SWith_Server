@@ -1,14 +1,14 @@
-package com.swith.src.service;
+package com.swith.domain.rating.service;
 
 
-import com.swith.api.dto.request.PostRatingReq;
-import com.swith.api.dto.request.PostRatingStarReq;
-import com.swith.api.dto.request.Start;
-import com.swith.api.dto.response.PostRatingRes;
-import com.swith.src.entity.Rating;
+import com.swith.api.rating.dto.PostRatingReq;
+import com.swith.api.rating.dto.PostRatingStarReq;
+import com.swith.api.rating.dto.Start;
+import com.swith.api.rating.dto.PostRatingRes;
+import com.swith.domain.rating.entity.Rating;
 import com.swith.domain.register.entity.Register;
 import com.swith.domain.user.entity.User;
-import com.swith.src.repository.RatingRepository;
+import com.swith.domain.rating.repository.RatingRepository;
 import com.swith.domain.user.repository.UserRepository;
 import com.swith.domain.register.repository.RegisterRepository;
 import org.springframework.beans.factory.annotation.Autowired;

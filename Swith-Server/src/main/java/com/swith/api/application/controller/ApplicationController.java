@@ -4,11 +4,11 @@ package com.swith.api.application.controller;
 import com.swith.api.common.constant.BaseResponseStatus;
 import com.swith.api.common.dto.BaseResponse;
 import com.swith.api.application.dto.PatchApplicationStatusReq;
-import com.swith.api.dto.request.PatchExpelUserReq;
+import com.swith.api.application.dto.PatchExpelUserReq;
 import com.swith.api.application.dto.PostApplicationReq;
 import com.swith.api.application.dto.GetApplicationManageRes;
 import com.swith.api.application.dto.PatchApplicationStatusRes;
-import com.swith.api.application.dto.getApplicationRes;
+import com.swith.api.application.dto.GetApplicationRes;
 import com.swith.global.error.exception.BaseException;
 import com.swith.domain.application.service.ApplicationService;
 import com.swith.domain.groupinfo.service.GroupInfoService;
@@ -166,9 +166,9 @@ public class ApplicationController {
 
     @ApiOperation("프로필 탭 내 지원서 목록 조회 - K1")
     @GetMapping("/user")
-    public BaseResponse<List<getApplicationRes>> getUserApplication(@RequestParam Long userIdx) {
+    public BaseResponse<List<GetApplicationRes>> getUserApplication(@RequestParam Long userIdx) {
         try {
-            List<getApplicationRes> getApplicationResList = applicationService.getUserApplication(userIdx);
+            List<GetApplicationRes> getApplicationResList = applicationService.getUserApplication(userIdx);
             return new BaseResponse<>(getApplicationResList);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());

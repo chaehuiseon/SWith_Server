@@ -17,7 +17,7 @@ import com.swith.api.common.constant.BaseResponseStatus;
 import com.swith.api.dto.request.PatchSessionReq;
 import com.swith.api.dto.response.GetGroupInfoRes;
 import com.swith.api.dto.response.GetSessionRes;
-import com.swith.api.dto.request.PostSessionReq;
+import com.swith.api.session.dto.PostSessionReq;
 import com.swith.api.dto.response.GetSessionTabRes;
 import com.swith.api.dto.response.SessionAttendanceInfo;
 import com.swith.domain.groupinfo.service.GroupInfoService;

@@ -5,11 +5,11 @@ import com.swith.domain.register.service.RegisterService;
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.constant.BaseResponseStatus;
 import com.swith.api.application.dto.PatchApplicationStatusReq;
-import com.swith.api.dto.request.PatchExpelUserReq;
+import com.swith.api.application.dto.PatchExpelUserReq;
 import com.swith.api.application.dto.PostApplicationReq;
 import com.swith.api.application.dto.GetApplicationManageRes;
 import com.swith.api.application.dto.PatchApplicationStatusRes;
-import com.swith.api.application.dto.getApplicationRes;
+import com.swith.api.application.dto.GetApplicationRes;
 import com.swith.domain.application.entity.Application;
 import com.swith.domain.groupinfo.entity.GroupInfo;
 import com.swith.domain.application.repository.ApplicationRepository;
@@ -217,15 +217,15 @@ public class ApplicationService {
 
     }
 
-    public List<getApplicationRes> getUserApplication(Long userIdx) throws BaseException {
+    public List<GetApplicationRes> getUserApplication(Long userIdx) throws BaseException {
         List<Application> applicationList = applicationRepository.findByUserWithGroup(userIdx);
         if(applicationList.isEmpty())
             throw new BaseException(BaseResponseStatus.NO_APPLICATION_INFO);
 
-        List<getApplicationRes> getApplicationResList = new ArrayList<>();
+        List<GetApplicationRes> getApplicationResList = new ArrayList<>();
         for (Application application : applicationList) {
             GroupInfo groupInfo = application.getGroupInfo();
-            getApplicationRes res = getApplicationRes.builder()
+            GetApplicationRes res = GetApplicationRes.builder()
                     .applicationIdx(application.getApplicationIdx())
                     .applicationContent(application.getApplicationContent())
                     .status(application.getStatus())

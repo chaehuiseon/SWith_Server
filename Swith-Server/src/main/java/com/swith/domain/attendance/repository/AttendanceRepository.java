@@ -1,6 +1,6 @@
 package com.swith.domain.attendance.repository;
 
-import com.swith.api.dto.response.UserAttendanceInfo;
+import com.swith.api.attendance.dto.UserAttendanceInfo;
 import com.swith.domain.attendance.entity.Attendance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

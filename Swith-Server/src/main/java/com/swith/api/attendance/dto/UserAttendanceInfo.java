@@ -1,4 +1,4 @@
-package com.swith.api.dto.response;
+package com.swith.api.attendance.dto;
 
 public interface UserAttendanceInfo {
     Long getUserIdx();

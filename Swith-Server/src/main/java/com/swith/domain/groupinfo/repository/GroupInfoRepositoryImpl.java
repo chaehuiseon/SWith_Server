@@ -1,7 +1,7 @@
 package com.swith.domain.groupinfo.repository;
 
 import com.swith.api.groupinfo.dto.GetGroupInfoSearchReq;
-import com.swith.api.dto.response.GetGroupInfoSearchRes;
+import com.swith.api.groupinfo.dto.GetGroupInfoSearchRes;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.OrderSpecifier;

@@ -1,4 +1,4 @@
-package com.swith.src.entity;
+package com.swith.domain.rating.entity;
 
 
 import com.swith.domain.common.BaseTimeEntity;

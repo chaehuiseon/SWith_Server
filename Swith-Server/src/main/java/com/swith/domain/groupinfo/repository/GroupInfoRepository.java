@@ -1,4 +1,4 @@
-package com.swith.src.repository;
+package com.swith.domain.groupinfo.repository;
 
 
 import com.swith.domain.groupinfo.entity.GroupInfo;

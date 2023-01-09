@@ -9,7 +9,7 @@ import com.swith.domain.announcement.entity.Announcement;
 import com.swith.domain.groupinfo.entity.GroupInfo;
 import com.swith.external.firebase.FirebaseCloudMessageService;
 import com.swith.domain.announcement.repository.AnnouncementRepository;
-import com.swith.src.repository.GroupInfoRepository;
+import com.swith.domain.groupinfo.repository.GroupInfoRepository;
 import com.swith.domain.register.repository.RegisterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

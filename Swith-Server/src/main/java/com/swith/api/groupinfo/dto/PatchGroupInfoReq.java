@@ -1,8 +1,10 @@
-package com.swith.api.dto;
+package com.swith.api.groupinfo.dto;
+
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,17 +12,16 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
 
-@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostGroupInfoReq {
+@Data
+public class PatchGroupInfoReq {
 
     @ApiModelProperty(notes = "스터디 개설 하는 유저의 PK",example = "1")
     private Long adminIdx;
-
     @ApiModelProperty(notes = "스터디 그룹 대표 이미지",example = "S3 경로")
     private String groupImgUrl;
-
     @ApiModelProperty(notes = "스터디 그룹의 제목", example = "자격증 시험 스터디")
     private String title;
 
@@ -91,6 +92,5 @@ public class PostGroupInfoReq {
 
     @ApiModelProperty(notes = "스터디 소개",example = "알고리즘 및 코딩테스트 스터디원 모집합니다. 백준 실버1~5단계를 같이 풀고, 리뷰하실분!")
     private String groupContent;
-
 
 }

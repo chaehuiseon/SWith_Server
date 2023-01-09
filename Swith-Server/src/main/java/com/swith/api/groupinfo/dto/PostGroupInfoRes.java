@@ -1,4 +1,4 @@
-package com.swith.api.dto;
+package com.swith.api.groupinfo.dto;
 
 
 import io.swagger.annotations.ApiModelProperty;

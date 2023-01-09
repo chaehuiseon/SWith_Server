@@ -1,6 +1,6 @@
-package com.swith.src.repository;
+package com.swith.domain.groupinfo.repository;
 
-import com.swith.api.dto.request.GetGroupInfoSearchReq;
+import com.swith.api.groupinfo.dto.GetGroupInfoSearchReq;
 import com.swith.api.dto.response.GetGroupInfoSearchRes;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.data.domain.Pageable;

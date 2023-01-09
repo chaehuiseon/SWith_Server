@@ -1,4 +1,4 @@
-package com.swith.api.dto.request;
+package com.swith.api.application.dto;
 
 
 import lombok.Data;

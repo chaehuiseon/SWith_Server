@@ -5,7 +5,7 @@ import com.swith.api.common.dto.BaseResponse;
 import com.swith.api.dto.request.PostRatingReq;
 import com.swith.api.dto.request.PostRatingStarReq;
 import com.swith.api.dto.response.PostRatingRes;
-import com.swith.src.service.GroupInfoService;
+import com.swith.domain.groupinfo.service.GroupInfoService;
 import com.swith.src.service.RatingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

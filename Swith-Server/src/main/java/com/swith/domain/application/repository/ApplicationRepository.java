@@ -1,4 +1,4 @@
-package com.swith.src.repository;
+package com.swith.domain.application.repository;
 
 import com.swith.domain.application.entity.Application;
 import org.springframework.data.jpa.repository.JpaRepository;

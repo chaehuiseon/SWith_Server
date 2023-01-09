@@ -1,19 +1,19 @@
-package com.swith.src.service;
+package com.swith.domain.application.service;
 
 
 import com.swith.domain.register.service.RegisterService;
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.constant.BaseResponseStatus;
-import com.swith.api.dto.request.PatchApplicationStatusReq;
+import com.swith.api.application.dto.PatchApplicationStatusReq;
 import com.swith.api.dto.request.PatchExpelUserReq;
-import com.swith.api.dto.request.PostApplicationReq;
-import com.swith.api.dto.response.GetApplicationManageRes;
-import com.swith.api.dto.response.PatchApplicationStatusRes;
-import com.swith.api.dto.response.getApplicationRes;
+import com.swith.api.application.dto.PostApplicationReq;
+import com.swith.api.application.dto.GetApplicationManageRes;
+import com.swith.api.application.dto.PatchApplicationStatusRes;
+import com.swith.api.application.dto.getApplicationRes;
 import com.swith.domain.application.entity.Application;
 import com.swith.domain.groupinfo.entity.GroupInfo;
-import com.swith.src.repository.ApplicationRepository;
-import com.swith.src.repository.GroupInfoRepository;
+import com.swith.domain.application.repository.ApplicationRepository;
+import com.swith.domain.groupinfo.repository.GroupInfoRepository;
 import com.swith.domain.user.repository.UserRepository;
 import com.swith.domain.register.repository.RegisterRepository;
 import org.springframework.beans.factory.annotation.Autowired;

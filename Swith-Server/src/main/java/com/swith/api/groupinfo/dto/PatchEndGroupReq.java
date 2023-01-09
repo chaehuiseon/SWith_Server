@@ -1,4 +1,4 @@
-package com.swith.api.dto.request;
+package com.swith.api.groupinfo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

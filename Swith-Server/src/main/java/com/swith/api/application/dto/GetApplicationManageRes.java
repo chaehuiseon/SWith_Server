@@ -1,4 +1,4 @@
-package com.swith.api.dto.response;
+package com.swith.api.application.dto;
 
 
 import com.swith.domain.application.entity.Application;

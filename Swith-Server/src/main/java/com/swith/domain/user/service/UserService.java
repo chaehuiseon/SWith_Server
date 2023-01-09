@@ -13,7 +13,7 @@ import com.swith.domain.interest.entity.Interest;
 import com.swith.domain.user.entity.User;
 import com.swith.domain.user.constant.RoleType;
 import com.swith.domain.user.repository.UserRepository;
-import com.swith.src.repository.GroupInfoRepository;
+import com.swith.domain.groupinfo.repository.GroupInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.swith.domain.groupinfo.entity.GroupInfo;

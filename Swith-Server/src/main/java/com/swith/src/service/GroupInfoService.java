@@ -1,11 +1,17 @@
 package com.swith.src.service;
 
 import com.swith.domain.announcement.entity.Announcement;
+import com.swith.domain.announcement.repository.AnnouncementRepository;
 import com.swith.domain.attendance.entity.Attendance;
+import com.swith.domain.attendance.repository.AttendanceRepository;
 import com.swith.domain.groupinfo.entity.GroupInfo;
 import com.swith.domain.interest.entity.Interest;
+import com.swith.domain.interest.repository.InterestRepository;
 import com.swith.domain.register.entity.Register;
+import com.swith.domain.register.repository.RegisterRepository;
+import com.swith.domain.register.service.RegisterService;
 import com.swith.domain.session.entity.Session;
+import com.swith.domain.session.repository.SessionRepository;
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.constant.BaseResponseStatus;
 import com.swith.api.dto.request.PatchGroupInfoReq;
@@ -15,7 +21,7 @@ import com.swith.api.dto.PostGroupInfoReq;
 import com.swith.api.dto.PostGroupInfoRes;
 import com.swith.api.dto.request.GetGroupInfoSearchReq;
 import com.swith.api.dto.response.GetGroupInfoSearchRes;
-import com.swith.src.firebase.FirebaseCloudMessageService;
+import com.swith.external.firebase.FirebaseCloudMessageService;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.swith.src.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;

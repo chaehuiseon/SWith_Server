@@ -4,7 +4,7 @@ import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.constant.BaseResponseStatus;
 import com.swith.domain.application.entity.Application;
 import com.swith.domain.register.entity.Register;
-import com.swith.src.repository.GroupInfoRepository;
+import com.swith.domain.groupinfo.repository.GroupInfoRepository;
 import com.swith.domain.user.repository.UserRepository;
 import com.swith.domain.register.repository.RegisterRepository;
 import org.springframework.beans.factory.annotation.Autowired;

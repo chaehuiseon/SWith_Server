@@ -1,5 +1,8 @@
 package com.swith.domain.attendance.service;
 
+import com.swith.api.attendance.dto.GetAttendanceInfo;
+import com.swith.api.attendance.dto.GetGroupAttendanceRes;
+import com.swith.api.attendance.dto.GetSessionAttendanceRes;
 import com.swith.api.dto.response.*;
 import com.swith.domain.attendance.entity.Attendance;
 import com.swith.domain.attendance.repository.AttendanceRepository;
@@ -12,7 +15,7 @@ import com.swith.domain.user.entity.User;
 import com.swith.domain.user.repository.UserRepository;
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.constant.BaseResponseStatus;
-import com.swith.api.dto.request.PatchAttendanceReq;
+import com.swith.api.attendance.dto.PatchAttendanceReq;
 import com.swith.src.repository.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

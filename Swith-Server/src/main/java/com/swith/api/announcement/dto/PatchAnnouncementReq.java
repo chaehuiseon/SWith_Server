@@ -1,4 +1,4 @@
-package com.swith.api.dto.request;
+package com.swith.api.announcement.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

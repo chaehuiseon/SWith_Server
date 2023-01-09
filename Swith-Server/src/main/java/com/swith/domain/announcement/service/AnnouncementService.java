@@ -2,9 +2,9 @@ package com.swith.domain.announcement.service;
 
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.constant.BaseResponseStatus;
-import com.swith.api.dto.request.PatchAnnouncementReq;
-import com.swith.api.dto.request.PostAnnouncementReq;
-import com.swith.api.dto.response.GetAnnouncementRes;
+import com.swith.api.announcement.dto.PatchAnnouncementReq;
+import com.swith.api.announcement.dto.PostAnnouncementReq;
+import com.swith.api.announcement.dto.GetAnnouncementRes;
 import com.swith.domain.announcement.entity.Announcement;
 import com.swith.domain.groupinfo.entity.GroupInfo;
 import com.swith.external.firebase.FirebaseCloudMessageService;

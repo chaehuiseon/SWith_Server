@@ -2,8 +2,8 @@ package com.swith.api.memo.controller;
 
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.dto.BaseResponse;
-import com.swith.api.dto.request.PatchMemoReq;
-import com.swith.api.dto.request.PostMemoReq;
+import com.swith.api.memo.dto.PatchMemoReq;
+import com.swith.api.memo.dto.PostMemoReq;
 import com.swith.domain.memo.service.MemoService;
 import com.swith.domain.session.service.SessionService;
 import io.swagger.annotations.Api;

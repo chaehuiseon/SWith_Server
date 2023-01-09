@@ -2,9 +2,9 @@ package com.swith.api.attendance.controller;
 
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.dto.BaseResponse;
-import com.swith.api.dto.request.PatchAttendanceReq;
-import com.swith.api.dto.response.GetGroupAttendanceRes;
-import com.swith.api.dto.response.GetSessionAttendanceRes;
+import com.swith.api.attendance.dto.PatchAttendanceReq;
+import com.swith.api.attendance.dto.GetGroupAttendanceRes;
+import com.swith.api.attendance.dto.GetSessionAttendanceRes;
 import com.swith.domain.attendance.service.AttendanceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

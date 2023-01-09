@@ -2,8 +2,8 @@ package com.swith.domain.memo.service;
 
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.constant.BaseResponseStatus;
-import com.swith.api.dto.request.PatchMemoReq;
-import com.swith.api.dto.request.PostMemoReq;
+import com.swith.api.memo.dto.PatchMemoReq;
+import com.swith.api.memo.dto.PostMemoReq;
 import com.swith.domain.memo.entity.Memo;
 import com.swith.domain.session.entity.Session;
 import com.swith.domain.user.entity.User;

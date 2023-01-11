@@ -1,6 +1,6 @@
 package com.swith.api.common.dto;
 
-import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.global.error.BaseResponseStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import com.fasterxml.jackson.annotation.JsonInclude;

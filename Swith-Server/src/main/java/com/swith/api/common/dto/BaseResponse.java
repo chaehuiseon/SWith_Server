@@ -3,7 +3,7 @@ package com.swith.api.common.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.global.error.BaseResponseStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

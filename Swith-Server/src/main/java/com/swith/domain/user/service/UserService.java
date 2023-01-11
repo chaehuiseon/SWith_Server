@@ -1,7 +1,7 @@
 package com.swith.domain.user.service;
 
 import com.swith.global.error.exception.BaseException;
-import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.global.error.BaseResponseStatus;
 import com.swith.global.jwt.JwtTokenProvider;
 import com.swith.global.jwt.TokenInfo;
 import com.swith.api.user.dto.PostSignUpAndInReq;
@@ -13,7 +13,7 @@ import com.swith.domain.interest.entity.Interest;
 import com.swith.domain.user.entity.User;
 import com.swith.domain.user.constant.RoleType;
 import com.swith.domain.user.repository.UserRepository;
-import com.swith.src.repository.GroupInfoRepository;
+import com.swith.domain.groupinfo.repository.GroupInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.swith.domain.groupinfo.entity.GroupInfo;

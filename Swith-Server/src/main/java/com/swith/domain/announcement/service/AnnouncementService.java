@@ -1,7 +1,7 @@
 package com.swith.domain.announcement.service;
 
 import com.swith.global.error.exception.BaseException;
-import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.global.error.BaseResponseStatus;
 import com.swith.api.announcement.dto.PatchAnnouncementReq;
 import com.swith.api.announcement.dto.PostAnnouncementReq;
 import com.swith.api.announcement.dto.GetAnnouncementRes;

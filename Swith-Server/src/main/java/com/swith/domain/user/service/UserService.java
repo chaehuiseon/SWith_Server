@@ -1,7 +1,7 @@
 package com.swith.domain.user.service;
 
 import com.swith.global.error.exception.BaseException;
-import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.global.error.BaseResponseStatus;
 import com.swith.global.jwt.JwtTokenProvider;
 import com.swith.global.jwt.TokenInfo;
 import com.swith.api.user.dto.PostSignUpAndInReq;

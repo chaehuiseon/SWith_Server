@@ -2,7 +2,7 @@ package com.swith.api.session.controller;
 
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.dto.BaseResponse;
-import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.global.error.BaseResponseStatus;
 import com.swith.api.session.dto.PatchSessionReq;
 import com.swith.api.session.dto.GetGroupInfoRes;
 import com.swith.api.session.dto.PostSessionReq;

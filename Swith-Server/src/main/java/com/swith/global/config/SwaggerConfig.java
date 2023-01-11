@@ -28,7 +28,7 @@ public class SwaggerConfig {
                 .useDefaultResponseMessages(true)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.demo.src.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.swith.api"))
                 .paths(PathSelectors.any())
                 .build();
     }

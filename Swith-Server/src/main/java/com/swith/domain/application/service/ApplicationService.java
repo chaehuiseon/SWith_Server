@@ -3,7 +3,7 @@ package com.swith.domain.application.service;
 
 import com.swith.domain.register.service.RegisterService;
 import com.swith.global.error.exception.BaseException;
-import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.global.error.BaseResponseStatus;
 import com.swith.api.application.dto.PatchApplicationStatusReq;
 import com.swith.api.application.dto.PatchExpelUserReq;
 import com.swith.api.application.dto.PostApplicationReq;

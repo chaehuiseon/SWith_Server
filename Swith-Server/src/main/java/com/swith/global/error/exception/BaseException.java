@@ -1,13 +1,17 @@
 package com.swith.global.error.exception;
 
-import com.swith.api.common.constant.BaseResponseStatus;
-import lombok.AllArgsConstructor;
+import com.swith.global.error.BaseResponseStatus;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-public class BaseException extends Exception {
+public class BaseException extends RuntimeException {
     private BaseResponseStatus status;
+
+    //
+    public BaseException(BaseResponseStatus status) {
+        super(status.getMessage());
+        this.status = status;
+    }
 }

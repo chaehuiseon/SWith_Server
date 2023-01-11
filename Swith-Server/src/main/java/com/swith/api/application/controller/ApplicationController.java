@@ -1,7 +1,7 @@
 package com.swith.api.application.controller;
 
 
-import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.global.error.BaseResponseStatus;
 import com.swith.api.common.dto.BaseResponse;
 import com.swith.api.application.dto.PatchApplicationStatusReq;
 import com.swith.api.application.dto.PatchExpelUserReq;

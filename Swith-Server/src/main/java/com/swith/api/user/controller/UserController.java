@@ -11,7 +11,7 @@ import com.swith.api.user.dto.PostSignUpReq;
 import com.swith.api.user.dto.PostUserInfoRes;
 import com.swith.api.user.dto.PostSignUpRes;
 import com.swith.domain.user.service.UserService;
-import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.global.error.BaseResponseStatus;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;

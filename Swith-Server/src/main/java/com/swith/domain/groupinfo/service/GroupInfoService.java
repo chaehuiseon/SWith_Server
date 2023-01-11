@@ -16,7 +16,7 @@ import com.swith.domain.session.entity.Session;
 import com.swith.domain.user.repository.UserRepository;
 import com.swith.domain.session.repository.SessionRepository;
 import com.swith.global.error.exception.BaseException;
-import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.global.error.BaseResponseStatus;
 import com.swith.api.groupinfo.dto.PatchGroupInfoReq;
 import com.swith.api.groupinfo.dto.GetEachGroupInfoRes;
 import com.swith.api.groupinfo.dto.GetHomeGroupInfoRes;

@@ -2,7 +2,7 @@ package com.swith.api.groupinfo.controller;
 
 
 import com.querydsl.jpa.impl.JPAQuery;
-import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.global.error.BaseResponseStatus;
 import com.swith.api.common.dto.BaseResponse;
 import com.swith.api.groupinfo.dto.PostGroupInfoReq;
 import com.swith.api.groupinfo.dto.PostGroupInfoRes;

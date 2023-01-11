@@ -1,7 +1,7 @@
 package com.swith.domain.register.service;
 
 import com.swith.global.error.exception.BaseException;
-import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.global.error.BaseResponseStatus;
 import com.swith.domain.application.entity.Application;
 import com.swith.domain.register.entity.Register;
 import com.swith.domain.groupinfo.repository.GroupInfoRepository;

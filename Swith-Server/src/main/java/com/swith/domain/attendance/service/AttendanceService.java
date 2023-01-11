@@ -16,7 +16,7 @@ import com.swith.domain.session.repository.SessionRepository;
 import com.swith.domain.user.entity.User;
 import com.swith.domain.user.repository.UserRepository;
 import com.swith.global.error.exception.BaseException;
-import com.swith.api.common.constant.BaseResponseStatus;
+import com.swith.global.error.BaseResponseStatus;
 import com.swith.api.attendance.dto.PatchAttendanceReq;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -44,7 +44,7 @@ public class AttendanceService {
     }
 
     public GetGroupAttendanceRes getGroupAttendance(Long groupIdx) throws BaseException {
-        GroupInfo groupInfo = groupInfoRepository.findById(groupIdx)
+         GroupInfo groupInfo = groupInfoRepository.findById(groupIdx)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUP));
 
         List<UserAttendanceInfo> userTotalAttendance = attendanceRepository.getUserTotalAttendance(groupIdx);

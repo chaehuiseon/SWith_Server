@@ -137,62 +137,24 @@ public class GroupInfoService {
 
     }
 
+
     public PostGroupInfoRes create(PostGroupInfoReq request) throws BaseException {
-        System.out.println(request.toString());
-        System.out.println(request.getGroupImgUrl());
-        System.out.println("으악");
-        PostGroupInfoReq body = request;
-
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초");
-        // 문자열 -> Date
-        //LocalDateTime date = LocalDateTime.parse(dateStr, formatter);
-
-        GroupInfo groupInfo = GroupInfo.builder()
-                .user(userRepository.getOne(body.getAdminIdx()))
-                .groupImgUrl(body.getGroupImgUrl())
-                .title(body.getTitle())
-                .meet(body.getMeet())
-                .frequency(body.getFrequency())
-                .periods(body.getPeriods())
-                .online(body.getOnline())
-                .regionIdx1(body.getRegionIdx1())
-                .regionIdx2(body.getRegionIdx2())
-                .interest(interestRepository.getOne(body.getInterest()))
-                .topic(body.getTopic())
-                .memberLimit(body.getMemberLimit())
-                .applicationMethod(body.getApplicationMethod())
-                .recruitmentEndDate(body.getRecruitmentEndDate())
-                .groupStart(body.getGroupStart())
-                .groupEnd(body.getGroupEnd())
-                .attendanceValidTime(body.getAttendanceValidTime())
-                .groupContent(body.getGroupContent())
-                .build();
-        //풀그 추가 가입 정보 생성
-//        Register register = Register.builder()
-//                .groupInfo(groupInfo)
-//                .user(User.builder()
-//                        .userIdx(request.getAdminIdx())
-//                        .build())
-//                .status(0)
-//                .build();
-//        registerRepository.save(register);
-
-
+        System.out.println("스터디 개설 시작");
+        //입력 정보를 DB에 저장하기 위해, Entity로 변환한다.
+        GroupInfo groupInfo = toEntityForCreating(request);
+        //저장
         GroupInfo savedgroupInfo = groupInfoRepository.save(groupInfo);
-        Register register = Register.builder()
-                .user(userRepository.getOne(savedgroupInfo.getUser().getUserIdx()))
-                .groupInfo(groupInfoRepository.getOne(savedgroupInfo.getGroupIdx()))
-                .status(0)//Register status 0 = 승인
-                .build();
-        Register saved = registerRepository.save(register);
-        if(saved.getGroupInfo().getGroupIdx() != savedgroupInfo.getGroupIdx()) {
+        //스터디를 개설한 유저를, 개설한 스터디에 등록하기 위해, 입력 정보를 바탕으로 REGISTER 생성.
+        Register register = toEnityForCreating(savedgroupInfo);
+        //저장
+        Register savedregister = registerRepository.save(register);
+        //로직이 정상 처리 되었는지 확인.
+        // 개설한 스터디 정보(GroupInfo)의 groupIdx 와 스터디 유저 관리(Register)의 groupIdx가 일치하는 가.
+        if(savedregister.getGroupInfo().getGroupIdx() != savedgroupInfo.getGroupIdx()) {
             throw new BaseException(BaseResponseStatus.FAIL_REGISTER_SAVE);
         }
 
-
-        long groupIdx = savedgroupInfo.getGroupIdx();
-        return new PostGroupInfoRes(groupIdx);
-
+        return PostGroupInfoRes.from(savedgroupInfo.getGroupIdx());
 
 
     }
@@ -210,40 +172,16 @@ public class GroupInfoService {
     }
 
     public GetEachGroupInfoRes selectEachGroupInfo(Long groupIdx){
+        //찾고자 하는 groupInfo가 있는지.
         GroupInfo groupInfo = groupInfoRepository.findByGroupIdx(groupIdx);
-        System.out.println(groupInfo.toString());
-        System.out.println(groupIdx);
+
+        //스터디 신청 승인된 인원 찾기
         Long NumOfApplicants = 0L;
         NumOfApplicants = applicationRepository.findNumOfApplicants(groupIdx);
-        System.out.println(">>>"+NumOfApplicants);
-        GetEachGroupInfoRes data = GetEachGroupInfoRes.builder()
-                .adminIdx(groupInfo.getUser().getUserIdx())
-                .groupImgUrl(groupInfo.getGroupImgUrl())
-                .title(groupInfo.getTitle())
-                .meet(groupInfo.getMeet())
-                .frequency(groupInfo.getFrequency())
-                .periods(groupInfo.getPeriods())
-                .online(groupInfo.getOnline())
-                .regionIdx1(groupInfo.getRegionIdx1())
-                .regionIdx2(groupInfo.getRegionIdx2())
-                .interest(groupInfo.getInterest().getInterestIdx())
-                .topic(groupInfo.getTopic())
-                .memberLimit(groupInfo.getMemberLimit())
-                .NumOfApplicants(NumOfApplicants)
-                .applicationMethod(groupInfo.getApplicationMethod())
-                .recruitmentEndDate(groupInfo.getRecruitmentEndDate())
-                .groupStart(groupInfo.getGroupStart())
-                .groupEnd(groupInfo.getGroupEnd())
-                .attendanceValidTime(groupInfo.getAttendanceValidTime())
-                .groupContent(groupInfo.getGroupContent())
-                .build();
 
-        System.out.println("방법 >>>>>>" + data.getApplicationMethod());
-        System.out.println("interest >>>" + data.getInterest().toString());
-
-
-        return data;
-
+        //스터디 정보 반환
+//        GetEachGroupInfoRes groupinfoRes = GetEachGroupInfoRes.of(groupInfo, NumOfApplicants);
+        return GetEachGroupInfoRes.of(groupInfo, NumOfApplicants);
 
 
     }
@@ -368,6 +306,40 @@ public class GroupInfoService {
     public GroupInfo findGroup(Long groupIdx){
         return groupInfoRepository.findByGroupIdx(groupIdx);
     }
+
+    private GroupInfo toEntityForCreating (PostGroupInfoReq body) {
+        return GroupInfo.builder()
+                .user(userRepository.getOne(body.getAdminIdx()))
+                .groupImgUrl(body.getGroupImgUrl())
+                .title(body.getTitle())
+                .meet(body.getMeet())
+                .frequency(body.getFrequency())
+                .periods(body.getPeriods())
+                .online(body.getOnline())
+                .regionIdx1(body.getRegionIdx1())
+                .regionIdx2(body.getRegionIdx2())
+                .interest(interestRepository.getOne(body.getInterest()))
+                .topic(body.getTopic())
+                .memberLimit(body.getMemberLimit())
+                .applicationMethod(body.getApplicationMethod())
+                .recruitmentEndDate(body.getRecruitmentEndDate())
+                .groupStart(body.getGroupStart())
+                .groupEnd(body.getGroupEnd())
+                .attendanceValidTime(body.getAttendanceValidTime())
+                .groupContent(body.getGroupContent())
+                .build();
+    }
+
+    private Register toEnityForCreating(GroupInfo savedgroupInfo ){
+        return   Register.builder()
+                .user(userRepository.getOne(savedgroupInfo.getUser().getUserIdx()))
+                .groupInfo(groupInfoRepository.getOne(savedgroupInfo.getGroupIdx()))
+                .status(0)//Register status 0 = 승인
+                .build();
+
+
+    }
+
 
 
 

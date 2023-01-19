@@ -35,4 +35,8 @@ public class Register extends BaseTimeEntity {
     private Integer status = 0; //0:가입 1:탈퇴
 
 
+
+
+
+
 }

@@ -103,4 +103,9 @@ public class User extends BaseTimeEntity { //유저 테이블
         this.interest2 = interest2;
         return this;
     }
+
+    // by elin adminid 필요해서
+    public Long getUserIdx() {
+        return userIdx;
+    }
 }

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -52,15 +53,17 @@ public class GroupInfoController {
         }
     }
 
+
     @ApiOperation("그룹 생성")
     @PostMapping
-    public BaseResponse<PostGroupInfoRes> createGroup(@RequestBody PostGroupInfoReq request) throws BaseException {
-        System.out.println(request.toString());
+    public ResponseEntity<PostGroupInfoRes> createGroup(@RequestBody PostGroupInfoReq request) throws BaseException {
         PostGroupInfoRes response = groupInfoService.create(request);
-        return new BaseResponse<>(response);
+        //return new BaseResponse<>(response);
+
+        return ResponseEntity.ok(response);
     }
 
-    //@ResponseBody
+    //@ResponseBody -> 나중에 할 예정.. VO 적용하고 리팩토리 범위가 큼.
     //@GetMapping("/search")
     @ApiOperation("스터디 검색")
     @RequestMapping(path = "/search", method = RequestMethod.GET)
@@ -91,12 +94,11 @@ public class GroupInfoController {
     }
 
 
+    //
     @ApiOperation("스터디 정보 상세 보기")
     @GetMapping("/search/{groupIdx}")
     @ResponseBody
     public BaseResponse<GetEachGroupInfoRes> selectEachGroupInfo(@PathVariable Long groupIdx) {
-
-        System.out.println(groupIdx);
         GetEachGroupInfoRes response = groupInfoService.selectEachGroupInfo(groupIdx);
         return new BaseResponse<>(response);
     }

@@ -47,7 +47,6 @@ public class ApplicationController {
         }
 
 
-
         Integer limit = applicationService.getMemberLimit(groupIdx);
         Long NumOfApplicants = applicationService.findNumOfApplicants(groupIdx);
         System.out.println("지원자/limit =  " + NumOfApplicants + "/ " + limit);

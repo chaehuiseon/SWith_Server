@@ -5,6 +5,7 @@ import com.swith.domain.application.entity.Application;
 import lombok.*;
 
 @Data
+@Builder
 public class GetApplicationManageRes {
 
     private Long userIdx;
@@ -20,4 +21,16 @@ public class GetApplicationManageRes {
         this.applicationIdx = application.getApplicationIdx();
         this.applicationContent = application.getApplicationContent();
     }
+
+    public static  GetApplicationManageRes from (Application application){
+        return GetApplicationManageRes.builder()
+                .userIdx(application.getUser().getUserIdx())
+                .nickname(application.getUser().getNickname())
+                .profileImgUrl(application.getUser().getProfileImgUrl())
+                .applicationIdx(application.getApplicationIdx())
+                .applicationContent(application.getApplicationContent())
+                .build();
+
+    }
+
 }

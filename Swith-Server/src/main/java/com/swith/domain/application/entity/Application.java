@@ -38,6 +38,11 @@ public class Application extends BaseTimeEntity {
     @Column(length = 200)
     private String applicationContent; //지원서에 작성한 내용
 
+    public void changeStatus(Integer status){
+        this.status = status;
+
+    }
+
 
 
 }

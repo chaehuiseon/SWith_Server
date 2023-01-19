@@ -2,16 +2,9 @@ package com.swith.api.groupinfo.controller;
 
 
 import com.querydsl.jpa.impl.JPAQuery;
+import com.swith.api.groupinfo.dto.*;
 import com.swith.global.error.BaseResponseStatus;
 import com.swith.api.common.dto.BaseResponse;
-import com.swith.api.groupinfo.dto.PostGroupInfoReq;
-import com.swith.api.groupinfo.dto.PostGroupInfoRes;
-import com.swith.api.groupinfo.dto.GetGroupInfoSearchReq;
-import com.swith.api.groupinfo.dto.PatchEndGroupReq;
-import com.swith.api.groupinfo.dto.PatchGroupInfoReq;
-import com.swith.api.groupinfo.dto.GetEachGroupInfoRes;
-import com.swith.api.groupinfo.dto.GetGroupInfoSearchRes;
-import com.swith.api.groupinfo.dto.GetHomeGroupInfoRes;
 import com.swith.domain.user.service.UserService;
 import com.swith.global.error.exception.BaseException;
 import com.swith.domain.groupinfo.service.GroupInfoService;
@@ -54,12 +47,11 @@ public class GroupInfoController {
     }
 
 
-    @ApiOperation("그룹 생성")
+    @ApiOperation("그룹 생성") // 리팩토리 1차완
     @PostMapping
     public ResponseEntity<PostGroupInfoRes> createGroup(@RequestBody PostGroupInfoReq request) throws BaseException {
         PostGroupInfoRes response = groupInfoService.create(request);
         //return new BaseResponse<>(response);
-
         return ResponseEntity.ok(response);
     }
 
@@ -94,24 +86,25 @@ public class GroupInfoController {
     }
 
 
-    //
+    //리팩토리 1차완
     @ApiOperation("스터디 정보 상세 보기")
     @GetMapping("/search/{groupIdx}")
     @ResponseBody
-    public BaseResponse<GetEachGroupInfoRes> selectEachGroupInfo(@PathVariable Long groupIdx) {
+    public ResponseEntity<GetEachGroupInfoRes> selectEachGroupInfo(@PathVariable Long groupIdx) {
         GetEachGroupInfoRes response = groupInfoService.selectEachGroupInfo(groupIdx);
-        return new BaseResponse<>(response);
+        //return new BaseResponse<>(response);
+        return ResponseEntity.ok(response);
     }
 
+    //리팩토리 1차완 -> 더티체크 되는지를 테스트 아직 안함.
     @ApiOperation("스터디 정보 수정")
     @PatchMapping("/modify/{groupIdx}")
     @ResponseBody
     public BaseResponse<Long> ModifyGroupInformation(@PathVariable Long groupIdx, @RequestBody PatchGroupInfoReq patchGroupInfoReq) throws BaseException {
-        System.out.println(patchGroupInfoReq.getAdminIdx());
-        System.out.println(patchGroupInfoReq.getGroupEnd());
-        System.out.println(patchGroupInfoReq.getInterest().toString());
+
         Long ReqAdminIdx = patchGroupInfoReq.getAdminIdx();
         //jwt 유효성 검사 추가해야됨.
+
 
         //상태 변경 권한이 있는지..즉, 스터디 개설자가 맞는지.
         boolean check = groupInfoService.IsAdmin(groupIdx, ReqAdminIdx);
@@ -132,6 +125,8 @@ public class GroupInfoController {
         Long groupIdx = patchEndGroupReq.getGroupIdx();
         Long adminIdx = patchEndGroupReq.getAdminIdx();
         System.out.println("end 받은 값 > " + groupIdx + adminIdx);
+
+        //종료 권한이 있는지 체크
         boolean check = groupInfoService.IsAdmin(groupIdx, adminIdx);
         //jwt 유효성 검사 추가해야됨 ..
 
@@ -139,13 +134,19 @@ public class GroupInfoController {
             return new BaseResponse<>(BaseResponseStatus.NO_GROUP_LEADER);
         }
 
-        Long result = groupInfoService.EndGroup(groupIdx, adminIdx);
-        System.out.println("종료 >>>>" + result);
-        //그룹 존재하지 않아서 실패
-        if (result == -1L) return new BaseResponse<>(BaseResponseStatus.FAIL_LOAD_GROUPINFO);
-        //삭제가 실패
-        if (result == -2L) return new BaseResponse<>(BaseResponseStatus.FAIL_CHANGED_STATUS);
-        return new BaseResponse<>(result);
+        //종료 상태로 변경.
+        changeEndStatus result = groupInfoService.EndGroup(groupIdx, adminIdx);
+
+//        //그룹 존재하지 않아서 실패
+//        if (result == -1L) return new BaseResponse<>(BaseResponseStatus.FAIL_LOAD_GROUPINFO);
+//        //삭제가 실패
+//        if (result == -2L) return new BaseResponse<>(BaseResponseStatus.FAIL_CHANGED_STATUS);
+
+        // 유저에게 알림 보내기.
+        Long complete = groupInfoService.pushEndNotification(result);
+
+
+        return new BaseResponse<>(complete);
 
     }
 

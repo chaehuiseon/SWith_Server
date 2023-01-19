@@ -93,10 +93,11 @@ public enum BaseResponseStatus {
     INVALID_ATTENDANCE(HttpStatus.BAD_REQUEST, 6005, "출석 정보가 없습니다."),
     NO_REGISTRATION_INFO(HttpStatus.BAD_REQUEST, 6006, "유저의 스터디 그룹 가입 정보가 없습니다."),
     NO_GROUP_ATTENDANCE(HttpStatus.BAD_REQUEST, 6007, "그룹의 출석 정보가 없습니다."),
-    NO_GROUP_LEADER(HttpStatus.BAD_REQUEST,6008,"그룹 리더가 아니기 때문에, 권한이 없습니다."),
+    NO_GROUP_LEADER(HttpStatus.FORBIDDEN,6008,"그룹 리더가 아니기 때문에, 권한이 없습니다."),
     NO_APPLICATION_INFO(HttpStatus.BAD_REQUEST, 6009, "유저의 지원서 정보가 없습니다."),
     INVALID_MEMO(HttpStatus.BAD_REQUEST, 6010, "메모 정보가 없습니다."),
     IOEXCEPTION(HttpStatus.BAD_REQUEST, 6011, "입출력 오류 발생"),
+    BADREQUEST(HttpStatus.BAD_REQUEST,6012,"잘못된 접근입니다."),
 
 
 
@@ -120,13 +121,14 @@ public enum BaseResponseStatus {
 
 
     //9000 : 신청
-
     FULL_NUM_OF_Applicants(HttpStatus.BAD_REQUEST,9001,"신청 인원이 전부 다 찼습니다."),
-    FAIL_SAVED_APPLICATION(HttpStatus.BAD_REQUEST,9002,"서버 error. 가입 신청 실패"),
-    FAIL_CHANGED_STATUS(HttpStatus.BAD_REQUEST,9003,"상태 변경 실패"),
+    FAIL_SAVED_APPLICATION(HttpStatus.INTERNAL_SERVER_ERROR,9002,"서버 error. 가입 신청 실패"),
+    FAIL_CHANGED_STATUS(HttpStatus.INTERNAL_SERVER_ERROR,9003,"상태 변경 실패"),
     DO_NOT_EXECUTE_CHANGE(HttpStatus.BAD_REQUEST,9004,"변경 실행안함 : 이미 변경되었거나 잘못된 조건"),
     INVALID_STATUS(HttpStatus.BAD_REQUEST,9005,"상태 변경 실패 : 유효하지 않은 값"),
-    FAIL_REGISER(HttpStatus.BAD_REQUEST, 9006, "가입승인 -> Regiest 등록 실패"),
+    FAIL_REGISER(HttpStatus.INTERNAL_SERVER_ERROR, 9006, "가입승인 -> Regiest 등록 실패"),
+    DO_NOT_CHANGE_BEFORE_STUDYING(HttpStatus.FORBIDDEN,6008,"스터디 시작 전에 , 추방 불가."),
+
 
     //9050 : 그룹
     FAIL_LOAD_GROUPINFO(HttpStatus.BAD_REQUEST,9003,"스터디 그룹이 존재하지 않습니다."),
@@ -146,5 +148,9 @@ public enum BaseResponseStatus {
         this.code = code;
         this.message = message;
     }
+
+
+
+
 
 }

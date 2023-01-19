@@ -62,6 +62,7 @@ public class ApplicationController {
 
     }
 
+    // 1차 리펙토리 ok(dto 변경)
     // 지원/목록 (즉, 유저관리 페이지) 불러오기 api
     @ApiOperation("가입신청-지원/목록 불러오기 API")
     @ResponseBody
@@ -70,21 +71,16 @@ public class ApplicationController {
     ShowApplicationManage(@PathVariable Long groupIdx, @PathVariable Integer status){
 
         //그룹상태 -> 있긴 한지 + 종료된 그룹이 아닌지...
-
         boolean existcheck = groupInfoService.existGroupIdx(groupIdx);
-        if(existcheck == false){ //존재하지 않는 스터디
+        if(existcheck == false){ //존재하지 않거나 이미 종료된 스터디
             System.out.println("종료된 스터디거나 오류임~~~~~~");
             return new BaseResponse<>(BaseResponseStatus.FAIL_LOAD_GROUPINFO);
         }
 
-        //groupInfo의 status를 check 종료된 스터디인지.
-        //exist에서 이 검사를 다 하니깐...이부분 없애도 될거같음 -> refactory대상.
-        Integer statuscheck = groupInfoService.statusOfGroupInfo(groupIdx);
-        if(statuscheck == 2 ){//종료된 스터디
-            return new BaseResponse<>(BaseResponseStatus.FAIL_CLOSED_GROUPINFO);
+        if(!(status == 0 || status == 1)){
+            return new BaseResponse<>(BaseResponseStatus.BADREQUEST);
         }
 
-        //가지고 와야지.. 정보....
 
         List<GetApplicationManageRes> response =  applicationService.getApplicationList(groupIdx,status);
 
@@ -94,6 +90,7 @@ public class ApplicationController {
 
     }
 
+    //1차 리펙토리 중 (dto 관련.. )
     @ApiOperation("가입신청-승인/반려API")
     @ResponseBody
     @PatchMapping("/manage/resume/{groupIdx}/{status}")  //status : Application 에 있는 status
@@ -112,14 +109,18 @@ public class ApplicationController {
         Long ReqAdminIdx = patchApplicationStatusReq.getAdminIdx();
         boolean check = groupInfoService.IsAdmin(groupIdx,ReqAdminIdx);
         if(check == false){//권한없음
-            System.out.println("권한이 없습니다.");
             return new BaseResponse<>(BaseResponseStatus.NO_GROUP_LEADER);
         }
+
+
+        // 올바른 요청이 맞는지에 대한 검사
         Integer ReqStatus = patchApplicationStatusReq.getStatusOfApplication();
         if(!(ReqStatus == 1 || ReqStatus == 2 )){//요청이 승인(1) 또는 반려(2)가 아니면 잘못된 값을 받은 것.
             return new BaseResponse<>(BaseResponseStatus.INVALID_STATUS);
         }
-        //권한 있음.
+
+
+        //권한 있음. 승인 또는 반려 상태 변경.
         PatchApplicationStatusRes response = applicationService.changeApplicationStatus(groupIdx, status, patchApplicationStatusReq);
 
         if(response == null) return new BaseResponse<>(BaseResponseStatus.RESPONSE_ERROR);
@@ -140,10 +141,6 @@ public class ApplicationController {
         System.out.println("adminIDx >> " +patchExpelUserReq.getAdminIdx());
         //jwt 유효성 검사 추가
 
-        //그룹 존재
-        boolean existgroup = groupInfoService.existGroupIdx(groupIdx);
-        if(!existgroup) return new BaseResponse<>(BaseResponseStatus.FAIL_LOAD_GROUPINFO);
-
 
         //추방 권한 확인
         Long ReqAdminIdx = patchExpelUserReq.getAdminIdx();
@@ -156,8 +153,9 @@ public class ApplicationController {
             return new BaseResponse<>(BaseResponseStatus.INVALID_STATUS);
         }
 
+
         //추방하기
-        Long result = applicationService.ExpelUserFromGroup(groupIdx, patchExpelUserReq);
+        Long result = applicationService.ExpelUserFromGroup(status, groupIdx, patchExpelUserReq);
         if(result == -3L) return new BaseResponse<>(BaseResponseStatus.DO_NOT_EXECUTE_CHANGE);
         return new BaseResponse<>(result);
 

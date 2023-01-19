@@ -4,6 +4,7 @@ import com.swith.domain.common.BaseTimeEntity;
 import com.swith.domain.interest.entity.Interest;
 import com.swith.domain.user.entity.User;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -18,6 +19,7 @@ import static javax.persistence.FetchType.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+//@DynamicUpdate
 @Table(name = "GROUPINFO", indexes = @Index(columnList = "recruitmentEndDate"))
 
 public class GroupInfo extends BaseTimeEntity {
@@ -106,5 +108,11 @@ public class GroupInfo extends BaseTimeEntity {
     @Column(columnDefinition = "TINYINT")
     @Builder.Default
     private Integer status = 0;
+
+
+    public void changeStatus(Integer status){
+        this.status = status;
+
+    }
 
 }

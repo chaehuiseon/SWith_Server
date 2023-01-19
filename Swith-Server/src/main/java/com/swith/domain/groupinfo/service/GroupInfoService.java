@@ -1,5 +1,6 @@
 package com.swith.domain.groupinfo.service;
 
+import com.swith.api.groupinfo.dto.*;
 import com.swith.domain.announcement.entity.Announcement;
 import com.swith.domain.announcement.repository.AnnouncementRepository;
 import com.swith.domain.application.repository.ApplicationRepository;
@@ -17,13 +18,6 @@ import com.swith.domain.user.repository.UserRepository;
 import com.swith.domain.session.repository.SessionRepository;
 import com.swith.global.error.exception.BaseException;
 import com.swith.global.error.BaseResponseStatus;
-import com.swith.api.groupinfo.dto.PatchGroupInfoReq;
-import com.swith.api.groupinfo.dto.GetEachGroupInfoRes;
-import com.swith.api.groupinfo.dto.GetHomeGroupInfoRes;
-import com.swith.api.groupinfo.dto.PostGroupInfoReq;
-import com.swith.api.groupinfo.dto.PostGroupInfoRes;
-import com.swith.api.groupinfo.dto.GetGroupInfoSearchReq;
-import com.swith.api.groupinfo.dto.GetGroupInfoSearchRes;
 import com.swith.external.firebase.FirebaseCloudMessageService;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -186,6 +180,7 @@ public class GroupInfoService {
 
     }
 
+    //스터디 그룹 존재 여부 체크
     public boolean existGroupIdx(Long groupIdx){
         //boolean check = groupInfoRepository.existsById(groupIdx);
         //상태 확인 코드 추가해야됨.
@@ -219,19 +214,27 @@ public class GroupInfoService {
     }
 
 
-    public Long ModifyGroupInformation(Long groupIdx, PatchGroupInfoReq request){
+    //스터디 정보 변경 로직
+    @Transactional
+    public Long  ModifyGroupInformation(Long groupIdx, PatchGroupInfoReq request){
 
-        if(!existGroupIdx(groupIdx)){ //존재하지 않음.
-            return -1L;
-        }
-        //존재함
+//        // 변경하려는 그룹 존재해?
+//        if(!existGroupIdx(groupIdx)){
+//            return -1L;
+//        }
+
+        //존재 하니깐 groupId 를 통해, groupInfo 정보 가지고 온다. 존재에 대한 예외처리를 아래서 하고 있음..
         GroupInfo groupInfo = groupInfoRepository.findById(groupIdx).orElseThrow(
                 () -> new IllegalArgumentException(String.valueOf(BaseResponseStatus.FAIL_LOAD_GROUPINFO))
         );
 
-        Long ReqgroupIdx = groupInfo.getGroupIdx();
-        if(ReqgroupIdx != groupIdx) return -2L;//잘못된 값 읽음
+        Long check = groupInfo.getGroupIdx();
+        //변경 가능한 상태의 group인지...
+        if( !(check == 0 || check == 1 )) return -1L;
+        //제대로 원하는 값을 가지고 왔는지 확인.
+        if(check != groupIdx) return -2L;
 
+        //변경 시작
         groupInfo.setGroupImgUrl(request.getGroupImgUrl());
         groupInfo.setTitle(request.getTitle());
         groupInfo.setMeet(request.getMeet());
@@ -241,10 +244,12 @@ public class GroupInfoService {
         groupInfo.setRegionIdx1(request.getRegionIdx1());
         groupInfo.setRegionIdx2(request.getRegionIdx2());
         Integer originInterest = groupInfo.getInterest().getInterestIdx();
-        if(request.getInterest() != originInterest){ //다른 경우만 바꾸겠다.
+
+        if(request.getInterest() != originInterest){ // interest 다른 경우만 바꾸겠다.
             Interest ReqInterest = interestRepository.getById(request.getInterest());
             groupInfo.setInterest(ReqInterest);
         }
+
         groupInfo.setTopic(request.getTopic());
         groupInfo.setMemberLimit(request.getMemberLimit());
         groupInfo.setApplicationMethod(request.getApplicationMethod());
@@ -256,47 +261,70 @@ public class GroupInfoService {
 
 
 
-        GroupInfo save = groupInfoRepository.save(groupInfo);
-        System.out.println(">>>>>>>>>>>>"+save.getGroupIdx().toString());
-        return save.getGroupIdx();
+        //GroupInfo save = groupInfoRepository.save(groupInfo);
+        //System.out.println(">>>>>>>>>>>>"+save.getGroupIdx().toString());
+
+
+        // 더티 체크 하려고 위에거 일단 삭제 했음. 아직 테스트 안해봄. 에러 해결되면 테스트 해봐야됨
+        return groupInfo.getGroupIdx();
 
 
     }
 
-    public Long EndGroup(Long groupIdx,Long adminIdx) throws IOException {
 
-        if(!existGroupIdx(groupIdx)){ //존재하지 않음.
-            return -1L;
-        }
+    @Transactional
+    public changeEndStatus EndGroup(Long groupIdx,Long adminIdx) throws IOException {
+
+//        if(!existGroupIdx(groupIdx)){ //존재하지 않음.
+//            return -1L;
+//        }
 
         //Integer status = groupInfoRepository.findStatusOfGroupInfo(groupIdx);
-        groupInfoRepository.changeGroupInfoStatusEnd(2,groupIdx,adminIdx);
+        //groupInfoRepository.changeGroupInfoStatusEnd(2,groupIdx,adminIdx);
 
-        GroupInfo check = groupInfoRepository.findByGroupIdx(groupIdx);
-        if(check.getStatus() == 2){ //종료
-            // 종료 알림을 받을 유저 list
-            ArrayList<Long> pushEndAlramToUsers =registerRepository.findUserByGroup2(groupIdx);
-//            ArrayList<Long> pushEndAlramToUsers = groupInfoRepository.findUsersInGroup(groupIdx,1);
-            System.out.println(">>>>>>> user : " +pushEndAlramToUsers);
-            ArrayList<String> pushUserToken = groupInfoRepository.findUserToken(pushEndAlramToUsers);
-            System.out.println(">>>>> token : "+ pushUserToken);
-            //List<User> users = registerRepository.findRegisterUser(groupIdx);
-            // 종료 groupIdx,종료 group title, 종료 알림 내용, 종료 날짜
-            String title = check.getTitle();
-            String phrases = "스터디가 종료되었습니다!";
-            //LocalDateTime now = LocalDateTime.now();
-            String content =  phrases + "//" + groupIdx + "//" + "스터디종료" ;
-            // 보냄
-            for (String token : pushUserToken) {
-                System.out.println("가즈아!");
-                fcmService.sendMessageTo(token,title,content);
-            }
+        //새로운 변경 로직... 더티 체킹
 
-            return check.getGroupIdx();
+        GroupInfo groupInfo = groupInfoRepository.findById(groupIdx).orElseThrow(
+                () -> new IllegalArgumentException(String.valueOf(BaseResponseStatus.FAIL_LOAD_GROUPINFO))
+        );
+
+
+        if(groupInfo.getGroupIdx() != 1){ // 진행중인 스터디에 대해 종료해야하는데 아니면..
+            //~ 예외처리..
         }
 
+        //종료 상태로 변경..
+        groupInfo.changeStatus(2);
 
-        return -2L;
+
+        return changeEndStatus.from(groupInfo.getGroupIdx(), groupInfo.getStatus(), groupInfo.getTitle());
+
+
+    }
+
+
+    public Long pushEndNotification(changeEndStatus endGroup) throws IOException {
+
+
+        // 종료 알림을 받을 유저 list
+        ArrayList<Long> pushEndAlramToUsers =registerRepository.findUserByGroup2(endGroup.getGroupIdx());
+//            ArrayList<Long> pushEndAlramToUsers = groupInfoRepository.findUsersInGroup(groupIdx,1);
+        System.out.println(">>>>>>> user : " +pushEndAlramToUsers);
+        ArrayList<String> pushUserToken = groupInfoRepository.findUserToken(pushEndAlramToUsers);
+        System.out.println(">>>>> token : "+ pushUserToken);
+        //List<User> users = registerRepository.findRegisterUser(groupIdx);
+        // 종료 groupIdx,종료 group title, 종료 알림 내용, 종료 날짜
+        String title = endGroup.getTitle();
+        String phrases = "스터디가 종료되었습니다!";
+        //LocalDateTime now = LocalDateTime.now();
+        String content =  phrases + "//" + endGroup.getGroupIdx() + "//" + "스터디종료" ;
+        // 보냄
+        for (String token : pushUserToken) {
+            fcmService.sendMessageTo(token,title,content);
+        }
+
+        return endGroup.getGroupIdx();
+
 
 
     }

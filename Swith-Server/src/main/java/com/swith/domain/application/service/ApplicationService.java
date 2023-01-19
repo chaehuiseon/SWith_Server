@@ -1,15 +1,11 @@
 package com.swith.domain.application.service;
 
 
+import com.swith.api.application.dto.*;
+import com.swith.api.common.dto.BaseResponse;
 import com.swith.domain.register.service.RegisterService;
 import com.swith.global.error.exception.BaseException;
 import com.swith.global.error.BaseResponseStatus;
-import com.swith.api.application.dto.PatchApplicationStatusReq;
-import com.swith.api.application.dto.PatchExpelUserReq;
-import com.swith.api.application.dto.PostApplicationReq;
-import com.swith.api.application.dto.GetApplicationManageRes;
-import com.swith.api.application.dto.PatchApplicationStatusRes;
-import com.swith.api.application.dto.GetApplicationRes;
 import com.swith.domain.application.entity.Application;
 import com.swith.domain.groupinfo.entity.GroupInfo;
 import com.swith.domain.application.repository.ApplicationRepository;
@@ -79,7 +75,8 @@ public class ApplicationService {
             //application 가입 승인 -> Register 등록
             if ((savedInfo.getGroupInfo().getGroupIdx() == groupIdx) && (savedInfo.getStatus() == 1)) {
                 try{
-                    boolean registerCheck = registerService.RegisterUserInGroup(savedInfo);
+                    // toentity + 더티체크 적용 -> 봐야 앎.
+                    registerService.RegisterUserInGroup(savedInfo);
                 }catch (BaseException exception){
                     throw new BaseException(BaseResponseStatus.FAIL_REGISTER_SAVE);
                 }
@@ -111,14 +108,18 @@ public class ApplicationService {
     }
 
 
+    //지원 목록 가져오기.
     public List<GetApplicationManageRes> getApplicationList(Long groupIdx,Integer status){
-        Long adminIdx = groupInfoRepository.findAdminIdxBy(groupIdx);
-        List<Application> applications =  applicationRepository.getApplicationListBy(groupIdx,status);
-        List<GetApplicationManageRes> results = applications.stream()
-                .map(a -> new GetApplicationManageRes(a))
-                .collect(Collectors.toList());
+        //IsAdmin 추가 해야하나
 
-        System.out.println(results.toString());
+
+        //domain 서비스 분리 대상!!!!!!!!!!!!!
+        List<Application> applications =  applicationRepository.getApplicationListBy(groupIdx,status);
+
+        //dto로 잘 만들어서.. 반환....
+        List<GetApplicationManageRes> results = applications.stream()
+                .map(a -> GetApplicationManageRes.from(a))
+                .collect(Collectors.toList());
 
         return results;
 
@@ -126,15 +127,20 @@ public class ApplicationService {
     }
 
 
+    //스터지 지원에 대한 승인 또는 반려 상태 변경.
     public PatchApplicationStatusRes changeApplicationStatus(Long groupIdx, Integer status, PatchApplicationStatusReq request)
             throws BaseException {
+
         Integer check = 0;
         if (status == 0) { //변경전. 지원에 있음.
             Integer req_status = request.getStatusOfApplication(); //요구된 상태
             Long req_applicationIdx = request.getApplicationIdx(); //요구된 idx
             System.out.println("변경 시작 >>"+req_status+req_status);
+
+
             //변경
             try {
+                //nativequery 수정 해야됨.
                 applicationRepository.updateStatusOfApplication(req_status, req_applicationIdx, groupIdx,status);
             } catch (Exception exception) {
                 throw new BaseException(BaseResponseStatus.FAIL_CHANGED_STATUS);
@@ -142,11 +148,15 @@ public class ApplicationService {
 
             //확인
             Application changed = applicationRepository.findById(req_applicationIdx).get();
+
+            //application 승인이 되었으면, register에 등록해야 됨.
             if ((changed.getApplicationIdx() == req_applicationIdx) &&
                     (changed.getGroupInfo().getGroupIdx() == groupIdx) && (req_status == changed.getStatus())) {
-                if(changed.getStatus() == 1 ){  //Application 가입 승인 -> Register에 등록
+
+                if(changed.getStatus() == 1 ){  //Application 가입 승인 -> Register에 등록.
                     try{
-                        boolean registerCheck = registerService.RegisterUserInGroup(changed);
+                        //아래 엔티티 변환 + 더티 체킹 변환코드 많음 테스트 해봐야 됨.
+                        registerService.RegisterUserInGroup(changed);
                     }catch (BaseException exception){
                         throw new BaseException(BaseResponseStatus.FAIL_REGISTER_SAVE);
                     }
@@ -172,14 +182,15 @@ public class ApplicationService {
 //                    if(!registerCheck) throw new BaseException(BaseResponseStatus.FAIL_REGISTER_SAVE);
 
                 }
+
                 //전송
-                PatchApplicationStatusRes results = PatchApplicationStatusRes.builder()
-                        .applicationIdx(changed.getApplicationIdx())
-                        .status(changed.getStatus())
-                        .build();
+//                PatchApplicationStatusRes results = PatchApplicationStatusRes.builder()
+//                        .applicationIdx(changed.getApplicationIdx())
+//                        .status(changed.getStatus())
+//                        .build();
                 System.out.println("변경확인되었습니다.");
 
-                return results;
+                return PatchApplicationStatusRes.of(changed);
             }
 
         }else {
@@ -194,7 +205,12 @@ public class ApplicationService {
 
 
     //Group에서 추방
-    public Long ExpelUserFromGroup(Long groupIdx, PatchExpelUserReq patchExpelUserReq) throws BaseException {
+    public Long ExpelUserFromGroup(Integer userstatus, Long groupIdx, PatchExpelUserReq patchExpelUserReq) throws BaseException {
+
+        // 예전코드
+        if(!(userstatus == 1)){ //가입 승인이 된 유저만 대상으로 추방을 할 수 있음.
+            throw new BaseException(BaseResponseStatus.INVALID_STATUS);
+        }
 
         Long req_applicationIdx = patchExpelUserReq.getApplicationIdx();
 
@@ -212,6 +228,27 @@ public class ApplicationService {
         }
 
         return -3L;
+
+
+//        //새로 짠 코드 -> 아직 테스트 안했음..
+//        Application application = applicationRepository.findById(patchExpelUserReq.getApplicationIdx()).orElseThrow(
+//                () -> new IllegalArgumentException(String.valueOf(BaseResponseStatus.NOT_EXIST_USER))
+//        );
+//
+//        if ( groupInfoRepository.findstatusOfGroupInfo(groupIdx) != 1 ){//진행중인 스터디에 한해서만 변경이 가능함..
+//
+//        }
+//
+//        application.changeStatus(3);
+
+
+
+
+
+
+
+
+
 
 
 

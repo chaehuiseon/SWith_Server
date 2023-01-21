@@ -16,7 +16,7 @@ import com.swith.domain.session.repository.SessionRepository;
 import com.swith.domain.user.entity.User;
 import com.swith.domain.user.repository.UserRepository;
 import com.swith.global.error.exception.BaseException;
-import com.swith.global.error.BaseResponseStatus;
+import com.swith.global.error.ErrorCode;
 import com.swith.api.attendance.dto.PatchAttendanceReq;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -45,11 +45,11 @@ public class AttendanceService {
 
     public GetGroupAttendanceRes getGroupAttendance(Long groupIdx) throws BaseException {
          GroupInfo groupInfo = groupInfoRepository.findById(groupIdx)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUP));
+                .orElseThrow(() -> new BaseException(ErrorCode.INVALID_GROUP));
 
         List<UserAttendanceInfo> userTotalAttendance = attendanceRepository.getUserTotalAttendance(groupIdx);
         if (userTotalAttendance.isEmpty())
-            throw new BaseException(BaseResponseStatus.NO_GROUP_ATTENDANCE);
+            throw new BaseException(ErrorCode.NO_GROUP_ATTENDANCE);
 
         List<GetUserAttendanceRes> getUserAttendanceResList = new ArrayList<>();
         UserAttendanceInfo first = userTotalAttendance.get(0);
@@ -125,9 +125,9 @@ public class AttendanceService {
 
     public Integer updateAttendance(Long userIdx, Long sessionIdx) throws BaseException {
         User user = userRepository.findById(userIdx)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USER));
+                .orElseThrow(() -> new BaseException(ErrorCode.INVALID_USER));
         Session session = sessionRepository.findByIdWithGroup(sessionIdx)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_SESSION));
+                .orElseThrow(() -> new BaseException(ErrorCode.INVALID_SESSION));
         ///User가 가입 했는지 Validation 필요
         int checker = 0;
         for (Register register : user.getRegisterList()) {
@@ -138,7 +138,7 @@ public class AttendanceService {
         }
         //가입정보가 없을 경우 오류를 반환,
         if (checker == 0)
-            throw new BaseException(BaseResponseStatus.NO_REGISTRATION_INFO);
+            throw new BaseException(ErrorCode.NO_REGISTRATION_INFO);
 
 
         //출석정보가 없으면 만든다.
@@ -148,7 +148,7 @@ public class AttendanceService {
         Integer status = decideStatus(session);
         //이미 출석정보가 있으면 오류(일반 사용자의 접근이기 때문)
         if (attendance.getStatus() != 0)
-            throw new BaseException(BaseResponseStatus.ALREADY_ATTENDED);
+            throw new BaseException(ErrorCode.ALREADY_ATTENDED);
 
 
         attendance.setStatus(status);
@@ -178,7 +178,7 @@ public class AttendanceService {
         Integer status = 0;
         if (now.isBefore(start))
             //지금시간 < 시작시간
-            throw new BaseException(BaseResponseStatus.FAIL_ATTEND);
+            throw new BaseException(ErrorCode.FAIL_ATTEND);
         else if (now.isAfter(start) && now.isBefore(start.plusMinutes(validTime)))
             //시작시간 < 지금시간 < 시작시간 + 유효시간
             status = 1; //정상출석
@@ -202,7 +202,7 @@ public class AttendanceService {
 
     public List<GetSessionAttendanceRes> getSessionAttendance(Long groupIdx) throws BaseException {
         if (!groupInfoRepository.existsById(groupIdx))
-            throw new BaseException(BaseResponseStatus.INVALID_GROUP);
+            throw new BaseException(ErrorCode.INVALID_GROUP);
         List<User> userList = registerRepository.findUserByGroup(groupIdx);
         List<Session> sessionList = sessionRepository.getSessionAndAttendanceByGroupIdx(groupIdx);
         List<GetSessionAttendanceRes> getSessionAttendanceResList = new ArrayList<>();

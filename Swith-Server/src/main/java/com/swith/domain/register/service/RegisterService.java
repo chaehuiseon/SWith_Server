@@ -1,7 +1,7 @@
 package com.swith.domain.register.service;
 
 import com.swith.global.error.exception.BaseException;
-import com.swith.global.error.BaseResponseStatus;
+import com.swith.global.error.ErrorCode;
 import com.swith.domain.application.entity.Application;
 import com.swith.domain.register.entity.Register;
 import com.swith.domain.groupinfo.repository.GroupInfoRepository;
@@ -33,7 +33,7 @@ public class RegisterService {
         List<Register> registerList = registerRepository
                 .findByUser_UserIdxAndStatusEquals(userIdx, status);
         if(registerList.isEmpty())
-            throw  new BaseException(BaseResponseStatus.NO_REGISTRATION_INFO);
+            throw  new BaseException(ErrorCode.NO_REGISTRATION_INFO);
         return registerList;
     }
 
@@ -46,7 +46,7 @@ public class RegisterService {
         Register saved = registerRepository.save(register);
         //등록이 잘 되었는지 확인.
         boolean registerCheck = CheckRegisterStatus(changed,saved,0);
-        if(!registerCheck) throw new BaseException(BaseResponseStatus.FAIL_REGISTER_SAVE);
+        if(!registerCheck) throw new BaseException(ErrorCode.FAIL_REGISTER_SAVE);
         return true;
     }
 

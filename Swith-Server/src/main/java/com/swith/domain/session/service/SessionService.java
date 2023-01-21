@@ -13,7 +13,7 @@ import com.swith.domain.session.entity.Session;
 import com.swith.domain.session.repository.SessionRepository;
 import com.swith.domain.user.entity.User;
 import com.swith.global.error.exception.BaseException;
-import com.swith.global.error.BaseResponseStatus;
+import com.swith.global.error.ErrorCode;
 import com.swith.api.session.dto.PatchSessionReq;
 import com.swith.api.session.dto.GetGroupInfoRes;
 import com.swith.api.session.dto.GetSessionRes;
@@ -53,7 +53,7 @@ public class SessionService {
 
     public Long createSession(PostSessionReq postSessionReq, Integer sessionNum) throws BaseException {
         GroupInfo groupInfo = groupInfoRepository.findById(postSessionReq.getGroupIdx())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUP));
+                .orElseThrow(() -> new BaseException(ErrorCode.INVALID_GROUP));
 
         Session session = Session.builder()
                 .sessionContent(postSessionReq.getSessionContent())
@@ -83,7 +83,7 @@ public class SessionService {
 
     public Integer findAppropriateSessionNum(Long groupIdx, LocalDateTime sessionStart) throws BaseException {
         if (LocalDateTime.now().isAfter(sessionStart))
-            throw new BaseException(BaseResponseStatus.START_TIME_ERROR);
+            throw new BaseException(ErrorCode.START_TIME_ERROR);
         Integer sessionNum = sessionRepository.findAppropriateSessionNum(groupIdx, sessionStart);
         return (sessionNum + 1);
     }
@@ -96,7 +96,7 @@ public class SessionService {
     public GetGroupInfoRes loadGroupInfoAndSession(Long groupIdx, boolean isAdmin) throws BaseException {
         //그룹정보 찾기
         GroupInfo groupInfo = groupInfoRepository.findById(groupIdx)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUP));
+                .orElseThrow(() -> new BaseException(ErrorCode.INVALID_GROUP));
 
         //가장 최근의 공지사항 가져오기
         Announcement announcement;
@@ -160,7 +160,7 @@ public class SessionService {
 
     public GetSessionTabRes getSessionInfo(Long userIdx, Long sessionIdx) throws BaseException {
         Session session = sessionRepository.findByIdWithGroup(sessionIdx)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_SESSION));
+                .orElseThrow(() -> new BaseException(ErrorCode.INVALID_SESSION));
         List<Attendance> attendanceList = attendanceRepository.findBySession(sessionIdx);
 
         List<SessionAttendanceInfo> getAttendanceList = new ArrayList<>();
@@ -206,11 +206,11 @@ public class SessionService {
 //        if (start.isBefore(now))
 //            throw new BaseException(BaseResponseStatus.INAPPROPRIATE_START_TIME);
         Session session = sessionRepository.findByIdWithGroup(sessionIdx)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_SESSION));
+                .orElseThrow(() -> new BaseException(ErrorCode.INVALID_SESSION));
         Long groupIdx = session.getGroupInfo().getGroupIdx();
 
         if (sessionRepository.existsOverlappedSession(groupIdx, sessionIdx, start, end))
-            throw new BaseException(BaseResponseStatus.TIME_OVERLAPPED);
+            throw new BaseException(ErrorCode.TIME_OVERLAPPED);
         session.setOnline(patchSessionReq.getOnline());
         if (patchSessionReq.getOnline() == 1)
             session.setPlace("");
@@ -223,7 +223,7 @@ public class SessionService {
         sessionRepository.save(session);
         List<Session> sessionList = sessionRepository.findByGroupIdx(groupIdx);
         if (sessionList.isEmpty())
-            throw new BaseException(BaseResponseStatus.NO_SESSION_INFO);
+            throw new BaseException(ErrorCode.NO_SESSION_INFO);
         adjustSessionNum(sessionList);
 
         return sessionIdx;
@@ -231,18 +231,18 @@ public class SessionService {
 
     public Long deleteSession(Long sessionIdx) throws BaseException {
         Session session = sessionRepository.findByIdWithGroup(sessionIdx)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_SESSION_INFO));
+                .orElseThrow(() -> new BaseException(ErrorCode.NO_SESSION_INFO));
         if (session.getStatus() == 1)
-            throw new BaseException(BaseResponseStatus.ALREADY_DELETED_SESSION);
+            throw new BaseException(ErrorCode.ALREADY_DELETED_SESSION);
         if(session.getSessionStart().isBefore(LocalDateTime.now()))
-            throw new BaseException(BaseResponseStatus.DELETE_FAIL_SESSION);
+            throw new BaseException(ErrorCode.DELETE_FAIL_SESSION);
 
         sessionRepository.deleteSession(sessionIdx);
 
         //회차 수 재조정
         List<Session> sessionList = sessionRepository.findByGroupIdx(session.getGroupInfo().getGroupIdx());
         if (sessionList.isEmpty())
-            throw new BaseException(BaseResponseStatus.NO_SESSION_INFO);
+            throw new BaseException(ErrorCode.NO_SESSION_INFO);
         adjustSessionNum(sessionList);
 
         return sessionIdx;

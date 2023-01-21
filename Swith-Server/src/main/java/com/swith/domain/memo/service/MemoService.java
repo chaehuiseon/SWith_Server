@@ -1,7 +1,7 @@
 package com.swith.domain.memo.service;
 
 import com.swith.global.error.exception.BaseException;
-import com.swith.global.error.BaseResponseStatus;
+import com.swith.global.error.ErrorCode;
 import com.swith.api.memo.dto.PatchMemoReq;
 import com.swith.api.memo.dto.PostMemoReq;
 import com.swith.domain.memo.entity.Memo;
@@ -33,11 +33,11 @@ public class MemoService {
         Long userIdx = postMemoReq.getUserIdx();
         Long sessionIdx = postMemoReq.getSessionIdx();
         User user = userRepository.findById(userIdx)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USER));
+                .orElseThrow(() -> new BaseException(ErrorCode.INVALID_USER));
         Session session = sessionRepository.findById(sessionIdx)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_SESSION));
+                .orElseThrow(() -> new BaseException(ErrorCode.INVALID_SESSION));
         if(memoRepository.existsByUserAndSession(userIdx, sessionIdx))
-            throw new BaseException(BaseResponseStatus.ALREADY_EXIST);
+            throw new BaseException(ErrorCode.ALREADY_EXIST);
 
         Memo memo = Memo.builder()
                 .memoContent(postMemoReq.getMemoContent())
@@ -50,7 +50,7 @@ public class MemoService {
 
     public Long patchMemo(PatchMemoReq patchMemoReq) throws BaseException{
         Memo memo = memoRepository.findById(patchMemoReq.getMemoIdx())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_MEMO));
+                .orElseThrow(() -> new BaseException(ErrorCode.INVALID_MEMO));
         memo.setMemoContent(patchMemoReq.getMemoContent());
         Memo savedMemo = memoRepository.save(memo);
         return savedMemo.getMemoIdx();

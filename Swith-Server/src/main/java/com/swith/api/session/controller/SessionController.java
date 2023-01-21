@@ -2,7 +2,7 @@ package com.swith.api.session.controller;
 
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.dto.BaseResponse;
-import com.swith.global.error.BaseResponseStatus;
+import com.swith.global.error.ErrorCode;
 import com.swith.api.session.dto.PatchSessionReq;
 import com.swith.api.session.dto.GetGroupInfoRes;
 import com.swith.api.session.dto.PostSessionReq;
@@ -60,11 +60,11 @@ public class SessionController {
         try {
             //요청한 유저가 관리자인지 검증
             if (!userService.isAdminOfGroup(postSessionReq.getUserIdx(), postSessionReq.getGroupIdx()))
-                return new BaseResponse<>(BaseResponseStatus.POST_SESSION_NOT_ADMIN);
+                return new BaseResponse<>(ErrorCode.POST_SESSION_NOT_ADMIN);
             //요청된 회차의 시간대가 겹치지 않는 지를 검증
             if(sessionService.existsOverlappedSession(postSessionReq.getGroupIdx(),
                     postSessionReq.getSessionStart(),postSessionReq.getSessionEnd()))
-                throw new BaseException(BaseResponseStatus.TIME_OVERLAPPED);
+                throw new BaseException(ErrorCode.TIME_OVERLAPPED);
 
             //회차 시작시간, 끝시간을 기준으로 회차의 적절한 sessionNum 을 찾는다.
             Integer sessionNum = sessionService.findAppropriateSessionNum(postSessionReq.getGroupIdx(), postSessionReq.getSessionStart());

@@ -2,7 +2,7 @@ package com.swith.api.groupinfo.controller;
 
 
 import com.querydsl.jpa.impl.JPAQuery;
-import com.swith.global.error.BaseResponseStatus;
+import com.swith.global.error.ErrorCode;
 import com.swith.api.common.dto.BaseResponse;
 import com.swith.api.groupinfo.dto.PostGroupInfoReq;
 import com.swith.api.groupinfo.dto.PostGroupInfoRes;
@@ -114,7 +114,7 @@ public class GroupInfoController {
         //상태 변경 권한이 있는지..즉, 스터디 개설자가 맞는지.
         boolean check = groupInfoService.IsAdmin(groupIdx, ReqAdminIdx);
         if (check == false) {//권한없음
-            return new BaseResponse<>(BaseResponseStatus.NO_GROUP_LEADER);
+            return new BaseResponse<>(ErrorCode.NO_GROUP_LEADER);
         }
 
         Long result = groupInfoService.ModifyGroupInformation(groupIdx, patchGroupInfoReq);
@@ -134,15 +134,15 @@ public class GroupInfoController {
         //jwt 유효성 검사 추가해야됨 ..
 
         if (check == false) {//권한없음
-            return new BaseResponse<>(BaseResponseStatus.NO_GROUP_LEADER);
+            return new BaseResponse<>(ErrorCode.NO_GROUP_LEADER);
         }
 
         Long result = groupInfoService.EndGroup(groupIdx, adminIdx);
         System.out.println("종료 >>>>" + result);
         //그룹 존재하지 않아서 실패
-        if (result == -1L) return new BaseResponse<>(BaseResponseStatus.FAIL_LOAD_GROUPINFO);
+        if (result == -1L) return new BaseResponse<>(ErrorCode.FAIL_LOAD_GROUPINFO);
         //삭제가 실패
-        if (result == -2L) return new BaseResponse<>(BaseResponseStatus.FAIL_CHANGED_STATUS);
+        if (result == -2L) return new BaseResponse<>(ErrorCode.FAIL_CHANGED_STATUS);
         return new BaseResponse<>(result);
 
     }

@@ -2,7 +2,7 @@ package com.swith.api.announcement.controller;
 
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.dto.BaseResponse;
-import com.swith.global.error.BaseResponseStatus;
+import com.swith.global.error.ErrorCode;
 import com.swith.api.announcement.dto.PatchAnnouncementReq;
 import com.swith.api.announcement.dto.PostAnnouncementReq;
 import com.swith.api.announcement.dto.GetAnnouncementRes;
@@ -48,7 +48,7 @@ public class AnnouncementController {
         } catch (BaseException e){
             return new BaseResponse<>(e.getStatus());
         } catch (IOException e){
-            return new BaseResponse<>(BaseResponseStatus.INVALID_GROUP);
+            return new BaseResponse<>(ErrorCode.INVALID_GROUP);
         }
     }
 

@@ -16,7 +16,7 @@ import com.swith.domain.session.entity.Session;
 import com.swith.domain.user.repository.UserRepository;
 import com.swith.domain.session.repository.SessionRepository;
 import com.swith.global.error.exception.BaseException;
-import com.swith.global.error.BaseResponseStatus;
+import com.swith.global.error.ErrorCode;
 import com.swith.api.groupinfo.dto.PatchGroupInfoReq;
 import com.swith.api.groupinfo.dto.GetEachGroupInfoRes;
 import com.swith.api.groupinfo.dto.GetHomeGroupInfoRes;
@@ -69,7 +69,7 @@ public class GroupInfoService {
     public List<GetHomeGroupInfoRes> loadHomeData(Long userIdx) throws BaseException {
         List<GroupInfo> groupInfos = registerRepository.findGroupInfoByUserIdx(userIdx);
         if (groupInfos.isEmpty())
-            throw new BaseException(BaseResponseStatus.NO_REGISTRATION_INFO);
+            throw new BaseException(ErrorCode.NO_REGISTRATION_INFO);
 
         List<GetHomeGroupInfoRes> getHomeGroupInfoResList = new ArrayList<>();
         for (GroupInfo groupInfo : groupInfos) {
@@ -186,7 +186,7 @@ public class GroupInfoService {
                 .build();
         Register saved = registerRepository.save(register);
         if(saved.getGroupInfo().getGroupIdx() != savedgroupInfo.getGroupIdx()) {
-            throw new BaseException(BaseResponseStatus.FAIL_REGISTER_SAVE);
+            throw new BaseException(ErrorCode.FAIL_REGISTER_SAVE);
         }
 
 
@@ -288,7 +288,7 @@ public class GroupInfoService {
         }
         //존재함
         GroupInfo groupInfo = groupInfoRepository.findById(groupIdx).orElseThrow(
-                () -> new IllegalArgumentException(String.valueOf(BaseResponseStatus.FAIL_LOAD_GROUPINFO))
+                () -> new IllegalArgumentException(String.valueOf(ErrorCode.FAIL_LOAD_GROUPINFO))
         );
 
         Long ReqgroupIdx = groupInfo.getGroupIdx();

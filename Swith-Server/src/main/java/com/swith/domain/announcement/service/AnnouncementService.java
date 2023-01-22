@@ -39,7 +39,7 @@ public class AnnouncementService {
         this.fcmService = fcmService;
     }
 
-    public List<GetAnnouncementRes> loadAnnouncements(Long groupIdx) throws BaseException {
+    public List<GetAnnouncementRes> loadAnnouncements(Long groupIdx) {
         if (!groupInfoRepository.existsById(groupIdx)) {
             throw new BaseException(ErrorCode.INVALID_GROUP);
         }

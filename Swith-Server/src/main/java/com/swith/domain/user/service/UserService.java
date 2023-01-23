@@ -1,7 +1,7 @@
 package com.swith.domain.user.service;
 
 import com.swith.global.error.exception.BaseException;
-import com.swith.global.error.BaseResponseStatus;
+import com.swith.global.error.ErrorCode;
 import com.swith.global.jwt.JwtTokenProvider;
 import com.swith.global.jwt.TokenInfo;
 import com.swith.api.user.dto.PostSignUpAndInReq;
@@ -37,7 +37,7 @@ public class UserService {
     public PostUserInfoRes userInfo(PostUserInfoReq postUserInfoReq) throws BaseException {
         User findUser = userRepository.findByUserIdx(postUserInfoReq.getUserIdx());
         if(findUser == null){
-            throw new BaseException(BaseResponseStatus.NOT_EXIST_USER);
+            throw new BaseException(ErrorCode.NOT_EXIST_USER);
         }
         return PostUserInfoRes.toDetailUser(findUser);
     }
@@ -46,7 +46,7 @@ public class UserService {
     public PostSignUpRes register(PostSignUpReq postSignUpReq) throws BaseException {
         User findUser = userRepository.findByEmail(postSignUpReq.getEmail());
         if(findUser == null){
-            throw new BaseException(BaseResponseStatus.ERROR_FIND_EMAIL);
+            throw new BaseException(ErrorCode.ERROR_FIND_EMAIL);
         }
         Interest interest1 = buildInterest(postSignUpReq.getInterest1());
         Interest interest2 = buildInterest(postSignUpReq.getInterest2());
@@ -86,9 +86,9 @@ public class UserService {
 
     public boolean isAdminOfGroup(Long userIdx, Long GroupIdx) throws BaseException{
         User user = userRepository.findById(userIdx)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USER));
+                .orElseThrow(() -> new BaseException(ErrorCode.INVALID_USER));
         GroupInfo groupInfo = groupInfoRepository.findById(GroupIdx)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUP));
+                .orElseThrow(() -> new BaseException(ErrorCode.INVALID_GROUP));
         if(groupInfo.getUser() == user){
             return true;
         }
@@ -104,15 +104,15 @@ public class UserService {
         User findUser = userRepository.findByEmail(email);
         // 유저 없는 경우
         if(findUser == null){
-            throw new BaseException(BaseResponseStatus.NOT_EXIST_USER);
+            throw new BaseException(ErrorCode.NOT_EXIST_USER);
         }
         // 엑세스 토큰이 아닌 리프레시 토큰으로 로그아웃을 시도한경우
         if(accessToken.equals(findUser.getRefreshToken())){
-            throw new BaseException(BaseResponseStatus.REFRESH_LOGOUT);
+            throw new BaseException(ErrorCode.REFRESH_LOGOUT);
         }
         // 이미 로그아웃한경우
         if(findUser.getRefreshToken() == null){
-            throw new BaseException(BaseResponseStatus.ALREADY_LOGOUT);
+            throw new BaseException(ErrorCode.ALREADY_LOGOUT);
         }
         User user = findUser.updateRefreshToken(null);
         userRepository.save(user);

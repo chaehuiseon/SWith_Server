@@ -3,7 +3,7 @@ package com.swith.domain.application.service;
 
 import com.swith.domain.register.service.RegisterService;
 import com.swith.global.error.exception.BaseException;
-import com.swith.global.error.BaseResponseStatus;
+import com.swith.global.error.ErrorCode;
 import com.swith.api.application.dto.PatchApplicationStatusReq;
 import com.swith.api.application.dto.PatchExpelUserReq;
 import com.swith.api.application.dto.PostApplicationReq;
@@ -81,7 +81,7 @@ public class ApplicationService {
                 try{
                     boolean registerCheck = registerService.RegisterUserInGroup(savedInfo);
                 }catch (BaseException exception){
-                    throw new BaseException(BaseResponseStatus.FAIL_REGISTER_SAVE);
+                    throw new BaseException(ErrorCode.FAIL_REGISTER_SAVE);
                 }
             }
 
@@ -137,7 +137,7 @@ public class ApplicationService {
             try {
                 applicationRepository.updateStatusOfApplication(req_status, req_applicationIdx, groupIdx,status);
             } catch (Exception exception) {
-                throw new BaseException(BaseResponseStatus.FAIL_CHANGED_STATUS);
+                throw new BaseException(ErrorCode.FAIL_CHANGED_STATUS);
             }
 
             //확인
@@ -148,7 +148,7 @@ public class ApplicationService {
                     try{
                         boolean registerCheck = registerService.RegisterUserInGroup(changed);
                     }catch (BaseException exception){
-                        throw new BaseException(BaseResponseStatus.FAIL_REGISTER_SAVE);
+                        throw new BaseException(ErrorCode.FAIL_REGISTER_SAVE);
                     }
 
 
@@ -183,7 +183,7 @@ public class ApplicationService {
             }
 
         }else {
-            throw new BaseException(BaseResponseStatus.DO_NOT_EXECUTE_CHANGE);
+            throw new BaseException(ErrorCode.DO_NOT_EXECUTE_CHANGE);
         }
 
         return null;
@@ -201,7 +201,7 @@ public class ApplicationService {
         try {
             applicationRepository.updateStatusOfApplication(3, req_applicationIdx, groupIdx,1);
         } catch (Exception exception) {
-            throw new BaseException(BaseResponseStatus.FAIL_CHANGED_STATUS);
+            throw new BaseException(ErrorCode.FAIL_CHANGED_STATUS);
         }
 
         Application changed = applicationRepository.findById(req_applicationIdx).get();
@@ -220,7 +220,7 @@ public class ApplicationService {
     public List<GetApplicationRes> getUserApplication(Long userIdx) throws BaseException {
         List<Application> applicationList = applicationRepository.findByUserWithGroup(userIdx);
         if(applicationList.isEmpty())
-            throw new BaseException(BaseResponseStatus.NO_APPLICATION_INFO);
+            throw new BaseException(ErrorCode.NO_APPLICATION_INFO);
 
         List<GetApplicationRes> getApplicationResList = new ArrayList<>();
         for (Application application : applicationList) {

@@ -1,6 +1,6 @@
 package com.swith.api.common.dto;
 
-import com.swith.global.error.BaseResponseStatus;
+import com.swith.global.error.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,16 +21,14 @@ public class BaseResponsePaging<T> {
 
     // 페이징이 필요한 요청에 성공한 경우
     public BaseResponsePaging(T result, PagingRes pageInfo) {
-        this.isSuccess = BaseResponseStatus.SUCCESS.isSuccess();
-        this.message = BaseResponseStatus.SUCCESS.getMessage();
-        this.code = BaseResponseStatus.SUCCESS.getCode();
+        this.message = ErrorCode.SUCCESS.getMessage();
+        this.code = ErrorCode.SUCCESS.getCode();
         this.result = result;
         this.pageInfo = pageInfo;
     }
 
     // 요청에 실패한 경우
-    public BaseResponsePaging(BaseResponseStatus status) {
-        this.isSuccess = status.isSuccess();
+    public BaseResponsePaging(ErrorCode status) {
         this.message = status.getMessage();
         this.code = status.getCode();
     }

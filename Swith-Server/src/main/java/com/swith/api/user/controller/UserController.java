@@ -11,7 +11,7 @@ import com.swith.api.user.dto.PostSignUpReq;
 import com.swith.api.user.dto.PostUserInfoRes;
 import com.swith.api.user.dto.PostSignUpRes;
 import com.swith.domain.user.service.UserService;
-import com.swith.global.error.BaseResponseStatus;
+import com.swith.global.error.ErrorCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -66,7 +66,7 @@ public class UserController {
         try{
             // 로그인 안한 경우
             if(authentication == null){
-                throw new BaseException(BaseResponseStatus.NOT_LOGIN);
+                throw new BaseException(ErrorCode.NOT_LOGIN);
             }
             OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
             Map<String, Object> attributes = oAuth2User.getAttributes();

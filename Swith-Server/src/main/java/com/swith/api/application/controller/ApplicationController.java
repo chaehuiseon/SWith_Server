@@ -1,7 +1,7 @@
 package com.swith.api.application.controller;
 
 
-import com.swith.global.error.BaseResponseStatus;
+import com.swith.global.error.ErrorCode;
 import com.swith.api.common.dto.BaseResponse;
 import com.swith.api.application.dto.PatchApplicationStatusReq;
 import com.swith.api.application.dto.PatchExpelUserReq;
@@ -43,7 +43,7 @@ public class ApplicationController {
 
         Long admin = applicationService.findAdminIdx(groupIdx);
         if(admin == postApplicationReq.getUserIdx()){
-            return new BaseResponse<>(BaseResponseStatus.INVAILD_ADMIN_APPLICATION);
+            return new BaseResponse<>(ErrorCode.INVAILD_ADMIN_APPLICATION);
         }
 
 
@@ -52,11 +52,11 @@ public class ApplicationController {
         Long NumOfApplicants = applicationService.findNumOfApplicants(groupIdx);
         System.out.println("지원자/limit =  " + NumOfApplicants + "/ " + limit);
         if(limit.equals(NumOfApplicants.intValue())){ //신청인원이 다 찻다.
-            return new BaseResponse<>(BaseResponseStatus.FULL_NUM_OF_Applicants);
+            return new BaseResponse<>(ErrorCode.FULL_NUM_OF_Applicants);
         }
         Long applicationIdx = applicationService.Apply(groupIdx, applicationMethod, postApplicationReq);
         if(applicationIdx == null){
-            return new BaseResponse<>(BaseResponseStatus.FAIL_SAVED_APPLICATION);
+            return new BaseResponse<>(ErrorCode.FAIL_SAVED_APPLICATION);
         }
 
         return new BaseResponse<>(applicationIdx);
@@ -75,14 +75,14 @@ public class ApplicationController {
         boolean existcheck = groupInfoService.existGroupIdx(groupIdx);
         if(existcheck == false){ //존재하지 않는 스터디
             System.out.println("종료된 스터디거나 오류임~~~~~~");
-            return new BaseResponse<>(BaseResponseStatus.FAIL_LOAD_GROUPINFO);
+            return new BaseResponse<>(ErrorCode.FAIL_LOAD_GROUPINFO);
         }
 
         //groupInfo의 status를 check 종료된 스터디인지.
         //exist에서 이 검사를 다 하니깐...이부분 없애도 될거같음 -> refactory대상.
         Integer statuscheck = groupInfoService.statusOfGroupInfo(groupIdx);
         if(statuscheck == 2 ){//종료된 스터디
-            return new BaseResponse<>(BaseResponseStatus.FAIL_CLOSED_GROUPINFO);
+            return new BaseResponse<>(ErrorCode.FAIL_CLOSED_GROUPINFO);
         }
 
         //가지고 와야지.. 정보....
@@ -114,16 +114,16 @@ public class ApplicationController {
         boolean check = groupInfoService.IsAdmin(groupIdx,ReqAdminIdx);
         if(check == false){//권한없음
             System.out.println("권한이 없습니다.");
-            return new BaseResponse<>(BaseResponseStatus.NO_GROUP_LEADER);
+            return new BaseResponse<>(ErrorCode.NO_GROUP_LEADER);
         }
         Integer ReqStatus = patchApplicationStatusReq.getStatusOfApplication();
         if(!(ReqStatus == 1 || ReqStatus == 2 )){//요청이 승인(1) 또는 반려(2)가 아니면 잘못된 값을 받은 것.
-            return new BaseResponse<>(BaseResponseStatus.INVALID_STATUS);
+            return new BaseResponse<>(ErrorCode.INVALID_STATUS);
         }
         //권한 있음.
         PatchApplicationStatusRes response = applicationService.changeApplicationStatus(groupIdx, status, patchApplicationStatusReq);
 
-        if(response == null) return new BaseResponse<>(BaseResponseStatus.RESPONSE_ERROR);
+        if(response == null) return new BaseResponse<>(ErrorCode.RESPONSE_ERROR);
 
         return new BaseResponse<>(response);
 
@@ -143,23 +143,23 @@ public class ApplicationController {
 
         //그룹 존재
         boolean existgroup = groupInfoService.existGroupIdx(groupIdx);
-        if(!existgroup) return new BaseResponse<>(BaseResponseStatus.FAIL_LOAD_GROUPINFO);
+        if(!existgroup) return new BaseResponse<>(ErrorCode.FAIL_LOAD_GROUPINFO);
 
 
         //추방 권한 확인
         Long ReqAdminIdx = patchExpelUserReq.getAdminIdx();
         boolean check = groupInfoService.IsAdmin(groupIdx,ReqAdminIdx);
         if(check == false){//권한없음
-            return new BaseResponse<>(BaseResponseStatus.NO_GROUP_LEADER);
+            return new BaseResponse<>(ErrorCode.NO_GROUP_LEADER);
         }
 
         if(!(status == 1)){ //가입 승인이 된 유저만 대상으로 추방을 할 수 있음.
-            return new BaseResponse<>(BaseResponseStatus.INVALID_STATUS);
+            return new BaseResponse<>(ErrorCode.INVALID_STATUS);
         }
 
         //추방하기
         Long result = applicationService.ExpelUserFromGroup(groupIdx, patchExpelUserReq);
-        if(result == -3L) return new BaseResponse<>(BaseResponseStatus.DO_NOT_EXECUTE_CHANGE);
+        if(result == -3L) return new BaseResponse<>(ErrorCode.DO_NOT_EXECUTE_CHANGE);
         return new BaseResponse<>(result);
 
     }

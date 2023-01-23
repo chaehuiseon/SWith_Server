@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
  * 에러 코드 관리
  */
 @Getter
-public enum BaseResponseStatus {
+public enum ErrorCode {
     /*
      * 1000 : 요청 성공
      */
@@ -141,7 +141,7 @@ public enum BaseResponseStatus {
 
 
 
-    BaseResponseStatus(HttpStatus httpStatus, int code, String message) { // BaseResponseStatus 에서 각 해당하는 코드를 생성자로 맵핑
+    ErrorCode(HttpStatus httpStatus, int code, String message) { // BaseResponseStatus 에서 각 해당하는 코드를 생성자로 맵핑
         this.httpStatus = httpStatus;
         this.code = code;
         this.message = message;

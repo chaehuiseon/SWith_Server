@@ -1,7 +1,7 @@
 package com.swith.domain.announcement.service;
 
 import com.swith.global.error.exception.BaseException;
-import com.swith.global.error.BaseResponseStatus;
+import com.swith.global.error.ErrorCode;
 import com.swith.api.announcement.dto.PatchAnnouncementReq;
 import com.swith.api.announcement.dto.PostAnnouncementReq;
 import com.swith.api.announcement.dto.GetAnnouncementRes;
@@ -39,9 +39,9 @@ public class AnnouncementService {
         this.fcmService = fcmService;
     }
 
-    public List<GetAnnouncementRes> loadAnnouncements(Long groupIdx) throws BaseException {
+    public List<GetAnnouncementRes> loadAnnouncements(Long groupIdx) {
         if (!groupInfoRepository.existsById(groupIdx)) {
-            throw new BaseException(BaseResponseStatus.INVALID_GROUP);
+            throw new BaseException(ErrorCode.INVALID_GROUP);
         }
         List<Announcement> announcementList = announcementRepository.findByGroupIdx(groupIdx);
         List<GetAnnouncementRes> getAnnouncementResList = new ArrayList<>();
@@ -65,7 +65,7 @@ public class AnnouncementService {
     public Long createAnnouncement(PostAnnouncementReq postAnnouncementReq) throws BaseException, IOException {
         Long groupIdx = postAnnouncementReq.getGroupIdx();
         GroupInfo groupInfo = groupInfoRepository.findById(groupIdx)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_GROUP));
+                .orElseThrow(() -> new BaseException(ErrorCode.INVALID_GROUP));
         String title = groupInfo.getTitle();
         ArrayList<Long> userIdxByGroup = registerRepository.findUserIdxByGroup(groupIdx);
         ArrayList<String> pushUserToken = groupInfoRepository.findUserToken(userIdxByGroup);
@@ -90,31 +90,31 @@ public class AnnouncementService {
 
     public Long updateAnnouncement(PatchAnnouncementReq patchAnnouncementReq) throws BaseException {
         Announcement announcement = announcementRepository.findById(patchAnnouncementReq.getAnnouncementIdx())
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_ANNOUNCEMENT));
+                .orElseThrow(() -> new BaseException(ErrorCode.INVALID_ANNOUNCEMENT));
         //삭제된 상태의 경우
         if (announcement.getStatus() == 1)
-            throw new BaseException(BaseResponseStatus.ALREADY_DELETED_ANNOUNCEMENT);
+            throw new BaseException(ErrorCode.ALREADY_DELETED_ANNOUNCEMENT);
 
         //내용 수정 작업
         Integer count = announcementRepository.updateById(patchAnnouncementReq.getAnnouncementIdx()
                 , patchAnnouncementReq.getAnnouncementContent(), LocalDateTime.now());
         if (count != 1)
-            throw new BaseException(BaseResponseStatus.MODIFY_FAIL_ANNOUNCEMENT);
+            throw new BaseException(ErrorCode.MODIFY_FAIL_ANNOUNCEMENT);
         return announcement.getAnnouncementIdx();
     }
 
     public Integer deleteAnnouncement(Long announcementIdx) throws BaseException {
         Announcement announcement = announcementRepository.findById(announcementIdx)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_ANNOUNCEMENT));
+                .orElseThrow(() -> new BaseException(ErrorCode.INVALID_ANNOUNCEMENT));
 
         //삭제된 상태의 경우
         if (announcement.getStatus() == 1)
-            throw new BaseException(BaseResponseStatus.ALREADY_DELETED_ANNOUNCEMENT);
+            throw new BaseException(ErrorCode.ALREADY_DELETED_ANNOUNCEMENT);
 
         //삭제 작업
         Integer count = announcementRepository.deleteByIdx(announcementIdx);
         if (count != 1)
-            throw new BaseException(BaseResponseStatus.DELETE_FAIL_ANNOUNCEMENT);
+            throw new BaseException(ErrorCode.DELETE_FAIL_ANNOUNCEMENT);
         return count;
     }
 }

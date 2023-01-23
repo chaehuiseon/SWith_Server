@@ -34,7 +34,7 @@ public class UserService {
     }
 
     // 회원 DB 조회
-    public PostUserInfoRes userInfo(PostUserInfoReq postUserInfoReq) throws BaseException {
+    public PostUserInfoRes userInfo(PostUserInfoReq postUserInfoReq){
         User findUser = userRepository.findByUserIdx(postUserInfoReq.getUserIdx());
         if(findUser == null){
             throw new BaseException(ErrorCode.NOT_EXIST_USER);
@@ -43,7 +43,7 @@ public class UserService {
     }
 
     // 초기 회원 정보 등록
-    public PostSignUpRes register(PostSignUpReq postSignUpReq) throws BaseException {
+    public PostSignUpRes register(PostSignUpReq postSignUpReq){
         User findUser = userRepository.findByEmail(postSignUpReq.getEmail());
         if(findUser == null){
             throw new BaseException(ErrorCode.ERROR_FIND_EMAIL);
@@ -60,7 +60,7 @@ public class UserService {
     }
 
     // 회원가입 및 로그인
-    public PostUserInfoRes signUpAndIn(PostSignUpAndInReq postSignUpAndInReq) throws BaseException {
+    public PostUserInfoRes signUpAndIn(PostSignUpAndInReq postSignUpAndInReq){
         User findUser = userRepository.findByEmail(postSignUpAndInReq.getEmail());
         TokenInfo accessTokenDto = jwtTokenProvider.createJwtAccessToken(postSignUpAndInReq.getEmail());
         TokenInfo refreshTokenDto = jwtTokenProvider.createJwtRefreshToken(postSignUpAndInReq.getEmail());
@@ -100,7 +100,7 @@ public class UserService {
     }
 
     // 로그아웃
-    public void logout(String accessToken, String email) throws BaseException{
+    public void logout(String accessToken, String email){
         User findUser = userRepository.findByEmail(email);
         // 유저 없는 경우
         if(findUser == null){

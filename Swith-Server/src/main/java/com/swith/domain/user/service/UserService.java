@@ -34,43 +34,22 @@ public class UserService {
     }
 
     // 회원 DB 조회
-    public PostUserInfoRes userInfo(PostUserInfoReq postUserInfoReq) throws BaseException {
+    public PostUserInfoRes userInfo(PostUserInfoReq postUserInfoReq){
         User findUser = userRepository.findByUserIdx(postUserInfoReq.getUserIdx());
         if(findUser == null){
             throw new BaseException(ErrorCode.NOT_EXIST_USER);
         }
-
-        PostUserInfoRes postUserInfoRes = PostUserInfoRes.builder()
-                .userIdx(findUser.getUserIdx())
-                .email(findUser.getEmail())
-                .nickname(findUser.getNickname())
-                .profileImgUrl(findUser.getProfileImgUrl())
-                .introduction(findUser.getIntroduction())
-                .interestIdx1(findUser.getInterest1().getInterestIdx())
-                .interestIdx2(findUser.getInterest2().getInterestIdx())
-                .region(findUser.getRegion())
-                .averageStar(findUser.getAverageStar())
-                .role(findUser.getRole())
-                .refreshToken(findUser.getRefreshToken())
-                .fcmtoken(findUser.getFcmtoken())
-                .status(findUser.getStatus())
-                .build();
-
-        return postUserInfoRes;
+        return PostUserInfoRes.toDetailUser(findUser);
     }
 
     // 초기 회원 정보 등록
-    public PostSignUpRes register(PostSignUpReq postSignUpReq) throws BaseException {
+    public PostSignUpRes register(PostSignUpReq postSignUpReq){
         User findUser = userRepository.findByEmail(postSignUpReq.getEmail());
         if(findUser == null){
             throw new BaseException(ErrorCode.ERROR_FIND_EMAIL);
         }
-        Interest interest1 = Interest.builder()
-                .interestIdx(postSignUpReq.getInterest1())
-                .build();
-        Interest interest2 = Interest.builder()
-                .interestIdx(postSignUpReq.getInterest2())
-                .build();
+        Interest interest1 = buildInterest(postSignUpReq.getInterest1());
+        Interest interest2 = buildInterest(postSignUpReq.getInterest2());
 
         User user = findUser.update(postSignUpReq.getNickname(), interest1, interest2, postSignUpReq.getIntroduction(), postSignUpReq.getRegion());
         User savedUser = userRepository.save(user);
@@ -81,56 +60,31 @@ public class UserService {
     }
 
     // 회원가입 및 로그인
-    public PostUserInfoRes signUpAndIn(PostSignUpAndInReq postSignUpAndInReq) throws BaseException {
+    public PostUserInfoRes signUpAndIn(PostSignUpAndInReq postSignUpAndInReq){
         User findUser = userRepository.findByEmail(postSignUpAndInReq.getEmail());
         TokenInfo accessTokenDto = jwtTokenProvider.createJwtAccessToken(postSignUpAndInReq.getEmail());
         TokenInfo refreshTokenDto = jwtTokenProvider.createJwtRefreshToken(postSignUpAndInReq.getEmail());
         // 이메일 없는 경우 -> isSignUp -> true로 변경
         if(findUser == null){
             User user = buildUserForSignUp(postSignUpAndInReq, refreshTokenDto);
-
-            Interest interest1 = Interest.builder()
-                    .interestIdx(1)
-                    .build();
-            Interest interest2 = Interest.builder()
-                    .interestIdx(2)
-                    .build();
+            Interest interest1 = buildInterest(1);
+            Interest interest2 = buildInterest(2);
 
             User updateUser = user.updateInterest(interest1, interest2);
-
             User savedUser = userRepository.save(updateUser);
-            PostUserInfoRes postUserInfoRes = PostUserInfoRes.builder()
-                    .userIdx(savedUser.getUserIdx())
-                    .email(savedUser.getEmail())
-                    .nickname(savedUser.getNickname())
-                    .profileImgUrl(savedUser.getProfileImgUrl())
-                    .introduction(savedUser.getIntroduction())
-                    .interestIdx1(1)
-                    .interestIdx2(2)
-                    .region(savedUser.getRegion())
-                    .averageStar(savedUser.getAverageStar())
-                    .role(savedUser.getRole())
-                    .accessToken(accessTokenDto.getToken())
-                    .refreshToken(refreshTokenDto.getToken())
-                    .fcmtoken(savedUser.getFcmtoken())
-                    .isSignUp(true)
-                    .status(savedUser.getStatus())
-                    .build();
-
-            return postUserInfoRes;
+            return PostUserInfoRes.from(savedUser, 1, 2, accessTokenDto, refreshTokenDto);
         }
         else{
             // refreshToken DB에 저장
             User user = findUser.updateRefreshToken(refreshTokenDto.getToken());
             User savedUser = userRepository.save(user);
 
-            PostUserInfoRes postUserInfoRes = getSignUpAndInResponseDto(savedUser, accessTokenDto, refreshTokenDto);
-
-            return postUserInfoRes;
+            return PostUserInfoRes.from(savedUser,savedUser.getInterest1().getInterestIdx(),
+                    savedUser.getInterest2().getInterestIdx(), accessTokenDto, refreshTokenDto);
         }
     }
 
-    public boolean isAdminOfGroup (Long userIdx, Long GroupIdx) throws BaseException{
+    public boolean isAdminOfGroup(Long userIdx, Long GroupIdx) throws BaseException{
         User user = userRepository.findById(userIdx)
                 .orElseThrow(() -> new BaseException(ErrorCode.INVALID_USER));
         GroupInfo groupInfo = groupInfoRepository.findById(GroupIdx)
@@ -141,41 +95,12 @@ public class UserService {
         return false;
     }
 
-    private PostUserInfoRes getSignUpAndInResponseDto(User savedUser, TokenInfo accessTokenDto, TokenInfo refreshTokenDto){
-        PostUserInfoRes postUserInfoRes = PostUserInfoRes.builder()
-                .userIdx(savedUser.getUserIdx())
-                .email(savedUser.getEmail())
-                .nickname(savedUser.getNickname())
-                .profileImgUrl(savedUser.getProfileImgUrl())
-                .introduction(savedUser.getIntroduction())
-                .interestIdx1(savedUser.getInterest1().getInterestIdx())
-                .interestIdx2(savedUser.getInterest2().getInterestIdx())
-                .region(savedUser.getRegion())
-                .averageStar(savedUser.getAverageStar())
-                .role(savedUser.getRole())
-                .accessToken(accessTokenDto.getToken())
-                .refreshToken(refreshTokenDto.getToken())
-                .fcmtoken(savedUser.getFcmtoken())
-                .isSignUp(false)
-                .status(savedUser.getStatus())
-                .build();
-        return postUserInfoRes;
-    }
-
     private PostSignUpRes getSignUpResponseDto(User savedUser) {
-        PostSignUpRes postSignUpRes = PostSignUpRes.builder()
-                .email(savedUser.getEmail())
-                .interestIdx1(savedUser.getInterest1().getInterestIdx())
-                .interestIdx2(savedUser.getInterest2().getInterestIdx())
-                .nickname(savedUser.getNickname())
-                .introduction(savedUser.getIntroduction())
-                .region(savedUser.getRegion())
-                .build();
-        return postSignUpRes;
+        return PostSignUpRes.toDetailUser(savedUser);
     }
 
     // 로그아웃
-    public void logout(String accessToken, String email) throws BaseException{
+    public void logout(String accessToken, String email){
         User findUser = userRepository.findByEmail(email);
         // 유저 없는 경우
         if(findUser == null){
@@ -206,5 +131,12 @@ public class UserService {
                 .status(0)
                 .build();
         return user;
+    }
+
+    private Interest buildInterest(Integer interestIdx){
+        Interest interest = Interest.builder()
+                .interestIdx(interestIdx)
+                .build();
+        return interest;
     }
 }

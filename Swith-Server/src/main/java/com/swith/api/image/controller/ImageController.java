@@ -4,6 +4,7 @@ import com.swith.api.image.dto.UploadImageResponseDto;
 import com.swith.domain.image.service.ImageService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,8 +17,8 @@ public class ImageController {
 
     @ApiOperation("이미지 업로드")
     @PostMapping("/uploadImage")
-    public UploadImageResponseDto uploadImage(@RequestPart("image") List<MultipartFile> multipartFiles) {
-        return imageService.uploadImage(multipartFiles);
+    public ResponseEntity<UploadImageResponseDto> uploadImage(@RequestPart("image") List<MultipartFile> multipartFiles) {
+        return ResponseEntity.ok(imageService.uploadImage(multipartFiles));
     }
 
 //    @PostMapping("/deleteImage")

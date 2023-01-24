@@ -1,6 +1,8 @@
 package com.swith.api.user.dto;
 
 import com.swith.domain.user.constant.RoleType;
+import com.swith.domain.user.entity.User;
+import com.swith.global.jwt.TokenInfo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,4 +57,42 @@ public class PostUserInfoRes {
     private Boolean isSignUp;
 
     private Integer status;
+
+    public static PostUserInfoRes toDetailUser(User user){
+        return PostUserInfoRes.builder()
+                .userIdx(user.getUserIdx())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .profileImgUrl(user.getProfileImgUrl())
+                .introduction(user.getIntroduction())
+                .interestIdx1(user.getInterest1().getInterestIdx())
+                .interestIdx2(user.getInterest2().getInterestIdx())
+                .region(user.getRegion())
+                .averageStar(user.getAverageStar())
+                .role(user.getRole())
+                .refreshToken(user.getRefreshToken())
+                .fcmtoken(user.getFcmtoken())
+                .status(user.getStatus())
+                .build();
+    }
+
+    public static PostUserInfoRes from(User user, Integer interestIdx1, Integer interestIdx2, TokenInfo accessTokenDto, TokenInfo refreshTokenDto){
+        return PostUserInfoRes.builder()
+                .userIdx(user.getUserIdx())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .profileImgUrl(user.getProfileImgUrl())
+                .introduction(user.getIntroduction())
+                .interestIdx1(interestIdx1)
+                .interestIdx2(interestIdx2)
+                .region(user.getRegion())
+                .averageStar(user.getAverageStar())
+                .role(user.getRole())
+                .accessToken(accessTokenDto.getToken())
+                .refreshToken(refreshTokenDto.getToken())
+                .fcmtoken(user.getFcmtoken())
+                .isSignUp(false)
+                .status(user.getStatus())
+                .build();
+    }
 }

@@ -1,5 +1,6 @@
 package com.swith.api.user.dto;
 
+import com.swith.domain.user.entity.User;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,4 +29,15 @@ public class PostSignUpRes {
 
     @ApiModelProperty(notes = "지역",example = "서울 강남구")
     private String region; //지역
+
+    public static PostSignUpRes toDetailUser(User user){
+        return PostSignUpRes.builder()
+                .email(user.getEmail())
+                .interestIdx1(user.getInterest1().getInterestIdx())
+                .interestIdx2(user.getInterest2().getInterestIdx())
+                .nickname(user.getNickname())
+                .introduction(user.getIntroduction())
+                .region(user.getRegion())
+                .build();
+    }
 }

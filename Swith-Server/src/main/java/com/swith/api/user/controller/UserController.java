@@ -15,6 +15,7 @@ import com.swith.global.error.ErrorCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -62,51 +63,43 @@ public class UserController {
     @ApiOperation("소셜 로그인 정보")
     @GetMapping("/oauthInfo")
     @ResponseBody
-    public BaseResponse<Map> oauthLoginInfo(Authentication authentication, @AuthenticationPrincipal OAuth2User oAuth2UserPrincipal){
-        try{
-            // 로그인 안한 경우
-            if(authentication == null){
-                throw new BaseException(ErrorCode.NOT_LOGIN);
-            }
-            OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-            Map<String, Object> attributes = oAuth2User.getAttributes();
-            return new BaseResponse<>(attributes);
-        } catch (BaseException e) {
-            return new BaseResponse<>(e.getStatus());
+    public ResponseEntity<Map> oauthLoginInfo(Authentication authentication, @AuthenticationPrincipal OAuth2User oAuth2UserPrincipal){
+        // 로그인 안한 경우
+        if(authentication == null){
+            throw new BaseException(ErrorCode.NOT_LOGIN);
         }
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        Map<String, Object> attributes = oAuth2User.getAttributes();
+        return ResponseEntity.ok(attributes);
     }
 
     @ApiOperation("회원 DB 정보 조회")
     @PostMapping("/userInfo")
-    public BaseResponse<PostUserInfoRes> userInfo(@Valid @RequestBody PostUserInfoReq postUserInfoReq) {
-        try{
-            PostUserInfoRes postUserInfoRes = userService.userInfo(postUserInfoReq);
-            return new BaseResponse<>(postUserInfoRes);
-        } catch (BaseException e) {
-            return new BaseResponse<>(e.getStatus());
-        }
+    public ResponseEntity<PostUserInfoRes> userInfo(@Valid @RequestBody PostUserInfoReq postUserInfoReq) {
+        PostUserInfoRes postUserInfoRes = userService.userInfo(postUserInfoReq);
+        return ResponseEntity.ok(postUserInfoRes);
     }
 
     @ApiOperation("초기 회원 정보 등록")
     @PostMapping("/register")
-    public BaseResponse<PostSignUpRes> register(@Valid @RequestBody PostSignUpReq postSignUpReq) {
-        try{
-            PostSignUpRes postSignUpRes = userService.register(postSignUpReq);
-            return new BaseResponse<>(postSignUpRes);
-        } catch (BaseException e) {
-            return new BaseResponse<>(e.getStatus());
-        }
+    public ResponseEntity<PostSignUpRes> register(@Valid @RequestBody PostSignUpReq postSignUpReq) {
+        PostSignUpRes postSignUpRes = userService.register(postSignUpReq);
+        return ResponseEntity.ok(postSignUpRes);
     }
 
     @ApiOperation("회원가입 및 로그인")
     @PostMapping("/signUpAndIn")
-    public BaseResponse<PostUserInfoRes> signUpAndIn(@Valid @RequestBody PostSignUpAndInReq postSignUpAndInReq){
-        try{
-            PostUserInfoRes postUserInfoRes = userService.signUpAndIn(postSignUpAndInReq);
-            return new BaseResponse<>(postUserInfoRes);
-        } catch (BaseException e) {
-            return new BaseResponse<>(e.getStatus());
-        }
+    public ResponseEntity<PostUserInfoRes> signUpAndIn(@Valid @RequestBody PostSignUpAndInReq postSignUpAndInReq){
+        PostUserInfoRes postUserInfoRes = userService.signUpAndIn(postSignUpAndInReq);
+        return ResponseEntity.ok(postUserInfoRes);
+    }
+
+    @ApiOperation("로그아웃 -> 엑세스 토큰 사용")
+    @PostMapping("/logout")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<String> logout(@Authenticated AuthInfo authInfo){
+        userService.logout(authInfo.getToken(), authInfo.getEmail());
+        return ResponseEntity.ok("logout success");
     }
 
 //    @ApiOperation("로그아웃 -> 액세스토큰 사용")
@@ -115,17 +108,4 @@ public class UserController {
 //    public void logout(@Authenticated AuthInfo authInfo) {
 //        userService.logout(authInfo.getToken(), authInfo.getEmail());
 //    }
-
-    @ApiOperation("로그아웃 -> 엑세스 토큰 사용")
-    @PostMapping("/logout")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public BaseResponse<String> logout(@Authenticated AuthInfo authInfo){
-        try {
-            userService.logout(authInfo.getToken(), authInfo.getEmail());
-            return new BaseResponse<>("logout success");
-        } catch (BaseException e) {
-//            e.printStackTrace();
-            return new BaseResponse<>(e.getStatus());
-        }
-    }
 }

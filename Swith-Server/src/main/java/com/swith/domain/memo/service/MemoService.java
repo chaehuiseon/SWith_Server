@@ -29,14 +29,14 @@ public class MemoService {
         this.userRepository = userRepository;
     }
 
-    public Long postMemo(PostMemoReq postMemoReq) throws BaseException {
+    public Long postMemo(PostMemoReq postMemoReq) {
         Long userIdx = postMemoReq.getUserIdx();
         Long sessionIdx = postMemoReq.getSessionIdx();
         User user = userRepository.findById(userIdx)
                 .orElseThrow(() -> new BaseException(ErrorCode.INVALID_USER));
         Session session = sessionRepository.findById(sessionIdx)
                 .orElseThrow(() -> new BaseException(ErrorCode.INVALID_SESSION));
-        if(memoRepository.existsByUserAndSession(userIdx, sessionIdx))
+        if (memoRepository.existsByUserAndSession(userIdx, sessionIdx))
             throw new BaseException(ErrorCode.ALREADY_EXIST);
 
         Memo memo = Memo.builder()
@@ -48,7 +48,7 @@ public class MemoService {
         return postedMemo.getMemoIdx();
     }
 
-    public Long patchMemo(PatchMemoReq patchMemoReq) throws BaseException{
+    public Long patchMemo(PatchMemoReq patchMemoReq) {
         Memo memo = memoRepository.findById(patchMemoReq.getMemoIdx())
                 .orElseThrow(() -> new BaseException(ErrorCode.INVALID_MEMO));
         memo.setMemoContent(patchMemoReq.getMemoContent());

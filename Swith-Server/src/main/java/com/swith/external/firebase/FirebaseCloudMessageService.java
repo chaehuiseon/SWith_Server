@@ -19,9 +19,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
 @RequiredArgsConstructor
-@Service
+@Component
 public class FirebaseCloudMessageService {
 
     // HTTP v1 Method

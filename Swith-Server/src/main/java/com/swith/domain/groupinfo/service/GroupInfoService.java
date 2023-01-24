@@ -66,7 +66,7 @@ public class GroupInfoService {
         this.fcmService = fcmService;
     }
 
-    public List<GetHomeGroupInfoRes> loadHomeData(Long userIdx) throws BaseException {
+    public List<GetHomeGroupInfoRes> loadHomeData(Long userIdx) {
         List<GroupInfo> groupInfos = registerRepository.findGroupInfoByUserIdx(userIdx);
         if (groupInfos.isEmpty())
             throw new BaseException(ErrorCode.NO_REGISTRATION_INFO);
@@ -78,7 +78,7 @@ public class GroupInfoService {
             List<Announcement> announcements = announcementRepository
                     .findByGroupInfo_GroupIdxOrderByModifiedAtDesc(groupInfo.getGroupIdx());
             Announcement announcement;
-            if(announcements.isEmpty()) {
+            if (announcements.isEmpty()) {
                 announcement = Announcement
                         .builder()
                         .announcementContent("공지 사항이 없습니다.")
@@ -185,7 +185,7 @@ public class GroupInfoService {
                 .status(0)//Register status 0 = 승인
                 .build();
         Register saved = registerRepository.save(register);
-        if(saved.getGroupInfo().getGroupIdx() != savedgroupInfo.getGroupIdx()) {
+        if (saved.getGroupInfo().getGroupIdx() != savedgroupInfo.getGroupIdx()) {
             throw new BaseException(ErrorCode.FAIL_REGISTER_SAVE);
         }
 
@@ -194,13 +194,12 @@ public class GroupInfoService {
         return new PostGroupInfoRes(groupIdx);
 
 
-
     }
 
-    public Slice<GetGroupInfoSearchRes> searchGroup(GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable){
+    public Slice<GetGroupInfoSearchRes> searchGroup(GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable) {
 
         System.out.println("서비스 진입");
-        return groupInfoRepository.searchGroupInfo(getGroupInfoSearchReq,pageable);
+        return groupInfoRepository.searchGroupInfo(getGroupInfoSearchReq, pageable);
 
 
     }
@@ -209,13 +208,13 @@ public class GroupInfoService {
         return groupInfoRepository.searchtestGroup(getGroupInfoSearchReq, pageable);
     }
 
-    public GetEachGroupInfoRes selectEachGroupInfo(Long groupIdx){
+    public GetEachGroupInfoRes selectEachGroupInfo(Long groupIdx) {
         GroupInfo groupInfo = groupInfoRepository.findByGroupIdx(groupIdx);
         System.out.println(groupInfo.toString());
         System.out.println(groupIdx);
         Long NumOfApplicants = 0L;
         NumOfApplicants = applicationRepository.findNumOfApplicants(groupIdx);
-        System.out.println(">>>"+NumOfApplicants);
+        System.out.println(">>>" + NumOfApplicants);
         GetEachGroupInfoRes data = GetEachGroupInfoRes.builder()
                 .adminIdx(groupInfo.getUser().getUserIdx())
                 .groupImgUrl(groupInfo.getGroupImgUrl())
@@ -245,19 +244,18 @@ public class GroupInfoService {
         return data;
 
 
-
     }
 
-    public boolean existGroupIdx(Long groupIdx){
+    public boolean existGroupIdx(Long groupIdx) {
         //boolean check = groupInfoRepository.existsById(groupIdx);
         //상태 확인 코드 추가해야됨.
-        try{
+        try {
             Integer check = groupInfoRepository.findStatusOfGroupInfo(groupIdx);
             // 상태가 0(진행예정)또는 1(진행중) 이면 존재 ->true
-            if(check == 0 || check == 1) return true;
-            //상태가 2(종료)면 존재하지 않음 -> false
-            else if(check == 2) return false;
-        }catch (Exception e){
+            if (check == 0 || check == 1) return true;
+                //상태가 2(종료)면 존재하지 않음 -> false
+            else if (check == 2) return false;
+        } catch (Exception e) {
             System.out.println("서버 error");
             return false;
         }
@@ -267,7 +265,7 @@ public class GroupInfoService {
 
     }
 
-    public Integer statusOfGroupInfo(Long groupIdx){
+    public Integer statusOfGroupInfo(Long groupIdx) {
 
         Integer status = groupInfoRepository.findstatusOfGroupInfo(groupIdx);
 
@@ -275,15 +273,15 @@ public class GroupInfoService {
 
     }
 
-    public boolean IsAdmin(Long groupIdx, Long adminIdx){
+    public boolean IsAdmin(Long groupIdx, Long adminIdx) {
         Long FoundAdminIdx = groupInfoRepository.findAdminIdxBy(groupIdx);
-        return FoundAdminIdx == adminIdx ;
+        return FoundAdminIdx == adminIdx;
     }
 
 
-    public Long ModifyGroupInformation(Long groupIdx, PatchGroupInfoReq request){
+    public Long ModifyGroupInformation(Long groupIdx, PatchGroupInfoReq request) {
 
-        if(!existGroupIdx(groupIdx)){ //존재하지 않음.
+        if (!existGroupIdx(groupIdx)) { //존재하지 않음.
             return -1L;
         }
         //존재함
@@ -292,7 +290,7 @@ public class GroupInfoService {
         );
 
         Long ReqgroupIdx = groupInfo.getGroupIdx();
-        if(ReqgroupIdx != groupIdx) return -2L;//잘못된 값 읽음
+        if (ReqgroupIdx != groupIdx) return -2L;//잘못된 값 읽음
 
         groupInfo.setGroupImgUrl(request.getGroupImgUrl());
         groupInfo.setTitle(request.getTitle());
@@ -303,7 +301,7 @@ public class GroupInfoService {
         groupInfo.setRegionIdx1(request.getRegionIdx1());
         groupInfo.setRegionIdx2(request.getRegionIdx2());
         Integer originInterest = groupInfo.getInterest().getInterestIdx();
-        if(request.getInterest() != originInterest){ //다른 경우만 바꾸겠다.
+        if (request.getInterest() != originInterest) { //다른 경우만 바꾸겠다.
             Interest ReqInterest = interestRepository.getById(request.getInterest());
             groupInfo.setInterest(ReqInterest);
         }
@@ -317,41 +315,40 @@ public class GroupInfoService {
         groupInfo.setGroupContent(request.getGroupContent());
 
 
-
         GroupInfo save = groupInfoRepository.save(groupInfo);
-        System.out.println(">>>>>>>>>>>>"+save.getGroupIdx().toString());
+        System.out.println(">>>>>>>>>>>>" + save.getGroupIdx().toString());
         return save.getGroupIdx();
 
 
     }
 
-    public Long EndGroup(Long groupIdx,Long adminIdx) throws IOException {
+    public Long EndGroup(Long groupIdx, Long adminIdx) throws IOException {
 
-        if(!existGroupIdx(groupIdx)){ //존재하지 않음.
+        if (!existGroupIdx(groupIdx)) { //존재하지 않음.
             return -1L;
         }
 
         //Integer status = groupInfoRepository.findStatusOfGroupInfo(groupIdx);
-        groupInfoRepository.changeGroupInfoStatusEnd(2,groupIdx,adminIdx);
+        groupInfoRepository.changeGroupInfoStatusEnd(2, groupIdx, adminIdx);
 
         GroupInfo check = groupInfoRepository.findByGroupIdx(groupIdx);
-        if(check.getStatus() == 2){ //종료
+        if (check.getStatus() == 2) { //종료
             // 종료 알림을 받을 유저 list
-            ArrayList<Long> pushEndAlramToUsers =registerRepository.findUserByGroup2(groupIdx);
+            ArrayList<Long> pushEndAlramToUsers = registerRepository.findUserByGroup2(groupIdx);
 //            ArrayList<Long> pushEndAlramToUsers = groupInfoRepository.findUsersInGroup(groupIdx,1);
-            System.out.println(">>>>>>> user : " +pushEndAlramToUsers);
+            System.out.println(">>>>>>> user : " + pushEndAlramToUsers);
             ArrayList<String> pushUserToken = groupInfoRepository.findUserToken(pushEndAlramToUsers);
-            System.out.println(">>>>> token : "+ pushUserToken);
+            System.out.println(">>>>> token : " + pushUserToken);
             //List<User> users = registerRepository.findRegisterUser(groupIdx);
             // 종료 groupIdx,종료 group title, 종료 알림 내용, 종료 날짜
             String title = check.getTitle();
             String phrases = "스터디가 종료되었습니다!";
             //LocalDateTime now = LocalDateTime.now();
-            String content =  phrases + "//" + groupIdx + "//" + "스터디종료" ;
+            String content = phrases + "//" + groupIdx + "//" + "스터디종료";
             // 보냄
             for (String token : pushUserToken) {
                 System.out.println("가즈아!");
-                fcmService.sendMessageTo(token,title,content);
+                fcmService.sendMessageTo(token, title, content);
             }
 
             return check.getGroupIdx();
@@ -364,19 +361,9 @@ public class GroupInfoService {
     }
 
 
-
-    public GroupInfo findGroup(Long groupIdx){
+    public GroupInfo findGroup(Long groupIdx) {
         return groupInfoRepository.findByGroupIdx(groupIdx);
     }
-
-
-
-
-
-
-
-
-
 
 
 }

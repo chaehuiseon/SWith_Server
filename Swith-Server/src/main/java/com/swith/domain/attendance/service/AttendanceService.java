@@ -43,7 +43,7 @@ public class AttendanceService {
         this.registerRepository = registerRepository;
     }
 
-    public GetGroupAttendanceRes getGroupAttendance(Long groupIdx) throws BaseException {
+    public GetGroupAttendanceRes getGroupAttendance(Long groupIdx) {
          GroupInfo groupInfo = groupInfoRepository.findById(groupIdx)
                 .orElseThrow(() -> new BaseException(ErrorCode.INVALID_GROUP));
 
@@ -123,11 +123,13 @@ public class AttendanceService {
         return getGroupAttendanceRes;
     }
 
-    public Integer updateAttendance(Long userIdx, Long sessionIdx) throws BaseException {
+    public Integer updateAttendance(Long userIdx, Long sessionIdx) {
+
         User user = userRepository.findById(userIdx)
                 .orElseThrow(() -> new BaseException(ErrorCode.INVALID_USER));
         Session session = sessionRepository.findByIdWithGroup(sessionIdx)
                 .orElseThrow(() -> new BaseException(ErrorCode.INVALID_SESSION));
+
         ///User가 가입 했는지 Validation 필요
         int checker = 0;
         for (Register register : user.getRegisterList()) {
@@ -170,7 +172,7 @@ public class AttendanceService {
         return save;
     }
 
-    private Integer decideStatus(Session session) throws BaseException {
+    private Integer decideStatus(Session session) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime start = session.getSessionStart();
         LocalDateTime end = session.getSessionEnd();
@@ -192,7 +194,7 @@ public class AttendanceService {
     }
 
 
-    public Integer modifyAttendance(List<PatchAttendanceReq> patchAttendanceReqList) throws BaseException {
+    public Integer modifyAttendance(List<PatchAttendanceReq> patchAttendanceReqList) {
         Integer count = 0;
         for (PatchAttendanceReq patchAttendanceReq : patchAttendanceReqList) {
             count += attendanceRepository.modifyStatus(patchAttendanceReq.getAttendanceIdx(), patchAttendanceReq.getStatus());
@@ -200,7 +202,7 @@ public class AttendanceService {
         return count;
     }
 
-    public List<GetSessionAttendanceRes> getSessionAttendance(Long groupIdx) throws BaseException {
+    public List<GetSessionAttendanceRes> getSessionAttendance(Long groupIdx) {
         if (!groupInfoRepository.existsById(groupIdx))
             throw new BaseException(ErrorCode.INVALID_GROUP);
         List<User> userList = registerRepository.findUserByGroup(groupIdx);

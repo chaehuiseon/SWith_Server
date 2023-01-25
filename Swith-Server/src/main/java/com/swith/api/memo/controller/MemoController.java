@@ -26,22 +26,14 @@ public class MemoController {
     @ApiOperation("회차탭 - 메모 작성 - P16")
     @PostMapping
     public BaseResponse<Long> postMemo (@RequestBody PostMemoReq postMemoReq) {
-        try {
             Long memoIdx = memoService.postMemo(postMemoReq);
             return new BaseResponse<>(memoIdx);
-        } catch (BaseException e){
-            return new BaseResponse<>(e.getStatus());
-        }
     }
 
     @ApiOperation("회차탭 - 메모 변경 - P17")
     @PatchMapping()
     public BaseResponse<Long> patchMemo (@RequestBody PatchMemoReq patchMemoReq) {
-        try {
             Long memoIdx = memoService.patchMemo(patchMemoReq);
             return new BaseResponse<>(memoIdx);
-        } catch (BaseException e){
-            return new BaseResponse<>(e.getStatus());
-        }
     }
 }

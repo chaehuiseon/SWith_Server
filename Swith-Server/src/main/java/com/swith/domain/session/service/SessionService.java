@@ -51,7 +51,7 @@ public class SessionService {
     }
 
 
-    public Long createSession(PostSessionReq postSessionReq, Integer sessionNum) throws BaseException {
+    public Long createSession(PostSessionReq postSessionReq, Integer sessionNum) {
         GroupInfo groupInfo = groupInfoRepository.findById(postSessionReq.getGroupIdx())
                 .orElseThrow(() -> new BaseException(ErrorCode.INVALID_GROUP));
 
@@ -81,7 +81,7 @@ public class SessionService {
     }
 
 
-    public Integer findAppropriateSessionNum(Long groupIdx, LocalDateTime sessionStart) throws BaseException {
+    public Integer findAppropriateSessionNum(Long groupIdx, LocalDateTime sessionStart)  {
         if (LocalDateTime.now().isAfter(sessionStart))
             throw new BaseException(ErrorCode.START_TIME_ERROR);
         Integer sessionNum = sessionRepository.findAppropriateSessionNum(groupIdx, sessionStart);
@@ -93,7 +93,7 @@ public class SessionService {
         return sessionRepository.updateSessionNumPlusOne(sessionNum, groupIdx);
     }
 
-    public GetGroupInfoRes loadGroupInfoAndSession(Long groupIdx, boolean isAdmin) throws BaseException {
+    public GetGroupInfoRes loadGroupInfoAndSession(Long groupIdx, boolean isAdmin) {
         //그룹정보 찾기
         GroupInfo groupInfo = groupInfoRepository.findById(groupIdx)
                 .orElseThrow(() -> new BaseException(ErrorCode.INVALID_GROUP));
@@ -102,7 +102,7 @@ public class SessionService {
         Announcement announcement;
         List<Announcement> announcementList = announcementRepository
                 .findByGroupInfo_GroupIdxOrderByModifiedAtDesc(groupIdx);
-        if(announcementList.isEmpty()){
+        if (announcementList.isEmpty()) {
             announcement = Announcement
                     .builder()
                     .announcementContent("공지사항이 없습니다.")
@@ -158,7 +158,7 @@ public class SessionService {
         return getGroupInfoRes;
     }
 
-    public GetSessionTabRes getSessionInfo(Long userIdx, Long sessionIdx) throws BaseException {
+    public GetSessionTabRes getSessionInfo(Long userIdx, Long sessionIdx)  {
         Session session = sessionRepository.findByIdWithGroup(sessionIdx)
                 .orElseThrow(() -> new BaseException(ErrorCode.INVALID_SESSION));
         List<Attendance> attendanceList = attendanceRepository.findBySession(sessionIdx);
@@ -198,7 +198,7 @@ public class SessionService {
         return getSessionTabRes;
     }
 
-    public Long modifySession(PatchSessionReq patchSessionReq) throws BaseException {
+    public Long modifySession(PatchSessionReq patchSessionReq) {
         LocalDateTime start = patchSessionReq.getSessionStart();
         LocalDateTime end = patchSessionReq.getSessionEnd();
         LocalDateTime now = LocalDateTime.now();
@@ -229,12 +229,12 @@ public class SessionService {
         return sessionIdx;
     }
 
-    public Long deleteSession(Long sessionIdx) throws BaseException {
+    public Long deleteSession(Long sessionIdx) {
         Session session = sessionRepository.findByIdWithGroup(sessionIdx)
                 .orElseThrow(() -> new BaseException(ErrorCode.NO_SESSION_INFO));
         if (session.getStatus() == 1)
             throw new BaseException(ErrorCode.ALREADY_DELETED_SESSION);
-        if(session.getSessionStart().isBefore(LocalDateTime.now()))
+        if (session.getSessionStart().isBefore(LocalDateTime.now()))
             throw new BaseException(ErrorCode.DELETE_FAIL_SESSION);
 
         sessionRepository.deleteSession(sessionIdx);

@@ -39,37 +39,23 @@ public class AnnouncementController {
     @ApiOperation("그룹 공지사항 생성 - P5")
     @PostMapping()
     public BaseResponse<Long> createAnnouncement (@RequestBody PostAnnouncementReq postAnnouncementReq){
-        try{
             Long announcementIdx = announcementService.createAnnouncement(postAnnouncementReq);
             return new BaseResponse<>(announcementIdx);
-        } catch (BaseException e){
-            return new BaseResponse<>(e.getStatus());
-        } catch (IOException e){
-            return new BaseResponse<>(ErrorCode.INVALID_GROUP);
-        }
     }
 
     @ApiOperation("그룹 공지사항 수정 - P6")
     @PatchMapping()
-    public BaseResponse<String> updateAnnouncement (@RequestBody PatchAnnouncementReq patchAnnouncementReq){
-        try{
+    public ResponseEntity<String> updateAnnouncement (@RequestBody PatchAnnouncementReq patchAnnouncementReq){
             Long announcementIdx = announcementService.updateAnnouncement(patchAnnouncementReq);
             String result = "수정 완료했습니다. ID: " + announcementIdx;
-            return new BaseResponse<>(result);
-        } catch (BaseException e){
-            return new BaseResponse<>(e.getStatus());
-        }
+            return ResponseEntity.ok(result);
     }
 
     @ApiOperation("그룹 공지사항 삭제 - P7")
     @PatchMapping("{announcementIdx}/status")
-    public BaseResponse<String> deleteAnnouncement (@PathVariable("announcementIdx") Long announcementIdx){
-        try{
+    public ResponseEntity<String> deleteAnnouncement (@PathVariable("announcementIdx") Long announcementIdx){
             announcementService.deleteAnnouncement(announcementIdx);
             String result = "삭제 완료했습니다. ID: " + announcementIdx;
-            return new BaseResponse<>(result);
-        } catch (BaseException e){
-            return new BaseResponse<>(e.getStatus());
-        }
+            return ResponseEntity.ok(result);
     }
 }

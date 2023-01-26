@@ -130,12 +130,15 @@ public enum BaseResponseStatus {
     FAIL_REGISER(HttpStatus.INTERNAL_SERVER_ERROR, 9006, "가입승인 -> Regiest 등록 실패"),
     DO_NOT_CHANGE_BEFORE_STUDYING(HttpStatus.FORBIDDEN,6008,"스터디 시작 전에 , 추방 불가."),
     ALREADY_APPLICATION(HttpStatus.BAD_REQUEST,9009,"이미 이 그룹에 신청한 지원자입니다."),
+    FAIL_LOAD_APPLICATION(HttpStatus.INTERNAL_SERVER_ERROR,9010,"서버 error."),
+
 
 
     //9050 : 그룹
     FAIL_LOAD_GROUPINFO(HttpStatus.BAD_REQUEST,9003,"스터디 그룹이 존재하지 않습니다."),
     FAIL_CLOSED_GROUPINFO(HttpStatus.BAD_REQUEST,9051,"종료된 스터디 그룹입니다."),
-    INVAILD_ADMIN_APPLICATION(HttpStatus.BAD_REQUEST,9052,"그룹장은 가입이 불가합니다.");
+    INVAILD_ADMIN_APPLICATION(HttpStatus.BAD_REQUEST,9052,"그룹장은 가입이 불가합니다."),
+    BAD_REQUEST_GROUPINFO(HttpStatus.BAD_REQUEST,9053,"잘못된 접근입니다.");
 
 
 

@@ -100,7 +100,7 @@ public class GroupInfoController {
     @ApiOperation("스터디 정보 수정")
     @PatchMapping("/modify/{groupIdx}")
     @ResponseBody
-    public BaseResponse<Long> ModifyGroupInformation(@PathVariable Long groupIdx, @RequestBody PatchGroupInfoReq patchGroupInfoReq) throws BaseException {
+    public ResponseEntity<Long> ModifyGroupInformation(@PathVariable Long groupIdx, @RequestBody PatchGroupInfoReq patchGroupInfoReq)  {
 
         Long ReqAdminIdx = patchGroupInfoReq.getAdminIdx();
         //jwt 유효성 검사 추가해야됨.
@@ -109,19 +109,19 @@ public class GroupInfoController {
         //상태 변경 권한이 있는지..즉, 스터디 개설자가 맞는지.
         boolean check = groupInfoService.IsAdmin(groupIdx, ReqAdminIdx);
         if (check == false) {//권한없음
-            return new BaseResponse<>(BaseResponseStatus.NO_GROUP_LEADER);
+            throw new BaseException(BaseResponseStatus.NO_GROUP_LEADER);
         }
 
         Long result = groupInfoService.ModifyGroupInformation(groupIdx, patchGroupInfoReq);
 
-        return new BaseResponse<>(result);
+        return ResponseEntity.ok(result);
 
     }
 
     @ApiOperation("스터디 종료 API")
     @ResponseBody
     @PatchMapping("/end")
-    public BaseResponse<Long> EndGroup(@RequestBody PatchEndGroupReq patchEndGroupReq) throws IOException {
+    public ResponseEntity<Long> EndGroup(@RequestBody PatchEndGroupReq patchEndGroupReq) throws IOException {
         Long groupIdx = patchEndGroupReq.getGroupIdx();
         Long adminIdx = patchEndGroupReq.getAdminIdx();
         System.out.println("end 받은 값 > " + groupIdx + adminIdx);
@@ -131,7 +131,7 @@ public class GroupInfoController {
         //jwt 유효성 검사 추가해야됨 ..
 
         if (check == false) {//권한없음
-            return new BaseResponse<>(BaseResponseStatus.NO_GROUP_LEADER);
+            throw new BaseException(BaseResponseStatus.NO_GROUP_LEADER);
         }
 
         //종료 상태로 변경.
@@ -146,7 +146,7 @@ public class GroupInfoController {
         Long complete = groupInfoService.pushEndNotification(result);
 
 
-        return new BaseResponse<>(complete);
+        return ResponseEntity.ok(complete);
 
     }
 

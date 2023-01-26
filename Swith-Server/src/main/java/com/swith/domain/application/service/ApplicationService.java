@@ -140,8 +140,7 @@ public class ApplicationService {
 
     //스터지 지원에 대한 승인 또는 반려 상태 변경.
     @Transactional
-    public PatchApplicationStatusRes changeApplicationStatus(Long groupIdx, Integer status, PatchApplicationStatusReq request)
-            throws BaseException {
+    public PatchApplicationStatusRes changeApplicationStatus(Long groupIdx, Integer status, PatchApplicationStatusReq request) {
 
         Integer check = 0;
         if (status == 0) { //변경전. 지원에 있음.
@@ -151,27 +150,21 @@ public class ApplicationService {
 
 
             //변경
-            try {
-                //nativequery 수정 해야됨.
-                applicationRepository.updateStatusOfApplication(req_status, req_applicationIdx, groupIdx,status);
-            } catch (Exception exception) {
-                throw new BaseException(BaseResponseStatus.FAIL_CHANGED_STATUS);
-            }
+            applicationRepository.updateStatusOfApplication(req_status, req_applicationIdx, groupIdx,status);
+
 
             //확인
-            Application changed = applicationRepository.findById(req_applicationIdx).get();
+            Application changed = applicationRepository.findById(req_applicationIdx).orElseThrow(
+                    () -> new IllegalArgumentException(String.valueOf(BaseResponseStatus.FAIL_LOAD_APPLICATION))
+            );
 
             //application 승인이 되었으면, register에 등록해야 됨.
-            if ((changed.getApplicationIdx() == req_applicationIdx) &&
-                    (changed.getGroupInfo().getGroupIdx() == groupIdx) && (req_status == changed.getStatus())) {
+            if ((req_applicationIdx.equals(changed.getApplicationIdx())) &&
+                    (groupIdx.equals(changed.getGroupInfo().getGroupIdx())) && (req_status.equals(changed.getStatus()))) {
 
                 if(changed.getStatus() == 1 ){  //Application 가입 승인 -> Register에 등록.
-                    try{
-                        //아래 엔티티 변환 + 더티 체킹 변환코드 많음 테스트 해봐야 됨.
-                        registerService.RegisterUserInGroup(changed);
-                    }catch (BaseException exception){
-                        throw new BaseException(BaseResponseStatus.FAIL_REGISTER_SAVE);
-                    }
+                    registerService.RegisterUserInGroup(changed);
+
 
 
 
@@ -244,17 +237,22 @@ public class ApplicationService {
 
 
         //새로 짠 코드 -> 아직 테스트 안했음..
+
+        //가지고와서
         Application application = applicationRepository.findById(patchExpelUserReq.getApplicationIdx()).orElseThrow(
                 () -> new IllegalArgumentException(String.valueOf(BaseResponseStatus.NOT_EXIST_USER))
         );
 
-        if ( groupInfoRepository.findstatusOfGroupInfo(groupIdx) != 1 ){//진행중인 스터디에 한해서만 변경이 가능함..
+        // 현재, 승인상태면 바로 추방 가능하게 만들어놨다함. (즉, 현재 요구사항에선 스터디 진행중인거 고려할 필요가 없음...)
+//        if ( groupInfoRepository.findstatusOfGroupInfo(groupIdx) != 1 ){//진행중인 스터디에 한해서만 변경이 가능함..
+//
+//
+//        }
 
-        }
 
+        //상태변경 - 추방
         application.changeStatus(3);
 
-        //더티 체킹으로 빠져나간다음에 업데이트 될텐데, 그럼 잘 됐는지 검사는 어디서 하까?
 
         return application.getApplicationIdx();
         // +) Register에서 상태변경(추방)..해야하는거 짜야 됨 .............

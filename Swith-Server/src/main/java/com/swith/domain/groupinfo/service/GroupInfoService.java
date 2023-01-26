@@ -190,17 +190,13 @@ public class GroupInfoService {
     public boolean existGroupIdx(Long groupIdx){
         //boolean check = groupInfoRepository.existsById(groupIdx);
         //상태 확인 코드 추가해야됨.
-        try{
-            Integer check = groupInfoRepository.findStatusOfGroupInfo(groupIdx);
-            // 상태가 0(진행예정)또는 1(진행중) 이면 존재 ->true
-            if(check == 0 || check == 1) return true;
-            //상태가 2(종료)면 존재하지 않음 -> false
-            else if(check == 2) return false;
-        }catch (Exception e){
-            System.out.println("서버 error");
-            return false;
-        }
-        //이상한 값...
+
+        Integer check = groupInfoRepository.findStatusOfGroupInfo(groupIdx);
+        // 상태가 0(진행예정)또는 1(진행중) 이면 존재 ->true
+        if(check == 0 || check == 1) return true;
+        //상태가 2(종료)면 존재하지 않음 -> false
+        else if(check == 2) return false;
+
         return false;
 
 
@@ -301,7 +297,7 @@ public class GroupInfoService {
 
 
         if(groupInfo.getGroupIdx() != 1){ // 진행중인 스터디에 대해 종료해야하는데 아니면..
-            //~ 예외처리..
+            throw new BaseException(BaseResponseStatus.BAD_REQUEST_GROUPINFO);
         }
 
         //종료 상태로 변경..

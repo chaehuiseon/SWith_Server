@@ -69,7 +69,6 @@ public class ApplicationController {
         //그룹상태 -> 있긴 한지 + 종료된 그룹이 아닌지...
         boolean existcheck = groupInfoService.existGroupIdx(groupIdx);
         if(existcheck == false){ //존재하지 않거나 이미 종료된 스터디
-            System.out.println("종료된 스터디거나 오류임~~~~~~");
             throw new BaseException(BaseResponseStatus.FAIL_LOAD_GROUPINFO);
         }
 

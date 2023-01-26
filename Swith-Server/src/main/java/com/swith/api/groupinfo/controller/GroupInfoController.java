@@ -102,15 +102,11 @@ public class GroupInfoController {
     @ResponseBody
     public ResponseEntity<Long> ModifyGroupInformation(@PathVariable Long groupIdx, @RequestBody PatchGroupInfoReq patchGroupInfoReq)  {
 
-        Long ReqAdminIdx = patchGroupInfoReq.getAdminIdx();
         //jwt 유효성 검사 추가해야됨.
 
 
-        //상태 변경 권한이 있는지..즉, 스터디 개설자가 맞는지.
-        boolean check = groupInfoService.IsAdmin(groupIdx, ReqAdminIdx);
-        if (check == false) {//권한없음
-            throw new BaseException(BaseResponseStatus.NO_GROUP_LEADER);
-        }
+        //검사 : 상태 변경 권한이 있는지..즉, 스터디 개설자가 맞는지.
+        groupInfoService.IsAdmin(groupIdx, patchGroupInfoReq.getAdminIdx());
 
         Long result = groupInfoService.ModifyGroupInformation(groupIdx, patchGroupInfoReq);
 
@@ -127,12 +123,10 @@ public class GroupInfoController {
         System.out.println("end 받은 값 > " + groupIdx + adminIdx);
 
         //종료 권한이 있는지 체크
-        boolean check = groupInfoService.IsAdmin(groupIdx, adminIdx);
+        groupInfoService.IsAdmin(groupIdx, adminIdx);
         //jwt 유효성 검사 추가해야됨 ..
 
-        if (check == false) {//권한없음
-            throw new BaseException(BaseResponseStatus.NO_GROUP_LEADER);
-        }
+
 
         //종료 상태로 변경.
         changeEndStatus result = groupInfoService.EndGroup(groupIdx, adminIdx);

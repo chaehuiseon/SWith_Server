@@ -210,9 +210,12 @@ public class GroupInfoService {
 
     }
 
-    public boolean IsAdmin(Long groupIdx, Long adminIdx){
+    public void IsAdmin(Long groupIdx, Long adminIdx){
         Long FoundAdminIdx = groupInfoRepository.findAdminIdxBy(groupIdx);
-        return FoundAdminIdx == adminIdx ;
+        if(!adminIdx.equals(FoundAdminIdx)){ // admin이 아니기 때문에, 권한이 없다.
+            throw new BaseException(BaseResponseStatus.NO_GROUP_LEADER);
+
+        }
     }
 
 

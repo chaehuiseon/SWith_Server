@@ -38,34 +38,21 @@ public class ApplicationController {
 
     @ApiOperation("가입신청 API")
     @ResponseBody
-    @PostMapping("/apply/{groupIdx}/{applicationMethod}")
-    public ResponseEntity<Long> Apply(@PathVariable Long groupIdx, @PathVariable Integer applicationMethod,
+    @PostMapping("/apply/{groupIdx}")
+    public ResponseEntity<Long> Apply(@PathVariable Long groupIdx,
                                       @RequestBody PostApplicationReq postApplicationReq)  {
 
         //중복 지원자인지 확인. -> 테스트 안한 상태.
         applicationService.AlreadyInGroup(groupIdx,postApplicationReq.getUserIdx());
 
-
         // 가입 신청 인원이 다 찾는지 확인.
-        Integer limit = applicationService.getMemberLimit(groupIdx);
-        Long NumOfApplicants = applicationService.findNumOfApplicants(groupIdx);
-        if(limit.equals(NumOfApplicants.intValue())){//신청인원이 다 채워져서  신충 불가.
-            throw new BaseException(BaseResponseStatus.FULL_NUM_OF_Applicants);
-        }
-
+        applicationService.CheckFULL(groupIdx);
 
         // 스터디 가입 신청자가 방장이면 가입 할 필요가 없음.
-        Long admin = applicationService.findAdminIdx(groupIdx);
-        if(postApplicationReq.getUserIdx().equals(admin)){
-            throw new BaseException(BaseResponseStatus.INVAILD_ADMIN_APPLICATION);
-        }
-
+        applicationService.CheckIsAdmin(groupIdx, postApplicationReq.getUserIdx());
 
         //신청 시작.
-        Long applicationIdx = applicationService.Apply(groupIdx, applicationMethod, postApplicationReq);
-        if(applicationIdx == null){
-            throw new BaseException(BaseResponseStatus.FAIL_SAVED_APPLICATION);
-        }
+        Long applicationIdx = applicationService.Apply(groupIdx, postApplicationReq);
 
         return ResponseEntity.ok(applicationIdx);
 

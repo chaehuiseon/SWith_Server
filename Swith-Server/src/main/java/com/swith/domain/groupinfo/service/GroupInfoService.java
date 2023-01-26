@@ -342,6 +342,8 @@ public class GroupInfoService {
         return groupInfoRepository.findByGroupIdx(groupIdx);
     }
 
+
+
     private GroupInfo toEntityForCreating (PostGroupInfoReq body) {
         return GroupInfo.builder()
                 .user(userRepository.getOne(body.getAdminIdx()))

@@ -45,11 +45,6 @@ public class ApplicationService {
 
     }
 
-    public Integer getMemberLimit(Long groupIdx){
-        Integer limit = groupInfoRepository.findMemberLimitBy(groupIdx);
-        System.out.println(limit);
-        return limit;
-    }
 
     public void AlreadyInGroup(Long groupIdx, Long userIdx){
         Application a = applicationRepository.findByGroupIdxAndUserIdx(groupIdx,userIdx);
@@ -60,22 +55,50 @@ public class ApplicationService {
 
     }
 
+    public void CheckIsAdmin(Long groupIdx,Long userIdx){
+        Long admin = findAdminIdx(groupIdx);
+        if(userIdx.equals(admin)){
+            throw new BaseException(BaseResponseStatus.INVAILD_ADMIN_APPLICATION);
+        }
+
+
+    }
+
+    public void CheckFULL(Long groupIdx){
+        Integer limit = getMemberLimit(groupIdx);
+        Long NumOfApplicants = findNumOfApplicants(groupIdx);
+        if(limit.equals(NumOfApplicants.intValue())){//신청인원이 다 채워져서  신청 불가.
+            throw new BaseException(BaseResponseStatus.FULL_NUM_OF_Applicants);
+        }
+
+    }
+    public Integer getMemberLimit(Long groupIdx){
+        Integer limit = groupInfoRepository.findMemberLimitBy(groupIdx);
+        return limit;
+    }
+
     public Long findNumOfApplicants(Long groupIdx){
 
         Long NumOfApplicants = applicationRepository.findNumOfApplicants(groupIdx);
-
         return NumOfApplicants;
     }
 
     @Transactional
-    public Long Apply(Long groupIdx,Integer applicationMethod, PostApplicationReq postApplicationReq) {
+    public Long Apply(Long groupIdx, PostApplicationReq postApplicationReq) {
+
+        GroupInfo groupInfo = groupInfoRepository.findById(groupIdx).orElseThrow(
+                () -> new IllegalArgumentException(String.valueOf(BaseResponseStatus.FAIL_LOAD_GROUPINFO))
+        );
+        //스터디 개설할 때, 입력한 정보에서 지원 방식( 선착순 or 지원 ) 가지고 온다.
+        Integer applicationMethod = groupInfo.getApplicationMethod();
+
 
         if(applicationMethod == 0){//0: 선착순
             Integer status = 1 ;//선착순이므로 바로 승인.
 
             Application data = Application.builder()
                     .user(userRepository.getOne(postApplicationReq.getUserIdx()))
-                    .groupInfo(groupInfoRepository.getById(groupIdx))
+                    .groupInfo(groupInfo)
                     .status(status)
                     .build();
 
@@ -92,7 +115,6 @@ public class ApplicationService {
             //application 가입 승인 -> Register 등록
             registerService.RegisterUserInGroup(savedInfo);
 
-
             return applicationIdx;
 
         }else if(applicationMethod == 1){ // 1 : 지원
@@ -100,19 +122,18 @@ public class ApplicationService {
 
             Application data = Application.builder()
                     .user(userRepository.getOne(postApplicationReq.getUserIdx()))
-                    .groupInfo(groupInfoRepository.getById(groupIdx))
+                    .groupInfo(groupInfo)
                     .status(status)
                     .applicationContent(postApplicationReq.getApplicationContent())
                     .build();
 
             Application savedInfo = applicationRepository.save(data);
-            System.out.println(savedInfo.toString());
             Long applicationIdx = savedInfo.getApplicationIdx();
 
             return applicationIdx;
+        }else{
+            throw new BaseException(BaseResponseStatus.BADREQUEST);
         }
-
-        return null;
 
 
 

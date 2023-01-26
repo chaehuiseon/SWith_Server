@@ -49,7 +49,7 @@ public class ApplicationController {
         applicationService.CheckFULL(groupIdx);
 
         // 스터디 가입 신청자가 방장이면 가입 할 필요가 없음.
-        applicationService.CheckIsAdmin(groupIdx, postApplicationReq.getUserIdx());
+        groupInfoService.CheckIsAdmin(groupIdx, postApplicationReq.getUserIdx());
 
         //신청 시작.
         Long applicationIdx = applicationService.Apply(groupIdx, postApplicationReq);
@@ -101,11 +101,7 @@ public class ApplicationController {
         //jwt 유효성 검사 추가해야됨.
 
         //상태 변경 권한이 있는지..즉, 스터디 개설자가 맞는지.
-        Long ReqAdminIdx = patchApplicationStatusReq.getAdminIdx();
-        boolean check = groupInfoService.IsAdmin(groupIdx,ReqAdminIdx);
-        if(check == false){//권한없음
-            throw new BaseException(BaseResponseStatus.NO_GROUP_LEADER);
-        }
+        groupInfoService.CheckIsAdmin(groupIdx,patchApplicationStatusReq.getAdminIdx());
 
 
         // 올바른 요청이 맞는지에 대한 검사
@@ -130,19 +126,16 @@ public class ApplicationController {
     @PatchMapping("/manage/expel/{groupIdx}/{status}")
     public ResponseEntity<Long> ExpelUserFromGroup (@PathVariable Long groupIdx, @PathVariable Integer status , @RequestBody @Valid PatchExpelUserReq patchExpelUserReq) throws BaseException {
 
-        System.out.println("groupIDx >> " + groupIdx);
-        System.out.println("user >> " +patchExpelUserReq.getUserIdx());
-        System.out.println("applicationIdx >> "+patchExpelUserReq.getApplicationIdx());
-        System.out.println("adminIDx >> " +patchExpelUserReq.getAdminIdx());
+//        System.out.println("groupIDx >> " + groupIdx);
+//        System.out.println("user >> " +patchExpelUserReq.getUserIdx());
+//        System.out.println("applicationIdx >> "+patchExpelUserReq.getApplicationIdx());
+//        System.out.println("adminIDx >> " +patchExpelUserReq.getAdminIdx());
         //jwt 유효성 검사 추가
 
 
         //추방 권한 확인
-        Long ReqAdminIdx = patchExpelUserReq.getAdminIdx();
-        boolean check = groupInfoService.IsAdmin(groupIdx,ReqAdminIdx);
-        if(check == false){//권한없음
-            throw new BaseException(BaseResponseStatus.NO_GROUP_LEADER);
-        }
+        groupInfoService.CheckIsAdmin(groupIdx,patchExpelUserReq.getAdminIdx());
+
 
         if(!(status.equals(1))){ //가입 승인이 된 유저만 대상으로 추방을 할 수 있음.
             throw new BaseException(BaseResponseStatus.INVALID_STATUS);

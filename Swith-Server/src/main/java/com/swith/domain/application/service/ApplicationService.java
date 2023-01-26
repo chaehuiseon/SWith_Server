@@ -55,14 +55,6 @@ public class ApplicationService {
 
     }
 
-    public void CheckIsAdmin(Long groupIdx,Long userIdx){
-        Long admin = findAdminIdx(groupIdx);
-        if(userIdx.equals(admin)){
-            throw new BaseException(BaseResponseStatus.INVAILD_ADMIN_APPLICATION);
-        }
-
-
-    }
 
     public void CheckFULL(Long groupIdx){
         Integer limit = getMemberLimit(groupIdx);
@@ -304,10 +296,6 @@ public class ApplicationService {
         }
 
         return getApplicationResList;
-    }
-
-    public Long findAdminIdx(Long groupIdx){
-        return groupInfoRepository.findAdminIdxBy(groupIdx);
     }
 
 

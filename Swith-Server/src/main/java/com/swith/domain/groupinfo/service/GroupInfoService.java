@@ -210,13 +210,20 @@ public class GroupInfoService {
 
     }
 
-    public void IsAdmin(Long groupIdx, Long adminIdx){
-        Long FoundAdminIdx = groupInfoRepository.findAdminIdxBy(groupIdx);
+
+    public void CheckIsAdmin(Long groupIdx, Long adminIdx){
+        Long FoundAdminIdx = findAdminIdx(groupIdx);
         if(!adminIdx.equals(FoundAdminIdx)){ // admin이 아니기 때문에, 권한이 없다.
             throw new BaseException(BaseResponseStatus.NO_GROUP_LEADER);
 
         }
     }
+
+
+    public Long findAdminIdx(Long groupIdx){
+        return groupInfoRepository.findAdminIdxBy(groupIdx);
+    }
+
 
 
     //스터디 정보 변경 로직

@@ -30,4 +30,9 @@ public class GlobalExceptionHandler {
                 .body(errorResponse);
     }
 
+    
+    //exception 모든 예외 발생시에 여기서 잡아줄거야.!
+
+
+
 }

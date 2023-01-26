@@ -37,7 +37,8 @@ public class RegisterService {
         return registerList;
     }
 
-    public void RegisterUserInGroup(Application changed) throws BaseException {
+    @Transactional
+    public void RegisterUserInGroup(Application changed)  {
 //        Register register = Register.builder()
 //                .user(userRepository.getOne(changed.getUser().getUserIdx()))
 //                .groupInfo(groupInfoRepository.getOne(changed.getGroupInfo().getGroupIdx()))
@@ -47,10 +48,14 @@ public class RegisterService {
 
         // 아래 변경 코드임.. 테스트 해봐야 함....
         Register register = Register.toEntity(changed,0); // 승인 : 0
-        registerRepository.save(register);
-        //등록이 잘 되었는지 확인. -> 더티 체킹이면 이거 빠질듯?
-//        boolean registerCheck = CheckRegisterStatus(changed,saved,0);
-//        if(!registerCheck) throw new BaseException(BaseResponseStatus.INVALID_STATUS);
+        Register savedregisted = registerRepository.save(register);
+        //등록이 잘 되었는지 확인.
+        if ((!changed.getGroupInfo().getGroupIdx().equals(savedregisted.getGroupInfo().getGroupIdx()))
+                || (!changed.getUser().getUserIdx().equals(savedregisted.getUser().getUserIdx()))) {
+            if(!savedregisted.getStatus().equals(0))
+                throw new BaseException(BaseResponseStatus.FAIL_SAVED_APPLICATION);
+
+        }
 
     }
 

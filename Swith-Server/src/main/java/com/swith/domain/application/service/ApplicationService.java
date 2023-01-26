@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Transactional
+
+@Transactional(readOnly = true)
 @Service
 public class ApplicationService {
 
@@ -57,7 +58,8 @@ public class ApplicationService {
         return NumOfApplicants;
     }
 
-    public Long Apply(Long groupIdx,Integer applicationMethod, PostApplicationReq postApplicationReq) throws BaseException {
+    @Transactional
+    public Long Apply(Long groupIdx,Integer applicationMethod, PostApplicationReq postApplicationReq) {
 
         if(applicationMethod == 0){//0: 선착순
             Integer status = 1 ;//선착순이므로 바로 승인.
@@ -69,18 +71,18 @@ public class ApplicationService {
                     .build();
 
             Application savedInfo = applicationRepository.save(data);
-            System.out.println(savedInfo.toString());
+
             Long applicationIdx = savedInfo.getApplicationIdx();
 
-            //application 가입 승인 -> Register 등록
-            if ((savedInfo.getGroupInfo().getGroupIdx() == groupIdx) && (savedInfo.getStatus() == 1)) {
-                try{
-                    // toentity + 더티체크 적용 -> 봐야 앎.
-                    registerService.RegisterUserInGroup(savedInfo);
-                }catch (BaseException exception){
-                    throw new BaseException(BaseResponseStatus.FAIL_REGISTER_SAVE);
-                }
+            if ((!groupIdx.equals(savedInfo.getGroupInfo().getGroupIdx())) || (!savedInfo.getStatus().equals(1))
+                            || (!postApplicationReq.getUserIdx().equals(savedInfo.getUser().getUserIdx()))) {
+                throw new BaseException(BaseResponseStatus.FAIL_SAVED_APPLICATION);
+
             }
+
+            //application 가입 승인 -> Register 등록
+            registerService.RegisterUserInGroup(savedInfo);
+
 
             return applicationIdx;
 
@@ -128,6 +130,7 @@ public class ApplicationService {
 
 
     //스터지 지원에 대한 승인 또는 반려 상태 변경.
+    @Transactional
     public PatchApplicationStatusRes changeApplicationStatus(Long groupIdx, Integer status, PatchApplicationStatusReq request)
             throws BaseException {
 
@@ -205,50 +208,47 @@ public class ApplicationService {
 
 
     //Group에서 추방
+    @Transactional
     public Long ExpelUserFromGroup(Integer userstatus, Long groupIdx, PatchExpelUserReq patchExpelUserReq) throws BaseException {
 
         // 예전코드
-        if(!(userstatus == 1)){ //가입 승인이 된 유저만 대상으로 추방을 할 수 있음.
-            throw new BaseException(BaseResponseStatus.INVALID_STATUS);
-        }
-
-        Long req_applicationIdx = patchExpelUserReq.getApplicationIdx();
-
-        try {
-            applicationRepository.updateStatusOfApplication(3, req_applicationIdx, groupIdx,1);
-        } catch (Exception exception) {
-            throw new BaseException(BaseResponseStatus.FAIL_CHANGED_STATUS);
-        }
-
-        Application changed = applicationRepository.findById(req_applicationIdx).get();
-        if ((changed.getApplicationIdx() == req_applicationIdx) &&
-                (changed.getGroupInfo().getGroupIdx() == groupIdx) && (3 == changed.getStatus())) {
-            System.out.println("추방확인 >> "+ changed.getApplicationIdx() );
-            return changed.getApplicationIdx();
-        }
-
-        return -3L;
-
-
-//        //새로 짠 코드 -> 아직 테스트 안했음..
-//        Application application = applicationRepository.findById(patchExpelUserReq.getApplicationIdx()).orElseThrow(
-//                () -> new IllegalArgumentException(String.valueOf(BaseResponseStatus.NOT_EXIST_USER))
-//        );
-//
-//        if ( groupInfoRepository.findstatusOfGroupInfo(groupIdx) != 1 ){//진행중인 스터디에 한해서만 변경이 가능함..
-//
+//        if(!(userstatus == 1)){ //가입 승인이 된 유저만 대상으로 추방을 할 수 있음.
+//            throw new BaseException(BaseResponseStatus.INVALID_STATUS);
 //        }
 //
-//        application.changeStatus(3);
+//        Long req_applicationIdx = patchExpelUserReq.getApplicationIdx();
+//
+//        try {
+//            applicationRepository.updateStatusOfApplication(3, req_applicationIdx, groupIdx,1);
+//        } catch (Exception exception) {
+//            throw new BaseException(BaseResponseStatus.FAIL_CHANGED_STATUS);
+//        }
+//
+//        Application changed = applicationRepository.findById(req_applicationIdx).get();
+//        if ((changed.getApplicationIdx() == req_applicationIdx) &&
+//                (changed.getGroupInfo().getGroupIdx() == groupIdx) && (3 == changed.getStatus())) {
+//            System.out.println("추방확인 >> "+ changed.getApplicationIdx() );
+//            return changed.getApplicationIdx();
+//        }
+//
+//        return -3L;
 
 
+        //새로 짠 코드 -> 아직 테스트 안했음..
+        Application application = applicationRepository.findById(patchExpelUserReq.getApplicationIdx()).orElseThrow(
+                () -> new IllegalArgumentException(String.valueOf(BaseResponseStatus.NOT_EXIST_USER))
+        );
 
+        if ( groupInfoRepository.findstatusOfGroupInfo(groupIdx) != 1 ){//진행중인 스터디에 한해서만 변경이 가능함..
 
+        }
 
+        application.changeStatus(3);
 
+        //더티 체킹으로 빠져나간다음에 업데이트 될텐데, 그럼 잘 됐는지 검사는 어디서 하까?
 
-
-
+        return application.getApplicationIdx();
+        // +) Register에서 상태변경(추방)..해야하는거 짜야 됨 .............
 
 
 

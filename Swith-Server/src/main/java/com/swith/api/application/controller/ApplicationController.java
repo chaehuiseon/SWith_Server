@@ -15,6 +15,7 @@ import com.swith.domain.groupinfo.service.GroupInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,30 +36,39 @@ public class ApplicationController {
         this.groupInfoService = groupInfoService;
     }
 
-    //지원 api
+    @ApiOperation("가입신청 API")
     @ResponseBody
     @PostMapping("/apply/{groupIdx}/{applicationMethod}")
-    public BaseResponse<Long> Apply(@PathVariable Long groupIdx, @PathVariable Integer applicationMethod,
-                                    @RequestBody PostApplicationReq postApplicationReq) throws BaseException {
+    public ResponseEntity<Long> Apply(@PathVariable Long groupIdx, @PathVariable Integer applicationMethod,
+                                      @RequestBody PostApplicationReq postApplicationReq)  {
 
-        Long admin = applicationService.findAdminIdx(groupIdx);
-        if(admin == postApplicationReq.getUserIdx()){
-            return new BaseResponse<>(BaseResponseStatus.INVAILD_ADMIN_APPLICATION);
-        }
+        //중복 지원자인지 확인. -> 테스트 안한 상태.
 
 
+
+
+        // 가입 신청 인원이 다 찾는지 확인.
         Integer limit = applicationService.getMemberLimit(groupIdx);
         Long NumOfApplicants = applicationService.findNumOfApplicants(groupIdx);
-        System.out.println("지원자/limit =  " + NumOfApplicants + "/ " + limit);
-        if(limit.equals(NumOfApplicants.intValue())){ //신청인원이 다 찻다.
-            return new BaseResponse<>(BaseResponseStatus.FULL_NUM_OF_Applicants);
-        }
-        Long applicationIdx = applicationService.Apply(groupIdx, applicationMethod, postApplicationReq);
-        if(applicationIdx == null){
-            return new BaseResponse<>(BaseResponseStatus.FAIL_SAVED_APPLICATION);
+        if(limit.equals(NumOfApplicants.intValue())){//신청인원이 다 채워져서  신충 불가.
+            throw new BaseException(BaseResponseStatus.FULL_NUM_OF_Applicants);
         }
 
-        return new BaseResponse<>(applicationIdx);
+
+        // 스터디 가입 신청자가 방장이면 가입 할 필요가 없음.
+        Long admin = applicationService.findAdminIdx(groupIdx);
+        if(postApplicationReq.getUserIdx().equals(admin)){
+            throw new BaseException(BaseResponseStatus.INVAILD_ADMIN_APPLICATION);
+        }
+
+
+        //신청 시작.
+        Long applicationIdx = applicationService.Apply(groupIdx, applicationMethod, postApplicationReq);
+        if(applicationIdx == null){
+            throw new BaseException(BaseResponseStatus.FAIL_SAVED_APPLICATION);
+        }
+
+        return ResponseEntity.ok(applicationIdx);
 
     }
 
@@ -90,12 +100,12 @@ public class ApplicationController {
 
     }
 
-    //1차 리펙토리 중 (dto 관련.. )
+    //2차 리펙토리
     @ApiOperation("가입신청-승인/반려API")
     @ResponseBody
     @PatchMapping("/manage/resume/{groupIdx}/{status}")  //status : Application 에 있는 status
     public BaseResponse<PatchApplicationStatusRes> ApproveOrRejectStudyEnrollment(
-            @PathVariable Long groupIdx, @PathVariable Integer status, @RequestBody PatchApplicationStatusReq patchApplicationStatusReq) throws BaseException {
+            @PathVariable Long groupIdx, @PathVariable Integer status, @RequestBody PatchApplicationStatusReq patchApplicationStatusReq) {
 
         System.out.println("승인시작 : ");
         System.out.println("application 요청 status :  "+ patchApplicationStatusReq.getStatusOfApplication());

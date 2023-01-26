@@ -47,9 +47,9 @@ public class GroupInfoController {
     }
 
 
-    @ApiOperation("그룹 생성") // 리팩토리 1차완
+    @ApiOperation("그룹 생성") // 리팩토리 2차.
     @PostMapping
-    public ResponseEntity<PostGroupInfoRes> createGroup(@RequestBody PostGroupInfoReq request) throws BaseException {
+    public ResponseEntity<PostGroupInfoRes> createGroup(@RequestBody PostGroupInfoReq request) {
         PostGroupInfoRes response = groupInfoService.create(request);
         //return new BaseResponse<>(response);
         return ResponseEntity.ok(response);

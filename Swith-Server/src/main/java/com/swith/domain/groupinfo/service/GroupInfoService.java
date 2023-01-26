@@ -132,7 +132,7 @@ public class GroupInfoService {
     }
 
 
-    public PostGroupInfoRes create(PostGroupInfoReq request) throws BaseException {
+    public PostGroupInfoRes create(PostGroupInfoReq request)  {
         System.out.println("스터디 개설 시작");
         //입력 정보를 DB에 저장하기 위해, Entity로 변환한다.
         GroupInfo groupInfo = toEntityForCreating(request);
@@ -166,8 +166,14 @@ public class GroupInfoService {
     }
 
     public GetEachGroupInfoRes selectEachGroupInfo(Long groupIdx){
-        //찾고자 하는 groupInfo가 있는지.
-        GroupInfo groupInfo = groupInfoRepository.findByGroupIdx(groupIdx);
+        //찾고자 하는 groupInfo가 있는지. -> 아래 코드로 대체 되었음. 테스트 아직 안함.
+        //GroupInfo groupInfo = groupInfoRepository.findByGroupIdx(groupIdx);
+
+        //존재 하니깐 groupId 를 통해, groupInfo 정보 가지고 온다. 존재에 대한 예외처리를 아래서 하고 있음..
+        GroupInfo groupInfo = groupInfoRepository.findById(groupIdx).orElseThrow(
+                () -> new IllegalArgumentException(String.valueOf(BaseResponseStatus.FAIL_LOAD_GROUPINFO))
+        );
+
 
         //스터디 신청 승인된 인원 찾기
         Long NumOfApplicants = 0L;
@@ -245,7 +251,10 @@ public class GroupInfoService {
         groupInfo.setRegionIdx2(request.getRegionIdx2());
         Integer originInterest = groupInfo.getInterest().getInterestIdx();
 
+//        groupInfo.setInterest(ReqInterest);
+
         if(request.getInterest() != originInterest){ // interest 다른 경우만 바꾸겠다.
+            //유효 검사해야함.............
             Interest ReqInterest = interestRepository.getById(request.getInterest());
             groupInfo.setInterest(ReqInterest);
         }
@@ -261,6 +270,8 @@ public class GroupInfoService {
 
 
 
+
+
         //GroupInfo save = groupInfoRepository.save(groupInfo);
         //System.out.println(">>>>>>>>>>>>"+save.getGroupIdx().toString());
 
@@ -273,7 +284,7 @@ public class GroupInfoService {
 
 
     @Transactional
-    public changeEndStatus EndGroup(Long groupIdx,Long adminIdx) throws IOException {
+    public changeEndStatus EndGroup(Long groupIdx,Long adminIdx) {
 
 //        if(!existGroupIdx(groupIdx)){ //존재하지 않음.
 //            return -1L;

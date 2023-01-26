@@ -187,17 +187,16 @@ public class GroupInfoService {
     }
 
     //스터디 그룹 존재 여부 체크
-    public boolean existGroupIdx(Long groupIdx){
+    public void existGroupIdx(Long groupIdx){
         //boolean check = groupInfoRepository.existsById(groupIdx);
         //상태 확인 코드 추가해야됨.
 
         Integer check = groupInfoRepository.findStatusOfGroupInfo(groupIdx);
         // 상태가 0(진행예정)또는 1(진행중) 이면 존재 ->true
-        if(check == 0 || check == 1) return true;
-        //상태가 2(종료)면 존재하지 않음 -> false
-        else if(check == 2) return false;
-
-        return false;
+        if( !(check == 0 || check == 1)) {
+            // 2(종료) 되었거나 다른 문제
+            throw new BaseException(BaseResponseStatus.FAIL_LOAD_GROUPINFO);
+        }
 
 
     }

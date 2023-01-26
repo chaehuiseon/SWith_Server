@@ -134,10 +134,14 @@ public class ApplicationService {
 
     //지원 목록 가져오기.
     public List<GetApplicationManageRes> getApplicationList(Long groupIdx,Integer status){
-        //IsAdmin 추가 해야하나
+
+        if(!(status == 0 || status == 1)){//승인대기(0)거나 승인(1) 상태가 아닌 목록의 요청은 잘못된 요청.
+            throw new BaseException(BaseResponseStatus.BADREQUEST);
+        }
 
 
         //domain 서비스 분리 대상!!!!!!!!!!!!!
+        //가지고 온다..
         List<Application> applications =  applicationRepository.getApplicationListBy(groupIdx,status);
 
         //dto로 잘 만들어서.. 반환....
@@ -154,6 +158,13 @@ public class ApplicationService {
     //스터지 지원에 대한 승인 또는 반려 상태 변경.
     @Transactional
     public PatchApplicationStatusRes changeApplicationStatus(Long groupIdx, Integer status, PatchApplicationStatusReq request) {
+
+
+        // 올바른 요청이 맞는지에 대한 검사
+        Integer ReqStatus = request.getStatusOfApplication();
+        if(!(ReqStatus == 1 || ReqStatus == 2 )){//요청이 승인(1) 또는 반려(2)가 아니면 잘못된 값을 받은 것.
+            throw new BaseException(BaseResponseStatus.INVALID_STATUS);
+        }
 
         Integer check = 0;
         if (status == 0) { //변경전. 지원에 있음.
@@ -209,13 +220,14 @@ public class ApplicationService {
                 System.out.println("변경확인되었습니다.");
 
                 return PatchApplicationStatusRes.of(changed);
+            }else {
+                throw new BaseException(BaseResponseStatus.DO_NOT_EXECUTE_CHANGE);
             }
 
         }else {
-            throw new BaseException(BaseResponseStatus.DO_NOT_EXECUTE_CHANGE);
-        }
 
-        return null;
+            throw new BaseException(BaseResponseStatus.RESPONSE_ERROR);
+        }
 
 
     }
@@ -224,7 +236,7 @@ public class ApplicationService {
 
     //Group에서 추방
     @Transactional
-    public Long ExpelUserFromGroup(Integer userstatus, Long groupIdx, PatchExpelUserReq patchExpelUserReq) throws BaseException {
+    public Long ExpelUserFromGroup( Long groupIdx, PatchExpelUserReq patchExpelUserReq) throws BaseException {
 
         // 예전코드
 //        if(!(userstatus == 1)){ //가입 승인이 된 유저만 대상으로 추방을 할 수 있음.
@@ -251,10 +263,19 @@ public class ApplicationService {
 
         //새로 짠 코드 -> 아직 테스트 안했음..
 
+
+
         //가지고와서
         Application application = applicationRepository.findById(patchExpelUserReq.getApplicationIdx()).orElseThrow(
                 () -> new IllegalArgumentException(String.valueOf(BaseResponseStatus.NOT_EXIST_USER))
         );
+
+
+        //가입 승인이 된 유저만 대상으로 추방을 할 수 있음.
+        Integer status = application.getStatus();
+        if(!(status.equals(1))){
+            throw new BaseException(BaseResponseStatus.INVALID_STATUS);
+        }
 
         // 현재, 승인상태면 바로 추방 가능하게 만들어놨다함. (즉, 현재 요구사항에선 스터디 진행중인거 고려할 필요가 없음...)
 //        if ( groupInfoRepository.findstatusOfGroupInfo(groupIdx) != 1 ){//진행중인 스터디에 한해서만 변경이 가능함..

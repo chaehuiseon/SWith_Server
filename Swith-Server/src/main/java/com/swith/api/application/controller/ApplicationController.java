@@ -58,7 +58,6 @@ public class ApplicationController {
 
     }
 
-    // 1차 리펙토리 ok(dto 변경)
     // 지원/목록 (즉, 유저관리 페이지) 불러오기 api
     @ApiOperation("가입신청-지원/목록 불러오기 API")
     @ResponseBody
@@ -67,16 +66,9 @@ public class ApplicationController {
     ShowApplicationManage(@PathVariable Long groupIdx, @PathVariable Integer status){
 
         //그룹상태 -> 있긴 한지 + 종료된 그룹이 아닌지...
-        boolean existcheck = groupInfoService.existGroupIdx(groupIdx);
-        if(existcheck == false){ //존재하지 않거나 이미 종료된 스터디
-            throw new BaseException(BaseResponseStatus.FAIL_LOAD_GROUPINFO);
-        }
+        groupInfoService.existGroupIdx(groupIdx);
 
-        if(!(status == 0 || status == 1)){//승인대기(0)거나 승인(1) 상태가 아닌 목록의 요청은 잘못된 요청.
-            throw new BaseException(BaseResponseStatus.BADREQUEST);
-        }
-
-
+        //가지고 온다.
         List<GetApplicationManageRes> response =  applicationService.getApplicationList(groupIdx,status);
 
         return ResponseEntity.ok(response);
@@ -92,10 +84,10 @@ public class ApplicationController {
     public ResponseEntity<PatchApplicationStatusRes> ApproveOrRejectStudyEnrollment(
             @PathVariable Long groupIdx, @PathVariable Integer status, @RequestBody PatchApplicationStatusReq patchApplicationStatusReq) {
 
-        System.out.println("승인시작 : ");
-        System.out.println("application 요청 status :  "+ patchApplicationStatusReq.getStatusOfApplication());
-        System.out.println("application Idx " + patchApplicationStatusReq.getApplicationIdx());
-        System.out.println("admin " +patchApplicationStatusReq.getAdminIdx());
+//        System.out.println("승인시작 : ");
+//        System.out.println("application 요청 status :  "+ patchApplicationStatusReq.getStatusOfApplication());
+//        System.out.println("application Idx " + patchApplicationStatusReq.getApplicationIdx());
+//        System.out.println("admin " +patchApplicationStatusReq.getAdminIdx());
         //목록이 보여졌다는것은.. 스터디가 종료 및 삭제 되지 않았다는 검사를 앞에서 다 했다는 것으로 간주.
 
         //jwt 유효성 검사 추가해야됨.
@@ -104,17 +96,9 @@ public class ApplicationController {
         groupInfoService.CheckIsAdmin(groupIdx,patchApplicationStatusReq.getAdminIdx());
 
 
-        // 올바른 요청이 맞는지에 대한 검사
-        Integer ReqStatus = patchApplicationStatusReq.getStatusOfApplication();
-        if(!(ReqStatus == 1 || ReqStatus == 2 )){//요청이 승인(1) 또는 반려(2)가 아니면 잘못된 값을 받은 것.
-            throw new BaseException(BaseResponseStatus.INVALID_STATUS);
-        }
-
-
         //권한 있음. 승인 또는 반려 상태 변경.
         PatchApplicationStatusRes response = applicationService.changeApplicationStatus(groupIdx, status, patchApplicationStatusReq);
 
-        if(response == null) throw new BaseException(BaseResponseStatus.RESPONSE_ERROR);
 
         return ResponseEntity.ok(response);
 
@@ -123,8 +107,8 @@ public class ApplicationController {
 
     @ApiOperation("스터디 유저 추방 API")
     @ResponseBody
-    @PatchMapping("/manage/expel/{groupIdx}/{status}")
-    public ResponseEntity<Long> ExpelUserFromGroup (@PathVariable Long groupIdx, @PathVariable Integer status , @RequestBody @Valid PatchExpelUserReq patchExpelUserReq) throws BaseException {
+    @PatchMapping("/manage/expel/{groupIdx}")
+    public ResponseEntity<Long> ExpelUserFromGroup (@PathVariable Long groupIdx,  @RequestBody @Valid PatchExpelUserReq patchExpelUserReq) throws BaseException {
 
 //        System.out.println("groupIDx >> " + groupIdx);
 //        System.out.println("user >> " +patchExpelUserReq.getUserIdx());
@@ -137,13 +121,8 @@ public class ApplicationController {
         groupInfoService.CheckIsAdmin(groupIdx,patchExpelUserReq.getAdminIdx());
 
 
-        if(!(status.equals(1))){ //가입 승인이 된 유저만 대상으로 추방을 할 수 있음.
-            throw new BaseException(BaseResponseStatus.INVALID_STATUS);
-        }
-
-
         //추방하기
-        Long result = applicationService.ExpelUserFromGroup(status, groupIdx, patchExpelUserReq);
+        Long result = applicationService.ExpelUserFromGroup(groupIdx, patchExpelUserReq);
         //if(result == -3L) throw new BaseException(BaseResponseStatus.DO_NOT_EXECUTE_CHANGE);
         return ResponseEntity.ok(result);
 

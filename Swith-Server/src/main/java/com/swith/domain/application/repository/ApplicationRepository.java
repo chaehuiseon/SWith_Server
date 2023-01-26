@@ -19,6 +19,13 @@ public interface ApplicationRepository extends JpaRepository<Application,Long> {
     Long findNumOfApplicants(@Param("groupIdx")Long groupIdx);
 
 
+    @Query("select a " +
+            "from Application a " +
+            "where a.groupInfo.groupIdx = :groupIdx " +
+            "and a.user.userIdx = :userIdx ")
+    Application findByGroupIdxAndUserIdx(@Param("groupIdx")Long groupIdx, @Param("userIdx")Long userIdx);
+
+
     @Query("select a "+
             "from Application a "+
             "join fetch a.user u "+

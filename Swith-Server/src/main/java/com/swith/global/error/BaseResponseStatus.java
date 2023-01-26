@@ -1,6 +1,7 @@
 package com.swith.global.error;
 
 import lombok.Getter;
+import org.json.HTTP;
 import org.springframework.http.HttpStatus;
 
 
@@ -128,6 +129,7 @@ public enum BaseResponseStatus {
     INVALID_STATUS(HttpStatus.BAD_REQUEST,9005,"상태 변경 실패 : 유효하지 않은 값"),
     FAIL_REGISER(HttpStatus.INTERNAL_SERVER_ERROR, 9006, "가입승인 -> Regiest 등록 실패"),
     DO_NOT_CHANGE_BEFORE_STUDYING(HttpStatus.FORBIDDEN,6008,"스터디 시작 전에 , 추방 불가."),
+    ALREADY_APPLICATION(HttpStatus.BAD_REQUEST,9009,"이미 이 그룹에 신청한 지원자입니다."),
 
 
     //9050 : 그룹

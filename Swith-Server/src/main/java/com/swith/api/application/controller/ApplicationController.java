@@ -43,8 +43,7 @@ public class ApplicationController {
                                       @RequestBody PostApplicationReq postApplicationReq)  {
 
         //중복 지원자인지 확인. -> 테스트 안한 상태.
-
-
+        applicationService.AlreadyInGroup(groupIdx,postApplicationReq.getUserIdx());
 
 
         // 가입 신청 인원이 다 찾는지 확인.

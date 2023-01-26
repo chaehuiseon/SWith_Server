@@ -51,6 +51,15 @@ public class ApplicationService {
         return limit;
     }
 
+    public void AlreadyInGroup(Long groupIdx, Long userIdx){
+        Application a = applicationRepository.findByGroupIdxAndUserIdx(groupIdx,userIdx);
+        if(userIdx.equals(a.getUser().getUserIdx()) && groupIdx.equals(a.getGroupInfo().getGroupIdx())) {
+            throw new BaseException(BaseResponseStatus.ALREADY_APPLICATION);
+        }
+
+
+    }
+
     public Long findNumOfApplicants(Long groupIdx){
 
         Long NumOfApplicants = applicationRepository.findNumOfApplicants(groupIdx);

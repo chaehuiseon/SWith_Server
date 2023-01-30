@@ -136,9 +136,10 @@ public enum BaseResponseStatus {
 
     //9050 : 그룹
     FAIL_LOAD_GROUPINFO(HttpStatus.BAD_REQUEST,9003,"스터디 그룹이 존재하지 않습니다."),
-    FAIL_CLOSED_GROUPINFO(HttpStatus.BAD_REQUEST,9051,"종료된 스터디 그룹입니다."),
+    FAIL_CLOSED_GROUPINFO(HttpStatus.BAD_REQUEST,9051,"종료된 스터디 그룹이기 때문에, 요청을 수행할 수 없습니다."),
     INVAILD_ADMIN_APPLICATION(HttpStatus.BAD_REQUEST,9052,"그룹장은 가입이 불가합니다."),
-    BAD_REQUEST_GROUPINFO(HttpStatus.BAD_REQUEST,9053,"잘못된 접근입니다.");
+    BAD_REQUEST_GROUPINFO(HttpStatus.BAD_REQUEST,9053,"잘못된 접근입니다."),
+    BAD_REQUEST_INTEREST(HttpStatus.BAD_REQUEST,9054,"interest 값이 잘못되었습니다.");
 
 
 

@@ -20,7 +20,7 @@ import com.swith.api.session.dto.GetSessionRes;
 import com.swith.api.session.dto.PostSessionReq;
 import com.swith.api.session.dto.GetSessionTabRes;
 import com.swith.api.session.dto.SessionAttendanceInfo;
-import com.swith.domain.groupinfo.service.GroupInfoService;
+import com.swith.api.groupinfo.service.GroupInfoApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +41,7 @@ public class SessionService {
 
 
     @Autowired
-    public SessionService(SessionRepository sessionRepository, GroupInfoService groupInfoService, GroupInfoRepository groupInfoRepository, AnnouncementRepository announcementRepository, AttendanceRepository attendanceRepository, MemoRepository memoRepository, RegisterRepository registerRepository) {
+    public SessionService(SessionRepository sessionRepository, GroupInfoApiService groupInfoApiService, GroupInfoRepository groupInfoRepository, AnnouncementRepository announcementRepository, AttendanceRepository attendanceRepository, MemoRepository memoRepository, RegisterRepository registerRepository) {
         this.sessionRepository = sessionRepository;
         this.groupInfoRepository = groupInfoRepository;
         this.announcementRepository = announcementRepository;

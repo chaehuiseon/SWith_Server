@@ -5,7 +5,7 @@ import com.swith.api.common.dto.BaseResponse;
 import com.swith.api.rating.dto.PostRatingReq;
 import com.swith.api.rating.dto.PostRatingStarReq;
 import com.swith.api.rating.dto.PostRatingRes;
-import com.swith.domain.groupinfo.service.GroupInfoService;
+import com.swith.api.groupinfo.service.GroupInfoApiService;
 import com.swith.domain.rating.service.RatingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,12 +19,12 @@ import java.util.List;
 @Api(tags = {"Swith Rating API"})
 public class RatingController {
 
-    private final GroupInfoService groupInfoService;
+    private final GroupInfoApiService groupInfoApiService;
     private final RatingService ratingService;
 
     @Autowired
-    public RatingController(GroupInfoService groupInfoService, RatingService ratingService) {
-        this.groupInfoService = groupInfoService;
+    public RatingController(GroupInfoApiService groupInfoApiService, RatingService ratingService) {
+        this.groupInfoApiService = groupInfoApiService;
         this.ratingService = ratingService;
     }
 
@@ -34,7 +34,7 @@ public class RatingController {
     public BaseResponse<List<PostRatingRes>> GetListRatingUserSinceGroupEnd(@PathVariable Long groupIdx, @RequestBody PostRatingReq postRatingReq){
 
         //그룹 끝났어?₩₩₩₩₩₩₩₩₩₩₩
-        Integer status = groupInfoService.statusOfGroupInfo(groupIdx);
+        Integer status = groupInfoApiService.statusOfGroupInfo(groupIdx);
         if(status != 2){//종료된 그룹이 아니다.
 
         }
@@ -52,7 +52,7 @@ public class RatingController {
         System.out.println(postRatingStarReq.getStar());
 
         //그룹 끝났어?
-        Integer status = groupInfoService.statusOfGroupInfo(groupIdx);
+        Integer status = groupInfoApiService.statusOfGroupInfo(groupIdx);
         if(status != 2){//종료된 그룹이 아니다.
 
         }

@@ -1,7 +1,6 @@
 package com.swith.api.application.controller;
 
 
-import com.swith.global.error.BaseResponseStatus;
 import com.swith.api.common.dto.BaseResponse;
 import com.swith.api.application.dto.PatchApplicationStatusReq;
 import com.swith.api.application.dto.PatchExpelUserReq;
@@ -9,9 +8,10 @@ import com.swith.api.application.dto.PostApplicationReq;
 import com.swith.api.application.dto.GetApplicationManageRes;
 import com.swith.api.application.dto.PatchApplicationStatusRes;
 import com.swith.api.application.dto.GetApplicationRes;
+import com.swith.domain.groupinfo.service.GroupInfoService;
 import com.swith.global.error.exception.BaseException;
 import com.swith.domain.application.service.ApplicationService;
-import com.swith.domain.groupinfo.service.GroupInfoService;
+import com.swith.api.groupinfo.service.GroupInfoApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +28,17 @@ import java.util.List;
 public class ApplicationController {
 
     private final ApplicationService applicationService;
+    private final GroupInfoApiService groupInfoApiService;
     private final GroupInfoService groupInfoService;
 
-    @Autowired
-    public ApplicationController(ApplicationService applicationService, GroupInfoService groupInfoService) {
+    public ApplicationController(ApplicationService applicationService, GroupInfoApiService groupInfoApiService, GroupInfoService groupInfoService) {
         this.applicationService = applicationService;
+        this.groupInfoApiService = groupInfoApiService;
         this.groupInfoService = groupInfoService;
     }
+
+    @Autowired
+
 
     @ApiOperation("가입신청 API")
     @ResponseBody

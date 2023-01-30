@@ -3,11 +3,11 @@ package com.swith.api.groupinfo.controller;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.swith.api.groupinfo.dto.*;
-import com.swith.global.error.BaseResponseStatus;
 import com.swith.api.common.dto.BaseResponse;
+import com.swith.domain.groupinfo.service.GroupInfoService;
 import com.swith.domain.user.service.UserService;
 import com.swith.global.error.exception.BaseException;
-import com.swith.domain.groupinfo.service.GroupInfoService;
+import com.swith.api.groupinfo.service.GroupInfoApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,20 +26,23 @@ import java.util.List;
 @Api(tags = {"Swith GroupInfo API"})
 public class GroupInfoController {
 
+    private final GroupInfoApiService groupInfoApiService;
     private final GroupInfoService groupInfoService;
     private final UserService userService;
 
     @Autowired
-    public GroupInfoController(GroupInfoService groupInfoService, UserService userService) {
+    public GroupInfoController(GroupInfoApiService groupInfoApiService, GroupInfoService groupInfoService, UserService userService) {
+        this.groupInfoApiService = groupInfoApiService;
         this.groupInfoService = groupInfoService;
         this.userService = userService;
     }
+
 
     @ApiOperation("홈화면 정보 불러오기 - P1")
     @GetMapping("/home")
     public BaseResponse<List<GetHomeGroupInfoRes>> loadHomeData(@RequestParam(value = "userIdx") Long userIdx) {
         try {
-            List<GetHomeGroupInfoRes> getGroupHomeData = groupInfoService.loadHomeData(userIdx);    //출석율 부분 수정 필요
+            List<GetHomeGroupInfoRes> getGroupHomeData = groupInfoApiService.loadHomeData(userIdx);    //출석율 부분 수정 필요
             return new BaseResponse<>(getGroupHomeData);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
@@ -50,7 +53,7 @@ public class GroupInfoController {
     @ApiOperation("그룹 생성") // 리팩토리 2차.
     @PostMapping
     public ResponseEntity<PostGroupInfoRes> createGroup(@RequestBody PostGroupInfoReq request) {
-        PostGroupInfoRes response = groupInfoService.create(request);
+        PostGroupInfoRes response = groupInfoApiService.create(request);
         //return new BaseResponse<>(response);
         return ResponseEntity.ok(response);
     }
@@ -78,7 +81,7 @@ public class GroupInfoController {
         );
         System.out.println(getGroupInfoSearchReq.getSortCond());
         System.out.println(getGroupInfoSearchReq.getClientTime());
-        Slice<GetGroupInfoSearchRes> result = groupInfoService.searchGroup(getGroupInfoSearchReq, pageable);
+        Slice<GetGroupInfoSearchRes> result = groupInfoApiService.searchGroup(getGroupInfoSearchReq, pageable);
         System.out.println("---------");
         System.out.println(result.isLast());
         return new BaseResponse<>(result);
@@ -91,7 +94,7 @@ public class GroupInfoController {
     @GetMapping("/search/{groupIdx}")
     @ResponseBody
     public ResponseEntity<GetEachGroupInfoRes> selectEachGroupInfo(@PathVariable Long groupIdx) {
-        GetEachGroupInfoRes response = groupInfoService.selectEachGroupInfo(groupIdx);
+        GetEachGroupInfoRes response = groupInfoApiService.selectEachGroupInfo(groupIdx);
         //return new BaseResponse<>(response);
         return ResponseEntity.ok(response);
     }
@@ -108,7 +111,7 @@ public class GroupInfoController {
         //검사 : 상태 변경 권한이 있는지..즉, 스터디 개설자가 맞는지.
         groupInfoService.CheckIsAdmin(groupIdx, patchGroupInfoReq.getAdminIdx());
 
-        Long result = groupInfoService.ModifyGroupInformation(groupIdx, patchGroupInfoReq);
+        Long result = groupInfoApiService.ModifyGroupInformation(groupIdx, patchGroupInfoReq);
 
         return ResponseEntity.ok(result);
 
@@ -126,10 +129,8 @@ public class GroupInfoController {
         groupInfoService.CheckIsAdmin(groupIdx, adminIdx);
         //jwt 유효성 검사 추가해야됨 ..
 
-
-
         //종료 상태로 변경.
-        changeEndStatus result = groupInfoService.EndGroup(groupIdx, adminIdx);
+        changeEndStatus result = groupInfoApiService.EndGroup(groupIdx);
 
 //        //그룹 존재하지 않아서 실패
 //        if (result == -1L) return new BaseResponse<>(BaseResponseStatus.FAIL_LOAD_GROUPINFO);
@@ -137,7 +138,7 @@ public class GroupInfoController {
 //        if (result == -2L) return new BaseResponse<>(BaseResponseStatus.FAIL_CHANGED_STATUS);
 
         // 유저에게 알림 보내기.
-        Long complete = groupInfoService.pushEndNotification(result);
+        Long complete = groupInfoApiService.pushEndNotification(result);
 
 
         return ResponseEntity.ok(complete);
@@ -150,7 +151,7 @@ public class GroupInfoController {
     public JPAQuery<Integer> searchtest(@RequestBody GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable) {
         System.out.println("들어오ㅏ?" + getGroupInfoSearchReq.getTitle());
         System.out.println(pageable.getPageSize() + "   " + pageable.toString());
-        return groupInfoService.searchtestGroup(getGroupInfoSearchReq, pageable);
+        return groupInfoApiService.searchtestGroup(getGroupInfoSearchReq, pageable);
     }
 
 

@@ -131,15 +131,19 @@ public enum BaseResponseStatus {
     DO_NOT_CHANGE_BEFORE_STUDYING(HttpStatus.FORBIDDEN,6008,"스터디 시작 전에 , 추방 불가."),
     ALREADY_APPLICATION(HttpStatus.BAD_REQUEST,9009,"이미 이 그룹에 신청한 지원자입니다."),
     FAIL_LOAD_APPLICATION(HttpStatus.INTERNAL_SERVER_ERROR,9010,"서버 error."),
+    IS_NOT_THE_APPlICATION_PERIOD(HttpStatus.BAD_REQUEST,9011,"신청 기간이 아닙니다."),
+    IS_NOT_THE_MEMBER(HttpStatus.FORBIDDEN,9012,"해당 그룹의 멤버가 아닙니다."),
+
+
 
 
 
     //9050 : 그룹
-    FAIL_LOAD_GROUPINFO(HttpStatus.BAD_REQUEST,9003,"스터디 그룹이 존재하지 않습니다."),
-    FAIL_CLOSED_GROUPINFO(HttpStatus.BAD_REQUEST,9051,"종료된 스터디 그룹이기 때문에, 요청을 수행할 수 없습니다."),
-    INVAILD_ADMIN_APPLICATION(HttpStatus.BAD_REQUEST,9052,"그룹장은 가입이 불가합니다."),
-    BAD_REQUEST_GROUPINFO(HttpStatus.BAD_REQUEST,9053,"잘못된 접근입니다."),
-    BAD_REQUEST_INTEREST(HttpStatus.BAD_REQUEST,9054,"interest 값이 잘못되었습니다.");
+    FAIL_LOAD_GROUPINFO(HttpStatus.BAD_REQUEST,9051,"스터디 그룹이 존재하지 않습니다."),
+    FAIL_CLOSED_GROUPINFO(HttpStatus.BAD_REQUEST,9052,"종료된 스터디 그룹이기 때문에, 요청을 수행할 수 없습니다."),
+    INVAILD_ADMIN_APPLICATION(HttpStatus.BAD_REQUEST,9053,"그룹장은 가입이 불가합니다."),
+    BAD_REQUEST_GROUPINFO(HttpStatus.BAD_REQUEST,9054,"잘못된 접근입니다."),
+    BAD_REQUEST_INTEREST(HttpStatus.BAD_REQUEST,9055,"interest 값이 잘못되었습니다.");
 
 
 

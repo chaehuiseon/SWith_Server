@@ -8,9 +8,10 @@ import com.swith.api.application.dto.PostApplicationReq;
 import com.swith.api.application.dto.GetApplicationManageRes;
 import com.swith.api.application.dto.PatchApplicationStatusRes;
 import com.swith.api.application.dto.GetApplicationRes;
+import com.swith.domain.application.service.ApplicationService;
 import com.swith.domain.groupinfo.service.GroupInfoService;
 import com.swith.global.error.exception.BaseException;
-import com.swith.domain.application.service.ApplicationService;
+import com.swith.api.application.service.ApplicationApiService;
 import com.swith.api.groupinfo.service.GroupInfoApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,14 +28,18 @@ import java.util.List;
 @Api(tags = {"Swith Application API"})
 public class ApplicationController {
 
-    private final ApplicationService applicationService;
+    private final ApplicationApiService applicationApiService;
     private final GroupInfoApiService groupInfoApiService;
     private final GroupInfoService groupInfoService;
 
-    public ApplicationController(ApplicationService applicationService, GroupInfoApiService groupInfoApiService, GroupInfoService groupInfoService) {
-        this.applicationService = applicationService;
+    private final ApplicationService applicationService;
+
+    public ApplicationController(ApplicationApiService applicationApiService, GroupInfoApiService groupInfoApiService,
+                                 GroupInfoService groupInfoService, ApplicationService applicationService) {
+        this.applicationApiService = applicationApiService;
         this.groupInfoApiService = groupInfoApiService;
         this.groupInfoService = groupInfoService;
+        this.applicationService = applicationService;
     }
 
     @Autowired
@@ -47,16 +52,16 @@ public class ApplicationController {
                                       @RequestBody PostApplicationReq postApplicationReq)  {
 
         //중복 지원자인지 확인. -> 테스트 안한 상태.
-        applicationService.AlreadyInGroup(groupIdx,postApplicationReq.getUserIdx());
+        applicationApiService.AlreadyInGroup(groupIdx,postApplicationReq.getUserIdx());
 
         // 가입 신청 인원이 다 찾는지 확인.
-        applicationService.CheckFULL(groupIdx);
+        applicationApiService.CheckFULL(groupIdx);
 
         // 스터디 가입 신청자가 방장이면 가입 할 필요가 없음.
         groupInfoService.CheckIsAdmin(groupIdx, postApplicationReq.getUserIdx());
 
         //신청 시작.
-        Long applicationIdx = applicationService.Apply(groupIdx, postApplicationReq);
+        Long applicationIdx = applicationApiService.Apply(groupIdx, postApplicationReq);
 
         return ResponseEntity.ok(applicationIdx);
 
@@ -73,7 +78,7 @@ public class ApplicationController {
         groupInfoService.existGroupIdx(groupIdx);
 
         //가지고 온다.
-        List<GetApplicationManageRes> response =  applicationService.getApplicationList(groupIdx,status);
+        List<GetApplicationManageRes> response =  applicationApiService.getApplicationList(groupIdx,status);
 
         return ResponseEntity.ok(response);
 
@@ -101,7 +106,7 @@ public class ApplicationController {
 
 
         //권한 있음. 승인 또는 반려 상태 변경.
-        PatchApplicationStatusRes response = applicationService.changeApplicationStatus(groupIdx, status, patchApplicationStatusReq);
+        PatchApplicationStatusRes response = applicationApiService.changeApplicationStatus(groupIdx, status, patchApplicationStatusReq);
 
 
         return ResponseEntity.ok(response);
@@ -126,7 +131,7 @@ public class ApplicationController {
 
 
         //추방하기
-        Long result = applicationService.ExpelUserFromGroup(groupIdx, patchExpelUserReq);
+        Long result = applicationApiService.ExpelUserFromGroup(groupIdx, patchExpelUserReq);
         //if(result == -3L) throw new BaseException(BaseResponseStatus.DO_NOT_EXECUTE_CHANGE);
         return ResponseEntity.ok(result);
 
@@ -136,7 +141,7 @@ public class ApplicationController {
     @GetMapping("/user")
     public BaseResponse<List<GetApplicationRes>> getUserApplication(@RequestParam Long userIdx) {
         try {
-            List<GetApplicationRes> getApplicationResList = applicationService.getUserApplication(userIdx);
+            List<GetApplicationRes> getApplicationResList = applicationApiService.getUserApplication(userIdx);
             return new BaseResponse<>(getApplicationResList);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());

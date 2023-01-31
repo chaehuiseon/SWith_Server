@@ -14,7 +14,7 @@ import com.swith.domain.interest.repository.InterestRepository;
 import com.swith.domain.interest.service.InterestService;
 import com.swith.domain.register.entity.Register;
 import com.swith.domain.register.repository.RegisterRepository;
-import com.swith.domain.register.service.RegisterService;
+import com.swith.api.register.service.RegisterApiService;
 import com.swith.domain.session.entity.Session;
 import com.swith.domain.user.repository.UserRepository;
 import com.swith.domain.session.repository.SessionRepository;
@@ -22,7 +22,6 @@ import com.swith.global.error.exception.BaseException;
 import com.swith.global.error.BaseResponseStatus;
 import com.swith.external.firebase.FirebaseCloudMessageService;
 import com.querydsl.jpa.impl.JPAQuery;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -50,7 +49,7 @@ public class GroupInfoApiService {
     private final GroupInfoService groupInfoService;
     private final InterestService interestService;
     @Autowired
-    public GroupInfoApiService(GroupInfoRepository groupInfoRepository, RegisterRepository registerRepository, RegisterService registerService,
+    public GroupInfoApiService(GroupInfoRepository groupInfoRepository, RegisterRepository registerRepository, RegisterApiService registerService,
                                InterestRepository interestRepository, AnnouncementRepository announcementRepository, ApplicationRepository applicationRepository,
                                SessionRepository sessionRepository, AttendanceRepository attendanceRepository, UserRepository userRepository,
                                FirebaseCloudMessageService fcmService, GroupInfoService groupInfoService, InterestService interestService) {
@@ -182,7 +181,7 @@ public class GroupInfoApiService {
         );
 
 
-        //스터디 신청 승인된 인원 찾기
+        //스터디 신청 승인된 인원 찾기.. 몇명 가입된 상태인지.
         Long NumOfApplicants = 0L;
         NumOfApplicants = applicationRepository.findNumOfApplicants(groupIdx);
 
@@ -298,6 +297,7 @@ public class GroupInfoApiService {
 
 
 
+    // -> domain 으로 옮길 예정..
     public Long pushEndNotification(changeEndStatus endGroup) throws IOException {
 
 

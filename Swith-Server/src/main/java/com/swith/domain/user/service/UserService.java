@@ -24,4 +24,13 @@ public class UserService {
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.INVALID_USER));
 
     }
+
+    public void isActiveUser(User user){
+        if(user.getStatus() == 1 ){
+            throw new BaseException(BaseResponseStatus.INACTIVE_USER);
+        }else if(user.getStatus() == 2){
+            throw new BaseException(BaseResponseStatus.NOT_EXIST_USER);
+        }
+
+    }
 }

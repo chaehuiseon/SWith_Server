@@ -110,7 +110,7 @@ public class GroupInfoController {
 
 
         //검사 : 상태 변경 권한이 있는지..즉, 스터디 개설자가 맞는지.
-        groupInfoService.CheckIsAdmin(groupIdx, patchGroupInfoReq.getAdminIdx());
+        groupInfoService.CheckIsAdminForAdminToManage(groupIdx, patchGroupInfoReq.getAdminIdx());
 
         Long result = groupInfoApiService.ModifyGroupInformation(groupIdx, patchGroupInfoReq);
 
@@ -127,7 +127,7 @@ public class GroupInfoController {
         System.out.println("end 받은 값 > " + groupIdx + adminIdx);
 
         //종료 권한이 있는지 체크
-        groupInfoService.CheckIsAdmin(groupIdx, adminIdx);
+        groupInfoService.CheckIsAdminForAdminToManage(groupIdx, adminIdx);
         //jwt 유효성 검사 추가해야됨 ..
 
         //종료 상태로 변경.

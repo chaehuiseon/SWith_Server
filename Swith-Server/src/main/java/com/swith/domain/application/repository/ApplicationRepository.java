@@ -34,7 +34,7 @@ public interface ApplicationRepository extends JpaRepository<Application,Long> {
 
 
 
-    //nativequery는 진짜 SQL 문법기준으로 작성해야됨..
+    //nativequery는 진짜 SQL 문법기준으로 작성해야됨..+ nativeQuery쓴이유 : 특정 컬럼만 업데이트하려고 상태만 변경해야하는데 위험해서 (더티체킹어려운상황)
     @Modifying(clearAutomatically = true)
     @Query(value = "update APPLICATION a " +
             "set a.status = :reqstatus " +
@@ -47,4 +47,9 @@ public interface ApplicationRepository extends JpaRepository<Application,Long> {
             "join fetch a.groupInfo " +
             "where a.user.userIdx = :userIdx")
     List<Application> findByUserWithGroup(Long userIdx);
+
+    @Query("select status " +
+            "from Application a " +
+            "where a.applicationIdx = :applicationIdx ")
+    Integer findStatusOfApplication(@Param("applicationIdx")Long applicationIdx);
 }

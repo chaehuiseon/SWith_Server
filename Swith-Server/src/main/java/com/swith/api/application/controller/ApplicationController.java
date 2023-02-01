@@ -52,14 +52,6 @@ public class ApplicationController {
     public ResponseEntity<Long> Apply(@PathVariable Long groupIdx,
                                       @RequestBody PostApplicationReq postApplicationReq)  {
 
-        //중복 지원자인지 확인. -> 테스트 안한 상태.
-        applicationApiService.AlreadyInGroup(groupIdx,postApplicationReq.getUserIdx());
-
-        // 가입 신청 인원이 다 찾는지 확인.
-        applicationApiService.CheckFULL(groupIdx);
-
-        // 스터디 가입 신청자가 방장이면 가입 할 필요가 없음.
-        groupInfoService.CheckIsAdmin(groupIdx, postApplicationReq.getUserIdx());
 
         //신청 시작.
         Long applicationIdx = applicationApiService.Apply(groupIdx, postApplicationReq);
@@ -103,8 +95,9 @@ public class ApplicationController {
         //jwt 유효성 검사 추가해야됨.
 
         //상태 변경 권한이 있는지..즉, 스터디 개설자가 맞는지.
-        groupInfoService.CheckIsAdmin(groupIdx,patchApplicationStatusReq.getAdminIdx());
+        groupInfoService.CheckIsAdminForAdminToManage(groupIdx,patchApplicationStatusReq.getAdminIdx());
 
+        applicationApiService.validationStatus(patchApplicationStatusReq,status);
 
         //권한 있음. 승인 또는 반려 상태 변경.
         PatchApplicationStatusRes response = applicationApiService.changeApplicationStatus(groupIdx, status, patchApplicationStatusReq);
@@ -128,7 +121,7 @@ public class ApplicationController {
 
 
         //추방 권한 확인
-        groupInfoService.CheckIsAdmin(groupIdx,patchExpelUserReq.getAdminIdx());
+        groupInfoService.CheckIsAdminForAdminToManage(groupIdx,patchExpelUserReq.getAdminIdx());
 
 
         //추방하기

@@ -149,11 +149,7 @@ public class GroupInfoApiService {
 
         //유효한 사용자 인지.
         User user = userService.getOneUser(request.getAdminIdx());
-        if(user.getStatus() == 1 ){
-            throw new BaseException(BaseResponseStatus.INACTIVE_USER);
-        }else if(user.getStatus() == 2){
-            throw new BaseException(BaseResponseStatus.NOT_EXIST_USER);
-        }
+        userService.isActiveUser(user);
 
         Interest interest = interestService.getOneInterest(request.getInterest());
 
@@ -194,9 +190,7 @@ public class GroupInfoApiService {
         //GroupInfo groupInfo = groupInfoRepository.findByGroupIdx(groupIdx);
 
         //존재 하니깐 groupId 를 통해, groupInfo 정보 가지고 온다. 존재에 대한 예외처리를 아래서 하고 있음..
-        GroupInfo groupInfo = groupInfoRepository.findById(groupIdx).orElseThrow(
-                () -> new IllegalArgumentException(String.valueOf(BaseResponseStatus.FAIL_LOAD_GROUPINFO))
-        );
+        GroupInfo groupInfo = groupInfoService.getOneGroupInfo(groupIdx);
 
 
         //스터디 신청 승인된 인원 찾기.. 몇명 가입된 상태인지.

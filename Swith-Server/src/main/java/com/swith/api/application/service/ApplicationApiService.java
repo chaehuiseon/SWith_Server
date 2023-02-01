@@ -5,6 +5,8 @@ import com.swith.api.application.dto.*;
 import com.swith.domain.application.service.ApplicationService;
 import com.swith.domain.groupinfo.service.GroupInfoService;
 import com.swith.api.register.service.RegisterApiService;
+import com.swith.domain.user.entity.User;
+import com.swith.domain.user.service.UserService;
 import com.swith.global.error.exception.BaseException;
 import com.swith.global.error.BaseResponseStatus;
 import com.swith.domain.application.entity.Application;
@@ -34,6 +36,7 @@ public class ApplicationApiService {
 
     private final GroupInfoService groupInfoService;
     private final ApplicationService applicationService;
+    private final UserService userService;
 
     @Autowired
     public ApplicationApiService(ApplicationRepository applicationRepository,
@@ -42,7 +45,7 @@ public class ApplicationApiService {
                                  RegisterRepository registerRepository,
                                  RegisterApiService registerApiService,
                                  GroupInfoService groupInfoService,
-                                 ApplicationService applicationService) {
+                                 ApplicationService applicationService, UserService userService) {
         this.applicationRepository = applicationRepository;
         this.groupInfoRepository = groupInfoRepository;
         this.userRepository = userRepository;
@@ -51,13 +54,14 @@ public class ApplicationApiService {
         this.groupInfoService = groupInfoService;
         this.applicationService = applicationService;
 
+        this.userService = userService;
     }
 
 
     //중복지원자 확인.
     public void AlreadyInGroup(Long groupIdx, Long userIdx){
         Application a = applicationRepository.findByGroupIdxAndUserIdx(groupIdx,userIdx);
-        if(userIdx.equals(a.getUser().getUserIdx()) && groupIdx.equals(a.getGroupInfo().getGroupIdx())) {
+        if( a != null && userIdx.equals(a.getUser().getUserIdx()) && groupIdx.equals(a.getGroupInfo().getGroupIdx())) {
             throw new BaseException(BaseResponseStatus.ALREADY_APPLICATION);
         }
 
@@ -85,6 +89,8 @@ public class ApplicationApiService {
         return NumOfApplicants;
     }
 
+
+
     @Transactional
     public Long Apply(Long groupIdx, PostApplicationReq postApplicationReq) {
 
@@ -94,16 +100,30 @@ public class ApplicationApiService {
         if(groupInfo.getStatus() != 0 ){//스터디 진행 예정인 경우만 신청을 할 수 있다.
             throw new BaseException(BaseResponseStatus.IS_NOT_THE_APPlICATION_PERIOD);
         }
+        //존재하는 회원인지.. jwt 검사할때 사용할 듯.
+        User user = userService.getOneUser(postApplicationReq.getUserIdx());
+        userService.isActiveUser(user);
+
+
+        //중복 지원자인지 확인. -> 테스트 안한 상태.
+        AlreadyInGroup(groupIdx,postApplicationReq.getUserIdx());
+
+        // 가입 신청 인원이 다 찾는지 확인.
+        CheckFULL(groupIdx);
+
+        // 스터디 가입 신청자가 방장이면 가입 할 필요가 없음.
+        groupInfoService.CheckIsAdmin(groupIdx, postApplicationReq.getUserIdx());
 
         //스터디 개설할 때, 입력한 정보에서 지원 방식( 선착순 or 지원 ) 가지고 온다.
         Integer applicationMethod = groupInfo.getApplicationMethod();
+
 
 
         if(applicationMethod == 0){//0: 선착순
             Integer status = 1 ;//선착순이므로 바로 승인.
 
             Application data = Application.builder()
-                    .user(userRepository.getOne(postApplicationReq.getUserIdx()))
+                    .user(user)
                     .groupInfo(groupInfo)
                     .status(status)
                     .build();
@@ -128,7 +148,7 @@ public class ApplicationApiService {
             Integer status = 0 ; //지원이기 때문에 승인 대기 상태.
 
             Application data = Application.builder()
-                    .user(userRepository.getOne(postApplicationReq.getUserIdx()))
+                    .user(user)
                     .groupInfo(groupInfo)
                     .status(status)
                     .applicationContent(postApplicationReq.getApplicationContent())
@@ -171,30 +191,52 @@ public class ApplicationApiService {
 
     }
 
-
-    //스터지 지원에 대한 승인 또는 반려 상태 변경.
-    @Transactional
-    public PatchApplicationStatusRes changeApplicationStatus(Long groupIdx, Integer status, PatchApplicationStatusReq request) {
-
-
+    public void validationStatus(PatchApplicationStatusReq request, Integer status ){
         // 올바른 요청이 맞는지에 대한 검사
         Integer ReqStatus = request.getStatusOfApplication();
         if(!(ReqStatus == 1 || ReqStatus == 2 )){//요청이 승인(1) 또는 반려(2)가 아니면 잘못된 값을 받은 것.
             throw new BaseException(BaseResponseStatus.INVALID_STATUS);
         }
 
+        Integer findStatus = applicationService.getApplicationStatus(request.getApplicationIdx());
+        if(findStatus == null ){ //지원자를 찾을 수 없음.
+            throw new BaseException(BaseResponseStatus.NO_APPLICATION_INFO);
+        }
+        //이미 바뀐적이 있거나 요청을 잘못한 경우.
+        if(ReqStatus.equals(findStatus)){
+            throw new BaseException(BaseResponseStatus.DO_NOT_EXECUTE_CHANGE);
+        }
+
+
+    }
+
+
+    //스터지 지원에 대한 승인 또는 반려 상태 변경.
+    @Transactional
+    public PatchApplicationStatusRes changeApplicationStatus(Long groupIdx, Integer status, PatchApplicationStatusReq request) {
+
+
+
+
+
         Integer check = 0;
         if (status == 0) { //변경전. 지원에 있음.
             Integer req_status = request.getStatusOfApplication(); //요구된 상태
             Long req_applicationIdx = request.getApplicationIdx(); //요구된 idx
-            System.out.println("변경 시작 >>"+req_status+req_status);
+            System.out.println("변경 시작 >>"+req_status);
 
 
             //변경
+            // -> clearAutomatically = true 를 했기 때문에, update 쿼리 실행후, select쿼리가 한번 더 나감
+            // 벌크 연산은 1차 캐시를 포함한  1차 캐시를 포함한 영속성 컨텍스트를 무시하고 바로 Query를 실행하기 때문에
+            // 영속성 컨텍스트는 데이터 변경을 알 수가 없음. -> 그럼, 뒤에서 조회를 하면 변경 내용 모르고 1차 캐시에서 조회 -> 불일치
+            // 이런 이유로.. clearAutomatically = true 해서 영속성 컨텍스트를 지움.
+            // 조회를 실행하면 1차캐시에 해당 엔티티가 존재하지 않기 때문에 DB 조회 쿼리를 실행하게 됩니다.
             applicationRepository.updateStatusOfApplication(req_status, req_applicationIdx, groupIdx,status);
 
 
             //확인
+            //아까, 위에서 말한 조회가 여기임.
             Application changed = applicationService.getOneApplication(req_applicationIdx);
 
             //application 승인이 되었으면, register에 등록해야 됨.

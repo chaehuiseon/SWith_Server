@@ -54,5 +54,11 @@ public interface GroupInfoRepository extends JpaRepository<GroupInfo, Long>, Gro
 
 
 
+    @Modifying(clearAutomatically = true)
+    @Query(value = "update GROUPINFO g " +
+            "set g.status = 1 " +
+            "where g.groupStart = :groupStart and g.status = 0 ", nativeQuery = true)
+    Integer updateGroupStatusSetStart(@Param("groupStart") String groupStart);
+
 
 }

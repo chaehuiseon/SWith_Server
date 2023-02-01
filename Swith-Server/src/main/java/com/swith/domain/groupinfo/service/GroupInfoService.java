@@ -70,12 +70,16 @@ public class GroupInfoService {
 
     //매일 아침 6시 미다 실행
     @Scheduled(cron = "0 0 06 * * *",zone = "Asia/Seoul")
+    //@Scheduled(cron = "0 56 04 * * *",zone = "Asia/Seoul") -> 테스트함..
     public void startGroup(){
         //현재 날짜 구해서
         LocalDateTime now =  LocalDateTime.now();
 
         //그 날에 시작하는 그룹의 그룹 상태를 진행중으로 변경.
-
+        String nows = now.toString().split("T")[0];
+        System.out.println(nows);
+        groupInfoRepository.updateGroupStatusSetStart(nows);
+        System.out.println(nows + " 에 시작하는 스터디 그룹의 상태에 대해 진행중으로 변경 ");
 
         //push 알림.
     }

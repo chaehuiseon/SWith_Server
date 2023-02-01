@@ -16,8 +16,11 @@ import com.swith.domain.register.entity.Register;
 import com.swith.domain.register.repository.RegisterRepository;
 import com.swith.api.register.service.RegisterApiService;
 import com.swith.domain.session.entity.Session;
+import com.swith.domain.user.entity.User;
 import com.swith.domain.user.repository.UserRepository;
 import com.swith.domain.session.repository.SessionRepository;
+import com.swith.api.user.service.UserApiService;
+import com.swith.domain.user.service.UserService;
 import com.swith.global.error.exception.BaseException;
 import com.swith.global.error.BaseResponseStatus;
 import com.swith.external.firebase.FirebaseCloudMessageService;
@@ -48,11 +51,12 @@ public class GroupInfoApiService {
 
     private final GroupInfoService groupInfoService;
     private final InterestService interestService;
+    private final UserService userService;
     @Autowired
     public GroupInfoApiService(GroupInfoRepository groupInfoRepository, RegisterRepository registerRepository, RegisterApiService registerService,
                                InterestRepository interestRepository, AnnouncementRepository announcementRepository, ApplicationRepository applicationRepository,
                                SessionRepository sessionRepository, AttendanceRepository attendanceRepository, UserRepository userRepository,
-                               FirebaseCloudMessageService fcmService, GroupInfoService groupInfoService, InterestService interestService) {
+                               FirebaseCloudMessageService fcmService, GroupInfoService groupInfoService, InterestService interestService, UserApiService userApiService, UserService userService) {
         this.groupInfoRepository = groupInfoRepository;
         this.registerRepository = registerRepository;
         this.interestRepository = interestRepository;
@@ -64,6 +68,7 @@ public class GroupInfoApiService {
         this.fcmService = fcmService;
         this.groupInfoService = groupInfoService;
         this.interestService = interestService;
+        this.userService = userService;
     }
 
     public List<GetHomeGroupInfoRes> loadHomeData(Long userIdx) throws BaseException {
@@ -138,10 +143,23 @@ public class GroupInfoApiService {
     }
 
 
+
     public PostGroupInfoRes create(PostGroupInfoReq request)  {
         //System.out.println("스터디 개설 시작");
+
+        //유효한 사용자 인지.
+        User user = userService.getOneUser(request.getAdminIdx());
+        if(user.getStatus() == 1 ){
+            throw new BaseException(BaseResponseStatus.INACTIVE_USER);
+        }else if(user.getStatus() == 2){
+            throw new BaseException(BaseResponseStatus.NOT_EXIST_USER);
+        }
+
+        Interest interest = interestService.getOneInterest(request.getInterest());
+
+
         //입력 정보를 DB에 저장하기 위해, Entity로 변환한다.
-        GroupInfo groupInfo = toEntityForCreating(request);
+        GroupInfo groupInfo = toEntityForCreating(request,user,interest);
         //저장
         GroupInfo savedgroupInfo = groupInfoRepository.save(groupInfo);
         //스터디를 개설한 유저를, 개설한 스터디에 등록하기 위해, 입력 정보를 바탕으로 REGISTER 생성.
@@ -332,9 +350,10 @@ public class GroupInfoApiService {
 
 
 
-    private GroupInfo toEntityForCreating (PostGroupInfoReq body) {
+    private GroupInfo toEntityForCreating (PostGroupInfoReq body, User user, Interest interest) {
         return GroupInfo.builder()
-                .user(userRepository.getOne(body.getAdminIdx()))
+                //.user(userRepository.getOne(body.getAdminIdx()))
+                .user(user)
                 .groupImgUrl(body.getGroupImgUrl())
                 .title(body.getTitle())
                 .meet(body.getMeet())
@@ -343,7 +362,8 @@ public class GroupInfoApiService {
                 .online(body.getOnline())
                 .regionIdx1(body.getRegionIdx1())
                 .regionIdx2(body.getRegionIdx2())
-                .interest(interestRepository.getOne(body.getInterest()))
+                //.interest(interestRepository.getOne(body.getInterest()))
+                .interest(interest)
                 .topic(body.getTopic())
                 .memberLimit(body.getMemberLimit())
                 .applicationMethod(body.getApplicationMethod())

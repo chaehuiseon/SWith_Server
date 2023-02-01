@@ -10,7 +10,7 @@ import com.swith.api.user.dto.PostUserInfoReq;
 import com.swith.api.user.dto.PostSignUpReq;
 import com.swith.api.user.dto.PostUserInfoRes;
 import com.swith.api.user.dto.PostSignUpRes;
-import com.swith.domain.user.service.UserService;
+import com.swith.api.user.service.UserApiService;
 import com.swith.global.error.BaseResponseStatus;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +32,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Api(tags = {"Swith User API"})
 public class UserController {
-    private final UserService userService;
+    private final UserApiService userApiService;
     private final HttpSession httpSession;
 
     @GetMapping("/")
@@ -80,7 +80,7 @@ public class UserController {
     @PostMapping("/userInfo")
     public BaseResponse<PostUserInfoRes> userInfo(@Valid @RequestBody PostUserInfoReq postUserInfoReq) {
         try{
-            PostUserInfoRes postUserInfoRes = userService.userInfo(postUserInfoReq);
+            PostUserInfoRes postUserInfoRes = userApiService.userInfo(postUserInfoReq);
             return new BaseResponse<>(postUserInfoRes);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
@@ -91,7 +91,7 @@ public class UserController {
     @PostMapping("/register")
     public BaseResponse<PostSignUpRes> register(@Valid @RequestBody PostSignUpReq postSignUpReq) {
         try{
-            PostSignUpRes postSignUpRes = userService.register(postSignUpReq);
+            PostSignUpRes postSignUpRes = userApiService.register(postSignUpReq);
             return new BaseResponse<>(postSignUpRes);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
@@ -102,7 +102,7 @@ public class UserController {
     @PostMapping("/signUpAndIn")
     public BaseResponse<PostUserInfoRes> signUpAndIn(@Valid @RequestBody PostSignUpAndInReq postSignUpAndInReq){
         try{
-            PostUserInfoRes postUserInfoRes = userService.signUpAndIn(postSignUpAndInReq);
+            PostUserInfoRes postUserInfoRes = userApiService.signUpAndIn(postSignUpAndInReq);
             return new BaseResponse<>(postUserInfoRes);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
@@ -121,7 +121,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public BaseResponse<String> logout(@Authenticated AuthInfo authInfo){
         try {
-            userService.logout(authInfo.getToken(), authInfo.getEmail());
+            userApiService.logout(authInfo.getToken(), authInfo.getEmail());
             return new BaseResponse<>("logout success");
         } catch (BaseException e) {
 //            e.printStackTrace();

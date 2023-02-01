@@ -15,27 +15,27 @@ spring:
     name : swith
 
   datasource:
-#    platform: mysql
-#    url: jdbc:mysql://localhost:3306/test3?serverTimezone=Asia/Seoul
-#    username: root
-#    password: smilechs5542
-#    platform: mysql
+    #    platform: mysql
+    #    url: jdbc:mysql://localhost:3306/test3?serverTimezone=Asia/Seoul
+    #    username: root
+    #    password: smilechs5542
+    #    platform: mysql
     url: jdbc:h2:tcp://localhost/~/querydsl
     # ENC(tlzBhvJGBqVCdhlED4A3+8bI1XsUL7LLkJqqqie5QwmbLWPKill6zYU04E0ZOMpdGs7Y+O5ho9t3aBVRojNDd3jxlLE7pIkZZu7Cr2W/qre0XpWHMZH2PA==)
     # jdbc:mysql://localhost:3306/test_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: sa # ENC(EWZbD80PyOIlDT2TjHmxbiicPlktenKz)
     password:    # ENC(psGvp3CI0mqxpQT5nD3E7h0klqGCia0c)
     driver-class-name: org.h2.Driver # mysql 8버전
-#    hikari:
-#      connectionInitSql: "SET NAMES 'utf8mb4'"
-#      leak-detection-threshold: 2000
+  #    hikari:
+  #      connectionInitSql: "SET NAMES 'utf8mb4'"
+  #      leak-detection-threshold: 2000
 
 
 
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create # create, update, none
+      ddl-auto: update # create, update, none
       naming:
         #entity만들때, 변수명 그대로 데이터베이스 필드에 넣어주겠다.
         #만약, org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy 전략을 사용하겠다고 하면,

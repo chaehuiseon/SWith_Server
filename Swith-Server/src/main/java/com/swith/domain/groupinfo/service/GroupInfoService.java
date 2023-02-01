@@ -39,7 +39,6 @@ public class GroupInfoService {
     }
 
     public Long findAdminIdx(Long groupIdx){
-
         return groupInfoRepository.findAdminIdxBy(groupIdx);
     }
 

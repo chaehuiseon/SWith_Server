@@ -23,4 +23,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "from User u " +
             "where u.userIdx = :userIdx ")
     Double findUserStar(@Param("userIdx") Long userIdx);
+
+
 }

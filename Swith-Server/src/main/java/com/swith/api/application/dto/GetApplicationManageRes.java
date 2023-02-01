@@ -14,13 +14,13 @@ public class GetApplicationManageRes {
     private Long applicationIdx;
     private String applicationContent;
 
-    public GetApplicationManageRes(Application application) {
-        this.userIdx = application.getUser().getUserIdx();
-        this.nickname = application.getUser().getNickname();
-        this.profileImgUrl = application.getUser().getProfileImgUrl();
-        this.applicationIdx = application.getApplicationIdx();
-        this.applicationContent = application.getApplicationContent();
-    }
+//    public GetApplicationManageRes(Application application) {
+//        this.userIdx = application.getUser().getUserIdx();
+//        this.nickname = application.getUser().getNickname();
+//        this.profileImgUrl = application.getUser().getProfileImgUrl();
+//        this.applicationIdx = application.getApplicationIdx();
+//        this.applicationContent = application.getApplicationContent();
+//    }
 
     public static  GetApplicationManageRes from (Application application){
         return GetApplicationManageRes.builder()

@@ -5,7 +5,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.swith.api.groupinfo.dto.*;
 import com.swith.api.common.dto.BaseResponse;
 import com.swith.domain.groupinfo.service.GroupInfoService;
-import com.swith.domain.user.service.UserService;
+import com.swith.api.user.service.UserApiService;
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.groupinfo.service.GroupInfoApiService;
 import io.swagger.annotations.Api;
@@ -28,13 +28,13 @@ public class GroupInfoController {
 
     private final GroupInfoApiService groupInfoApiService;
     private final GroupInfoService groupInfoService;
-    private final UserService userService;
+    private final UserApiService userApiService;
 
     @Autowired
-    public GroupInfoController(GroupInfoApiService groupInfoApiService, GroupInfoService groupInfoService, UserService userService) {
+    public GroupInfoController(GroupInfoApiService groupInfoApiService, GroupInfoService groupInfoService, UserApiService userApiService) {
         this.groupInfoApiService = groupInfoApiService;
         this.groupInfoService = groupInfoService;
-        this.userService = userService;
+        this.userApiService = userApiService;
     }
 
 
@@ -53,6 +53,7 @@ public class GroupInfoController {
     @ApiOperation("그룹 생성") // 리팩토리 2차.
     @PostMapping
     public ResponseEntity<PostGroupInfoRes> createGroup(@RequestBody PostGroupInfoReq request) {
+
         PostGroupInfoRes response = groupInfoApiService.create(request);
         //return new BaseResponse<>(response);
         return ResponseEntity.ok(response);

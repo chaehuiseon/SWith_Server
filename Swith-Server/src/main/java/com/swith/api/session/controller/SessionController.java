@@ -7,7 +7,7 @@ import com.swith.api.session.dto.PatchSessionReq;
 import com.swith.api.session.dto.GetGroupInfoRes;
 import com.swith.api.session.dto.PostSessionReq;
 import com.swith.api.session.dto.GetSessionTabRes;
-import com.swith.domain.user.service.UserService;
+import com.swith.api.user.service.UserApiService;
 import com.swith.domain.session.service.SessionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = {"Swith Session API"})
 public class SessionController {
     private final SessionService sessionService;
-    private final UserService userService;
+    private final UserApiService userApiService;
 
     @Autowired
-    public SessionController(SessionService sessionService, UserService userService) {
+    public SessionController(SessionService sessionService, UserApiService userApiService) {
         this.sessionService = sessionService;
-        this.userService = userService;
+        this.userApiService = userApiService;
     }
 
     @ApiOperation("스터디탭-그룹 정보 불러오기 - P2")
@@ -32,7 +32,7 @@ public class SessionController {
     public BaseResponse<GetGroupInfoRes> loadGroupData(@RequestParam(value = "userIdx") Long userIdx,
                                                        @RequestParam(value = "groupIdx") Long groupIdx) {
         try {
-            boolean isAdmin = userService.isAdminOfGroup(userIdx, groupIdx);
+            boolean isAdmin = userApiService.isAdminOfGroup(userIdx, groupIdx);
             GetGroupInfoRes getGroupInfoRes = sessionService.loadGroupInfoAndSession(groupIdx, isAdmin);
             return new BaseResponse<>(getGroupInfoRes);
         } catch (BaseException e) {
@@ -59,7 +59,7 @@ public class SessionController {
     public BaseResponse<Long> createSession(@RequestBody PostSessionReq postSessionReq) {
         try {
             //요청한 유저가 관리자인지 검증
-            if (!userService.isAdminOfGroup(postSessionReq.getUserIdx(), postSessionReq.getGroupIdx()))
+            if (!userApiService.isAdminOfGroup(postSessionReq.getUserIdx(), postSessionReq.getGroupIdx()))
                 return new BaseResponse<>(BaseResponseStatus.POST_SESSION_NOT_ADMIN);
             //요청된 회차의 시간대가 겹치지 않는 지를 검증
             if(sessionService.existsOverlappedSession(postSessionReq.getGroupIdx(),

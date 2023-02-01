@@ -21,6 +21,8 @@ public enum BaseResponseStatus {
      */
     // Common
     NOT_EXIST_USER(HttpStatus.BAD_REQUEST, 2004,"사용자를 찾을 수 없습니다."),
+    INACTIVE_USER(HttpStatus.FORBIDDEN,2005,"비활성화 상태의 멤버입니다."),
+
 
     // users
     USERS_EMPTY_USER_ID(HttpStatus.BAD_REQUEST, 2010, "유저 아이디 값을 확인해주세요."),

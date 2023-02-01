@@ -34,6 +34,8 @@ public class ApplicationController {
 
     private final ApplicationService applicationService;
 
+
+    @Autowired
     public ApplicationController(ApplicationApiService applicationApiService, GroupInfoApiService groupInfoApiService,
                                  GroupInfoService groupInfoService, ApplicationService applicationService) {
         this.applicationApiService = applicationApiService;
@@ -42,7 +44,6 @@ public class ApplicationController {
         this.applicationService = applicationService;
     }
 
-    @Autowired
 
 
     @ApiOperation("가입신청 API")

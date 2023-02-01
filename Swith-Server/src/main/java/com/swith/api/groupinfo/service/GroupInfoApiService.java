@@ -294,7 +294,7 @@ public class GroupInfoApiService {
         //groupInfo 정보가 있으면 가지고 옮.
         GroupInfo groupInfo = groupInfoService.getOneGroupInfo(groupIdx);
 
-        if(groupInfo.getGroupIdx() != 1){ // 진행중인 스터디에 대해 종료해야하는데 아니면..
+        if(groupInfo.getStatus() != 1){ // 진행중인 스터디에 대해 종료해야하는데 아니면..
             throw new BaseException(BaseResponseStatus.BAD_REQUEST_GROUPINFO);
         }
 

@@ -20,7 +20,7 @@ import static javax.persistence.FetchType.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "USER")
+@Table(name = "USERS")
 public class User extends BaseTimeEntity { //유저 테이블
 
     //@Id는 PK를 의미, @GeneratedValue 어노테이션은 기본키를 설정하는 전략으로

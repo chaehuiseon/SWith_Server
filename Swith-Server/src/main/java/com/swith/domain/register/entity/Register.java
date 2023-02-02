@@ -1,6 +1,7 @@
 package com.swith.domain.register.entity;
 
 
+import com.swith.domain.application.entity.Application;
 import com.swith.domain.groupinfo.entity.GroupInfo;
 import com.swith.domain.common.BaseTimeEntity;
 import com.swith.domain.user.entity.User;
@@ -33,6 +34,22 @@ public class Register extends BaseTimeEntity {
     @Column(columnDefinition = "TINYINT")
     @Builder.Default
     private Integer status = 0; //0:가입 1:탈퇴
+
+
+
+
+    public static Register toEntity(Application application,Integer status){
+        return Register.builder()
+                .user(application.getUser())
+                .groupInfo(application.getGroupInfo())
+                .status(status)
+                .build();
+
+    }
+
+
+
+
 
 
 }

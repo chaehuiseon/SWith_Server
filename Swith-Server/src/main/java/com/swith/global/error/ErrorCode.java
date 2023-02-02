@@ -20,6 +20,8 @@ public enum ErrorCode {
      */
     // Common
     NOT_EXIST_USER(HttpStatus.BAD_REQUEST, 2004,"사용자를 찾을 수 없습니다."),
+    INACTIVE_USER(HttpStatus.FORBIDDEN,2005,"비활성화 상태의 멤버입니다."),
+
 
     // users
     USERS_EMPTY_USER_ID(HttpStatus.BAD_REQUEST, 2010, "유저 아이디 값을 확인해주세요."),
@@ -93,10 +95,11 @@ public enum ErrorCode {
     INVALID_ATTENDANCE(HttpStatus.BAD_REQUEST, 6005, "출석 정보가 없습니다."),
     NO_REGISTRATION_INFO(HttpStatus.BAD_REQUEST, 6006, "유저의 스터디 그룹 가입 정보가 없습니다."),
     NO_GROUP_ATTENDANCE(HttpStatus.BAD_REQUEST, 6007, "그룹의 출석 정보가 없습니다."),
-    NO_GROUP_LEADER(HttpStatus.BAD_REQUEST,6008,"그룹 리더가 아니기 때문에, 권한이 없습니다."),
+    NO_GROUP_LEADER(HttpStatus.FORBIDDEN,6008,"그룹 리더가 아니기 때문에, 권한이 없습니다."),
     NO_APPLICATION_INFO(HttpStatus.BAD_REQUEST, 6009, "유저의 지원서 정보가 없습니다."),
     INVALID_MEMO(HttpStatus.BAD_REQUEST, 6010, "메모 정보가 없습니다."),
     IOEXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, 6011, "OkHttp API 요청 에러 발생"),
+    BADREQUEST(HttpStatus.BAD_REQUEST,6012,"잘못된 접근입니다."),
 
 
 
@@ -120,18 +123,28 @@ public enum ErrorCode {
 
 
     //9000 : 신청
-
     FULL_NUM_OF_Applicants(HttpStatus.BAD_REQUEST,9001,"신청 인원이 전부 다 찼습니다."),
-    FAIL_SAVED_APPLICATION(HttpStatus.BAD_REQUEST,9002,"서버 error. 가입 신청 실패"),
-    FAIL_CHANGED_STATUS(HttpStatus.BAD_REQUEST,9003,"상태 변경 실패"),
+    FAIL_SAVED_APPLICATION(HttpStatus.INTERNAL_SERVER_ERROR,9002,"서버 error. 가입 신청 실패"),
+    FAIL_CHANGED_STATUS(HttpStatus.INTERNAL_SERVER_ERROR,9003,"상태 변경 실패"),
     DO_NOT_EXECUTE_CHANGE(HttpStatus.BAD_REQUEST,9004,"변경 실행안함 : 이미 변경되었거나 잘못된 조건"),
     INVALID_STATUS(HttpStatus.BAD_REQUEST,9005,"상태 변경 실패 : 유효하지 않은 값"),
-    FAIL_REGISER(HttpStatus.BAD_REQUEST, 9006, "가입승인 -> Regiest 등록 실패"),
+    FAIL_REGISER(HttpStatus.INTERNAL_SERVER_ERROR, 9006, "가입승인 -> Regiest 등록 실패"),
+    DO_NOT_CHANGE_BEFORE_STUDYING(HttpStatus.FORBIDDEN,6008,"스터디 시작 전에 , 추방 불가."),
+    ALREADY_APPLICATION(HttpStatus.BAD_REQUEST,9009,"이미 이 그룹에 신청한 지원자입니다."),
+    FAIL_LOAD_APPLICATION(HttpStatus.INTERNAL_SERVER_ERROR,9010,"서버 error."),
+    IS_NOT_THE_APPlICATION_PERIOD(HttpStatus.BAD_REQUEST,9011,"신청 기간이 아닙니다."),
+    IS_NOT_THE_MEMBER(HttpStatus.FORBIDDEN,9012,"해당 그룹의 멤버가 아닙니다."),
+
+
+
+
 
     //9050 : 그룹
-    FAIL_LOAD_GROUPINFO(HttpStatus.BAD_REQUEST,9003,"스터디 그룹이 존재하지 않습니다."),
-    FAIL_CLOSED_GROUPINFO(HttpStatus.BAD_REQUEST,9051,"종료된 스터디 그룹입니다."),
-    INVAILD_ADMIN_APPLICATION(HttpStatus.BAD_REQUEST,9052,"그룹장은 가입이 불가합니다.");
+    FAIL_LOAD_GROUPINFO(HttpStatus.BAD_REQUEST,9051,"스터디 그룹이 존재하지 않습니다."),
+    FAIL_CLOSED_GROUPINFO(HttpStatus.BAD_REQUEST,9052,"종료된 스터디 그룹이기 때문에, 요청을 수행할 수 없습니다."),
+    INVAILD_ADMIN_APPLICATION(HttpStatus.BAD_REQUEST,9053,"그룹장은 가입이 불가합니다."),
+    BAD_REQUEST_GROUPINFO(HttpStatus.BAD_REQUEST,9054,"잘못된 접근입니다."),
+    BAD_REQUEST_INTEREST(HttpStatus.BAD_REQUEST,9055,"interest 값이 잘못되었습니다.");
 
 
 
@@ -141,10 +154,14 @@ public enum ErrorCode {
 
 
 
-    ErrorCode(HttpStatus httpStatus, int code, String message) { // BaseResponseStatus 에서 각 해당하는 코드를 생성자로 맵핑
+    ErrorCode(HttpStatus httpStatus, int code, String message) { // ErrorCode 에서 각 해당하는 코드를 생성자로 맵핑
         this.httpStatus = httpStatus;
         this.code = code;
         this.message = message;
     }
+
+
+
+
 
 }

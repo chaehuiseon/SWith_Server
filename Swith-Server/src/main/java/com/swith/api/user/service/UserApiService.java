@@ -1,4 +1,4 @@
-package com.swith.domain.user.service;
+package com.swith.api.user.service;
 
 import com.swith.global.error.exception.BaseException;
 import com.swith.global.error.ErrorCode;
@@ -21,17 +21,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class UserService {
+public class UserApiService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final GroupInfoRepository groupInfoRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, JwtTokenProvider jwtTokenProvider, GroupInfoRepository groupInfoRepository) {
+    public UserApiService(UserRepository userRepository, JwtTokenProvider jwtTokenProvider, GroupInfoRepository groupInfoRepository) {
         this.userRepository = userRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.groupInfoRepository = groupInfoRepository;
     }
+
+
 
     // 회원 DB 조회
     public PostUserInfoRes userInfo(PostUserInfoReq postUserInfoReq){
@@ -133,33 +135,10 @@ public class UserService {
         return user;
     }
 
-
     private Interest buildInterest(Integer interestIdx){
         Interest interest = Interest.builder()
                 .interestIdx(interestIdx)
                 .build();
         return interest;
-    }
-
-
-
-
-
-    ////////////
-
-
-    public User getOneUser(Long userIdx){
-        return userRepository.findById(userIdx)
-                .orElseThrow(() -> new BaseException(ErrorCode.INVALID_USER));
-
-    }
-
-    public void isActiveUser(User user){
-        if(user.getStatus() == 1 ){
-            throw new BaseException(ErrorCode.INACTIVE_USER);
-        }else if(user.getStatus() == 2){
-            throw new BaseException(ErrorCode.NOT_EXIST_USER);
-        }
-
     }
 }

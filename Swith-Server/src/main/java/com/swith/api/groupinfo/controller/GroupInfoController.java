@@ -2,25 +2,21 @@ package com.swith.api.groupinfo.controller;
 
 
 import com.querydsl.jpa.impl.JPAQuery;
+import com.swith.api.groupinfo.dto.*;
+import com.swith.api.user.service.UserApiService;
+import com.swith.domain.groupinfo.service.GroupInfoService;
 import com.swith.global.error.ErrorCode;
 import com.swith.api.common.dto.BaseResponse;
-import com.swith.api.groupinfo.dto.PostGroupInfoReq;
-import com.swith.api.groupinfo.dto.PostGroupInfoRes;
-import com.swith.api.groupinfo.dto.GetGroupInfoSearchReq;
-import com.swith.api.groupinfo.dto.PatchEndGroupReq;
-import com.swith.api.groupinfo.dto.PatchGroupInfoReq;
-import com.swith.api.groupinfo.dto.GetEachGroupInfoRes;
-import com.swith.api.groupinfo.dto.GetGroupInfoSearchRes;
-import com.swith.api.groupinfo.dto.GetHomeGroupInfoRes;
 import com.swith.domain.user.service.UserService;
 import com.swith.global.error.exception.BaseException;
-import com.swith.domain.groupinfo.service.GroupInfoService;
+import com.swith.api.groupinfo.service.GroupInfoApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -32,31 +28,36 @@ import java.util.List;
 @Api(tags = {"Swith GroupInfo API"})
 public class GroupInfoController {
 
+    private final GroupInfoApiService groupInfoApiService;
     private final GroupInfoService groupInfoService;
-    private final UserService userService;
+    private final UserApiService userApiService;
 
     @Autowired
-    public GroupInfoController(GroupInfoService groupInfoService, UserService userService) {
+    public GroupInfoController(GroupInfoApiService groupInfoApiService, GroupInfoService groupInfoService, UserApiService userApiService) {
+        this.groupInfoApiService = groupInfoApiService;
         this.groupInfoService = groupInfoService;
-        this.userService = userService;
+        this.userApiService = userApiService;
     }
+
 
     @ApiOperation("홈화면 정보 불러오기 - P1")
     @GetMapping("/home")
     public BaseResponse<List<GetHomeGroupInfoRes>> loadHomeData(@RequestParam(value = "userIdx") Long userIdx) {
-            List<GetHomeGroupInfoRes> getGroupHomeData = groupInfoService.loadHomeData(userIdx);    //출석율 부분 수정 필요
+            List<GetHomeGroupInfoRes> getGroupHomeData = groupInfoApiService.loadHomeData(userIdx);    //출석율 부분 수정 필요
             return new BaseResponse<>(getGroupHomeData);
     }
 
-    @ApiOperation("그룹 생성")
+
+    @ApiOperation("그룹 생성") // 리팩토리 2차.
     @PostMapping
-    public BaseResponse<PostGroupInfoRes> createGroup(@RequestBody PostGroupInfoReq request) throws BaseException {
-        System.out.println(request.toString());
-        PostGroupInfoRes response = groupInfoService.create(request);
-        return new BaseResponse<>(response);
+    public ResponseEntity<PostGroupInfoRes> createGroup(@RequestBody PostGroupInfoReq request) {
+
+        PostGroupInfoRes response = groupInfoApiService.create(request);
+        //return new ErrorCodee<>(response);
+        return ResponseEntity.ok(response);
     }
 
-    //@ResponseBody
+    //@ResponseBody -> 나중에 할 예정.. VO 적용하고 리팩토리 범위가 큼.
     //@GetMapping("/search")
     @ApiOperation("스터디 검색")
     @RequestMapping(path = "/search", method = RequestMethod.GET)
@@ -79,7 +80,7 @@ public class GroupInfoController {
         );
         System.out.println(getGroupInfoSearchReq.getSortCond());
         System.out.println(getGroupInfoSearchReq.getClientTime());
-        Slice<GetGroupInfoSearchRes> result = groupInfoService.searchGroup(getGroupInfoSearchReq, pageable);
+        Slice<GetGroupInfoSearchRes> result = groupInfoApiService.searchGroup(getGroupInfoSearchReq, pageable);
         System.out.println("---------");
         System.out.println(result.isLast());
         return new BaseResponse<>(result);
@@ -90,56 +91,55 @@ public class GroupInfoController {
     @ApiOperation("스터디 정보 상세 보기")
     @GetMapping("/search/{groupIdx}")
     @ResponseBody
-    public BaseResponse<GetEachGroupInfoRes> selectEachGroupInfo(@PathVariable Long groupIdx) {
-
-        System.out.println(groupIdx);
-        GetEachGroupInfoRes response = groupInfoService.selectEachGroupInfo(groupIdx);
-        return new BaseResponse<>(response);
+    public ResponseEntity<GetEachGroupInfoRes> selectEachGroupInfo(@PathVariable Long groupIdx) {
+        GetEachGroupInfoRes response = groupInfoApiService.selectEachGroupInfo(groupIdx);
+        //return new ErrorCodee<>(response);
+        return ResponseEntity.ok(response);
     }
 
+    //리팩토리 1차완 -> 더티체크 되는지를 테스트 아직 안함.
     @ApiOperation("스터디 정보 수정")
     @PatchMapping("/modify/{groupIdx}")
     @ResponseBody
-    public BaseResponse<Long> ModifyGroupInformation(@PathVariable Long groupIdx, @RequestBody PatchGroupInfoReq patchGroupInfoReq) throws BaseException {
-        System.out.println(patchGroupInfoReq.getAdminIdx());
-        System.out.println(patchGroupInfoReq.getGroupEnd());
-        System.out.println(patchGroupInfoReq.getInterest().toString());
-        Long ReqAdminIdx = patchGroupInfoReq.getAdminIdx();
+    public ResponseEntity<Long> ModifyGroupInformation(@PathVariable Long groupIdx, @RequestBody PatchGroupInfoReq patchGroupInfoReq)  {
+
         //jwt 유효성 검사 추가해야됨.
 
-        //상태 변경 권한이 있는지..즉, 스터디 개설자가 맞는지.
-        boolean check = groupInfoService.IsAdmin(groupIdx, ReqAdminIdx);
-        if (check == false) {//권한없음
-            return new BaseResponse<>(ErrorCode.NO_GROUP_LEADER);
-        }
 
-        Long result = groupInfoService.ModifyGroupInformation(groupIdx, patchGroupInfoReq);
+        //검사 : 상태 변경 권한이 있는지..즉, 스터디 개설자가 맞는지.
+        groupInfoService.CheckIsAdminForAdminToManage(groupIdx, patchGroupInfoReq.getAdminIdx());
 
-        return new BaseResponse<>(result);
+        Long result = groupInfoApiService.ModifyGroupInformation(groupIdx, patchGroupInfoReq);
+
+        return ResponseEntity.ok(result);
 
     }
 
     @ApiOperation("스터디 종료 API")
     @ResponseBody
     @PatchMapping("/end")
-    public BaseResponse<Long> EndGroup(@RequestBody PatchEndGroupReq patchEndGroupReq) throws IOException {
+    public ResponseEntity<Long> EndGroup(@RequestBody PatchEndGroupReq patchEndGroupReq) throws IOException {
         Long groupIdx = patchEndGroupReq.getGroupIdx();
         Long adminIdx = patchEndGroupReq.getAdminIdx();
         System.out.println("end 받은 값 > " + groupIdx + adminIdx);
-        boolean check = groupInfoService.IsAdmin(groupIdx, adminIdx);
+
+        //종료 권한이 있는지 체크
+        groupInfoService.CheckIsAdminForAdminToManage(groupIdx, adminIdx);
         //jwt 유효성 검사 추가해야됨 ..
 
-        if (check == false) {//권한없음
-            return new BaseResponse<>(ErrorCode.NO_GROUP_LEADER);
-        }
+        //종료 상태로 변경.
+        changeEndStatus result = groupInfoApiService.EndGroup(groupIdx);
 
-        Long result = groupInfoService.EndGroup(groupIdx, adminIdx);
-        System.out.println("종료 >>>>" + result);
-        //그룹 존재하지 않아서 실패
-        if (result == -1L) return new BaseResponse<>(ErrorCode.FAIL_LOAD_GROUPINFO);
-        //삭제가 실패
-        if (result == -2L) return new BaseResponse<>(ErrorCode.FAIL_CHANGED_STATUS);
-        return new BaseResponse<>(result);
+//        //그룹 존재하지 않아서 실패
+//        if (result == -1L) return new ErrorCodee<>(ErrorCode.FAIL_LOAD_GROUPINFO);
+//        //삭제가 실패
+//        if (result == -2L) return new ErrorCodee<>(ErrorCode.FAIL_CHANGED_STATUS);
+
+        // 유저에게 알림 보내기.
+        Long complete = groupInfoApiService.pushEndNotification(result);
+
+
+        return ResponseEntity.ok(complete);
 
     }
 
@@ -149,7 +149,7 @@ public class GroupInfoController {
     public JPAQuery<Integer> searchtest(@RequestBody GetGroupInfoSearchReq getGroupInfoSearchReq, Pageable pageable) {
         System.out.println("들어오ㅏ?" + getGroupInfoSearchReq.getTitle());
         System.out.println(pageable.getPageSize() + "   " + pageable.toString());
-        return groupInfoService.searchtestGroup(getGroupInfoSearchReq, pageable);
+        return groupInfoApiService.searchtestGroup(getGroupInfoSearchReq, pageable);
     }
 
 

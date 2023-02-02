@@ -1,5 +1,6 @@
 package com.swith.api.user.controller;
 
+import com.swith.api.user.service.UserApiService;
 import com.swith.global.error.exception.BaseException;
 import com.swith.api.common.dto.BaseResponse;
 import com.swith.external.oauth.SessionUser;
@@ -33,7 +34,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Api(tags = {"Swith User API"})
 public class UserController {
-    private final UserService userService;
+    private final UserApiService userApiService;
     private final HttpSession httpSession;
 
     @GetMapping("/")
@@ -76,21 +77,21 @@ public class UserController {
     @ApiOperation("회원 DB 정보 조회")
     @PostMapping("/userInfo")
     public ResponseEntity<PostUserInfoRes> userInfo(@Valid @RequestBody PostUserInfoReq postUserInfoReq) {
-        PostUserInfoRes postUserInfoRes = userService.userInfo(postUserInfoReq);
+        PostUserInfoRes postUserInfoRes = userApiService.userInfo(postUserInfoReq);
         return ResponseEntity.ok(postUserInfoRes);
     }
 
     @ApiOperation("초기 회원 정보 등록")
     @PostMapping("/register")
     public ResponseEntity<PostSignUpRes> register(@Valid @RequestBody PostSignUpReq postSignUpReq) {
-        PostSignUpRes postSignUpRes = userService.register(postSignUpReq);
+        PostSignUpRes postSignUpRes = userApiService.register(postSignUpReq);
         return ResponseEntity.ok(postSignUpRes);
     }
 
     @ApiOperation("회원가입 및 로그인")
     @PostMapping("/signUpAndIn")
     public ResponseEntity<PostUserInfoRes> signUpAndIn(@Valid @RequestBody PostSignUpAndInReq postSignUpAndInReq){
-        PostUserInfoRes postUserInfoRes = userService.signUpAndIn(postSignUpAndInReq);
+        PostUserInfoRes postUserInfoRes = userApiService.signUpAndIn(postSignUpAndInReq);
         return ResponseEntity.ok(postUserInfoRes);
     }
 
@@ -98,7 +99,7 @@ public class UserController {
     @PostMapping("/logout")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<String> logout(@Authenticated AuthInfo authInfo){
-        userService.logout(authInfo.getToken(), authInfo.getEmail());
+        userApiService.logout(authInfo.getToken(), authInfo.getEmail());
         return ResponseEntity.ok("logout success");
     }
 

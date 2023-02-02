@@ -15,8 +15,10 @@ public class PatchApplicationStatusRes {
     private Long applicationIdx;
     private Integer status;
 
-    public PatchApplicationStatusRes(Application application) {
-        this.applicationIdx = application.getApplicationIdx();
-        this.status = application.getStatus();
+    public static PatchApplicationStatusRes of (Application application) {
+        return PatchApplicationStatusRes.builder()
+                .applicationIdx(application.getApplicationIdx())
+                .status(application.getStatus())
+                .build();
     }
 }

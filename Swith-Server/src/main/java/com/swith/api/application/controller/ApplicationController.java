@@ -12,9 +12,13 @@ import com.swith.api.application.dto.GetApplicationRes;
 import com.swith.global.error.exception.BaseException;
 import com.swith.domain.application.service.ApplicationService;
 import com.swith.domain.groupinfo.service.GroupInfoService;
+import com.swith.global.error.exception.BaseException;
+import com.swith.api.application.service.ApplicationApiService;
+import com.swith.api.groupinfo.service.GroupInfoApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,40 +30,35 @@ import java.util.List;
 @Api(tags = {"Swith Application API"})
 public class ApplicationController {
 
-    private final ApplicationService applicationService;
+    private final ApplicationApiService applicationApiService;
+    private final GroupInfoApiService groupInfoApiService;
     private final GroupInfoService groupInfoService;
 
+    private final ApplicationService applicationService;
+
+
     @Autowired
-    public ApplicationController(ApplicationService applicationService, GroupInfoService groupInfoService) {
-        this.applicationService = applicationService;
+    public ApplicationController(ApplicationApiService applicationApiService, GroupInfoApiService groupInfoApiService,
+                                 GroupInfoService groupInfoService, ApplicationService applicationService) {
+        this.applicationApiService = applicationApiService;
+        this.groupInfoApiService = groupInfoApiService;
         this.groupInfoService = groupInfoService;
+        this.applicationService = applicationService;
     }
 
-    //지원 api
+
+
+    @ApiOperation("가입신청 API")
     @ResponseBody
-    @PostMapping("/apply/{groupIdx}/{applicationMethod}")
-    public BaseResponse<Long> Apply(@PathVariable Long groupIdx, @PathVariable Integer applicationMethod,
-                                    @RequestBody PostApplicationReq postApplicationReq) throws BaseException {
-
-        Long admin = applicationService.findAdminIdx(groupIdx);
-        if(admin == postApplicationReq.getUserIdx()){
-            return new BaseResponse<>(ErrorCode.INVAILD_ADMIN_APPLICATION);
-        }
+    @PostMapping("/apply/{groupIdx}")
+    public ResponseEntity<Long> Apply(@PathVariable Long groupIdx,
+                                      @RequestBody PostApplicationReq postApplicationReq)  {
 
 
+        //신청 시작.
+        Long applicationIdx = applicationApiService.Apply(groupIdx, postApplicationReq);
 
-        Integer limit = applicationService.getMemberLimit(groupIdx);
-        Long NumOfApplicants = applicationService.findNumOfApplicants(groupIdx);
-        System.out.println("지원자/limit =  " + NumOfApplicants + "/ " + limit);
-        if(limit.equals(NumOfApplicants.intValue())){ //신청인원이 다 찻다.
-            return new BaseResponse<>(ErrorCode.FULL_NUM_OF_Applicants);
-        }
-        Long applicationIdx = applicationService.Apply(groupIdx, applicationMethod, postApplicationReq);
-        if(applicationIdx == null){
-            return new BaseResponse<>(ErrorCode.FAIL_SAVED_APPLICATION);
-        }
-
-        return new BaseResponse<>(applicationIdx);
+        return ResponseEntity.ok(applicationIdx);
 
     }
 
@@ -67,100 +66,70 @@ public class ApplicationController {
     @ApiOperation("가입신청-지원/목록 불러오기 API")
     @ResponseBody
     @GetMapping("/manage/show/{groupIdx}/{status}") //status : Application 에 있는 status
-    public BaseResponse<List<GetApplicationManageRes>>
+    public ResponseEntity<List<GetApplicationManageRes>>
     ShowApplicationManage(@PathVariable Long groupIdx, @PathVariable Integer status){
 
         //그룹상태 -> 있긴 한지 + 종료된 그룹이 아닌지...
+        groupInfoService.existGroupIdx(groupIdx);
 
-        boolean existcheck = groupInfoService.existGroupIdx(groupIdx);
-        if(existcheck == false){ //존재하지 않는 스터디
-            System.out.println("종료된 스터디거나 오류임~~~~~~");
-            return new BaseResponse<>(ErrorCode.FAIL_LOAD_GROUPINFO);
-        }
+        //가지고 온다.
+        List<GetApplicationManageRes> response =  applicationApiService.getApplicationList(groupIdx,status);
 
-        //groupInfo의 status를 check 종료된 스터디인지.
-        //exist에서 이 검사를 다 하니깐...이부분 없애도 될거같음 -> refactory대상.
-        Integer statuscheck = groupInfoService.statusOfGroupInfo(groupIdx);
-        if(statuscheck == 2 ){//종료된 스터디
-            return new BaseResponse<>(ErrorCode.FAIL_CLOSED_GROUPINFO);
-        }
-
-        //가지고 와야지.. 정보....
-
-        List<GetApplicationManageRes> response =  applicationService.getApplicationList(groupIdx,status);
-
-        return new BaseResponse<>(response);
+        return ResponseEntity.ok(response);
 
 
 
     }
 
+    //2차 리펙토리
     @ApiOperation("가입신청-승인/반려API")
     @ResponseBody
     @PatchMapping("/manage/resume/{groupIdx}/{status}")  //status : Application 에 있는 status
-    public BaseResponse<PatchApplicationStatusRes> ApproveOrRejectStudyEnrollment(
-            @PathVariable Long groupIdx, @PathVariable Integer status, @RequestBody PatchApplicationStatusReq patchApplicationStatusReq) throws BaseException {
+    public ResponseEntity<PatchApplicationStatusRes> ApproveOrRejectStudyEnrollment(
+            @PathVariable Long groupIdx, @PathVariable Integer status, @RequestBody PatchApplicationStatusReq patchApplicationStatusReq) {
 
-        System.out.println("승인시작 : ");
-        System.out.println("application 요청 status :  "+ patchApplicationStatusReq.getStatusOfApplication());
-        System.out.println("application Idx " + patchApplicationStatusReq.getApplicationIdx());
-        System.out.println("admin " +patchApplicationStatusReq.getAdminIdx());
+//        System.out.println("승인시작 : ");
+//        System.out.println("application 요청 status :  "+ patchApplicationStatusReq.getStatusOfApplication());
+//        System.out.println("application Idx " + patchApplicationStatusReq.getApplicationIdx());
+//        System.out.println("admin " +patchApplicationStatusReq.getAdminIdx());
         //목록이 보여졌다는것은.. 스터디가 종료 및 삭제 되지 않았다는 검사를 앞에서 다 했다는 것으로 간주.
 
         //jwt 유효성 검사 추가해야됨.
 
         //상태 변경 권한이 있는지..즉, 스터디 개설자가 맞는지.
-        Long ReqAdminIdx = patchApplicationStatusReq.getAdminIdx();
-        boolean check = groupInfoService.IsAdmin(groupIdx,ReqAdminIdx);
-        if(check == false){//권한없음
-            System.out.println("권한이 없습니다.");
-            return new BaseResponse<>(ErrorCode.NO_GROUP_LEADER);
-        }
-        Integer ReqStatus = patchApplicationStatusReq.getStatusOfApplication();
-        if(!(ReqStatus == 1 || ReqStatus == 2 )){//요청이 승인(1) 또는 반려(2)가 아니면 잘못된 값을 받은 것.
-            return new BaseResponse<>(ErrorCode.INVALID_STATUS);
-        }
-        //권한 있음.
-        PatchApplicationStatusRes response = applicationService.changeApplicationStatus(groupIdx, status, patchApplicationStatusReq);
+        groupInfoService.CheckIsAdminForAdminToManage(groupIdx,patchApplicationStatusReq.getAdminIdx());
 
-        if(response == null) return new BaseResponse<>(ErrorCode.RESPONSE_ERROR);
+        applicationApiService.validationStatus(patchApplicationStatusReq,status);
 
-        return new BaseResponse<>(response);
+        //권한 있음. 승인 또는 반려 상태 변경.
+        PatchApplicationStatusRes response = applicationApiService.changeApplicationStatus(groupIdx, status, patchApplicationStatusReq);
+
+
+        return ResponseEntity.ok(response);
 
 
     }
 
     @ApiOperation("스터디 유저 추방 API")
     @ResponseBody
-    @PatchMapping("/manage/expel/{groupIdx}/{status}")
-    public BaseResponse<Long> ExpelUserFromGroup (@PathVariable Long groupIdx, @PathVariable Integer status , @RequestBody @Valid PatchExpelUserReq patchExpelUserReq) throws BaseException {
+    @PatchMapping("/manage/expel/{groupIdx}")
+    public ResponseEntity<Long> ExpelUserFromGroup (@PathVariable Long groupIdx,  @RequestBody @Valid PatchExpelUserReq patchExpelUserReq) throws BaseException {
 
-        System.out.println("groupIDx >> " + groupIdx);
-        System.out.println("user >> " +patchExpelUserReq.getUserIdx());
-        System.out.println("applicationIdx >> "+patchExpelUserReq.getApplicationIdx());
-        System.out.println("adminIDx >> " +patchExpelUserReq.getAdminIdx());
+//        System.out.println("groupIDx >> " + groupIdx);
+//        System.out.println("user >> " +patchExpelUserReq.getUserIdx());
+//        System.out.println("applicationIdx >> "+patchExpelUserReq.getApplicationIdx());
+//        System.out.println("adminIDx >> " +patchExpelUserReq.getAdminIdx());
         //jwt 유효성 검사 추가
-
-        //그룹 존재
-        boolean existgroup = groupInfoService.existGroupIdx(groupIdx);
-        if(!existgroup) return new BaseResponse<>(ErrorCode.FAIL_LOAD_GROUPINFO);
 
 
         //추방 권한 확인
-        Long ReqAdminIdx = patchExpelUserReq.getAdminIdx();
-        boolean check = groupInfoService.IsAdmin(groupIdx,ReqAdminIdx);
-        if(check == false){//권한없음
-            return new BaseResponse<>(ErrorCode.NO_GROUP_LEADER);
-        }
+        groupInfoService.CheckIsAdminForAdminToManage(groupIdx,patchExpelUserReq.getAdminIdx());
 
-        if(!(status == 1)){ //가입 승인이 된 유저만 대상으로 추방을 할 수 있음.
-            return new BaseResponse<>(ErrorCode.INVALID_STATUS);
-        }
 
         //추방하기
-        Long result = applicationService.ExpelUserFromGroup(groupIdx, patchExpelUserReq);
-        if(result == -3L) return new BaseResponse<>(ErrorCode.DO_NOT_EXECUTE_CHANGE);
-        return new BaseResponse<>(result);
+        Long result = applicationApiService.ExpelUserFromGroup(groupIdx, patchExpelUserReq);
+        //if(result == -3L) throw new BaseException(ErrorCode.DO_NOT_EXECUTE_CHANGE);
+        return ResponseEntity.ok(result);
 
     }
 
@@ -168,7 +137,7 @@ public class ApplicationController {
     @GetMapping("/user")
     public BaseResponse<List<GetApplicationRes>> getUserApplication(@RequestParam Long userIdx) {
         try {
-            List<GetApplicationRes> getApplicationResList = applicationService.getUserApplication(userIdx);
+            List<GetApplicationRes> getApplicationResList = applicationApiService.getUserApplication(userIdx);
             return new BaseResponse<>(getApplicationResList);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
